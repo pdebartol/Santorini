@@ -1,5 +1,3 @@
-# ing-sw-2020-debartolomeis-digennaro-dimaio
-
 ## Gruppo n. 10
 ## Scaglione Margara
 ## Componenti del Gruppo :
