@@ -1,8 +1,28 @@
-# Progetto di Ingegneria del Software - Santorini
+# Prova Finale Ingegneria del Software 2020
+# JUnitIntro: minimal  project with JUNIT
+
 ## Gruppo AM10
-## Scaglione Margara
-## Componenti del Gruppo :
-- Di Gennaro Marco ([@marcoDige](https://github.com/marcoDige)) 886857 10596841 marco1.digennaro@mail.polimi.it
-- De Bartolomeis Piersilvio ([@pierobartolo](https://github.com/pierobartolo)) 887260 10567849 piersilvio.debartolomeis@mail.polimi.it
-- Di Maio Alessandro ([@aledimaio](https://github.com/aledimaio)) 891274 10579929 alessandro1.dimaio@mail.polimi.it
+
+
+- ### 10596841 Di Gennaro Marco ([@marcoDige](https://github.com/marcoDige)) marco1.digennaro@mail.polimi.it
+- ### 10567849 De Bartolomeis Piersilvio ([@pierobartolo](https://github.com/pierobartolo)) piersilvio.debartolomeis@mail.polimi.it
+- ### 10579929 Di Maio Alessandro ([@aledimaio](https://github.com/aledimaio)) alessandro1.dimaio@mail.polimi.it
+
+| Functionality | State |
+|:-----------------------|:------------------------------------:|
+| Basic rules | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+| Complete rules | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+| Socket | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+| GUI | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+| CLI | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+| Multiple games | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+| Persistence | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+| Advanced Gods | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+| Undo | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
+
+<!--
+[![RED](https://placehold.it/15/f03c15/f03c15)](#)
+[![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)
+[![GREEN](https://placehold.it/15/44bb44/44bb44)](#)
+-->
 
