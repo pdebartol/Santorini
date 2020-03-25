@@ -5,12 +5,12 @@ import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.Worker;
 
 public abstract class PowerDecorator implements Power {
-    Power decoratedPower;
+    protected Power decoratedPower;
 
     public PowerDecorator(Power p){
         this.decoratedPower = p;
     }
-    
+
     @Override
     public boolean checkMove(Worker w, Square s) {
         return false;
