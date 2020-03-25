@@ -8,6 +8,7 @@ public abstract class PowerDecorator implements Power {
     protected Power decoratedPower;
 
     public PowerDecorator(Power p){
+        super();
         this.decoratedPower = p;
     }
 
