@@ -33,6 +33,10 @@ public class Player {
 
     }
 
+    public boolean canMove(){
+        return false;
+    }
+
     public boolean move(Worker w, Square s){
         return false;
     }
