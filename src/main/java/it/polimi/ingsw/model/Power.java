@@ -1,8 +1,6 @@
-package it.polimi.ingsw.model.decorators;
+package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Square;
-import it.polimi.ingsw.model.Worker;
+
 
 public interface Power {
      boolean checkMove(Worker w, Square s);

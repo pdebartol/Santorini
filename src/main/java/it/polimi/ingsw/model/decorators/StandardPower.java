@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.decorators;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Power;
 import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.Worker;
 
