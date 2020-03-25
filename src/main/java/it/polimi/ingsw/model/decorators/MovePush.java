@@ -1,4 +1,22 @@
 package it.polimi.ingsw.model.decorators;
 
-public class MovePush {
+import it.polimi.ingsw.model.Power;
+import it.polimi.ingsw.model.PowerDecorator;
+import it.polimi.ingsw.model.Square;
+import it.polimi.ingsw.model.Worker;
+
+public class MovePush extends PowerDecorator {
+    public MovePush(Power p) {
+        super(p);
+    }
+
+    @Override
+    public boolean checkMove(Worker w, Square s) {
+        return super.checkMove(w, s);
+    }
+
+    @Override
+    public void updateMove(Worker w, Square s) {
+        super.updateMove(w, s);
+    }
 }
