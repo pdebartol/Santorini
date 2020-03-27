@@ -7,6 +7,21 @@ import it.polimi.ingsw.model.Worker;
 
 public class StandardPower implements Power {
 
+    //attributes
+
+    private Integer maxMoves;
+    private Integer maxBuild;
+
+    //constructors
+
+    public StandardPower(Integer maxMoves, Integer maxBuild) {
+        this.maxMoves = maxMoves;
+        this.maxBuild = maxBuild;
+    }
+
+
+    //methods
+
     @Override
     public boolean checkMove(Worker w, Square s) {
         return false;

@@ -6,9 +6,14 @@ import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.Worker;
 
 public class CanMoveUp extends PowerDecorator {
+
+    //constructors
+
     public CanMoveUp(Power p) {
         super(p);
     }
+
+    //methods
 
     @Override
     public boolean checkMove(Worker w, Square s) {

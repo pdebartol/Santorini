@@ -6,12 +6,21 @@ import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.Worker;
 
 public class ExtraMove extends PowerDecorator {
+
+    //attributes
+
     private boolean notMoveBack;
     private boolean notPerimeter;
 
-    public ExtraMove(Power p) {
+    //constructors
+
+    public ExtraMove(Power p, boolean nmb, boolean np) {
         super(p);
+        this.notMoveBack = nmb;
+        this.notPerimeter = np;
     }
+
+    //methods
 
     @Override
     public boolean checkMove(Worker w, Square s) {

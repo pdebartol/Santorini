@@ -8,9 +8,13 @@ import it.polimi.ingsw.model.Worker;
 
 public class BuildBeforeMove extends PowerDecorator {
 
+    //constructors
+
     public BuildBeforeMove(Power p) {
         super(p);
     }
+
+    //methods
 
     @Override
     public boolean checkMove(Worker w, Square s) {

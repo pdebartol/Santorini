@@ -6,13 +6,23 @@ import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.Worker;
 
 public class ExtraBuild extends PowerDecorator {
+
+    //attributes
+
     private boolean onlySameSpace;
     private boolean notSameSpace;
     private boolean notPerimeter;
 
-    public ExtraBuild(Power p) {
+    //constructors
+
+    public ExtraBuild(Power p, boolean oss, boolean nss, boolean np) {
         super(p);
+        this.onlySameSpace = oss;
+        this.notSameSpace = nss;
+        this.notPerimeter = np;
     }
+
+    //methods
 
     @Override
     public boolean checkBuild(Worker w, Square s) {

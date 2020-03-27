@@ -6,9 +6,14 @@ import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.Worker;
 
 public class BuildUnderfoot extends PowerDecorator {
+
+    // constructors
+
     public BuildUnderfoot(Power p) {
         super(p);
     }
+
+    // metods
 
     @Override
     public boolean checkBuild(Worker w, Square s) {

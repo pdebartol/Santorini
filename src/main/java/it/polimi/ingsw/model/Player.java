@@ -1,16 +1,28 @@
 package it.polimi.ingsw.model;
 
 public class Player {
+
+    //attributes
+
     private String username;
     private Worker[] workers;
     private God god;
 
-    public void setUsername(String u){
+    //constructors
 
+    public Player(String username, Worker[] workers) {
+        this.username = username;
+        this.workers = workers;
+    }
+
+    //methods
+
+    public void setUsername(String u){
+        this.username = u;
     }
 
     public void setGod(God g){
-
+        this.god = g;
     }
 
     public String getUsername(){

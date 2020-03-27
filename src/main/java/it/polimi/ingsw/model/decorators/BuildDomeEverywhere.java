@@ -8,9 +8,13 @@ import it.polimi.ingsw.model.Worker;
 
 public class BuildDomeEverywhere extends PowerDecorator {
 
+    //constructors
+
     public BuildDomeEverywhere(Power p) {
         super(p);
     }
+
+    //methods
 
     @Override
     public boolean checkBuild(Worker w, Square s) {

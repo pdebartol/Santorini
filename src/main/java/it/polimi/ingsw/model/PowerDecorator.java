@@ -3,7 +3,12 @@ package it.polimi.ingsw.model;
 
 
 public abstract class PowerDecorator implements Power {
+
+    //attributes
+
     protected Power decoratedPower;
+
+    //methods
 
     public PowerDecorator(Power p){
         super();
