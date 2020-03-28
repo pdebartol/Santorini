@@ -45,6 +45,10 @@ public class Player {
         return god;
     }
 
+    /**
+     * This method allows to remove a Worker to the player's worker list.
+     * @param w is the worker who the methods have to remove
+     */
     public void removeWorker(Worker w){
         workers.remove(w);
     }
