@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Divinities>
+    <God>
+        <id>1</id>
+        <name>Apollo</name>
+        <description>Your Worker may move into an opponent Worker's space by forcing their Worker to
+            the space yours just vacated.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>1</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>false</CantMoveUp>
+        <MoveSwap>true</MoveSwap>
+        <MovePush>false</MovePush>
+        <Down2Win>false</Down2Win>
+        <ExtraMove>
+            <canMove>false</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>false</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>false</canBuild>
+            <onlySameSpace>false</onlySameSpace>
+            <notSameSpace>false</notSameSpace>
+            <notPerimeter>false</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>false</BuildDomeEverywhere>
+        <BlockMoveUp>false</BlockMoveUp>
+        <BuildUnderfoot>false</BuildUnderfoot>
+        <NoWinPerimeter>false</NoWinPerimeter>
+        <EndRemoveNeighbour>false</EndRemoveNeighbour>
+        <BuildBeforeMove>false</BuildBeforeMove>
+
+    </God>
+
+    <God >
+
+     <id>2</id>
+    <name>Artemis</name>
+    <description>Your Worker may move one additional time, but not back to its initial space.
+    </description>
+    <maxMoves>2</maxMoves>
+    <maxBuilds>1</maxBuilds>
+    <CanMoveUp>false</CanMoveUp>
+    <CantMoveUp>false</CantMoveUp>
+    <MoveSwap>false</MoveSwap>
+    <MovePush>false</MovePush>
+    <Down2Win>false</Down2Win>
+    <ExtraMove>
+        <canMove>true</canMove>
+        <notMoveBack>true</notMoveBack>
+        <notPerimeter>false</notPerimeter>
+    </ExtraMove>
+    <ExtraBuild>
+        <canBuild>false</canBuild>
+        <onlySameSpace>false</onlySameSpace>
+        <notSameSpace>false</notSameSpace>
+        <notPerimeter>false</notPerimeter>
+    </ExtraBuild>
+    <BuildDomeEverywhere>false</BuildDomeEverywhere>
+    <BlockMoveUp>false</BlockMoveUp>
+    <BuildUnderfoot>false</BuildUnderfoot>
+    <NoWinPerimeter>false</NoWinPerimeter>
+    <EndRemoveNeighbour>false</EndRemoveNeighbour>
+     <BuildBeforeMove>false</BuildBeforeMove>
+
+    </God>
+
+    <God>
+        <id>3</id>
+        <name>Athena</name>
+        <description>If one of your Workers moved up on your last turn, opponent Workers cannot
+            move up this turn.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>1</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>false</CantMoveUp>
+        <MoveSwap>false</MoveSwap>
+        <MovePush>false</MovePush>
+        <Down2Win>false</Down2Win>
+        <ExtraMove>
+            <canMove>false</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>false</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>false</canBuild>
+            <onlySameSpace>false</onlySameSpace>
+            <notSameSpace>false</notSameSpace>
+            <notPerimeter>false</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>false</BuildDomeEverywhere>
+        <BlockMoveUp>true</BlockMoveUp>
+        <BuildUnderfoot>false</BuildUnderfoot>
+        <NoWinPerimeter>false</NoWinPerimeter>
+        <EndRemoveNeighbour>false</EndRemoveNeighbour>
+        <BuildBeforeMove>false</BuildBeforeMove>
+
+    </God>
+
+
+    <God>
+        <id>4</id>
+        <name>Atlas</name>
+        <description>Your Worker may build a dome at any level.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>1</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>false</CantMoveUp>
+        <MoveSwap>false</MoveSwap>
+        <MovePush>false</MovePush>
+        <Down2Win>false</Down2Win>
+        <ExtraMove>
+            <canMove>false</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>false</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>false</canBuild>
+            <onlySameSpace>false</onlySameSpace>
+            <notSameSpace>false</notSameSpace>
+            <notPerimeter>false</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>true</BuildDomeEverywhere>
+        <BlockMoveUp>false</BlockMoveUp>
+        <BuildUnderfoot>false</BuildUnderfoot>
+        <NoWinPerimeter>false</NoWinPerimeter>
+        <EndRemoveNeighbour>false</EndRemoveNeighbour>
+        <BuildBeforeMove>false</BuildBeforeMove>
+
+    </God>
+
+    <God>
+        <id>5</id>
+        <name>Demeter</name>
+        <description>Your Worker may build one additional time, but not on the same space.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>2</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>false</CantMoveUp>
+        <MoveSwap>false</MoveSwap>
+        <MovePush>false</MovePush>
+        <Down2Win>false</Down2Win>
+        <ExtraMove>
+            <canMove>false</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>false</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>true</canBuild>
+            <onlySameSpace>false</onlySameSpace>
+            <notSameSpace>true</notSameSpace>
+            <notPerimeter>false</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>false</BuildDomeEverywhere>
+        <BlockMoveUp>false</BlockMoveUp>
+        <BuildUnderfoot>false</BuildUnderfoot>
+        <NoWinPerimeter>false</NoWinPerimeter>
+        <EndRemoveNeighbour>false</EndRemoveNeighbour>
+        <BuildBeforeMove>false</BuildBeforeMove>
+
+    </God>
+
+    <God>
+        <id>6</id>
+        <name>Hephaestus</name>
+        <description>Your Worker may build one additional block (not dome) on top of your first block.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>2</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>false</CantMoveUp>
+        <MoveSwap>false</MoveSwap>
+        <MovePush>false</MovePush>
+        <Down2Win>false</Down2Win>
+        <ExtraMove>
+            <canMove>false</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>false</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>true</canBuild>
+            <onlySameSpace>true</onlySameSpace>
+            <notSameSpace>false</notSameSpace>
+            <notPerimeter>false</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>false</BuildDomeEverywhere>
+        <BlockMoveUp>false</BlockMoveUp>
+        <BuildUnderfoot>false</BuildUnderfoot>
+        <NoWinPerimeter>false</NoWinPerimeter>
+        <EndRemoveNeighbour>false</EndRemoveNeighbour>
+        <BuildBeforeMove>false</BuildBeforeMove>
+
+    </God>
+
+
+    <God>
+        <id>8</id>
+        <name>Minotaur</name>
+        <description>Your Worker may move into an opponent Worker's space, if their Worker can be
+            forced one space straight backwards to an unoccupied space at any level.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>1</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>false</CantMoveUp>
+        <MoveSwap>false</MoveSwap>
+        <MovePush>true</MovePush>
+        <Down2Win>false</Down2Win>
+        <ExtraMove>
+            <canMove>false</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>false</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>false</canBuild>
+            <onlySameSpace>false</onlySameSpace>
+            <notSameSpace>false</notSameSpace>
+            <notPerimeter>false</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>false</BuildDomeEverywhere>
+        <BlockMoveUp>false</BlockMoveUp>
+        <BuildUnderfoot>false</BuildUnderfoot>
+        <NoWinPerimeter>false</NoWinPerimeter>
+        <EndRemoveNeighbour>false</EndRemoveNeighbour>
+        <BuildBeforeMove>false</BuildBeforeMove>
+
+    </God>
+
+    <God>
+        <id>9</id>
+        <name>Pan</name>
+        <description>You also win if your Worker moves down two or more levels.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>1</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>false</CantMoveUp>
+        <MoveSwap>false</MoveSwap>
+        <MovePush>false</MovePush>
+        <Down2Win>true</Down2Win>
+        <ExtraMove>
+            <canMove>false</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>false</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>false</canBuild>
+            <onlySameSpace>false</onlySameSpace>
+            <notSameSpace>false</notSameSpace>
+            <notPerimeter>false</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>false</BuildDomeEverywhere>
+        <BlockMoveUp>false</BlockMoveUp>
+        <BuildUnderfoot>false</BuildUnderfoot>
+        <NoWinPerimeter>false</NoWinPerimeter>
+        <EndRemoveNeighbour>false</EndRemoveNeighbour>
+        <BuildBeforeMove>false</BuildBeforeMove>
+
+    </God>
+
+    <God>
+        <id>10</id>
+        <name>Prometheus</name>
+        <description>If your Worker does not move up, it may build both before and after moving.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>2</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>true</CantMoveUp>
+        <MoveSwap>false</MoveSwap>
+        <MovePush>false</MovePush>
+        <Down2Win>false</Down2Win>
+        <ExtraMove>
+            <canMove>false</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>false</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>false</canBuild>
+            <onlySameSpace>false</onlySameSpace>
+            <notSameSpace>false</notSameSpace>
+            <notPerimeter>false</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>false</BuildDomeEverywhere>
+        <BlockMoveUp>false</BlockMoveUp>
+        <BuildUnderfoot>false</BuildUnderfoot>
+        <NoWinPerimeter>false</NoWinPerimeter>
+        <EndRemoveNeighbour>false</EndRemoveNeighbour>
+        <BuildBeforeMove>true</BuildBeforeMove>
+
+    </God>
+
+    <God>
+        <id>20</id>
+        <name>Hera</name>
+        <description>An opponent cannot win by moving into a perimeter space.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>1</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>false</CantMoveUp>
+        <MoveSwap>false</MoveSwap>
+        <MovePush>false</MovePush>
+        <Down2Win>false</Down2Win>
+        <ExtraMove>
+            <canMove>false</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>false</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>false</canBuild>
+            <onlySameSpace>false</onlySameSpace>
+            <notSameSpace>false</notSameSpace>
+            <notPerimeter>false</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>false</BuildDomeEverywhere>
+        <BlockMoveUp>false</BlockMoveUp>
+        <BuildUnderfoot>false</BuildUnderfoot>
+        <NoWinPerimeter>true</NoWinPerimeter>
+        <EndRemoveNeighbour>false</EndRemoveNeighbour>
+        <BuildBeforeMove>false</BuildBeforeMove>
+
+    </God>
+
+    <God>
+        <id>21</id>
+        <name>Hestia</name>
+        <description>Your Worker may build one additional time, but this cannot be on a perimeter space.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>2</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>false</CantMoveUp>
+        <MoveSwap>false</MoveSwap>
+        <MovePush>false</MovePush>
+        <Down2Win>false</Down2Win>
+        <ExtraMove>
+            <canMove>false</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>false</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>true</canBuild>
+            <onlySameSpace>false</onlySameSpace>
+            <notSameSpace>false</notSameSpace>
+            <notPerimeter>true</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>false</BuildDomeEverywhere>
+        <BlockMoveUp>false</BlockMoveUp>
+        <BuildUnderfoot>false</BuildUnderfoot>
+        <NoWinPerimeter>false</NoWinPerimeter>
+        <EndRemoveNeighbour>false</EndRemoveNeighbour>
+        <BuildBeforeMove>false</BuildBeforeMove>
+
+    </God>
+
+    <God>
+        <id>24</id>
+        <name>Medusa</name>
+        <description>If possible, your Workers build in lower neighboring spaces that are
+            occupied by opponent Workers, removing the opponent Workers from the game.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>1</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>false</CantMoveUp>
+        <MoveSwap>false</MoveSwap>
+        <MovePush>false</MovePush>
+        <Down2Win>false</Down2Win>
+        <ExtraMove>
+            <canMove>false</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>false</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>false</canBuild>
+            <onlySameSpace>false</onlySameSpace>
+            <notSameSpace>false</notSameSpace>
+            <notPerimeter>false</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>false</BuildDomeEverywhere>
+        <BlockMoveUp>false</BlockMoveUp>
+        <BuildUnderfoot>false</BuildUnderfoot>
+        <NoWinPerimeter>false</NoWinPerimeter>
+        <EndRemoveNeighbour>true</EndRemoveNeighbour>
+        <BuildBeforeMove>false</BuildBeforeMove>
+
+    </God>
+
+    <God>
+        <id>29</id>
+        <name>Triton</name>
+        <description>Each time your Worker moves into a perimeter space, it may immediately move again.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>1</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>false</CantMoveUp>
+        <MoveSwap>false</MoveSwap>
+        <MovePush>false</MovePush>
+        <Down2Win>false</Down2Win>
+        <ExtraMove>
+            <canMove>true</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>true</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>false</canBuild>
+            <onlySameSpace>false</onlySameSpace>
+            <notSameSpace>false</notSameSpace>
+            <notPerimeter>false</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>false</BuildDomeEverywhere>
+        <BlockMoveUp>false</BlockMoveUp>
+        <BuildUnderfoot>false</BuildUnderfoot>
+        <NoWinPerimeter>false</NoWinPerimeter>
+        <EndRemoveNeighbour>false</EndRemoveNeighbour>
+        <BuildBeforeMove>false</BuildBeforeMove>
+
+    </God>
+
+    <God>
+        <id>30</id>
+        <name>Zeus</name>
+        <description>Your Worker may build a block under itself.
+        </description>
+        <maxMoves>1</maxMoves>
+        <maxBuilds>1</maxBuilds>
+        <CanMoveUp>false</CanMoveUp>
+        <CantMoveUp>false</CantMoveUp>
+        <MoveSwap>false</MoveSwap>
+        <MovePush>false</MovePush>
+        <Down2Win>false</Down2Win>
+        <ExtraMove>
+            <canMove>false</canMove>
+            <notMoveBack>false</notMoveBack>
+            <notPerimeter>false</notPerimeter>
+        </ExtraMove>
+        <ExtraBuild>
+            <canBuild>false</canBuild>
+            <onlySameSpace>false</onlySameSpace>
+            <notSameSpace>false</notSameSpace>
+            <notPerimeter>false</notPerimeter>
+        </ExtraBuild>
+        <BuildDomeEverywhere>false</BuildDomeEverywhere>
+        <BlockMoveUp>false</BlockMoveUp>
+        <BuildUnderfoot>true</BuildUnderfoot>
+        <NoWinPerimeter>false</NoWinPerimeter>
+        <EndRemoveNeighbour>false</EndRemoveNeighbour>
+        <BuildBeforeMove>false</BuildBeforeMove>
+    </God>
+
+
+
+
+</Divinities>

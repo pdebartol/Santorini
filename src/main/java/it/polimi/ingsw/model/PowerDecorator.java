@@ -41,13 +41,8 @@ public abstract class PowerDecorator implements Power {
     }
 
     @Override
-    public Integer getMaxMoves() {
-        return null;
-    }
-
-    @Override
-    public Integer getMaxBuilds() {
-        return null;
+    public boolean checkTurn(boolean mode){
+        return false;
     }
 
     @Override

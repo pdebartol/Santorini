@@ -16,9 +16,8 @@ public interface Power {
 
      void updateBuild(Worker w, Square s);
 
-     Integer getMaxMoves();
+     boolean checkTurn(boolean mode);
 
-     Integer getMaxBuilds();
 
      Board getBoard();
 }

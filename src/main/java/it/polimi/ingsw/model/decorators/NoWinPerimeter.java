@@ -5,10 +5,12 @@ import it.polimi.ingsw.model.PowerDecorator;
 
 public class NoWinPerimeter extends PowerDecorator {
 
+    boolean owner;
     //constructors
 
-    public NoWinPerimeter(Power p) {
+    public NoWinPerimeter(Power p, boolean owner) {
         super(p);
+        this.owner = owner;
     }
 
     //methods

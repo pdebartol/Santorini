@@ -48,14 +48,10 @@ public class StandardPower implements Power {
     }
 
     @Override
-    public Integer getMaxMoves() {
-        return null;
+    public boolean checkTurn(boolean mode){
+        return false;
     }
 
-    @Override
-    public Integer getMaxBuilds() {
-        return null;
-    }
 
     @Override
     public Board getBoard() {
