@@ -98,7 +98,7 @@ public class Player {
      */
     public boolean build(Worker w, Square s){
         Power power = god.getPower();
-        if(power.checkTurn(0) && power.checkBuild(w,s)){
+        if(power.checkTurn(1) && power.checkBuild(w,s)){
             power.updateBuild(w,s);
             return true;
         }
