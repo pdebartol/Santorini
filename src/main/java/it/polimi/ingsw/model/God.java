@@ -18,14 +18,6 @@ public class God {
 
     //methods
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public void setPower(Power power) {
         this.power = power;
     }

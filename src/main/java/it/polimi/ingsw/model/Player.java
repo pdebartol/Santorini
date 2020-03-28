@@ -59,14 +59,14 @@ public class Player {
      * compatible with rules or not
      */
     public boolean canMove(){
-        for(int i = -1; i >= -1 && i <= 1; i++)
-            for(int j = -1; j >= -1 && j <= 1; i++)
+        for(int i = -1; i <= 1 ; i++)
+            for(int j = -1; j <= 1; i++)
                 if(!(i == 0 && j == 0)) {
-                    for (int k = 0; k < workers.size(); k++) {
-                        int x = workers.get(k).getCurrentSquare().getXPosition() + i;
-                        int y = workers.get(k).getCurrentSquare().getYPosition() + j;
+                    for (Worker worker : workers) {
+                        int x = worker.getCurrentSquare().getXPosition() + i;
+                        int y = worker.getCurrentSquare().getYPosition() + j;
                         if (x >= 0 && x <= 4 && y >= 0 && x <= 4)
-                            if (god.getPower().checkMove(workers.get(k), god.getPower().getBoard().getTable()[x][y]))
+                            if (god.getPower().checkMove(worker, god.getPower().getBoard().getTable()[x][y]))
                                 return true;
                     }
                 }

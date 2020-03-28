@@ -41,7 +41,7 @@ public abstract class PowerDecorator implements Power {
     }
 
     @Override
-    public boolean checkTurn(boolean mode){
+    public boolean checkTurn(int mode){
         return false;
     }
 

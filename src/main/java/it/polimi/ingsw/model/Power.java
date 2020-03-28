@@ -16,7 +16,7 @@ public interface Power {
 
      void updateBuild(Worker w, Square s);
 
-     boolean checkTurn(boolean mode);
+     boolean checkTurn(int mode);
 
 
      Board getBoard();

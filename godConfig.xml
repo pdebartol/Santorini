@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Divinities>
+
     <God>
         <id>1</id>
         <name>Apollo</name>
@@ -9,7 +10,6 @@
         <maxMoves>1</maxMoves>
         <maxBuilds>1</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>false</CantMoveUp>
         <MoveSwap>true</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>false</Down2Win>
@@ -42,7 +42,6 @@
     <maxMoves>2</maxMoves>
     <maxBuilds>1</maxBuilds>
     <CanMoveUp>false</CanMoveUp>
-    <CantMoveUp>false</CantMoveUp>
     <MoveSwap>false</MoveSwap>
     <MovePush>false</MovePush>
     <Down2Win>false</Down2Win>
@@ -75,7 +74,6 @@
         <maxMoves>1</maxMoves>
         <maxBuilds>1</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>false</CantMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>false</Down2Win>
@@ -103,12 +101,11 @@
     <God>
         <id>4</id>
         <name>Atlas</name>
-        <description>Your Worker may build a dome at any level.
+        <description>Your Worker may build a dome at any level including the ground.
         </description>
         <maxMoves>1</maxMoves>
         <maxBuilds>1</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>false</CantMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>false</Down2Win>
@@ -140,7 +137,6 @@
         <maxMoves>1</maxMoves>
         <maxBuilds>2</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>false</CantMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>false</Down2Win>
@@ -172,7 +168,6 @@
         <maxMoves>1</maxMoves>
         <maxBuilds>2</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>false</CantMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>false</Down2Win>
@@ -206,7 +201,6 @@
         <maxMoves>1</maxMoves>
         <maxBuilds>1</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>false</CantMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>true</MovePush>
         <Down2Win>false</Down2Win>
@@ -238,7 +232,6 @@
         <maxMoves>1</maxMoves>
         <maxBuilds>1</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>false</CantMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>true</Down2Win>
@@ -269,8 +262,7 @@
         </description>
         <maxMoves>1</maxMoves>
         <maxBuilds>2</maxBuilds>
-        <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>true</CantMoveUp>
+        <CanMoveUp>true</CanMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>false</Down2Win>
@@ -302,7 +294,6 @@
         <maxMoves>1</maxMoves>
         <maxBuilds>1</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>false</CantMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>false</Down2Win>
@@ -334,7 +325,6 @@
         <maxMoves>1</maxMoves>
         <maxBuilds>2</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>false</CantMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>false</Down2Win>
@@ -367,7 +357,6 @@
         <maxMoves>1</maxMoves>
         <maxBuilds>1</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>false</CantMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>false</Down2Win>
@@ -399,7 +388,6 @@
         <maxMoves>1</maxMoves>
         <maxBuilds>1</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>false</CantMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>false</Down2Win>
@@ -431,7 +419,6 @@
         <maxMoves>1</maxMoves>
         <maxBuilds>1</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
-        <CantMoveUp>false</CantMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>false</Down2Win>
@@ -453,8 +440,5 @@
         <EndRemoveNeighbour>false</EndRemoveNeighbour>
         <BuildBeforeMove>false</BuildBeforeMove>
     </God>
-
-
-
 
 </Divinities>
