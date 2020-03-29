@@ -11,8 +11,9 @@ public abstract class PowerDecorator implements Power {
     //attributes
 
     /**
-     * Power decoratedPower represents the already power decorated.
+     * decoratedPower represents the already power decorated.
      */
+
     protected Power decoratedPower;
 
     //methods
@@ -33,8 +34,8 @@ public abstract class PowerDecorator implements Power {
     }
 
     @Override
-    public boolean checkWin() {
-        return decoratedPower.checkWin();
+    public boolean checkWin(Worker w) {
+        return decoratedPower.checkWin(w);
     }
 
     @Override

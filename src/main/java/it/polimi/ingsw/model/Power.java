@@ -16,6 +16,7 @@ public interface Power {
       * @param s is the square where the worker wants to move
       * @return true or false to indicate if the move is legit or not
       */
+
      boolean checkMove(Worker w, Square s);
 
      /**
@@ -24,13 +25,15 @@ public interface Power {
       * @param s is the square where the worker wants to build
       * @return true or false to indicate if the build is legit or not
       */
+
      boolean checkBuild(Worker w, Square s);
 
      /**
       * This method checks if the player has won
       * @return true or false to indicate if the player has won
       */
-     boolean checkWin();
+
+     boolean checkWin(Worker w);
 
      /**
       * This method is called only if the checkMove was successful, it updates the model
@@ -38,6 +41,7 @@ public interface Power {
       * @param w is the worker that moves
       * @param s is the square where the worker moves
       */
+
      void updateMove(Worker w, Square s);
 
      /**
@@ -63,5 +67,6 @@ public interface Power {
       * This method return the current board
       * @return the current instance of Board
       */
+
      Board getBoard();
 }

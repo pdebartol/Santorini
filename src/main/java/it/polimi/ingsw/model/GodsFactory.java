@@ -18,9 +18,12 @@ import java.util.*;
 public class GodsFactory {
 
     //attributes
-    Board gameBoard;
-    Document document;
+
+    private Board gameBoard;
+    private Document document;
+
     //constructors
+
 
     /**
      * Class constructor

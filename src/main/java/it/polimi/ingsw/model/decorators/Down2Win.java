@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.decorators;
 
 import it.polimi.ingsw.model.Power;
 import it.polimi.ingsw.model.PowerDecorator;
+import it.polimi.ingsw.model.Worker;
 
 public class Down2Win extends PowerDecorator {
 
@@ -14,7 +15,7 @@ public class Down2Win extends PowerDecorator {
     //methods
 
     @Override
-    public boolean checkWin() {
-        return super.checkWin();
+    public boolean checkWin(Worker w) {
+        return super.checkWin(w);
     }
 }

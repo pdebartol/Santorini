@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model;
 
 /**
- * Square class represents a single box of the entire board/table
- * it is useful to have because of the possibility to have much more control over events of the game
- * such as the build of a dome, check if a single square is free or if is it possible build on that square
+ * Square represents a single box of the entire board/table.
+ * xPosition and yPosition can't be changed once square has been created.
  * @author aledimaio
  */
 
@@ -12,8 +11,8 @@ public class Square {
     //attributes
 
     /**
-     * Square class have attributes to represents its position in the board/table, the worker on it the level and if
-     * there is a dome or not
+     * Square class have attributes to represents its position in the board/table (xPosition and yPosition), the worker
+     * on it, the level and if there is a dome or not
      */
 
     private int level;
@@ -25,9 +24,9 @@ public class Square {
     //constructors
 
     /**
-     * The constructor initialize the Square on the table
-     * @param xPosition is the position of...
-     * @param yPosition is the position of...
+     * Class constructors which constructs a Square with a specified coordinate.
+     * @param xPosition is the square position in table
+     * @param yPosition is the square position in table
      */
 
     public Square(int xPosition, int yPosition){
@@ -39,17 +38,12 @@ public class Square {
 
     //methods
 
-    /**
-     * The method above allow to put a worker on the Square
-     * @param worker represent the selected worker of the current player
-     */
-
     public void setWorker(Worker worker) {
         this.worker = worker;
     }
 
     public void setDome(boolean d) {
-        dome = d;
+        this.dome = d;
     }
 
     public void setXPosition(int xPosition) {
@@ -81,15 +75,18 @@ public class Square {
     }
 
     /**
-     * The method remove the worker from current square
+     * This method allows to remove the worker from current square, it is useful when a worker moves in another square.
+     * @return the worker that method removed
      */
 
-    public void removeWorker() {
+    public Worker removeWorker() {
+        Worker w = worker;
         worker = null;
+        return w;
     }
 
     /**
-     * the method check if in the current square there are a worker or a dome
+     * the method check if the Square is free by workers.
      */
 
     public boolean isFree() {
@@ -97,8 +94,7 @@ public class Square {
     }
 
     /**
-     * the method check if in the current square there is a complete tower, that is there are 3 level set attribute and
-     * there is a dome
+     * the method check if in the square there is a complete tower (the level is 3 and there is a dome).
      */
 
     public boolean isCompleteTower() {
@@ -106,11 +102,14 @@ public class Square {
     }
 
     /**
-     *The method above build over the square changing level attribute
+     *The method allows to build over the square (increment the level)
      */
 
     public void buildLevel() {
-            ++level;
+            if(level == 3)
+                dome = true;
+            else
+                ++level;
     }
 
 }

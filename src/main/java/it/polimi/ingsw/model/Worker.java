@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
 /**
- * Worker class represents the pawn each player can have in game (max 2)
- * it is linked to Square class in order to provide the possibility to know where worker is
+ * Worker represents a pawn that player uses to play.
+ * color and gender can't be changed once worker has been created.
  * @author aledimaio
  */
 
@@ -11,14 +11,30 @@ public class Worker {
     //attributes
 
     /**
-     * Due to its connection to Square in the worker class there is additional private attribute "currentSquare"
-     * that attribute is necessary in order to know where worker actually is on the board
+     * currentSquare represents the square where the worker is currently localized
+     * lastSquareMove represents the square where the worker was localized before being moved
+     * lastSquareBuild represents the square where the worker last built
      */
 
     private Color color;
     private String gender;
+
+    /**
+     * lastSquareMove represents the square where the worker was localized before being moved
+     */
+
     private Square lastSquareMove;
+
+    /**
+     * lastSquareBuild represents the square where the worker last built
+     */
+
     private Square lastSquareBuild;
+
+    /**
+     * currentSquare represents the square where the worker is currently localized
+     */
+
     private Square currentSquare;
 
     //constructors
@@ -63,14 +79,13 @@ public class Worker {
     }
 
     /**
-     * The method above update lastSquareMove parameter and change Square reference to worker
-     * @param s is the destination square
+     * This method allows to update the worker position on the board
+     * @param s is the new square where worker is to be localized
      */
 
     public void updateWorkerPosition(Square s) {
         lastSquareMove = currentSquare;
         currentSquare = s;
-        s.setWorker(this);
     }
 
 }

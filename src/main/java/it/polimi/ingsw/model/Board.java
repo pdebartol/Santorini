@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * The Board class represents Santorini game board
+ * Board is the entire game board.
  * @author aledimaio
  */
 
@@ -10,20 +10,20 @@ public class Board {
     //attributes
 
     /**
-     * Square[][] table is a matrix of Square objects, that represents the set of box of the table
+     * moveUp is a flag that indicate if in a specific moment a Player can move up.
      */
 
     private boolean moveUp;
     private int nMoves;
     private int nBuild;
+    /**
+     * Square[][] table is a matrix of Square objects, that represents the set of box of the table.
+     */
+
     private Square[][] table;
 
 
     //constructors
-
-    /**
-     * the constructor builds the table for the entire game
-     */
 
     public Board() {
         this.moveUp = true;
@@ -33,7 +33,6 @@ public class Board {
             for(int y = 0; y < 5 ; y++)
                 this.table[x][y] = new Square(x, y);
         }
-
     }
 
     //methods
@@ -56,10 +55,10 @@ public class Board {
     }
 
     /**
-     * The method above is use to return a certain Square position
-     * @param x coordinates
-     * @param y coordinates
-     * @return return square in a certain position
+     * This method allows to log into a certain Square position.
+     * @param x the x position of Square onto board
+     * @param y the y position of Square onto board
+     * @return The square in (x,y) position
      */
 
     public Square getSquare(int x, int y){
@@ -67,7 +66,7 @@ public class Board {
     }
 
     /**
-     * the method resetCounters() set nMove and nBuild to its original state
+     * This method reset nMove and nBuild to 0.
      */
 
     public void resetCounters() {
@@ -76,7 +75,7 @@ public class Board {
     }
 
     /**
-     * The method increase the move done
+     * This method increment the number of moves done in this turn.
      */
 
     public void incNMoves() {
@@ -84,7 +83,7 @@ public class Board {
     }
 
     /**
-     * the method increase the build done
+     * This method increment the number of build done in this turn.
      */
 
     public void incNBuild() {
@@ -92,7 +91,7 @@ public class Board {
     }
 
     /**
-     * At the beginning of each turn this method reset counters
+     * This method initialize the board for a new turn.
      */
 
     public void startTurn() {

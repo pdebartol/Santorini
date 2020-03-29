@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.Worker;
  * maxMoves and maxBuild can't be changed once StandardPower has been created.
  * @author marcoDige & pierobartolo
  */
+
 public class StandardPower implements Power {
 
     //attributes
@@ -18,6 +19,7 @@ public class StandardPower implements Power {
      * maxMoves represents the maximum number of moves that a player can do in one turn using a specific god who has this power
      * maxBuild represents the maximum number of build that a player can build in one turn using a specific god who has this power
      */
+
     protected Integer maxMoves;
     protected Integer maxBuild;
     private Board board;
@@ -29,12 +31,12 @@ public class StandardPower implements Power {
      * @param maxMoves is the maxMoves obtained from the configuration file of the specific god
      * @param maxBuild is the maxBuild obtained from the configuration file of the specific god
      */
+
     public StandardPower(Integer maxMoves, Integer maxBuild, Board board) {
         this.maxMoves = maxMoves;
         this.maxBuild = maxBuild;
         this.board = board;
     }
-
 
     //methods
 
@@ -44,6 +46,7 @@ public class StandardPower implements Power {
      * @param s is the square where the worker wants to move
      * @return true or false to indicate if the move is legit or not
      */
+
     @Override
     public boolean checkMove(Worker w, Square s) {
 
@@ -75,6 +78,7 @@ public class StandardPower implements Power {
      * @param s is the square where the worker wants to build
      * @return true or false to indicate if the build is legit or not
      */
+
     @Override
     public boolean checkBuild(Worker w, Square s) {
         //Can't move build before check
@@ -96,9 +100,10 @@ public class StandardPower implements Power {
      * This method implements checkWin (Power interface) with the standard game rules.
      * @return true or false to indicate if the player has won
      */
+
     @Override
-    public boolean checkWin() {
-        return false;
+    public boolean checkWin(Worker w) {
+        return (w.getCurrentSquare().getLevel() == 3 && w.getLastSquareMove().getLevel() == 2);
     }
 
     /**
@@ -106,9 +111,11 @@ public class StandardPower implements Power {
      * @param w is the worker that moves
      * @param s is the square where the worker moves
      */
+
     @Override
     public void updateMove(Worker w, Square s) {
-
+        s.setWorker(w);
+        w.updateWorkerPosition(s);
     }
 
     /**
@@ -116,9 +123,11 @@ public class StandardPower implements Power {
      * @param w is the worker that builds
      * @param s is the square where the worker moves
      */
+
     @Override
     public void updateBuild(Worker w, Square s) {
-
+        s.buildLevel();
+        w.setLastSquareBuild(s);
     }
 
     /**
@@ -127,6 +136,7 @@ public class StandardPower implements Power {
      *             1 --> check if the player can build
      * @return true or false to indicate if  player can move or build
      */
+
     @Override
     public boolean checkTurn(int mode){
         if(mode == 0)
@@ -139,6 +149,7 @@ public class StandardPower implements Power {
      * This method return the current board.
      * @return the current instance of Board
      */
+
     @Override
     public Board getBoard() {
         return board;
