@@ -12,6 +12,9 @@ public class Player {
     //attributes
 
     private final String username;
+    /**
+     * ArrayList workers is an array of Worker objects, that represents the workers which Player use to play.
+     */
     private ArrayList<Worker> workers;
     private God god;
 
