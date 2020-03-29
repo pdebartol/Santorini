@@ -12,6 +12,7 @@ import java.util.*;
 
 /** This class is responsible for parsing the XML and creating the
  * gods according to the rules in 'godConfig.xml'
+ * @author pierobartolo marcoDige
  */
 
 public class GodsFactory {

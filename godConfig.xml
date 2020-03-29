@@ -4,9 +4,7 @@
     <God>
         <id>1</id>
         <name>Apollo</name>
-        <description>Your Worker may move into an opponent Worker's space by forcing their Worker to
-            the space yours just vacated.
-        </description>
+        <description>Your Worker may move into an opponent Worker's space by forcing their Worker to the space yours just vacated.</description>
         <maxMoves>1</maxMoves>
         <maxBuilds>1</maxBuilds>
         <CanMoveUp>false</CanMoveUp>
@@ -37,8 +35,7 @@
 
      <id>2</id>
     <name>Artemis</name>
-    <description>Your Worker may move one additional time, but not back to its initial space.
-    </description>
+    <description>Your Worker may move one additional time, but not back to its initial space.</description>
     <maxMoves>2</maxMoves>
     <maxBuilds>1</maxBuilds>
     <CanMoveUp>false</CanMoveUp>
@@ -68,9 +65,7 @@
     <God>
         <id>3</id>
         <name>Athena</name>
-        <description>If one of your Workers moved up on your last turn, opponent Workers cannot
-            move up this turn.
-        </description>
+        <description>If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.</description>
         <maxMoves>1</maxMoves>
         <maxBuilds>1</maxBuilds>
         <CanMoveUp>false</CanMoveUp>

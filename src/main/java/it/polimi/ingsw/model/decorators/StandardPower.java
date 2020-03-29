@@ -18,8 +18,8 @@ public class StandardPower implements Power {
      * maxMoves represents the maximum number of moves that a player can do in one turn using a specific god who has this power
      * maxBuild represents the maximum number of build that a player can build in one turn using a specific god who has this power
      */
-    private Integer maxMoves;
-    private Integer maxBuild;
+    protected Integer maxMoves;
+    protected Integer maxBuild;
     private Board board;
 
     //constructors
