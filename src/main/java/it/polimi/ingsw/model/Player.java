@@ -69,7 +69,7 @@ public class Player {
                         int x = worker.getCurrentSquare().getXPosition() + i;
                         int y = worker.getCurrentSquare().getYPosition() + j;
                         if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
-                            if (god.getPower().checkMove(worker, god.getPower().getBoard().getTable()[x][y]))
+                            if (god.getPower().checkMove(worker, god.getPower().getBoard().getSquare(x,y)))
                                 return true;
                     }
                 }
