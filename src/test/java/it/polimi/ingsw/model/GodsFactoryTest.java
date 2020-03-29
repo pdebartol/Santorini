@@ -13,7 +13,7 @@ class GodsFactoryTest {
     public void first_test(){
          ArrayList<Integer> first_test = new ArrayList<>();
          first_test.add(1);
-         first_test.add(4);
+         first_test.add(5);
          first_test.add(2);
          GodsFactory x = new GodsFactory(first_test);
         for (God elem : x.getGods()) {
