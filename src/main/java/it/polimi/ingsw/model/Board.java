@@ -43,14 +43,6 @@ public class Board {
         moveUp = mu;
     }
 
-    public void setNMoves(int nMoves) {
-        this.nMoves = nMoves;
-    }
-
-    public void setNBuild(int nBuild) {
-        this.nBuild = nBuild;
-    }
-
     public boolean getMoveUp() {
         return moveUp;
     }
@@ -72,19 +64,21 @@ public class Board {
      */
 
     public void resetCounters() {
-        this.setNMoves(0);
-        this.setNBuild(0);
+        nMoves = 0;
+        nBuild = 0;
     }
 
     public void incNMoves() {
-        this.setNMoves(this.getNMoves()+1);
+        nMoves = nMoves + 1;
     }
 
     public void incNBuild() {
-        this.setNBuild(getNBuild()+1);
+        nBuild = nBuild + 1;
     }
 
-    public void startTurn() {}
+    public void startTurn() {
+        resetCounters();
+    }
 
     /**
      * This method control if 2 squares are adjacent.
@@ -93,6 +87,7 @@ public class Board {
      * @return true --> s1 and s2 are adjacent
      *         false --> s1 and s2 aren't adjacent
      */
+
     public boolean isAdjacent(Square s1, Square s2){
         int xdist = s1.getXPosition() - s2.getXPosition();
         int ydist = s1.getYPosition() - s2.getYPosition();

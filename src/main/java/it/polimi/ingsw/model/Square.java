@@ -26,8 +26,8 @@ public class Square {
 
     /**
      * The constructor initialize the Square on the table
-     * @param xPosition
-     * @param yPosition
+     * @param xPosition is the position of...
+     * @param yPosition is the position of...
      */
 
     public Square(int xPosition, int yPosition){
@@ -60,10 +60,6 @@ public class Square {
         this.yPosition = yPosition;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public int getXPosition() {
         return xPosition;
     }
@@ -89,7 +85,7 @@ public class Square {
      */
 
     public void removeWorker() {
-        this.setWorker(null);
+        worker = null;
     }
 
     /**
@@ -97,10 +93,7 @@ public class Square {
      */
 
     public boolean isFree() {
-        if(this.getDome() != true && this.getWorker() == null)
-            return true;
-        else
-            return false;
+        return (worker == null);
     }
 
     /**
@@ -109,10 +102,7 @@ public class Square {
      */
 
     public boolean isCompleteTower() {
-        if(this.getLevel()==3 && this.getDome() == true)
-            return true;
-        else
-            return false;
+        return (level == 3 && dome);
     }
 
     /**
@@ -120,7 +110,7 @@ public class Square {
      */
 
     public void buildLevel() {
-            this.setLevel(this.getLevel()+1);
+            ++level;
     }
 
 }

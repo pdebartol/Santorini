@@ -59,7 +59,7 @@ public class StandardPower implements Power {
         if(climbHeight > 1) return false;
 
         //Occupation check
-        if(!s.isFree()) return false;
+        if(s.isFree()) return false;
 
         //Can't move on dome check
 
@@ -87,7 +87,7 @@ public class StandardPower implements Power {
         if(s.getDome()) return false;
 
         //Occupation check
-        if(!s.isFree()) return false;
+        if(s.isFree()) return false;
 
         return true;
     }

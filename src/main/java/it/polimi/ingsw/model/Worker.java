@@ -23,6 +23,11 @@ public class Worker {
 
     //constructors
 
+    public Worker(Color color, String gender){
+        this.color = color;
+        this.gender = gender;
+    }
+
     //methods
 
     public void setColor(Color c) {
@@ -33,16 +38,8 @@ public class Worker {
         gender = g;
     }
 
-    public void setLastSquareMove(Square s) {
-        lastSquareMove = s;
-    }
-
     public void setLastSquareBuild(Square s) {
         lastSquareBuild = s;
-    }
-
-    public void setCurrentSquare(Square s) {
-        currentSquare = s;
     }
 
     public Square getCurrentSquare() {
@@ -66,7 +63,9 @@ public class Worker {
     }
 
     public void updateWorkerPosition(Square s) {
-
+        lastSquareMove = currentSquare;
+        currentSquare = s;
+        s.setWorker(this);
     }
 
 }
