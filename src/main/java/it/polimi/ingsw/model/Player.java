@@ -65,7 +65,7 @@ public class Player {
                     for (Worker worker : workers) {
                         int x = worker.getCurrentSquare().getXPosition() + i;
                         int y = worker.getCurrentSquare().getYPosition() + j;
-                        if (x >= 0 && x <= 4 && y >= 0 && x <= 4)
+                        if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
                             if (god.getPower().checkMove(worker, god.getPower().getBoard().getTable()[x][y]))
                                 return true;
                     }
@@ -84,7 +84,7 @@ public class Player {
         Power power = god.getPower();
         if(power.checkTurn(0) && power.checkMove(w,s)){
             power.updateMove(w,s);
-            //TODO: notify if Player win after control with winChek()
+            //TODO: notify if Player win after control with winCheck()
             return true;
         }
         return false;
