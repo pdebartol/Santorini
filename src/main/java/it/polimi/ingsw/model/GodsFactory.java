@@ -46,7 +46,7 @@ public class GodsFactory {
      * @param ids ArrayList<Integer> containing the id of every God the controller wants to create
      *            (God's id correspond to the God's number reported in the official rules)
      *
-     * @return
+     * @return an ArrayList<God> with all created gods
      */
     public ArrayList<God> getGods(ArrayList<Integer> ids){
         ArrayList<God> gods = new ArrayList<>();
@@ -124,10 +124,10 @@ public class GodsFactory {
     }
 
     /**
-     * This method decorates the God with all of its powers
+     * This method decorates the God with all of its power
      * @param powers is a Stack<Integer> with all the powers of a specific god
      * @param temp is the instance of Power decorated during each recursive step
-     * @return
+     * @return the decorated Power
      */
     private Power getPowers(Stack<Integer> powers, Power temp){
         if(powers.empty()){
@@ -206,8 +206,8 @@ public class GodsFactory {
 
     /**
      * This method creates the document object and parses 'godConfig.xml' file
-     * @return
-     * @throws Exception
+     * @return the parsed xml file
+     * @throws Exception error during xml parsing
      */
     private  Document getDocument() throws Exception
     {
@@ -221,9 +221,8 @@ public class GodsFactory {
      * This methods uses XPath expressions to find nodes in xml documents
      * @param xpathExpression is the expression that identifies the node in the document
      * @return a List<String> containing the strings that match the expression
-     * @throws Exception
      */
-    private  List<String> evaluateXPath( String xpathExpression) throws Exception {
+    private  List<String> evaluateXPath( String xpathExpression) {
         try {
             // Create XPathFactory object
             XPathFactory xpathFactory = XPathFactory.newInstance();
