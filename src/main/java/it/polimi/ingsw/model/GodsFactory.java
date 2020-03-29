@@ -10,19 +10,26 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.*;
 import java.util.*;
 
+/**
+ *
+ */
+
 public class GodsFactory {
 
     //attributes
-
-    ArrayList<God> gods;
-    Map<Integer,String> forAll;
+    Board gameBoard;
 
     //constructors
 
-    public GodsFactory(ArrayList<Integer> ids) {
-        gods = new ArrayList<>();
-        forAll = new HashMap<>();
+    public GodsFactory( Board gameBoard) {
+        this.gameBoard = gameBoard;
+    }
 
+    //methods
+
+    public ArrayList<God> getGods(ArrayList<Integer> ids){
+        ArrayList<God> gods = new ArrayList<>();
+        Map<Integer,String>  godsToDecorate = new HashMap<>();
         try{
             for (Integer currentGod : ids) {
                 Stack<Integer> powers_id = new Stack<>();
@@ -71,30 +78,27 @@ public class GodsFactory {
                 }
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BlockMoveUp/text()")).get(0).equals("true")){
                     powers_id.push(11);
-                    forAll.put(0,name);
+                    godsToDecorate.put(0,name);
                 }
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BuildUnderfoot/text()")).get(0).equals("true")){
                     powers_id.push(12);
                 }
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/NoWinPerimeter/text()")).get(0).equals("true")){
-                    forAll.put(13,name);
+                    godsToDecorate.put(13,name);
                 }
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/EndRemoveNeighbour/text()")).get(0).equals("true")){
                     powers_id.push(14);
                 }
 
-                gods.add(new God(name, description,getPowers(powers_id,new StandardPower(maxMoves,maxBuilds))));
+                gods.add(new God(name, description,getPowers(powers_id,new StandardPower(maxMoves,maxBuilds, gameBoard))));
             }
-            giveToAll();
+
+            decorateOtherGods(gods, godsToDecorate);
+
         }
         catch(Exception e){
-            System.out.println("exception");
+            System.out.println("Error during XML Parsing");
         }
-    }
-
-    //methods
-
-    public ArrayList<God> getGods(){
         return gods;
     }
 
@@ -154,7 +158,7 @@ public class GodsFactory {
         return temp;
     }
 
-    private void giveToAll(){
+    private void decorateOtherGods(ArrayList<God> gods, Map<Integer,String> forAll){
         if(!forAll.isEmpty()){
             for(Integer power: forAll.keySet())
                 for(God god: gods)

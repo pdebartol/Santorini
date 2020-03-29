@@ -21,9 +21,9 @@ public class Player {
     //constructors
 
     /**
-     * Class constructors which constructs a Player with a specified username and workers.
+     * Class constructors which constructs a Player with a specified username and two workers.
      * @param username the player username
-     * @param workers workers that player use to play
+     * @param workers the player's workers
      */
     public Player(String username, ArrayList<Worker> workers) {
         this.username = username;
@@ -50,14 +50,14 @@ public class Player {
 
     /**
      * This method allows to remove a Worker to the player's worker list.
-     * @param w is the worker who the methods have to remove
+     * @param w is the worker which the method removes
      */
     public void removeWorker(Worker w){
         workers.remove(w);
     }
 
     /**
-     * This method allows to control if the player is blocked (if the player can't move, he loses).
+     * This method checks if the player is blocked (if the player can't move, he loses)
      * @return true or false to indicate if at least one worker which player use can move in at least one square
      * compatible with rules or not
      */
@@ -78,7 +78,7 @@ public class Player {
 
     /**
      * This method holds all the logic behind a move. if the move is possible, it updates the model status. It also
-     * control if after the move, the player has won.
+     * controls if after the move, the player has won.
      * @param w is the worker who wants to move
      * @param s is the square where the worker wants to move
      * @return true or false to indicate if the move was done or not
