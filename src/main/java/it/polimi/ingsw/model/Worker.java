@@ -18,7 +18,7 @@ public class Worker {
     private Color color;
     private String gender;
     private Square lastSquareMove;
-    private Square lastSquareBuilt;
+    private Square lastSquareBuild;
     private Square currentSquare;
 
     //constructors
@@ -37,8 +37,8 @@ public class Worker {
         lastSquareMove = s;
     }
 
-    public void setLastSquareBuilt(Square s) {
-        lastSquareBuilt = s;
+    public void setLastSquareBuild(Square s) {
+        lastSquareBuild = s;
     }
 
     public void setCurrentSquare(Square s) {
@@ -61,8 +61,8 @@ public class Worker {
         return lastSquareMove;
     }
 
-    public Square getLastSquareBuilt() {
-        return lastSquareBuilt;
+    public Square getLastSquareBuild() {
+        return lastSquareBuild;
     }
 
     public void updateWorkerPosition(Square s) {

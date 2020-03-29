@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 /**
  * Square class represents a single box of the entire board/table
  * it is useful to have because of the possibility to have much more control over events of the game
- * such as the built of a dome, check if a single square is free or if is it possible built on that square
+ * such as the build of a dome, check if a single square is free or if is it possible build on that square
  * @author aledimaio
  */
 
@@ -16,7 +16,7 @@ public class Square {
      * there is a dome or not
      */
 
-    private int level = 0;
+    private int level;
     private boolean dome;
     private int xPosition;
     private int yPosition;
@@ -31,6 +31,8 @@ public class Square {
      */
 
     public Square(int xPosition, int yPosition){
+        this.level = 0;
+        this.dome = false;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
     }
@@ -44,6 +46,10 @@ public class Square {
 
     public void setWorker(Worker worker) {
         this.worker = worker;
+    }
+
+    public void setDome(boolean d) {
+        dome = d;
     }
 
     public void setXPosition(int xPosition) {
@@ -97,15 +103,11 @@ public class Square {
         return false;
     }
 
-    public boolean switchDome() {
-        return false;
-    }
-
     /**
      *The method above is a setter for Level attribute
      */
 
-    public boolean builtLevel() {
+    public boolean buildLevel() {
         return false;
     }
 

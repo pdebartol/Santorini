@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * The Board class represents Santorini's game board
+ * The Board class represents Santorini game board
  * @author aledimaio
  */
 
@@ -14,8 +14,8 @@ public class Board {
      */
 
     private boolean moveUp;
-    private int nMoves = 0;
-    private int nBuild = 0;
+    private int nMoves;
+    private int nBuild;
     private Square[][] table;
 
 
@@ -30,9 +30,9 @@ public class Board {
 
     public Board(boolean moveUp, int nMoves, int nBuild) {
 
-        this.moveUp = moveUp;
-        this.nMoves = nMoves;
-        this.nBuild = nBuild;
+        this.moveUp = true;
+        this.nMoves = 0;
+        this.nBuild = 0;
         for(int x = 0; x < 5 ; x++){
             for(int y = 0; y < 5 ; y++)
                 table[x][y] = new Square(x, y);
@@ -59,7 +59,9 @@ public class Board {
         return nBuild;
     }
 
-    public void clearBoard() {}
+    public Square getSquare(int x, int y){
+        return table[x][y];
+    }
 
     /**
      * the method resetCounters() set nMove and nBuild to its original state
@@ -69,11 +71,9 @@ public class Board {
 
     public void incNMoves() {}
 
-    public void incNBuilt() {}
+    public void incNBuild() {}
 
     public void startTurn() {}
 
-    public Square[][] getTable() {
-        return table;
-    }
+
 }
