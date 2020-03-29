@@ -43,6 +43,14 @@ public class Board {
         moveUp = mu;
     }
 
+    public void setNMoves(int nMoves) {
+        this.nMoves = nMoves;
+    }
+
+    public void setNBuild(int nBuild) {
+        this.nBuild = nBuild;
+    }
+
     public boolean getMoveUp() {
         return moveUp;
     }
@@ -63,11 +71,18 @@ public class Board {
      * the method resetCounters() set nMove and nBuild to its original state
      */
 
-    public void resetCounters() {}
+    public void resetCounters() {
+        this.setNMoves(0);
+        this.setNBuild(0);
+    }
 
-    public void incNMoves() {}
+    public void incNMoves() {
+        this.setNMoves(this.getNMoves()+1);
+    }
 
-    public void incNBuild() {}
+    public void incNBuild() {
+        this.setNBuild(getNBuild()+1);
+    }
 
     public void startTurn() {}
 

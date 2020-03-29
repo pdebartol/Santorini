@@ -60,6 +60,10 @@ public class Square {
         this.yPosition = yPosition;
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public int getXPosition() {
         return xPosition;
     }
@@ -84,14 +88,19 @@ public class Square {
      * The method remove the worker from current square
      */
 
-    public void removeWorker() {}
+    public void removeWorker() {
+        this.setWorker(null);
+    }
 
     /**
      * the method check if in the current square there are a worker or a dome
      */
 
     public boolean isFree() {
-        return false;
+        if(this.getDome() != true && this.getWorker() == null)
+            return true;
+        else
+            return false;
     }
 
     /**
@@ -100,15 +109,18 @@ public class Square {
      */
 
     public boolean isCompleteTower() {
-        return false;
+        if(this.getLevel()==3 && this.getDome() == true)
+            return true;
+        else
+            return false;
     }
 
     /**
-     *The method above is a setter for Level attribute
+     *The method above build over the square changing level attribute
      */
 
-    public boolean buildLevel() {
-        return false;
+    public void buildLevel() {
+            this.setLevel(this.getLevel()+1);
     }
 
 }
