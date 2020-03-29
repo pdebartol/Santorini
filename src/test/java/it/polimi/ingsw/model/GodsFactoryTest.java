@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GodFactoryTest {
+class GodsFactoryTest {
 
     @Test
     public void first_test(){
@@ -15,7 +15,7 @@ class GodFactoryTest {
          first_test.add(1);
          first_test.add(3);
          first_test.add(2);
-         GodFactory x = new GodFactory(first_test);
+         GodsFactory x = new GodsFactory(first_test);
         for (God elem : x.getGods()) {
             System.out.println(elem.getPower());
         }
