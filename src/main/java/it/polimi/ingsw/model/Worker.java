@@ -62,6 +62,11 @@ public class Worker {
         return lastSquareBuild;
     }
 
+    /**
+     * The method above update lastSquareMove parameter and change Square reference to worker
+     * @param s is the destination square
+     */
+
     public void updateWorkerPosition(Square s) {
         lastSquareMove = currentSquare;
         currentSquare = s;

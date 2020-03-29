@@ -55,6 +55,13 @@ public class Board {
         return nBuild;
     }
 
+    /**
+     * The method above is use to return a certain Square position
+     * @param x coordinates
+     * @param y coordinates
+     * @return return square in a certain position
+     */
+
     public Square getSquare(int x, int y){
         return table[x][y];
     }
@@ -68,13 +75,25 @@ public class Board {
         nBuild = 0;
     }
 
+    /**
+     * The method increase the move done
+     */
+
     public void incNMoves() {
         nMoves = nMoves + 1;
     }
 
+    /**
+     * the method increase the build done
+     */
+
     public void incNBuild() {
         nBuild = nBuild + 1;
     }
+
+    /**
+     * At the beginning of each turn this method reset counters
+     */
 
     public void startTurn() {
         resetCounters();
@@ -93,9 +112,7 @@ public class Board {
         int ydist = s1.getYPosition() - s2.getYPosition();
 
         if(xdist == 0 && ydist == 0) return false; //move on same square
-        if(xdist < -1 || xdist > 1 || ydist < -1 || ydist > 1) return false;
-
-        return true;
+        return xdist >= -1 && xdist <= 1 && ydist >= -1 && ydist <= 1;
     }
 
 
