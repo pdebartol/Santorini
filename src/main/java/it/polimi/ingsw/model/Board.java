@@ -22,20 +22,16 @@ public class Board {
     //constructors
 
     /**
-     * the constructor sets the board for the entire game and construct the table of square too
-     * @param moveUp
-     * @param nMoves maximum move allowed per player
-     * @param nBuild maximum build allowed per player
+     * the constructor builds the table for the entire game
      */
 
-    public Board(boolean moveUp, int nMoves, int nBuild) {
-
+    public Board() {
         this.moveUp = true;
-        this.nMoves = 0;
-        this.nBuild = 0;
+        this.table = new Square[5][5];
+
         for(int x = 0; x < 5 ; x++){
             for(int y = 0; y < 5 ; y++)
-                table[x][y] = new Square(x, y);
+                this.table[x][y] = new Square(x, y);
         }
 
     }

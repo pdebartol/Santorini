@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -8,6 +9,9 @@ import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GodsFactoryTest {
+    Board gameBoard;
+
+
 
     @Test
     public void first_test(){
@@ -15,8 +19,9 @@ class GodsFactoryTest {
          first_test.add(1);
          first_test.add(5);
          first_test.add(2);
-         GodsFactory x = new GodsFactory(first_test);
-        for (God elem : x.getGods()) {
+         Board board = new Board();
+         GodsFactory x = new GodsFactory(board);
+        for (God elem : x.getGods(first_test)) {
             System.out.println(elem.getPower());
         }
 

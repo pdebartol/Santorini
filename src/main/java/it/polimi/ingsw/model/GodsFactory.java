@@ -10,26 +10,47 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.*;
 import java.util.*;
 
-/**
- *
+/** This class is responsible for parsing the XML and creating the
+ * gods according to the rules in 'godConfig.xml'
  */
 
 public class GodsFactory {
 
     //attributes
     Board gameBoard;
-
+    Document document;
     //constructors
+
+    /**
+     * Class constructor
+     * @param gameBoard is the current Board object
+     */
 
     public GodsFactory( Board gameBoard) {
         this.gameBoard = gameBoard;
+        try{
+            this.document = this.getDocument();
+        }
+        catch (Exception e){
+            System.out.println("Error during XML parsing.");
+        }
     }
 
     //methods
 
+    /**
+     * This method returns an ArrayList<God> with all the Gods specified in the ids parameter.
+     * It parses 'godConfig.xml' creating an instance of each God as described in the file.
+     * In doing so, it uses a Stack<Integer> to save the God's powers and a Map<Integer,String>
+     * to save powers which need to be applied to others Gods
+     * @param ids ArrayList<Integer> containing the id of every God the controller wants to create
+     *            (God's id correspond to the God's number reported in the official rules)
+     *
+     * @return
+     */
     public ArrayList<God> getGods(ArrayList<Integer> ids){
         ArrayList<God> gods = new ArrayList<>();
-        Map<Integer,String>  godsToDecorate = new HashMap<>();
+        Map<Integer,String>  applyToAll = new HashMap<>();
         try{
             for (Integer currentGod : ids) {
                 Stack<Integer> powers_id = new Stack<>();
@@ -78,13 +99,13 @@ public class GodsFactory {
                 }
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BlockMoveUp/text()")).get(0).equals("true")){
                     powers_id.push(11);
-                    godsToDecorate.put(0,name);
+                    applyToAll.put(0,name);
                 }
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BuildUnderfoot/text()")).get(0).equals("true")){
                     powers_id.push(12);
                 }
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/NoWinPerimeter/text()")).get(0).equals("true")){
-                    godsToDecorate.put(13,name);
+                    applyToAll.put(13,name);
                 }
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/EndRemoveNeighbour/text()")).get(0).equals("true")){
                     powers_id.push(14);
@@ -93,7 +114,7 @@ public class GodsFactory {
                 gods.add(new God(name, description,getPowers(powers_id,new StandardPower(maxMoves,maxBuilds, gameBoard))));
             }
 
-            decorateOtherGods(gods, godsToDecorate);
+            decorateOtherGods(gods, applyToAll);
 
         }
         catch(Exception e){
@@ -102,6 +123,12 @@ public class GodsFactory {
         return gods;
     }
 
+    /**
+     * This method decorates the God with all of its powers
+     * @param powers is a Stack<Integer> with all the powers of a specific god
+     * @param temp is the instance of Power decorated during each recursive step
+     * @return
+     */
     private Power getPowers(Stack<Integer> powers, Power temp){
         if(powers.empty()){
             return temp;
@@ -158,11 +185,17 @@ public class GodsFactory {
         return temp;
     }
 
-    private void decorateOtherGods(ArrayList<God> gods, Map<Integer,String> forAll){
-        if(!forAll.isEmpty()){
-            for(Integer power: forAll.keySet())
+
+    /**
+     * This method is used when a God's power should be applied to all the others god present in the game
+     * @param gods contains all the gods created
+     * @param  applyToAll contains the god's name whose power should be applied to all the other
+     */
+    private void decorateOtherGods(ArrayList<God> gods, Map<Integer,String> applyToAll){
+        if(!applyToAll.isEmpty()){
+            for(Integer power: applyToAll.keySet())
                 for(God god: gods)
-                    if(!god.getName().equals(forAll.get(power))) {
+                    if(!god.getName().equals(applyToAll.get(power))) {
                         Stack<Integer> powers_id = new Stack<>();
                         powers_id.push(power);
                         god.setPower(getPowers(powers_id,god.getPower()));
@@ -170,6 +203,12 @@ public class GodsFactory {
         }
     }
 
+
+    /**
+     * This method creates the document object and parses 'godConfig.xml' file
+     * @return
+     * @throws Exception
+     */
     private  Document getDocument() throws Exception
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -178,10 +217,14 @@ public class GodsFactory {
         return builder.parse("godConfig.xml");
     }
 
+    /**
+     * This methods uses XPath expressions to find nodes in xml documents
+     * @param xpathExpression is the expression that identifies the node in the document
+     * @return a List<String> containing the strings that match the expression
+     * @throws Exception
+     */
     private  List<String> evaluateXPath( String xpathExpression) throws Exception {
         try {
-            Document document = this.getDocument();
-
             // Create XPathFactory object
             XPathFactory xpathFactory = XPathFactory.newInstance();
 
