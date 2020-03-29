@@ -38,6 +38,12 @@ public class StandardPower implements Power {
 
     //methods
 
+    /**
+     * This method implements checkMove (Power interface) with the standard game rules.
+     * @param w is the worker that wants to move
+     * @param s is the square where the worker wants to move
+     * @return true or false to indicate if the move is legit or not
+     */
     @Override
     public boolean checkMove(Worker w, Square s) {
 
@@ -45,44 +51,81 @@ public class StandardPower implements Power {
         if(board.getNBuild() > 0) return false;
 
         //Adjacent check
-        int xW = w.getCurrentSquare().getXPosition();
-        int yW = w.getCurrentSquare().getYPosition();
-        int x = s.getXPosition();
-        int y = s.getYPosition();
+        if(!board.isAdjacent(w.getCurrentSquare(),s)) return false;
 
-        if(xW == x && yW == y) return false;
+        //Level check
+        int climbHeight = s.getLevel() - w.getCurrentSquare().getLevel();
 
-        int xdist = xW - x;
-        int ydist = yW - y;
+        if(climbHeight > 1) return false;
+
+        //Occupation check
+        if(!s.isFree()) return false;
+
+        //Can't move on dome check
+
+        if(s.getDome()) return false;
 
         return true;
 
     }
 
+    /**
+     * This method implements checkBuild (Power interface) with the standard game rules.
+     * @param w is the worker that wants to build
+     * @param s is the square where the worker wants to build
+     * @return true or false to indicate if the build is legit or not
+     */
     @Override
     public boolean checkBuild(Worker w, Square s) {
-        return false;
+        //Can't move build before check
+        if(board.getNMoves() == 0) return false;
+
+        //Adjacent check
+        if(!board.isAdjacent(w.getCurrentSquare(),s)) return false;
+
+        //Dome check
+        if(s.getDome()) return false;
+
+        //Occupation check
+        if(!s.isFree()) return false;
+
+        return true;
     }
 
+    /**
+     * This method implements checkWin (Power interface) with the standard game rules.
+     * @return true or false to indicate if the player has won
+     */
     @Override
     public boolean checkWin() {
         return false;
     }
 
+    /**
+     * This method implements updateMove (Power interface) with the standard game rules.
+     * @param w is the worker that moves
+     * @param s is the square where the worker moves
+     */
     @Override
     public void updateMove(Worker w, Square s) {
 
     }
 
+    /**
+     * This method implements updateBuild (Power interface) with the standard game rules.
+     * @param w is the worker that builds
+     * @param s is the square where the worker moves
+     */
     @Override
     public void updateBuild(Worker w, Square s) {
 
     }
 
     /**
-     * This method allows to check if there are still moves or build available for the player who want to move or build.
-     * @param mode is 0 for move and 1 for build
-     * @return true or false depending on whether you still have moves or build available
+     * This method implements checkTurn in the Power interface with the standard game rules.
+     * @param mode 0 --> check if the player can move
+     *             1 --> check if the player can build
+     * @return true or false to indicate if  player can move or build
      */
     @Override
     public boolean checkTurn(int mode){
@@ -92,7 +135,10 @@ public class StandardPower implements Power {
             return board.getNBuild() < maxBuild;
     }
 
-
+    /**
+     * This method return the current board.
+     * @return the current instance of Board
+     */
     @Override
     public Board getBoard() {
         return board;
