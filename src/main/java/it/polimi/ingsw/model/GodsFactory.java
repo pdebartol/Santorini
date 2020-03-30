@@ -12,7 +12,7 @@ import java.util.*;
 
 /** This class is responsible for parsing the XML and creating the
  * gods according to the rules in 'godConfig.xml'
- * @author pierobartolo marcoDige
+ * @author pierobartolo & marcoDige
  */
 
 public class GodsFactory {
@@ -66,7 +66,6 @@ public class GodsFactory {
                 if (Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/CanMoveUp/text()")).get(0).equals("true") ){
                     powers_id.push(0);
                 }
-
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BuildBeforeMove/text()")).get(0).equals("true")){
                     powers_id.push(1);
                 }
@@ -103,7 +102,7 @@ public class GodsFactory {
                 }
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BlockMoveUp/text()")).get(0).equals("true")){
                     powers_id.push(11);
-                    if(powers_id.search(0) == -1) applyToAll.put(0,name);
+                    applyToAll.put(0,name);
                 }
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BuildUnderfoot/text()")).get(0).equals("true")){
                     powers_id.push(12);
@@ -199,7 +198,6 @@ public class GodsFactory {
         if(!applyToAll.isEmpty()){
             for(Integer power: applyToAll.keySet())
                 for(God god: gods)
-
                     if(!god.getName().equals(applyToAll.get(power))) {
                         Stack<Integer> powers_id = new Stack<>();
                         powers_id.push(power);

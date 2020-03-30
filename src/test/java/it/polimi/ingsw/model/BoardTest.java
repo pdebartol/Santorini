@@ -25,10 +25,10 @@ class BoardTest {
 
     @Test
     void getSquare() {
-        assertEquals(gameBoard.getSquare(1,1).getXPosition(),1);
-        assertEquals(gameBoard.getSquare(1,1).getYPosition(),1);
-        assertEquals(gameBoard.getSquare(4,4).getXPosition(),4);
-        assertEquals(gameBoard.getSquare(4,4).getXPosition(),4);
+        assertEquals(1,gameBoard.getSquare(1,1).getXPosition());
+        assertEquals(1,gameBoard.getSquare(1,1).getYPosition());
+        assertEquals(4,gameBoard.getSquare(4,4).getXPosition());
+        assertEquals(4,gameBoard.getSquare(4,4).getXPosition());
     }
 
     @Test
@@ -36,20 +36,20 @@ class BoardTest {
         gameBoard.incNMoves();
         gameBoard.incNBuild();
         gameBoard.resetCounters();
-        assertEquals(gameBoard.getNMoves(),0);
-        assertEquals(gameBoard.getNBuild(),0);
+        assertEquals(0,gameBoard.getNMoves());
+        assertEquals(0,gameBoard.getNBuild());
     }
 
     @Test
     void incNMoves() {
         gameBoard.incNMoves();
-        assertEquals(gameBoard.getNMoves(),1);
+        assertEquals(1,gameBoard.getNMoves());
     }
 
     @Test
     void incNBuild() {
         gameBoard.incNBuild();
-        assertEquals(gameBoard.getNBuild(),1);
+        assertEquals(1,gameBoard.getNBuild());
     }
 
     @Test
