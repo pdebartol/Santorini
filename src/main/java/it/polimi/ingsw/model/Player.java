@@ -42,8 +42,17 @@ public class Player {
         return username;
     }
 
-    public ArrayList<Worker> getWorkers(){
-        return workers;
+    /**
+     * This method is a getter that return only workers which are in game.
+     * @return workers which are in game
+     */
+    public ArrayList<Worker> getAvailableWorkers(){
+        ArrayList<Worker> temp = new ArrayList<>();
+        for(Worker w: workers){
+            if (w.getInGame()) temp.add(w);
+        }
+
+        return temp;
     }
 
     public God getGod() {
@@ -67,7 +76,7 @@ public class Player {
         for(int i = -1; i <= 1 ; i++)
             for(int j = -1; j <= 1; j++)
                 if(!(i == 0 && j == 0)) {
-                    for (Worker worker : workers) {
+                    for (Worker worker : getAvailableWorkers()) {
                         int x = worker.getCurrentSquare().getXPosition() + i;
                         int y = worker.getCurrentSquare().getYPosition() + j;
                         if (x >= 0 && x <= 4 && y >= 0 && y <= 4)

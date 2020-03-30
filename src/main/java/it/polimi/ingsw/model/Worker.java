@@ -37,6 +37,11 @@ public class Worker {
 
     private Square currentSquare;
 
+    /**
+     * inGame indicates if the worker is on the board or not
+     */
+    private boolean inGame;
+
     //constructors
 
     public Worker(Color color, String gender){
@@ -76,6 +81,28 @@ public class Worker {
 
     public Square getLastSquareBuild() {
         return lastSquareBuild;
+    }
+
+    public boolean getInGame(){
+        return inGame;
+    }
+
+    /**
+     * This method allows to set false inGame attribute (remove the worker from the game)
+     */
+
+    public void removeFromGame(){
+        inGame = false;
+    }
+
+    /**
+     * This method allows to position, during the startup step, the Worker on board
+     * @param s is the square where worker must start
+     */
+    public void setWorkerOnBoard(Square s){
+        inGame = true;
+        currentSquare = s;
+        s.setWorker(this);
     }
 
     /**
