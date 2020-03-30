@@ -103,7 +103,7 @@ public class GodsFactory {
                 }
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BlockMoveUp/text()")).get(0).equals("true")){
                     powers_id.push(11);
-                    applyToAll.put(0,name);
+                    if(powers_id.search(0) == -1) applyToAll.put(0,name);
                 }
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BuildUnderfoot/text()")).get(0).equals("true")){
                     powers_id.push(12);
