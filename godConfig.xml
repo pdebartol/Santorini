@@ -397,8 +397,7 @@
     <God>
         <id>30</id>
         <name>Zeus</name>
-        <description>Your Worker may build a block under itself.
-        </description>
+        <description>Your Worker may build a block under itself.</description>
         <maxMoves>1</maxMoves>
         <maxBuilds>1</maxBuilds>
         <CanMoveUp>false</CanMoveUp>

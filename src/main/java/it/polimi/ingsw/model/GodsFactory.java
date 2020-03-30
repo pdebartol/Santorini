@@ -199,6 +199,7 @@ public class GodsFactory {
         if(!applyToAll.isEmpty()){
             for(Integer power: applyToAll.keySet())
                 for(God god: gods)
+
                     if(!god.getName().equals(applyToAll.get(power))) {
                         Stack<Integer> powers_id = new Stack<>();
                         powers_id.push(power);

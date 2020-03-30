@@ -28,9 +28,6 @@ class GodsFactoryTest {
     }
 
 
-    //TODO check index out of bound for gods
-
-
     @Test
     public void Apollo_Athena_Hera() {
         god_ids.add(3);
@@ -91,7 +88,7 @@ class GodsFactoryTest {
         God Hera = Objects.requireNonNull(gods.get(1));
         God Atlas = Objects.requireNonNull(gods.get(2));
 
-        // Check Apollo
+        // Check Atlas
         assertEquals("Atlas", Atlas.getName());
         assertEquals("Your Worker may build a dome at any level including the ground.", Atlas.getDescription());
         assertEquals(NoWinPerimeter.class, Atlas.getPower().getClass());
@@ -305,6 +302,31 @@ class GodsFactoryTest {
         checkAthenaAndHera(Athena,Hera);
 
     }
+
+    @Test
+    public void Zeus_Athena_Hera() {
+        god_ids.add(3);
+        god_ids.add(20);
+        god_ids.add(30);
+        ArrayList<God> gods = factory.getGods(god_ids);
+        God Athena = Objects.requireNonNull(gods.get(0));
+        God Hera = Objects.requireNonNull(gods.get(1));
+        God Zeus = Objects.requireNonNull(gods.get(2));
+
+        // Check Apollo
+        assertEquals("Zeus", Zeus.getName());
+        assertEquals("Your Worker may build a block under itself.", Zeus.getDescription());
+        assertEquals( NoWinPerimeter.class, Zeus.getPower().getClass());
+        assertEquals(CanMoveUp.class, ((PowerDecorator) Zeus.getPower()).decoratedPower.getClass());
+        assertEquals( BuildUnderfoot.class, ((PowerDecorator) ((PowerDecorator) Zeus.getPower()).decoratedPower).decoratedPower.getClass());
+        assertEquals(1,((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Zeus.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxMoves());
+        assertEquals(1,((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Zeus.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxBuild());
+
+        // Check Athena and Hera
+        checkAthenaAndHera(Athena,Hera);
+
+    }
+
 
     public void checkAthenaAndHera(God Athena, God Hera) {
 
