@@ -46,14 +46,6 @@ public class Square {
         this.dome = d;
     }
 
-    public void setXPosition(int xPosition) {
-        this.xPosition = xPosition;
-    }
-
-    public void setYPosition(int yPosition) {
-        this.yPosition = yPosition;
-    }
-
     public int getXPosition() {
         return xPosition;
     }

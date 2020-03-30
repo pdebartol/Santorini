@@ -66,9 +66,7 @@ public class StandardPower implements Power {
 
         //Can't move on dome check
 
-        if(s.getDome()) return false;
-
-        return true;
+        return !s.getDome();
 
     }
 
@@ -91,9 +89,7 @@ public class StandardPower implements Power {
         if(s.getDome()) return false;
 
         //Occupation check
-        if(s.isFree()) return false;
-
-        return true;
+        return !s.isFree();
     }
 
     /**

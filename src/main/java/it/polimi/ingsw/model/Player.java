@@ -21,7 +21,7 @@ public class Player {
     //constructors
 
     /**
-     * Class constructors which constructs a Player with a specified username and two workers.
+     * Class constructors which constructs a Player with a specified username and a color for his workers.
      * @param username is the player username
      * @param color is the player's workers color
      */
