@@ -59,6 +59,7 @@ class BoardTest {
 
     @Test
     void isAdjacent() {
+
         //two Square adjacent
         assertEquals(true, gameBoard.isAdjacent(gameBoard.getSquare(1, 1), gameBoard.getSquare(1, 2)));
         //same Square
