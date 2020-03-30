@@ -93,6 +93,9 @@ public class Worker {
 
     public void removeFromGame(){
         inGame = false;
+        currentSquare = null;
+        lastSquareMove = null;
+        lastSquareBuild = null;
     }
 
     /**
