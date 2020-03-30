@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 /**
  * Worker represents a pawn that player uses to play.
  * color and gender can't be changed once worker has been created.
- * @author aledimaio
+ * @author aledimaio & marcoDige
  */
 
 public class Worker {
