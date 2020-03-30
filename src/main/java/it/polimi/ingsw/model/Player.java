@@ -22,12 +22,14 @@ public class Player {
 
     /**
      * Class constructors which constructs a Player with a specified username and two workers.
-     * @param username the player username
-     * @param workers the player's workers
+     * @param username is the player username
+     * @param color is the player's workers color
      */
-    public Player(String username, ArrayList<Worker> workers) {
+    public Player(String username, Color color) {
         this.username = username;
-        this.workers = workers;
+        this.workers = new ArrayList<>();
+        this.workers.add(new Worker(color,"male"));
+        this.workers.add(new Worker(color, "female"));
     }
 
     //methods
