@@ -27,7 +27,7 @@ class SquareTest {
     @Test
     void setWorker() {
         worker = new Worker(Color.GREY, "female");
-        assertEquals(null,gameBoard.getSquare(1,1).getWorker());
+        assertNull(gameBoard.getSquare(1, 1).getWorker());
         gameBoard.getSquare(1,1).setWorker(worker);
         assertEquals(worker, gameBoard.getSquare(1,1).getWorker());
     }
@@ -37,7 +37,7 @@ class SquareTest {
         worker = new Worker(Color.GREY, "female");
         gameBoard.getSquare(1,1).setWorker(worker);
         gameBoard.getSquare(1,1).removeWorker();
-        assertEquals(null, gameBoard.getSquare(1,1).getWorker());
+        assertNull(gameBoard.getSquare(1, 1).getWorker());
     }
 
     @Test

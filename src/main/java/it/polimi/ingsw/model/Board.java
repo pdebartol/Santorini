@@ -91,14 +91,6 @@ public class Board {
     }
 
     /**
-     * This method initialize the board for a new turn.
-     */
-
-    public void startTurn() {
-        resetCounters();
-    }
-
-    /**
      * This method control if 2 squares are adjacent.
      * @param s1 is the first square
      * @param s2 is the second square
