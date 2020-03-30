@@ -39,7 +39,8 @@ public class Square {
     //methods
 
     public void setWorker(Worker worker) {
-        this.worker = worker;
+        if(this.worker == null)
+            this.worker = worker;
     }
 
     public void setDome(boolean d) {
