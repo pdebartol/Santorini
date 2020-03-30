@@ -20,10 +20,20 @@ public class ExtraMove extends PowerDecorator {
         this.notPerimeter = np;
     }
 
+
+
     //methods
 
     @Override
     public boolean checkMove(Worker w, Square s) {
         return super.checkMove(w, s);
+    }
+
+    public boolean isNotMoveBack() {
+        return notMoveBack;
+    }
+
+    public boolean isNotPerimeter() {
+        return notPerimeter;
     }
 }

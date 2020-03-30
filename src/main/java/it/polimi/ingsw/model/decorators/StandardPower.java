@@ -20,8 +20,8 @@ public class StandardPower implements Power {
      * maxBuild represents the maximum number of build that a player can build in one turn using a specific god who has this power
      */
 
-    protected Integer maxMoves;
-    protected Integer maxBuild;
+    private Integer maxMoves;
+    private Integer maxBuild;
     private Board board;
 
     //constructors
@@ -36,6 +36,14 @@ public class StandardPower implements Power {
         this.maxMoves = maxMoves;
         this.maxBuild = maxBuild;
         this.board = board;
+    }
+
+    public Integer getMaxMoves(){
+        return maxMoves;
+    }
+
+    public Integer getMaxBuild(){
+        return maxBuild;
     }
 
     //methods

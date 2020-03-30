@@ -248,7 +248,7 @@ public class GodsFactory {
 
         } catch (XPathExpressionException e) {
             e.printStackTrace();
-             return null;
+            return null;
         }
     }
 

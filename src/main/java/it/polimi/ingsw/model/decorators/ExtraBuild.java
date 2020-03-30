@@ -22,10 +22,23 @@ public class ExtraBuild extends PowerDecorator {
         this.notPerimeter = np;
     }
 
+
     //methods
 
     @Override
     public boolean checkBuild(Worker w, Square s) {
         return super.checkBuild(w, s);
+    }
+
+    public boolean isOnlySameSpace() {
+        return onlySameSpace;
+    }
+
+    public boolean isNotSameSpace() {
+        return notSameSpace;
+    }
+
+    public boolean isNotPerimeter() {
+        return notPerimeter;
     }
 }
