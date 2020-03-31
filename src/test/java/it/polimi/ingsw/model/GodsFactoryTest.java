@@ -218,9 +218,9 @@ class GodsFactoryTest {
         assertEquals("If your Worker does not move up, it may build both before and after moving.", Prometheus.getDescription());
         assertEquals(NoWinPerimeter.class, Prometheus.getPower().getClass());
         assertEquals( CanMoveUp.class, ((PowerDecorator) Prometheus.getPower()).decoratedPower.getClass());
-        assertEquals(StandardPower.class, ((PowerDecorator) ((PowerDecorator) Prometheus.getPower()).decoratedPower).decoratedPower.getClass());
+        assertEquals(BuildBeforeMove.class, ((PowerDecorator) ((PowerDecorator) Prometheus.getPower()).decoratedPower).decoratedPower.getClass());
         assertEquals(1, ((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Prometheus.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxMoves());
-        assertEquals(1, ((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Prometheus.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxBuild());
+        assertEquals(2, ((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Prometheus.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxBuild());
 
         // Check Athena and Hera
         checkAthenaAndHera(Athena,Hera);
