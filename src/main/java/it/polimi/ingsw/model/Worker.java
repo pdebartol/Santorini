@@ -116,6 +116,7 @@ public class Worker {
     public void updateWorkerPosition(Square s) {
         lastSquareMove = currentSquare;
         currentSquare = s;
+        s.setWorker(this);
     }
 
 }

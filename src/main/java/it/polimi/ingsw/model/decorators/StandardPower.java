@@ -118,7 +118,7 @@ public class StandardPower implements Power {
 
     @Override
     public void updateMove(Worker w, Square s) {
-        s.setWorker(w);
+        s.removeWorker();
         w.updateWorkerPosition(s);
     }
 
