@@ -39,7 +39,7 @@ public class Square {
     //methods
 
     public void setWorker(Worker worker) {
-        if(this.worker == null)
+        if(this.isFree())
             this.worker = worker;
     }
 
@@ -79,7 +79,7 @@ public class Square {
     }
 
     /**
-     * the method check if the Square is free by workers.
+     * This method checks if the Square is not occupied by a worker.
      */
 
     public boolean isFree() {
@@ -87,7 +87,7 @@ public class Square {
     }
 
     /**
-     * the method check if in the square there is a complete tower (the level is 3 and there is a dome).
+     * This method checks if in the square there is a complete tower (the level is 3 and there is a dome).
      */
 
     public boolean isCompleteTower() {
@@ -95,7 +95,7 @@ public class Square {
     }
 
     /**
-     *The method allows to build over the square (increment the level)
+     * This method allows to build on the square (increment the level)
      */
 
     public void buildLevel() {

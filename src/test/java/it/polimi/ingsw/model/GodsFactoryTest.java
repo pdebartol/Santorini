@@ -112,7 +112,7 @@ class GodsFactoryTest {
         God Hera = Objects.requireNonNull(gods.get(1));
         God Demeter = Objects.requireNonNull(gods.get(2));
 
-        // Check Apollo
+        // Check Demeter
         assertEquals("Demeter", Demeter.getName());
         assertEquals("Your Worker may build one additional time, but not on the same space.", Demeter.getDescription());
         assertEquals(NoWinPerimeter.class, Demeter.getPower().getClass());
@@ -139,7 +139,7 @@ class GodsFactoryTest {
         God Hera = Objects.requireNonNull(gods.get(1));
         God Hephaestus = Objects.requireNonNull(gods.get(2));
 
-        // Check Apollo
+        // Check Hephaestus
         assertEquals("Hephaestus", Hephaestus.getName());
         assertEquals("Your Worker may build one additional block (not dome) on top of your first block.", Hephaestus.getDescription());
         assertEquals(NoWinPerimeter.class, Hephaestus.getPower().getClass());
@@ -166,7 +166,7 @@ class GodsFactoryTest {
         God Hera = Objects.requireNonNull(gods.get(1));
         God Minotaur = Objects.requireNonNull(gods.get(2));
 
-        // Check Apollo
+        // Check Minotaur
         assertEquals("Minotaur", Minotaur.getName());
         assertEquals("Your Worker may move into an opponent Worker's space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.", Minotaur.getDescription());
         assertEquals(NoWinPerimeter.class, Minotaur.getPower().getClass());
@@ -190,7 +190,7 @@ class GodsFactoryTest {
         God Hera = Objects.requireNonNull(gods.get(1));
         God Pan = Objects.requireNonNull(gods.get(2));
 
-        // Check Apollo
+        // Check Pan
         assertEquals("Pan", Pan.getName());
         assertEquals("You also win if your Worker moves down two or more levels.", Pan.getDescription());
         assertEquals(Pan.getPower().getClass(), NoWinPerimeter.class);
@@ -213,7 +213,7 @@ class GodsFactoryTest {
         God Hera = Objects.requireNonNull(gods.get(1));
         God Prometheus = Objects.requireNonNull(gods.get(2));
 
-        // Check Apollo
+        // Check Prometheus
         assertEquals("Prometheus", Prometheus.getName());
         assertEquals("If your Worker does not move up, it may build both before and after moving.", Prometheus.getDescription());
         assertEquals(NoWinPerimeter.class, Prometheus.getPower().getClass());
@@ -236,7 +236,7 @@ class GodsFactoryTest {
         God Hera = Objects.requireNonNull(gods.get(1));
         God Hestia = Objects.requireNonNull(gods.get(2));
 
-        // Check Apollo
+        // Check Hestia
         assertEquals("Hestia", Hestia.getName());
         assertEquals("Your Worker may build one additional time, but this cannot be on a perimeter space.", Hestia.getDescription());
         assertEquals(NoWinPerimeter.class, Hestia.getPower().getClass());
@@ -263,7 +263,7 @@ class GodsFactoryTest {
         God Hera = Objects.requireNonNull(gods.get(1));
         God Medusa = Objects.requireNonNull(gods.get(2));
 
-        // Check Apollo
+        // Check Medusa
         assertEquals("Medusa", Medusa.getName());
         assertEquals("If possible, your Workers build in lower neighboring spaces that are occupied by opponent Workers, removing the opponent Workers from the game.", Medusa.getDescription());
         assertEquals(Medusa.getPower().getClass(), NoWinPerimeter.class);
@@ -287,7 +287,7 @@ class GodsFactoryTest {
         God Hera = Objects.requireNonNull(gods.get(1));
         God Triton = Objects.requireNonNull(gods.get(2));
 
-        // Check Artemis
+        // Check Triton
         assertEquals("Triton", Triton.getName());
         assertEquals("Each time your Worker moves into a perimeter space, it may immediately move again.", Triton.getDescription());
         assertEquals(NoWinPerimeter.class,Triton.getPower().getClass());
@@ -313,7 +313,7 @@ class GodsFactoryTest {
         God Hera = Objects.requireNonNull(gods.get(1));
         God Zeus = Objects.requireNonNull(gods.get(2));
 
-        // Check Apollo
+        // Check Zeus
         assertEquals("Zeus", Zeus.getName());
         assertEquals("Your Worker may build a block under itself.", Zeus.getDescription());
         assertEquals( NoWinPerimeter.class, Zeus.getPower().getClass());

@@ -40,37 +40,36 @@ class BoardTest {
     }
 
 
-
     @Test
     void resetCounters() {
         //  NMoves = 1 NBuild = 1 and then check reset
         gameBoard.incNMoves();
-        assertEquals(1,gameBoard.getNMoves());
+        assertEquals(1, gameBoard.getNMoves());
         gameBoard.incNBuild();
-        assertEquals(1,gameBoard.getNBuild());
+        assertEquals(1, gameBoard.getNBuild());
         gameBoard.resetCounters();
-        assertEquals(0,gameBoard.getNMoves());
-        assertEquals(0,gameBoard.getNBuild());
+        assertEquals(0, gameBoard.getNMoves());
+        assertEquals(0, gameBoard.getNBuild());
 
         // NMoves = 3 NBuild = 0 and then check reset
         gameBoard.incNMoves();
         gameBoard.incNMoves();
         gameBoard.incNMoves();
-        assertEquals(3,gameBoard.getNMoves());
-        assertEquals(0,gameBoard.getNBuild());
+        assertEquals(3, gameBoard.getNMoves());
+        assertEquals(0, gameBoard.getNBuild());
         gameBoard.resetCounters();
-        assertEquals(0,gameBoard.getNMoves());
-        assertEquals(0,gameBoard.getNBuild());
+        assertEquals(0, gameBoard.getNMoves());
+        assertEquals(0, gameBoard.getNBuild());
 
         // NMoves = 0 NBuild ) 3 and then check reset
         gameBoard.incNBuild();
         gameBoard.incNBuild();
         gameBoard.incNBuild();
-        assertEquals(0,gameBoard.getNMoves());
-        assertEquals(3,gameBoard.getNBuild());
+        assertEquals(0, gameBoard.getNMoves());
+        assertEquals(3, gameBoard.getNBuild());
         gameBoard.resetCounters();
-        assertEquals(0,gameBoard.getNMoves());
-        assertEquals(0,gameBoard.getNBuild());
+        assertEquals(0, gameBoard.getNMoves());
+        assertEquals(0, gameBoard.getNBuild());
     }
 
 

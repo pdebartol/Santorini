@@ -27,9 +27,9 @@ class SquareTest {
     @Test
     void setWorker() {
         worker = new Worker(Color.GREY, "female");
-        assertNull(gameBoard.getSquare(1, 1).getWorker());
-        gameBoard.getSquare(1,1).setWorker(worker);
-        assertEquals(gameBoard.getSquare(1,1).getWorker(), worker);
+        assertNull(gameBoard.getSquare(0, 0).getWorker());
+        gameBoard.getSquare(0,0).setWorker(worker);
+        assertEquals(gameBoard.getSquare(0,0).getWorker(), worker);
     }
 
     @Test
@@ -49,22 +49,14 @@ class SquareTest {
     }
 
     @Test
-    void isCompleteTower() {
+    void buildLevelAndIsCompleteTower() {
         for (int i = 0; i < 4; i++) {
-            assertEquals(false, gameBoard.getSquare(1, 1).isCompleteTower());
-            gameBoard.getSquare(1, 1).buildLevel();
+            assertEquals(false, gameBoard.getSquare(4,4 ).isCompleteTower());
+            assertEquals(i, gameBoard.getSquare(4, 4).getLevel());
+            gameBoard.getSquare(4, 4).buildLevel();
         }
-        assertEquals(true, gameBoard.getSquare(1,1).isCompleteTower());
+        assertEquals(true, gameBoard.getSquare(4,4).isCompleteTower());
     }
 
-    @Test
-    void buildLevel() {
-        for(int i = 0; i < 3 ; i++) {
-            gameBoard.getSquare(1, 1).buildLevel();
-            assertEquals(i + 1, gameBoard.getSquare(1, 1).getLevel());
-        }
-        gameBoard.getSquare(1,1).buildLevel();
-        assertEquals(true, gameBoard.getSquare(1,1).isCompleteTower());
-    }
 
 }
