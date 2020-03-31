@@ -23,9 +23,12 @@ class WorkerTest {
 
     @Test
     void removeFromGame() {
-        worker.setWorkerOnBoard(gameBoard.getSquare(1,1));
+        worker.setWorkerOnBoard(gameBoard.getSquare(4,4));
         worker.removeFromGame();
-        assertEquals(null, worker.getCurrentSquare());
+        assertNull(worker.getCurrentSquare());
+        assertEquals(false, worker.getInGame());
+        assertNull(worker.getLastSquareMove());
+        assertNull(worker.getLastSquareBuild());
     }
 
     @Test
@@ -37,9 +40,9 @@ class WorkerTest {
 
     @Test
     void updateWorkerPosition() {
-        worker.setWorkerOnBoard(gameBoard.getSquare(1,1));
-        worker.updateWorkerPosition(gameBoard.getSquare(1,2));
-        assertEquals(worker.getLastSquareMove(), gameBoard.getSquare(1,1));
-        assertEquals(worker.getCurrentSquare(), gameBoard.getSquare(1,2));
+        worker.setWorkerOnBoard(gameBoard.getSquare(2,1));
+        worker.updateWorkerPosition(gameBoard.getSquare(2,2));
+        assertEquals(worker.getLastSquareMove(), gameBoard.getSquare(2,1));
+        assertEquals(worker.getCurrentSquare(), gameBoard.getSquare(2,2));
     }
 }
