@@ -102,9 +102,8 @@ public class Board {
         int xdist = s1.getXPosition() - s2.getXPosition();
         int ydist = s1.getYPosition() - s2.getYPosition();
 
-        if(xdist == 0 && ydist == 0) return false; //move on same square
+        if(xdist == 0 && ydist == 0) return false; // Same square
         return xdist >= -1 && xdist <= 1 && ydist >= -1 && ydist <= 1;
     }
-
 
 }
