@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model;
 
-public class God {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class God  {
 
     //attributes
 
@@ -33,4 +36,5 @@ public class God {
     public Power getPower() {
         return power;
     }
+
 }

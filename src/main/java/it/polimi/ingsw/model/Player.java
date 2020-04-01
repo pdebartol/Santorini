@@ -1,14 +1,16 @@
 package it.polimi.ingsw.model;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-
+import java.util.Objects;
 /**
  * Player represents a player who is currently playing in the match.
  * Username can't be changed once player has been created.
  * @author marcoDige
  */
 
-public class Player {
+public class Player implements PropertyChangeListener {
 
     //attributes
 
@@ -33,13 +35,15 @@ public class Player {
         this.workers = new ArrayList<>();
         this.workers.add(new Worker(color,"male"));
         this.workers.add(new Worker(color, "female"));
+
+        // Player observes workers
+        Objects.requireNonNull(workers.get(0)).addPropertyChangeListener(this);
+        Objects.requireNonNull(workers.get(1)).addPropertyChangeListener(this);
     }
 
     //methods
 
-    public void setGod(God g){
-        this.god = g;
-    }
+    public void setGod(God g){ this.god = g; }
 
     public String getUsername(){
         return username;
@@ -51,12 +55,7 @@ public class Player {
      */
 
     public ArrayList<Worker> getAvailableWorkers(){
-        ArrayList<Worker> temp = new ArrayList<>();
-        for(Worker w: workers){
-            if (w.getInGame()) temp.add(w);
-        }
-
-        return temp;
+        return workers;
     }
 
     public God getGod() {
@@ -124,7 +123,7 @@ public class Player {
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
         if(s == null) throw new IllegalArgumentException("Null square as argument!");
         Power power = god.getPower();
-        if(w.getInGame() && power.checkTurn(0) && power.checkMove(w,s)){
+        if(power.checkTurn(0) && power.checkMove(w,s)){
             power.updateMove(w,s);
             //TODO: notify if Player win after control with winCheck()
             return true;
@@ -143,10 +142,26 @@ public class Player {
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
         if(s == null) throw new IllegalArgumentException("Null square as argument!");
         Power power = god.getPower();
-        if(w.getInGame() && power.checkTurn(1) && power.checkBuild(w,s)){
+        if( power.checkTurn(1) && power.checkBuild(w,s)){
             power.updateBuild(w,s);
             return true;
         }
         return false;
+    }
+
+
+    /**
+     * This method is called when a specific events occurs in the Worker Class.
+     * It handles the events correctly.
+     * @param evt the event occurred.
+     */
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getPropertyName().equals("worker_removal")){
+            Worker w = (Worker) evt.getOldValue();
+            workers.remove(w);
+            w.removePropertyChangeListener(this);
+        }
     }
 }

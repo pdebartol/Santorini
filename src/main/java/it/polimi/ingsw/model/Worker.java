@@ -1,20 +1,20 @@
 package it.polimi.ingsw.model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 /**
  * Worker represents a pawn that player uses to play.
  * color and gender can't be changed once worker has been created.
  * @author aledimaio & marcoDige
  */
 
-public class Worker {
+public class Worker  {
 
     //attributes
 
-    /**
-     * currentSquare represents the square where the worker is currently localized
-     * lastSquareMove represents the square where the worker was localized before being moved
-     * lastSquareBuild represents the square where the worker last built
-     */
+    private PropertyChangeSupport support;
+
 
     private Color color;
     private String gender;
@@ -37,19 +37,26 @@ public class Worker {
 
     private Square currentSquare;
 
-    /**
-     * inGame indicates if the worker is on the board or not
-     */
-    private boolean inGame;
 
     //constructors
 
     public Worker(Color color, String gender){
         this.color = color;
         this.gender = gender;
+        this.support = new PropertyChangeSupport(this);
     }
 
     //methods
+
+
+
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
+    }
 
     public void setColor(Color c) {
         color = c;
@@ -79,9 +86,6 @@ public class Worker {
         return lastSquareBuild;
     }
 
-    public boolean getInGame(){
-        return inGame;
-    }
 
     public void setLastSquareBuild(Square s) {
         if( s == null) throw new IllegalArgumentException("Null square as argument!");
@@ -93,10 +97,10 @@ public class Worker {
      */
 
     public void removeFromGame(){
-        inGame = false;
         currentSquare = null;
         lastSquareMove = null;
         lastSquareBuild = null;
+        support.firePropertyChange("worker_removal", this,null); // notifies player of the removal
     }
 
     /**
@@ -105,7 +109,6 @@ public class Worker {
      */
     public void setWorkerOnBoard(Square s){
         if( s == null) throw new IllegalArgumentException("Null square as argument!");
-        inGame = true;
         currentSquare = s;
         s.setWorker(this);
     }
