@@ -49,26 +49,12 @@ public class Player implements PropertyChangeListener {
         return username;
     }
 
-    /**
-     * This method is a getter that return only workers which are in game.
-     * @return workers which are in game
-     */
-
-    public ArrayList<Worker> getAvailableWorkers(){
+    public ArrayList<Worker> getWorkers(){
         return workers;
     }
 
     public God getGod() {
         return god;
-    }
-
-    /**
-     * This method allows to remove a Worker to the player's worker list.
-     * @param w is the worker which the method removes
-     */
-
-    public void removeWorker(Worker w){
-        workers.remove(w);
     }
 
     /**
@@ -80,7 +66,7 @@ public class Player implements PropertyChangeListener {
     public boolean canMove(){
         for(int i = -1; i <= 1 ; i++)
             for(int j = -1; j <= 1; j++){
-                    for (Worker worker : getAvailableWorkers()) {
+                    for (Worker worker : workers) {
                         int x = worker.getCurrentSquare().getXPosition() + i;
                         int y = worker.getCurrentSquare().getYPosition() + j;
                         if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
@@ -100,7 +86,7 @@ public class Player implements PropertyChangeListener {
     public boolean canBuild(){
         for(int i = -1; i <= 1 ; i++)
             for(int j = -1; j <= 1; j++){
-                    for (Worker worker : getAvailableWorkers()) {
+                    for (Worker worker : workers) {
                         int x = worker.getCurrentSquare().getXPosition() + i;
                         int y = worker.getCurrentSquare().getYPosition() + j;
                         if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
@@ -152,7 +138,7 @@ public class Player implements PropertyChangeListener {
 
     /**
      * This method is called when a specific events occurs in the Worker Class.
-     * It handles the events correctly.
+     * It handles the events correctly. In this class it is used for remove a worker when it has been removed from Game.
      * @param evt the event occurred.
      */
 

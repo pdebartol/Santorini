@@ -120,6 +120,7 @@ public class StandardPower implements Power {
     public void updateMove(Worker w, Square s) {
         s.removeWorker();
         w.updateWorkerPosition(s);
+        board.incNMoves();
     }
 
     /**
@@ -132,6 +133,7 @@ public class StandardPower implements Power {
     public void updateBuild(Worker w, Square s) {
         s.buildLevel();
         w.setLastSquareBuild(s);
+        board.incNBuild();
     }
 
     /**
