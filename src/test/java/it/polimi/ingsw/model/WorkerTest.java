@@ -33,6 +33,10 @@ class WorkerTest {
 
     @Test
     void setWorkerOnBoard() {
+        // Check invalid argument exception
+        assertThrows(IllegalArgumentException.class, () -> worker.setWorkerOnBoard(null));
+
+        // Check normal functioning
         worker.setWorkerOnBoard(gameBoard.getSquare(1,1));
         assertEquals(true, worker.getInGame());
         assertEquals(worker, gameBoard.getSquare(1,1).getWorker());
@@ -41,6 +45,10 @@ class WorkerTest {
 
     @Test
     void updateWorkerPosition() {
+        // Check invalid argument exception
+        assertThrows(IllegalArgumentException.class, () -> worker.updateWorkerPosition(null));
+
+        // Check normal functioning
         worker.setWorkerOnBoard(gameBoard.getSquare(2,1));
         assertEquals(worker,gameBoard.getSquare(2,1).getWorker());
         assertEquals(worker.getCurrentSquare(),gameBoard.getSquare(2,1));

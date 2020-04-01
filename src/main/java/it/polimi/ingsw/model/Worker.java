@@ -59,10 +59,6 @@ public class Worker {
         gender = g;
     }
 
-    public void setLastSquareBuild(Square s) {
-        lastSquareBuild = s;
-    }
-
     public Square getCurrentSquare() {
         return currentSquare;
     }
@@ -87,6 +83,11 @@ public class Worker {
         return inGame;
     }
 
+    public void setLastSquareBuild(Square s) {
+        if( s == null) throw new IllegalArgumentException("Null square as argument!");
+        lastSquareBuild = s;
+    }
+
     /**
      * This method allows to set false inGame attribute (remove the worker from the game)
      */
@@ -103,6 +104,7 @@ public class Worker {
      * @param s is the square where worker must start
      */
     public void setWorkerOnBoard(Square s){
+        if( s == null) throw new IllegalArgumentException("Null square as argument!");
         inGame = true;
         currentSquare = s;
         s.setWorker(this);
@@ -114,6 +116,7 @@ public class Worker {
      */
 
     public void updateWorkerPosition(Square s) {
+        if( s == null) throw new IllegalArgumentException("Null square as argument!");
         lastSquareMove = currentSquare;
         currentSquare = s;
         s.setWorker(this);

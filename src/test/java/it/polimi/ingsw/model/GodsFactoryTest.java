@@ -29,6 +29,13 @@ class GodsFactoryTest {
 
 
     @Test
+    public void CheckIllegalArguments(){
+        assertThrows(IllegalArgumentException.class, () -> factory.getGods(null));
+        assertThrows(IllegalArgumentException.class, () -> factory.getGods(god_ids));
+
+    }
+
+    @Test
     public void Apollo_Athena_Hera() {
         god_ids.add(3);
         god_ids.add(20);

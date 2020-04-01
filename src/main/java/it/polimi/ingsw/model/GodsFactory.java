@@ -53,6 +53,7 @@ public class GodsFactory {
      * @return an ArrayList<God> with all created gods
      */
     public ArrayList<God> getGods(ArrayList<Integer> ids){
+        if(ids == null || ids.isEmpty()) throw new IllegalArgumentException("No ids given!");
         ArrayList<God> gods = new ArrayList<>();
         Map<Integer,String>  applyToAll = new HashMap<>();
         try{

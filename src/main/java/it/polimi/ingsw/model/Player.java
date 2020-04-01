@@ -121,6 +121,8 @@ public class Player {
      */
 
     public boolean move(Worker w, Square s){
+        if(w == null) throw new IllegalArgumentException("Null worker as argument!");
+        if(s == null) throw new IllegalArgumentException("Null square as argument!");
         Power power = god.getPower();
         if(w.getInGame() && power.checkTurn(0) && power.checkMove(w,s)){
             power.updateMove(w,s);
@@ -138,6 +140,8 @@ public class Player {
      */
 
     public boolean build(Worker w, Square s){
+        if(w == null) throw new IllegalArgumentException("Null worker as argument!");
+        if(s == null) throw new IllegalArgumentException("Null square as argument!");
         Power power = god.getPower();
         if(w.getInGame() && power.checkTurn(1) && power.checkBuild(w,s)){
             power.updateBuild(w,s);

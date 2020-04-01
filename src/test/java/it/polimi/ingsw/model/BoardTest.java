@@ -77,6 +77,9 @@ class BoardTest {
     @Test
     void isAdjacent() {
 
+        // Invalid argument
+        assertThrows(IllegalArgumentException.class, () -> gameBoard.isAdjacent(null,null));
+
         // Two adjacent squares
         assertEquals(true, gameBoard.isAdjacent(gameBoard.getSquare(1, 1), gameBoard.getSquare(1, 2)));
         assertEquals(true, gameBoard.isAdjacent(gameBoard.getSquare(0, 0), gameBoard.getSquare(0, 1)));

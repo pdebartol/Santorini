@@ -99,6 +99,7 @@ public class Board {
      */
 
     public boolean isAdjacent(Square s1, Square s2){
+        if( s1 == null || s2 == null) throw new IllegalArgumentException("Null square as argument!");
         int xdist = s1.getXPosition() - s2.getXPosition();
         int ydist = s1.getYPosition() - s2.getYPosition();
 
