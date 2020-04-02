@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+
 /**
  * Power is the interface responsible for implementing the god's power.
  * @author pierobartolo
@@ -18,7 +20,7 @@ public interface Power {
       * @return true or false to indicate if the move is legit or not
       */
 
-     boolean checkMove(Worker w, int x, int y);
+     ArrayList<Error> checkMove(Worker w, int x, int y);
 
      /**
       * This method checks if a worker can build in a given square.
@@ -28,7 +30,7 @@ public interface Power {
       * @return true or false to indicate if the build is legit or not
       */
 
-     boolean checkBuild(Worker w, int x, int y);
+     ArrayList<Error> checkBuild(Worker w, int x, int y);
 
      /**
       * This method checks if the player has won

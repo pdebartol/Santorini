@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test suite for StandardPower class
- * @author marcoDige
+ * @author marcoDige & pierobartolo
  */
 class StandardPowerTest {
 
@@ -38,6 +38,8 @@ class StandardPowerTest {
 
     @Test
     public void checkMove() {
+
+
     }
 
     @Test
@@ -103,8 +105,9 @@ class StandardPowerTest {
 
         //wmp1 builds on 2,1
         p.updateBuild(wmp1,2,1);
-        assertEquals(wmp1.getLastSquareMove(),b.getSquare(2,1).getWorker());
+        assertEquals(wmp1.getLastSquareBuild(), b.getSquare(2,1));
         assertEquals(1,b.getSquare(2,1).getLevel());
+        assertEquals(false,b.getSquare(2,1).getDome());
         assertEquals(1,b.getNBuild());
     }
 

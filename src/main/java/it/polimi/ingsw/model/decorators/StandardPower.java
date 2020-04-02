@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Power;
 import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.Error;
+
+import java.util.ArrayList;
 
 /**
  * StandardPower represents the standard power that all gods have.
@@ -57,30 +60,35 @@ public class StandardPower implements Power {
      */
 
     @Override
-    public boolean checkMove(Worker w, int x, int y) {
-
+    public ArrayList<Error> checkMove(Worker w, int x, int y) {
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
+        ArrayList<Error> errors = new ArrayList<Error>();
+
         Square s = board.getSquare(x,y);
 
-        //Can't move after build check
-        if(board.getNBuild() > 0) return false;
+        // Check move tokens
+        if(board.getNMoves() >= maxMoves) errors.add(Error.MOVES_EXCEEDED);
 
-        //Adjacent check
-        if(!board.isAdjacent(w.getCurrentSquare(),s)) return false;
+        // Can't move after build check
+        if(board.getNBuild() > 0) errors.add(Error.MOVE_AFTER_BUILD);
 
-        //Level check
+        // Adjacent check
+        if(!board.isAdjacent(w.getCurrentSquare(),s)) errors.add(Error.NOT_ADJACENT);
+
+        // Level check
         int climbHeight = s.getLevel() - w.getCurrentSquare().getLevel();
 
-        if(climbHeight > 1) return false;
+        if(climbHeight > 1) errors.add(Error.INVALID_LEVEL);
 
-        //Occupation check
-        if(s.isFree()) return false;
+        // Occupation check
+        if(s.isFree()) errors.add(Error.NOT_FREE);
 
-        //Can't move on dome check
+        // Can't move on dome check
+        if(s.getDome()) errors.add(Error.COMPLETE_TOWER);
 
-        return !s.getDome();
+        return errors;
 
     }
 
@@ -93,24 +101,29 @@ public class StandardPower implements Power {
      */
 
     @Override
-    public boolean checkBuild(Worker w, int x, int y) {
+    public ArrayList<Error> checkBuild(Worker w, int x, int y) {
 
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
+        ArrayList<Error>  errors = new ArrayList<Error>();
         Square s = board.getSquare(x,y);
 
-        //Can't move build before check
-        if(board.getNMoves() == 0) return false;
+        // Check build tokens
+        if(board.getNBuild() >= maxBuild) errors.add(Error.BUILDS_EXCEEDED);
+        //Can't  build before move
+        if(board.getNMoves() == 0) errors.add(Error.BUILD_BEFORE_MOVE);
 
-        //Adjacent check
-        if(!board.isAdjacent(w.getCurrentSquare(),s)) return false;
+        // Adjacent check
+        if(!board.isAdjacent(w.getCurrentSquare(),s))  errors.add(Error.NOT_ADJACENT);
 
-        //Dome check
-        if(s.getDome()) return false;
+        // Dome check
+        if(s.getDome()) errors.add(Error.COMPLETE_TOWER);
 
-        //Occupation check
-        return !s.isFree();
+        // Occupation check
+        if(!s.isFree()) errors.add(Error.NOT_FREE);
+
+        return errors;
     }
 
     /**

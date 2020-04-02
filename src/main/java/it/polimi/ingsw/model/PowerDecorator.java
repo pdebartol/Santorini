@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+
 /**
  * PowerDecorator is an abstract class necessary as a basis for the decoration of gods' powers.
  * All methods call the corresponding decoratedPower method.
@@ -24,12 +26,12 @@ public abstract class PowerDecorator implements Power {
     }
 
     @Override
-    public boolean checkMove(Worker w, int x, int y) {
+    public ArrayList<Error> checkMove(Worker w, int x, int y) {
         return decoratedPower.checkMove(w, x ,y);
     }
 
     @Override
-    public boolean checkBuild(Worker w, int x, int y) {
+    public ArrayList<Error> checkBuild(Worker w, int x, int y) {
         return decoratedPower.checkBuild(w, x, y);
     }
 
