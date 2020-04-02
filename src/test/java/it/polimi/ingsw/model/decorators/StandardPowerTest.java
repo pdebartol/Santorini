@@ -94,10 +94,26 @@ class StandardPowerTest {
 
     @Test
     public void updateBuild() {
+        assertThrows(IllegalArgumentException.class, () -> p.updateBuild(wfp1,-1,0));
+        assertThrows(IllegalArgumentException.class, () -> p.updateBuild(wfp1,1,8));
+        assertThrows(IllegalArgumentException.class, () -> p.updateBuild(wfp1,5,4));
 
+        //wmp1 builds on 2,1
+        p.updateBuild(wmp1,2,1);
+        assertEquals(wmp1.getLastSquareMove(),b.getSquare(2,1).getWorker());
+        assertEquals(1,b.getSquare(2,1).getLevel());
+        assertEquals(1,b.getNBuild());
     }
 
     @Test
     public void checkTurn() {
+        assertEquals(true, p.checkTurn(0));
+        assertEquals(true, p.checkTurn(1));
+        p.updateMove(wmp1,2,1);
+        assertEquals(false, p.checkTurn(0));
+        assertEquals(true, p.checkTurn(1));
+        p.updateBuild(wmp1,3,1);
+        assertEquals(false,p.checkTurn(1));
+
     }
 }
