@@ -30,6 +30,7 @@ class SquareTest {
         assertNull(gameBoard.getSquare(0, 0).getWorker());
         gameBoard.getSquare(0,0).setWorker(worker);
         assertEquals(gameBoard.getSquare(0,0).getWorker(), worker);
+        assertThrows(IllegalStateException.class, () -> gameBoard.getSquare(0,0 ).setWorker(new Worker(Color.WHITE,"male")));
     }
 
     @Test
@@ -38,6 +39,7 @@ class SquareTest {
         gameBoard.getSquare(1,1).setWorker(worker);
         gameBoard.getSquare(1,1).removeWorker();
         assertNull(gameBoard.getSquare(1, 1).getWorker());
+
     }
 
     @Test

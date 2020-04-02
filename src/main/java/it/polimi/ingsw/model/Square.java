@@ -39,8 +39,11 @@ public class Square {
     //methods
 
     public void setWorker(Worker worker) {
+
         if(this.isFree())
             this.worker = worker;
+        else
+             throw new IllegalStateException("Can't move to occupied square!");
     }
 
     public void setDome(boolean d) {
