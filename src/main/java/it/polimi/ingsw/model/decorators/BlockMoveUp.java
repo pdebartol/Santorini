@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.Power;
 import it.polimi.ingsw.model.PowerDecorator;
 import it.polimi.ingsw.model.Worker;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class BlockMoveUp extends PowerDecorator {
@@ -19,7 +21,6 @@ public class BlockMoveUp extends PowerDecorator {
     //methods
 
     @Override
-    public ArrayList<Error> checkMove(Worker w, int x, int y) {
-        return super.checkMove(w, x, y);
+    public void updateMove(Worker w, int x, int y){
     }
 }

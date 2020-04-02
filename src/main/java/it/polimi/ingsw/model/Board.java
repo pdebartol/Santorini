@@ -13,7 +13,6 @@ public class Board {
      * moveUp is a flag that indicate if in a specific moment a Player can move up.
      */
 
-    private boolean moveUp;
     private int nMoves;
     private int nBuild;
     /**
@@ -26,25 +25,15 @@ public class Board {
     //constructors
 
     public Board() {
-        this.moveUp = true;
         this.table = new Square[5][5];
 
         for(int x = 0; x < 5 ; x++){
-            for(int y = 0; y < 5 ; y++)
+            for(int y = 4; y >= 0 ; y--)
                 this.table[x][y] = new Square(x, y);
         }
     }
 
     //methods
-
-
-    public void setMoveUp(boolean mu) {
-        moveUp = mu;
-    }
-
-    public boolean getMoveUp() {
-        return moveUp;
-    }
 
     public int getNMoves() {
         return nMoves;

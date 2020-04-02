@@ -94,7 +94,7 @@ public class Player implements PropertyChangeListener {
                         int x = worker.getCurrentSquare().getXPosition() + i;
                         int y = worker.getCurrentSquare().getYPosition() + j;
                         if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
-                            if (god.getPower().checkBuild(worker,x,y).size() == 0)
+                            if (god.getPower().checkBuild(worker,x,y).isEmpty())
                                 return true;
                     }
                 }
@@ -116,7 +116,7 @@ public class Player implements PropertyChangeListener {
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
         Power power = god.getPower();
         ArrayList<Error> errors = power.checkMove(w, x, y);
-        if(errors.size() == 0){
+        if(errors.isEmpty()){
             power.updateMove(w,x,y);
             // if(power.checkWin(w)) send to view a msg to signal winner
             return true;
@@ -140,7 +140,7 @@ public class Player implements PropertyChangeListener {
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
         Power power = god.getPower();
         ArrayList<Error> errors = power.checkBuild(w, x, y);
-        if(errors.size() == 0){
+        if(errors.isEmpty()){
             power.updateBuild(w,x,y);
             return true;
         }else

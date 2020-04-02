@@ -58,20 +58,8 @@ public class Worker  {
         support.removePropertyChangeListener(pcl);
     }
 
-    public void setColor(Color c) {
-        color = c;
-    }
-
-    public void setGender(String g) {
-        gender = g;
-    }
-
     public Square getCurrentSquare() {
         return currentSquare;
-    }
-
-    public Color getColor() {
-        return color;
     }
 
     public String getGender() {

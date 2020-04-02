@@ -140,9 +140,7 @@ public class GodsFactory {
         else{
             switch(powers.pop()){
                 case 0:
-                    if(temp.getClass() != CanMoveUp.class){
-                        temp = new CanMoveUp(temp);
-                    }
+                    temp = new CanMoveUp(temp);
                     return getPowers(powers, temp);
                 case 1:
                     temp =  new BuildBeforeMove(temp);

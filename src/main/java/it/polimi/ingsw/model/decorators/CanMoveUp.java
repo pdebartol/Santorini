@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.Power;
 import it.polimi.ingsw.model.PowerDecorator;
 import it.polimi.ingsw.model.Worker;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 public class CanMoveUp extends PowerDecorator {

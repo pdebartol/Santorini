@@ -28,13 +28,4 @@ public class BuildBeforeMove extends PowerDecorator {
         return super.checkBuild(w, x, y);
     }
 
-    @Override
-    public void updateBuild(Worker w, int x, int y) {
-        super.updateBuild(w, x, y);
-    }
-
-    @Override
-    public void updateMove(Worker w, int x, int y) {
-        super.updateMove(w, x, y);
-    }
 }

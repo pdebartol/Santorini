@@ -250,7 +250,7 @@
         <description>If your Worker does not move up, it may build both before and after moving.</description>
         <maxMoves>1</maxMoves>
         <maxBuilds>2</maxBuilds>
-        <CanMoveUp>true</CanMoveUp>
+        <CanMoveUp>false</CanMoveUp>
         <MoveSwap>false</MoveSwap>
         <MovePush>false</MovePush>
         <Down2Win>false</Down2Win>
