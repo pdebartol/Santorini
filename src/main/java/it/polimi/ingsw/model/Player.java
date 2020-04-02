@@ -1,9 +1,14 @@
 package it.polimi.ingsw.model;
 
+import jdk.internal.event.Event;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+
 /**
  * Player represents a player who is currently playing in the match.
  * Username can't be changed once player has been created.
@@ -70,7 +75,7 @@ public class Player implements PropertyChangeListener {
                         int x = worker.getCurrentSquare().getXPosition() + i;
                         int y = worker.getCurrentSquare().getYPosition() + j;
                         if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
-                            if (god.getPower().checkMove(worker,x,y))
+                            if (god.getPower().checkMove(worker,x,y).size() == 0)
                                 return true;
                     }
                 }
@@ -90,7 +95,7 @@ public class Player implements PropertyChangeListener {
                         int x = worker.getCurrentSquare().getXPosition() + i;
                         int y = worker.getCurrentSquare().getYPosition() + j;
                         if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
-                            if (god.getPower().checkBuild(worker,x,y))
+                            if (god.getPower().checkBuild(worker,x,y).size() == 0)
                                 return true;
                     }
                 }
@@ -98,8 +103,9 @@ public class Player implements PropertyChangeListener {
     }
 
     /**
-     * This method holds all the logic behind a move. if the move is possible, it updates the model status. It also
-     * controls if after the move, the player has won.
+     * This method holds all the logic behind a move. if the move is possible, it updates the model status.
+     * Else it send to view errors found during the check.
+     * It also controls if after the move, the player has won.
      * @param w is the worker who wants to move
      * @param x is the x square coordinate where the worker wants to move
      * @param y is the y square coordinate where the worker wants to move
@@ -110,16 +116,20 @@ public class Player implements PropertyChangeListener {
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
         Power power = god.getPower();
-        if(power.checkTurn(0) && power.checkMove(w, x, y)){
+        ArrayList<Error> errors = power.checkMove(w, x, y);
+        if(errors.size() == 0){
             power.updateMove(w,x,y);
-            //TODO: notify if Player win after control with winCheck()
+            // if(power.checkWin(w)) send to view a msg to signal winner
             return true;
-        }
+        }else
+            sendErrorMsg(errors);
+
         return false;
     }
 
     /**
      * This method holds all the logic behind a build move. If the build move is possible, it updates the model status.
+     * Else it send to view errors found during the check.
      * @param w is the worker who wants to build
      * @param x is the x square coordinate where the worker wants to build
      * @param y is the y square coordinate where the worker wants to build
@@ -130,13 +140,42 @@ public class Player implements PropertyChangeListener {
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
         Power power = god.getPower();
-        if( power.checkTurn(1) && power.checkBuild(w, x, y)){
+        ArrayList<Error> errors = power.checkBuild(w, x, y);
+        if(errors.size() == 0){
             power.updateBuild(w,x,y);
             return true;
-        }
+        }else
+            sendErrorMsg(errors);
+
         return false;
     }
 
+    /**
+     * This method send to view errors found during the check if the move or build is invalid.
+     * @param errors array of errors
+     */
+
+    public void sendErrorMsg(ArrayList<Error> errors){
+        for(Error e: errors)
+            switch (e){
+                case NOT_FREE:
+                    //send to view a msg for the error
+                case NOT_ADJACENT:
+                    //send to view a msg for the error
+                case INVALID_LEVEL:
+                    //send to view a msg for the error
+                case COMPLETE_TOWER:
+                    //send to view a msg for the error
+                case MOVE_AFTER_BUILD:
+                    //send to view a msg for the error
+                case BUILD_BEFORE_MOVE:
+                    //send to view a msg for the error
+                case BUILDS_EXCEEDED:
+                    //send to view a msg for the error
+                case MOVES_EXCEEDED:
+                    //send to view a msg for the error
+            }
+    }
 
     /**
      * This method is called when a specific events occurs in the Worker Class.
