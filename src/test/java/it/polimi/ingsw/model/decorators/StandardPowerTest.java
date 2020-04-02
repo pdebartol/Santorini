@@ -46,6 +46,8 @@ class StandardPowerTest {
 
     @Test
     public void checkWin() {
+        assertThrows(IllegalArgumentException.class, () -> p.checkWin(null));
+
         //creating a ladder to win (we test checkWin with wmp1)
         Square l2,l3;
         l2 = b.getSquare(2,0);
@@ -72,14 +74,18 @@ class StandardPowerTest {
 
     @Test
     public void updateMove() {
+        assertThrows(IllegalArgumentException.class, () -> p.updateMove(wfp1,-1,0));
+        assertThrows(IllegalArgumentException.class, () -> p.updateMove(wfp1,1,8));
+        assertThrows(IllegalArgumentException.class, () -> p.updateMove(wfp1,5,4));
+
         //move wmp1 to 2,1
-        p.updateMove(wmp1,b.getSquare(2,1));
+        p.updateMove(wmp1,2,1);
         assertEquals(wmp1,b.getSquare(2,1).getWorker());
         assertEquals(wmp1.getCurrentSquare(),b.getSquare(2,1));
         assertEquals(b.getSquare(1,1),wmp1.getLastSquareMove());
         assertEquals(1,b.getNMoves());
         //move wmp1 to 2,2
-        p.updateMove(wmp1,b.getSquare(2,2));
+        p.updateMove(wmp1,2,2);
         assertEquals(wmp1,b.getSquare(2,2).getWorker());
         assertEquals(wmp1.getCurrentSquare(),b.getSquare(2,2));
         assertEquals(b.getSquare(2,1),wmp1.getLastSquareMove());

@@ -24,13 +24,13 @@ public abstract class PowerDecorator implements Power {
     }
 
     @Override
-    public boolean checkMove(Worker w, Square s) {
-        return decoratedPower.checkMove(w,s);
+    public boolean checkMove(Worker w, int x, int y) {
+        return decoratedPower.checkMove(w, x ,y);
     }
 
     @Override
-    public boolean checkBuild(Worker w, Square s) {
-        return decoratedPower.checkBuild(w,s);
+    public boolean checkBuild(Worker w, int x, int y) {
+        return decoratedPower.checkBuild(w, x, y);
     }
 
     @Override
@@ -39,13 +39,13 @@ public abstract class PowerDecorator implements Power {
     }
 
     @Override
-    public void updateMove(Worker w, Square s) {
-        decoratedPower.updateMove(w,s);
+    public void updateMove(Worker w, int x, int y) {
+        decoratedPower.updateMove(w, x, y);
     }
 
     @Override
-    public void updateBuild(Worker w, Square s) {
-        decoratedPower.updateBuild(w,s);
+    public void updateBuild(Worker w, int x, int y) {
+        decoratedPower.updateBuild(w, x, y);
     }
 
     @Override

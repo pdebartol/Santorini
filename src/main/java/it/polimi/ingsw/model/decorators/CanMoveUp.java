@@ -16,7 +16,7 @@ public class CanMoveUp extends PowerDecorator {
     //methods
 
     @Override
-    public boolean checkMove(Worker w, Square s) {
-        return super.checkMove(w, s);
+    public boolean checkMove(Worker w, int x, int y) {
+        return super.checkMove(w, x, y);
     }
 }

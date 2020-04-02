@@ -62,6 +62,7 @@ public class Board {
      */
 
     public Square getSquare(int x, int y){
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
         return table[x][y];
     }
 

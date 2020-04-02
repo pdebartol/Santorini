@@ -17,22 +17,22 @@ public class BuildBeforeMove extends PowerDecorator {
     //methods
 
     @Override
-    public boolean checkMove(Worker w, Square s) {
-        return super.checkMove(w, s);
+    public boolean checkMove(Worker w, int x, int y) {
+        return super.checkMove(w, x, y);
     }
 
     @Override
-    public boolean checkBuild(Worker w, Square s) {
-        return super.checkBuild(w, s);
+    public boolean checkBuild(Worker w, int x, int y) {
+        return super.checkBuild(w, x, y);
     }
 
     @Override
-    public void updateBuild(Worker w, Square s) {
-        super.updateBuild(w, s);
+    public void updateBuild(Worker w, int x, int y) {
+        super.updateBuild(w, x, y);
     }
 
     @Override
-    public void updateMove(Worker w, Square s) {
-        super.updateMove(w, s);
+    public void updateMove(Worker w, int x, int y) {
+        super.updateMove(w, x, y);
     }
 }

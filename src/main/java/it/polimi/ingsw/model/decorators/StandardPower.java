@@ -51,12 +51,18 @@ public class StandardPower implements Power {
     /**
      * This method implements checkMove (Power interface) with the standard game rules.
      * @param w is the worker that wants to move
-     * @param s is the square where the worker wants to move
+     * @param x is the x square coordinate where the worker wants to move
+     * @param y is the y square coordinate where the worker wants to move
      * @return true or false to indicate if the move is legit or not
      */
 
     @Override
-    public boolean checkMove(Worker w, Square s) {
+    public boolean checkMove(Worker w, int x, int y) {
+
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
+        if(w == null) throw new IllegalArgumentException("Null worker as argument!");
+
+        Square s = board.getSquare(x,y);
 
         //Can't move after build check
         if(board.getNBuild() > 0) return false;
@@ -81,12 +87,19 @@ public class StandardPower implements Power {
     /**
      * This method implements checkBuild (Power interface) with the standard game rules.
      * @param w is the worker that wants to build
-     * @param s is the square where the worker wants to build
+     * @param x is the x square coordinate where the worker wants to build
+     * @param y is the y square coordinate where the worker wants to build
      * @return true or false to indicate if the build is legit or not
      */
 
     @Override
-    public boolean checkBuild(Worker w, Square s) {
+    public boolean checkBuild(Worker w, int x, int y) {
+
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
+        if(w == null) throw new IllegalArgumentException("Null worker as argument!");
+
+        Square s = board.getSquare(x,y);
+
         //Can't move build before check
         if(board.getNMoves() == 0) return false;
 
@@ -107,17 +120,26 @@ public class StandardPower implements Power {
 
     @Override
     public boolean checkWin(Worker w) {
+        if(w == null) throw new IllegalArgumentException("Null worker as argument!");
+
         return (w.getCurrentSquare().getLevel() == 3 && w.getLastSquareMove().getLevel() == 2);
     }
 
     /**
      * This method implements updateMove (Power interface) with the standard game rules.
      * @param w is the worker that moves
-     * @param s is the square where the worker moves
+     * @param x is the x square coordinate where the worker moves
+     * @param y is the y square coordinate where the worker moves
      */
 
     @Override
-    public void updateMove(Worker w, Square s) {
+    public void updateMove(Worker w, int x, int y) {
+
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
+        if(w == null) throw new IllegalArgumentException("Null worker as argument!");
+
+        Square s = board.getSquare(x,y);
+
         s.removeWorker();
         w.updateWorkerPosition(s);
         board.incNMoves();
@@ -126,11 +148,18 @@ public class StandardPower implements Power {
     /**
      * This method implements updateBuild (Power interface) with the standard game rules.
      * @param w is the worker that builds
-     * @param s is the square where the worker moves
+     * @param x is the x square coordinate where the worker builds
+     * @param y is the y square coordinate where the worker builds
      */
 
     @Override
-    public void updateBuild(Worker w, Square s) {
+    public void updateBuild(Worker w, int x, int y) {
+
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
+        if(w == null) throw new IllegalArgumentException("Null worker as argument!");
+
+        Square s = board.getSquare(x,y);
+
         s.buildLevel();
         w.setLastSquareBuild(s);
         board.incNBuild();

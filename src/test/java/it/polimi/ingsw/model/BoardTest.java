@@ -22,6 +22,10 @@ class BoardTest {
 
     @Test
     void getSquare() {
+        assertThrows(IllegalArgumentException.class, () -> gameBoard.getSquare(-1,0));
+        assertThrows(IllegalArgumentException.class, () -> gameBoard.getSquare(5,5));
+        assertThrows(IllegalArgumentException.class, () -> gameBoard.getSquare(5,1));
+
         // top-left square
         assertEquals(0,gameBoard.getSquare(0,0).getXPosition());
         assertEquals(0,gameBoard.getSquare(0,0).getYPosition());

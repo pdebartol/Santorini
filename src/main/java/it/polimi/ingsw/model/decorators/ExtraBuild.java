@@ -26,8 +26,8 @@ public class ExtraBuild extends PowerDecorator {
     //methods
 
     @Override
-    public boolean checkBuild(Worker w, Square s) {
-        return super.checkBuild(w, s);
+    public boolean checkBuild(Worker w, int x, int y) {
+        return super.checkBuild(w, x, y);
     }
 
     public boolean isOnlySameSpace() {

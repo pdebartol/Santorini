@@ -16,7 +16,7 @@ public class BuildUnderfoot extends PowerDecorator {
     // metods
 
     @Override
-    public boolean checkBuild(Worker w, Square s) {
-        return super.checkBuild(w, s);
+    public boolean checkBuild(Worker w, int x, int y) {
+        return super.checkBuild(w, x, y);
     }
 }

@@ -70,7 +70,7 @@ public class Player implements PropertyChangeListener {
                         int x = worker.getCurrentSquare().getXPosition() + i;
                         int y = worker.getCurrentSquare().getYPosition() + j;
                         if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
-                            if (god.getPower().checkMove(worker, god.getPower().getBoard().getSquare(x,y)))
+                            if (god.getPower().checkMove(worker,x,y))
                                 return true;
                     }
                 }
@@ -90,7 +90,7 @@ public class Player implements PropertyChangeListener {
                         int x = worker.getCurrentSquare().getXPosition() + i;
                         int y = worker.getCurrentSquare().getYPosition() + j;
                         if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
-                            if (god.getPower().checkBuild(worker, god.getPower().getBoard().getSquare(x,y)))
+                            if (god.getPower().checkBuild(worker,x,y))
                                 return true;
                     }
                 }
@@ -101,16 +101,17 @@ public class Player implements PropertyChangeListener {
      * This method holds all the logic behind a move. if the move is possible, it updates the model status. It also
      * controls if after the move, the player has won.
      * @param w is the worker who wants to move
-     * @param s is the square where the worker wants to move
+     * @param x is the x square coordinate where the worker wants to move
+     * @param y is the y square coordinate where the worker wants to move
      * @return true or false to indicate if the move was done or not
      */
 
-    public boolean move(Worker w, Square s){
+    public boolean move(Worker w, int x, int y){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
-        if(s == null) throw new IllegalArgumentException("Null square as argument!");
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
         Power power = god.getPower();
-        if(power.checkTurn(0) && power.checkMove(w,s)){
-            power.updateMove(w,s);
+        if(power.checkTurn(0) && power.checkMove(w, x, y)){
+            power.updateMove(w,x,y);
             //TODO: notify if Player win after control with winCheck()
             return true;
         }
@@ -120,16 +121,17 @@ public class Player implements PropertyChangeListener {
     /**
      * This method holds all the logic behind a build move. If the build move is possible, it updates the model status.
      * @param w is the worker who wants to build
-     * @param s is the square where the worker wants to build
+     * @param x is the x square coordinate where the worker wants to build
+     * @param y is the y square coordinate where the worker wants to build
      * @return true or false to indicate if the build move was done or not
      */
 
-    public boolean build(Worker w, Square s){
+    public boolean build(Worker w, int x, int y){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
-        if(s == null) throw new IllegalArgumentException("Null square as argument!");
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
         Power power = god.getPower();
-        if( power.checkTurn(1) && power.checkBuild(w,s)){
-            power.updateBuild(w,s);
+        if( power.checkTurn(1) && power.checkBuild(w, x, y)){
+            power.updateBuild(w,x,y);
             return true;
         }
         return false;
