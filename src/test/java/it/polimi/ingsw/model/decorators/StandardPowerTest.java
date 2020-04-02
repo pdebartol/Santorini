@@ -77,18 +77,21 @@ class StandardPowerTest {
         assertThrows(IllegalArgumentException.class, () -> p.updateMove(wfp1,-1,0));
         assertThrows(IllegalArgumentException.class, () -> p.updateMove(wfp1,1,8));
         assertThrows(IllegalArgumentException.class, () -> p.updateMove(wfp1,5,4));
+        assertThrows(IllegalArgumentException.class, () -> p.updateMove(null,3,4));
 
         //move wmp1 to 2,1
         p.updateMove(wmp1,2,1);
         assertEquals(wmp1,b.getSquare(2,1).getWorker());
         assertEquals(wmp1.getCurrentSquare(),b.getSquare(2,1));
         assertEquals(b.getSquare(1,1),wmp1.getLastSquareMove());
+        assertNull(wmp1.getLastSquareMove().getWorker());
         assertEquals(1,b.getNMoves());
         //move wmp1 to 2,2
         p.updateMove(wmp1,2,2);
         assertEquals(wmp1,b.getSquare(2,2).getWorker());
         assertEquals(wmp1.getCurrentSquare(),b.getSquare(2,2));
         assertEquals(b.getSquare(2,1),wmp1.getLastSquareMove());
+        assertNull(wmp1.getLastSquareMove().getWorker());
         assertEquals(2,b.getNMoves());
     }
 

@@ -99,7 +99,9 @@ public class Square {
      */
 
     public void buildLevel() {
-            if(level == 3)
+            if(isCompleteTower())
+                throw new IllegalStateException("Can't build: the tower is complete!");
+            else if (level == 3)
                 dome = true;
             else
                 ++level;

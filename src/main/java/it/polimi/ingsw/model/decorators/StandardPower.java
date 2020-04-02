@@ -59,7 +59,7 @@ public class StandardPower implements Power {
     @Override
     public boolean checkMove(Worker w, int x, int y) {
 
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
         Square s = board.getSquare(x,y);
@@ -95,7 +95,7 @@ public class StandardPower implements Power {
     @Override
     public boolean checkBuild(Worker w, int x, int y) {
 
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
         Square s = board.getSquare(x,y);
@@ -135,12 +135,12 @@ public class StandardPower implements Power {
     @Override
     public void updateMove(Worker w, int x, int y) {
 
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
         Square s = board.getSquare(x,y);
 
-        s.removeWorker();
+        w.getCurrentSquare().removeWorker();
         w.updateWorkerPosition(s);
         board.incNMoves();
     }
@@ -155,7 +155,7 @@ public class StandardPower implements Power {
     @Override
     public void updateBuild(Worker w, int x, int y) {
 
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
         Square s = board.getSquare(x,y);
