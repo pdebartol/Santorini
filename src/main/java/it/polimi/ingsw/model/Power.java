@@ -17,7 +17,7 @@ public interface Power {
       * @param w is the worker that wants to move
       * @param x is the x square coordinate where the worker wants to move
       * @param y is the y square coordinate where the worker wants to move
-      * @return true or false to indicate if the move is legit or not
+      * @return an ArrayList that is empty if the move is legal, otherwise it contains the errors that prevent the worker from moving.
       */
 
      ArrayList<Error> checkMove(Worker w, int x, int y);
@@ -27,7 +27,7 @@ public interface Power {
       * @param w is the worker that wants to build
       * @param x is the x square coordinate where the worker wants to build
       * @param y is the y square coordinate where the worker wants to build
-      * @return true or false to indicate if the build is legit or not
+      * @return an ArrayList that is empty if the build is legal, otherwise it contains the errors that prevent the worker from building.
       */
 
      ArrayList<Error> checkBuild(Worker w, int x, int y);

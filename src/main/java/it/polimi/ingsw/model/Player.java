@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import jdk.internal.event.Event;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -164,7 +163,7 @@ public class Player implements PropertyChangeListener {
                     //send to view a msg for the error
                 case INVALID_LEVEL:
                     //send to view a msg for the error
-                case COMPLETE_TOWER:
+                case IS_DOME:
                     //send to view a msg for the error
                 case MOVE_AFTER_BUILD:
                     //send to view a msg for the error

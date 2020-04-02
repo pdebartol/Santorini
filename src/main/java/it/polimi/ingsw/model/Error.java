@@ -4,7 +4,7 @@ public enum Error {
     NOT_FREE,
     NOT_ADJACENT,
     INVALID_LEVEL,
-    COMPLETE_TOWER,
+    IS_DOME,
     MOVE_AFTER_BUILD,
     BUILD_BEFORE_MOVE,
     BUILDS_EXCEEDED,

@@ -1,8 +1,12 @@
 package it.polimi.ingsw.model.decorators;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Error;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,21 +34,87 @@ class StandardPowerTest {
 
         wmp1.setWorkerOnBoard(b.getSquare(1,1));
         wfp1.setWorkerOnBoard(b.getSquare(3,4));
-        wmp2.setWorkerOnBoard(b.getSquare(1,3));
+        wmp2.setWorkerOnBoard(b.getSquare(0,1));
         wfp2.setWorkerOnBoard(b.getSquare(3,2));
 
-        p = new StandardPower(1,1, b);
+        p= new StandardPower(1,1, b);
     }
 
-    @Test
-    public void checkMove() {
+    @Test void checkMove(){
+        assertThrows(IllegalArgumentException.class, () -> p.checkMove(wfp1,-1,0));
+        assertThrows(IllegalArgumentException.class, () -> p.checkMove(wfp1,1,8));
+        assertThrows(IllegalArgumentException.class, () -> p.checkMove(wfp1,5,4));
+        assertThrows(IllegalArgumentException.class, () -> p.checkMove(null,3,4));
+
+        // Check a legal move
+        assertEquals( true, p.checkMove(wmp1,2,1).isEmpty());
+
+        // Check all illegals move
+        p.updateMove(wmp1,1,2 );
+        p.updateBuild(wfp1,4,4);
+        p.updateBuild(wfp1,4,4);
+        p.updateBuild(wfp1,4,4);
+        p.updateBuild(wfp1,4,4);
+        ArrayList<Error> errors = p.checkMove(wmp1,4,4);
+        assertEquals(true, errors.contains(Error.MOVES_EXCEEDED));
+        assertEquals(true, errors.contains(Error.MOVE_AFTER_BUILD));
+        assertEquals(true, errors.contains(Error.NOT_ADJACENT));
+        assertEquals(true, errors.contains(Error.INVALID_LEVEL));
+        assertEquals(true, errors.contains(Error.IS_DOME));
+        assertEquals(5,errors.size());
+
+
 
 
     }
+
+
+   @Test
+   void checkMoveNotFree(){
+        // Check NOT_FREE
+       ArrayList<Error> errors = p.checkMove(wmp1,0,1);
+       assertEquals(true, errors.contains(Error.NOT_FREE));
+       assertEquals(1,errors.size());
+   }
+
+
 
     @Test
     public void checkBuild() {
+        assertThrows(IllegalArgumentException.class, () -> p.checkBuild(wfp1,-1,0));
+        assertThrows(IllegalArgumentException.class, () -> p.checkBuild(wfp1,1,8));
+        assertThrows(IllegalArgumentException.class, () -> p.checkBuild(wfp1,5,4));
+        assertThrows(IllegalArgumentException.class, () -> p.checkBuild(null,3,4));
+
+
+        // Check  illegals builds
+        p.updateBuild(wmp1,1,1);
+        p.updateBuild(wfp2,3,3);
+        p.updateBuild(wfp2,3,3);
+        p.updateBuild(wfp2,3,3);
+        p.updateBuild(wfp2,3,3);
+
+
+        ArrayList<Error> errors = p.checkBuild(wmp1,3,3);
+        assertEquals(true, errors.contains(Error.BUILDS_EXCEEDED));
+        assertEquals(true, errors.contains(Error.BUILD_BEFORE_MOVE));
+        assertEquals(true, errors.contains(Error.NOT_ADJACENT));
+        assertEquals(true, errors.contains(Error.IS_DOME));
+        assertEquals(4, errors.size());
     }
+
+   @Test
+   public void checkBuildLegal(){
+       // Check a legal move
+       p.updateMove(wmp1,2,1);
+       assertEquals( true, p.checkBuild(wmp2,1,1).isEmpty());
+   }
+
+   @Test
+   public void checkBuildNotFree(){
+       p.updateMove(wfp2,3,3);
+       assertEquals( true, p.checkBuild(wmp2,3,4).contains(Error.NOT_FREE));
+   }
 
     @Test
     public void checkWin() {
@@ -80,6 +150,7 @@ class StandardPowerTest {
         assertThrows(IllegalArgumentException.class, () -> p.updateMove(wfp1,1,8));
         assertThrows(IllegalArgumentException.class, () -> p.updateMove(wfp1,5,4));
         assertThrows(IllegalArgumentException.class, () -> p.updateMove(null,3,4));
+        assertThrows(IllegalStateException.class,()-> p.updateMove(wfp1,3,4));
 
         //move wmp1 to 2,1
         p.updateMove(wmp1,2,1);

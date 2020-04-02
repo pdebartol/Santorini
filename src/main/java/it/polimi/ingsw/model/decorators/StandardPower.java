@@ -56,7 +56,7 @@ public class StandardPower implements Power {
      * @param w is the worker that wants to move
      * @param x is the x square coordinate where the worker wants to move
      * @param y is the y square coordinate where the worker wants to move
-     * @return true or false to indicate if the move is legit or not
+     * @return an ArrayList that is empty if the move is legal, otherwise it contains the errors that prevent the worker from moving.
      */
 
     @Override
@@ -64,7 +64,7 @@ public class StandardPower implements Power {
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
-        ArrayList<Error> errors = new ArrayList<Error>();
+        ArrayList<Error> errors = new ArrayList<>();
 
         Square s = board.getSquare(x,y);
 
@@ -83,10 +83,10 @@ public class StandardPower implements Power {
         if(climbHeight > 1) errors.add(Error.INVALID_LEVEL);
 
         // Occupation check
-        if(s.isFree()) errors.add(Error.NOT_FREE);
+        if(!s.isFree()) errors.add(Error.NOT_FREE);
 
         // Can't move on dome check
-        if(s.getDome()) errors.add(Error.COMPLETE_TOWER);
+        if(s.getDome()) errors.add(Error.IS_DOME);
 
         return errors;
 
@@ -97,7 +97,7 @@ public class StandardPower implements Power {
      * @param w is the worker that wants to build
      * @param x is the x square coordinate where the worker wants to build
      * @param y is the y square coordinate where the worker wants to build
-     * @return true or false to indicate if the build is legit or not
+     * @return an ArrayList that is empty if the build is legal, otherwise it contains the errors that prevent the worker from building.
      */
 
     @Override
@@ -106,7 +106,7 @@ public class StandardPower implements Power {
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
-        ArrayList<Error>  errors = new ArrayList<Error>();
+        ArrayList<Error>  errors = new ArrayList<>();
         Square s = board.getSquare(x,y);
 
         // Check build tokens
@@ -118,7 +118,7 @@ public class StandardPower implements Power {
         if(!board.isAdjacent(w.getCurrentSquare(),s))  errors.add(Error.NOT_ADJACENT);
 
         // Dome check
-        if(s.getDome()) errors.add(Error.COMPLETE_TOWER);
+        if(s.getDome()) errors.add(Error.IS_DOME);
 
         // Occupation check
         if(!s.isFree()) errors.add(Error.NOT_FREE);
@@ -152,6 +152,8 @@ public class StandardPower implements Power {
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
         Square s = board.getSquare(x,y);
+
+        if(s.equals(w.getCurrentSquare())) throw new IllegalStateException("Can't move on the same Square!");
 
         w.getCurrentSquare().removeWorker();
         w.updateWorkerPosition(s);
