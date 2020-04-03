@@ -333,6 +333,8 @@ class GodsFactoryTest {
     }
 
 
+
+
     public void checkAthenaAndHera(God Athena, God Hera) {
 
         assertEquals("Athena", Athena.getName());
@@ -350,6 +352,7 @@ class GodsFactoryTest {
         assertEquals(1,((StandardPower) (((PowerDecorator) Hera.getPower()).decoratedPower)).getMaxMoves());
         assertEquals(1, ((StandardPower) (((PowerDecorator) Hera.getPower()).decoratedPower)).getMaxBuild());
     }
+
 
 
 }

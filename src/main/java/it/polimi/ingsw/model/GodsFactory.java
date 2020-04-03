@@ -40,6 +40,9 @@ public class GodsFactory {
         }
     }
 
+
+    //attributes
+    BlockMoveUp bmu_god;
     //methods
 
     /**
@@ -115,7 +118,13 @@ public class GodsFactory {
                     powers_id.push(14);
                 }
 
-                gods.add(new God(name, description,getPowers(powers_id,new StandardPower(maxMoves,maxBuilds, gameBoard))));
+                if(!powers_id.empty() && powers_id.peek() == 11 ){
+                    bmu_god = (BlockMoveUp) getPowers(powers_id,new StandardPower(maxMoves,maxBuilds, gameBoard));
+                    gods.add(new God(name, description,bmu_god));
+                }
+                else{
+                    gods.add(new God(name, description,getPowers(powers_id,new StandardPower(maxMoves,maxBuilds, gameBoard))));
+                }
             }
 
             decorateOtherGods(gods, applyToAll);
@@ -140,7 +149,7 @@ public class GodsFactory {
         else{
             switch(powers.pop()){
                 case 0:
-                    temp = new CanMoveUp(temp);
+                    temp = new CanMoveUp(temp,bmu_god);
                     return getPowers(powers, temp);
                 case 1:
                     temp =  new BuildBeforeMove(temp);

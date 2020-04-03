@@ -9,18 +9,36 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
-public class CanMoveUp extends PowerDecorator {
+public class CanMoveUp extends PowerDecorator implements PropertyChangeListener {
 
+    boolean moveUp;
     //constructors
 
-    public CanMoveUp(Power p) {
+    public CanMoveUp(Power p, BlockMoveUp bmu) {
         super(p);
+        moveUp = true;
+        bmu.addPropertyChangeListener(this);
     }
 
     //methods
 
     @Override
     public ArrayList<Error> checkMove(Worker w, int x, int y) {
-        return super.checkMove(w, x, y);
+        if(moveUp || w.getCurrentSquare().getLevel() >= getBoard().getSquare(x,y).getLevel()){
+            return super.checkMove(w, x, y);
+        }
+        else{
+            ArrayList<Error> errors = super.checkMove(w,x,y);
+            errors.add(Error.BLOCK_MOVE_UP);
+            return errors;
+        }
+
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getPropertyName().equals("moved_up")){
+            moveUp = (boolean) evt.getNewValue();
+        }
     }
 }
