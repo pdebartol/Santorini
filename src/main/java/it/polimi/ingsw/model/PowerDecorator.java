@@ -51,11 +51,6 @@ public abstract class PowerDecorator implements Power {
     }
 
     @Override
-    public boolean checkTurn(int mode){
-        return decoratedPower.checkTurn(mode);
-    }
-
-    @Override
     public Board getBoard() {
         return decoratedPower.getBoard();
     }

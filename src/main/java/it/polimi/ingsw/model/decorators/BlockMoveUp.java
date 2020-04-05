@@ -10,6 +10,12 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
+/**
+ * This class implements the power which block opponent players to move up if the worker moves up in this turn.
+ * This power decorates Athena's power.
+ * @author pierobartolo
+ */
+
 public class BlockMoveUp extends PowerDecorator {
 
     //attributes
@@ -28,6 +34,13 @@ public class BlockMoveUp extends PowerDecorator {
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         support.addPropertyChangeListener(pcl);
     }
+
+    /**
+     * This method overrides updateMove (PowerDecorator) decorating decoratedPower with BlockMoveUp rules.
+     * @param w is the worker that moves
+     * @param x is the x square coordinate where the worker moves
+     * @param y is the y square coordinate where the worker moves
+     */
 
     @Override
     public void updateMove(Worker w, int x, int y){

@@ -173,6 +173,10 @@ public class Player implements PropertyChangeListener {
                     //send to view a msg for the error
                 case MOVES_EXCEEDED:
                     //send to view a msg for the error
+                case BLOCK_MOVE_UP:
+                    //send to view a msg for the error
+                case CANT_DOME_UNDERFOOT:
+                    //send to view a msg for the error
             }
     }
 

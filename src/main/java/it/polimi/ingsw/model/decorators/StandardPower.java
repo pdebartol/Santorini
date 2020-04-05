@@ -181,21 +181,6 @@ public class StandardPower implements Power {
     }
 
     /**
-     * This method implements checkTurn in the Power interface with the standard game rules.
-     * @param mode 0 --> check if the player can move
-     *             1 --> check if the player can build
-     * @return true or false to indicate if  player can move or build
-     */
-
-    @Override
-    public boolean checkTurn(int mode){
-        if(mode == 0)
-            return board.getNMoves() < maxMoves;
-        else
-            return board.getNBuild() < maxBuild;
-    }
-
-    /**
      * This method return the current board.
      * @return the current instance of Board
      */

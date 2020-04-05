@@ -59,15 +59,6 @@ public interface Power {
 
      void updateBuild(Worker w, int x, int y);
 
-     /**
-      * This method check if the player can move or build at any given time
-      * @param mode 0 --> check if the player can move
-      *             1 --> check if the player can build
-      * @return true or false to indicate if  player can move or build
-      */
-
-     boolean checkTurn(int mode);
-
 
      /**
       * This method return the current board
