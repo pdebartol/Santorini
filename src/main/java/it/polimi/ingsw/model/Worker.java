@@ -62,6 +62,10 @@ public class Worker  {
         return currentSquare;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     public String getGender() {
         return gender;
     }
@@ -85,6 +89,7 @@ public class Worker  {
      */
 
     public void removeFromGame(){
+        currentSquare.removeWorker();
         currentSquare = null;
         lastSquareMove = null;
         lastSquareBuild = null;
