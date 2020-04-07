@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.Worker;
 
 /**
- * This class implements the power which, at end of his turn, allows worker to replace opponent's workers occupying lower
+ * This class implements the power which, at end of his turn, allows a worker to replace opponent's workers occupying lower
  * neighbour squares with a block and remove them from the game.
  * This power decorates Medusa's power.
  * @author marcoDige

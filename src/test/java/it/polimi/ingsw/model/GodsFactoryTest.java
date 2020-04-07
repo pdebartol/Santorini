@@ -74,7 +74,7 @@ class GodsFactoryTest {
         assertEquals(CanMoveUp.class, ((PowerDecorator) Artemis.getPower()).decoratedPower.getClass());
         assertEquals(ExtraMove.class, ((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower.getClass());
         assertEquals(true, ((ExtraMove) (((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower)).isNotMoveBack());
-        assertEquals(false, ((ExtraMove) (((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower)).isNotPerimeter());
+        assertEquals(false, ((ExtraMove) (((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower)).isOnPerimeter());
         assertEquals(((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxMoves(), 2);
         assertEquals(((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxBuild(), 1);
 
@@ -299,7 +299,7 @@ class GodsFactoryTest {
         assertEquals(CanMoveUp.class, ((PowerDecorator) Triton.getPower()).decoratedPower.getClass());
         assertEquals(ExtraMove.class, ((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower.getClass());
         assertEquals(false, ((ExtraMove) (((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower)).isNotMoveBack());
-        assertEquals(true, ((ExtraMove) (((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower)).isNotPerimeter());
+        assertEquals(true, ((ExtraMove) (((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower)).isOnPerimeter());
         assertEquals(1,((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxMoves());
         assertEquals(1,((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxBuild());
 

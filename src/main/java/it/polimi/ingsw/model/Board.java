@@ -71,6 +71,10 @@ public class Board {
     public void incNMoves() {
         nMoves = nMoves + 1;
     }
+    public void decNMoves() {
+        nMoves = nMoves - 1;
+    }
+
 
     /**
      * This method increment the number of build done in this turn.

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * This class implements the power which allows worker to move into a square occupied by another worker if the
- * next square in the same direction is unoccupied and to push it into that space.
+ * next square in the same direction is unoccupied; the other worker is pushed into that free space.
  * This power decorates Minotaur's power.
  * @author marcoDige
  */

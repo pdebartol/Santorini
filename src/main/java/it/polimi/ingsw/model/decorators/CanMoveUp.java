@@ -10,9 +10,9 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 /**
- * This class implements the power which restrict the standard power to move up if moveUp is false.
- * It listen if the class BlockMoveUp set the parameter moveUp to false.
- * This power decorates all in game god's power when a player uses Athena card (except the player who have Hera god's power).
+ * This class implements the power which restricts the standard power to move up (if the boolean moveUp is set to false).
+ * It listens to the class BlockMoveUp in order to update the boolean moveUp.
+ * This power decorates all in game gods' powers when a player uses Athena card (except the player whose god's power is Hera).
  * @author pierobartolo
  */
 public class CanMoveUp extends PowerDecorator implements PropertyChangeListener {
