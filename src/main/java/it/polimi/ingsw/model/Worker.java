@@ -89,7 +89,7 @@ public class Worker  {
      */
 
     public void removeFromGame(){
-        currentSquare.removeWorker();
+        if(currentSquare != null) currentSquare.removeWorker();
         currentSquare = null;
         lastSquareMove = null;
         lastSquareBuild = null;

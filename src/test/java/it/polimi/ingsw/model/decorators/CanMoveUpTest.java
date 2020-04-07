@@ -39,7 +39,7 @@ class CanMoveUpTest {
         p3.getWorkers().get(1).setWorkerOnBoard(b.getSquare(3,0));
 
         // Athena moves up
-        b.getSquare(1,0).buildLevel();
+        b.getSquare(1,0).buildLevel(1);
         b.resetCounters();
         p1.move(p1.getWorkers().get(0),1,0);
 
@@ -49,13 +49,13 @@ class CanMoveUpTest {
     public void checkCanMoveUp(){
         // Artemis check
         b.resetCounters();
-        b.getSquare(3,4).buildLevel();
+        b.getSquare(3,4).buildLevel(b.getSquare(3,4).getLevel() + 1);
         assertEquals(false,p2.move(p2.getWorkers().get(0),3,4));
         assertEquals(true,p2.move(p2.getWorkers().get(0),4,3));
 
         // Apollo check
         b.resetCounters();
-        b.getSquare(2,1).buildLevel();
+        b.getSquare(2,1).buildLevel(b.getSquare(2,1).getLevel() + 1);
         assertEquals(false,p3.move(p3.getWorkers().get(0),2,1));
         assertEquals(true,p3.move(p3.getWorkers().get(0),1,2));
 

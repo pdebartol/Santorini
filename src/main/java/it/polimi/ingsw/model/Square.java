@@ -103,9 +103,10 @@ public class Square {
 
     public void buildLevel(int l) {
         if(l < 1 || l > 4) throw new IllegalArgumentException("Invalid level value!");
-        if(l > level)
-            if(l == 4) setDome(true);
+        if(l > level) {
+            if (l == 4) setDome(true);
             else level = l;
+        }else throw new IllegalStateException("can't remove level!");
     }
 
 

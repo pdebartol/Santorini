@@ -53,9 +53,9 @@ class StandardPowerTest {
     @Test
     void checkValidMove() {
         assertEquals(true, p.checkMove(wmp1, 2, 1).isEmpty());
-        b.getSquare(1, 0).buildLevel();
+        b.getSquare(1, 0).buildLevel(b.getSquare(1,0).getLevel() + 1);
         assertEquals(true, p.checkMove(wmp1, 2, 1).isEmpty());
-        b.getSquare(1, 0).buildLevel();
+        b.getSquare(1, 0).buildLevel(b.getSquare(1,0).getLevel() + 1);
         wmp1.updateWorkerPosition(b.getSquare(1, 0));
         b.getSquare(1, 1).removeWorker();
         assertEquals(true, p.checkMove(wmp1, 1, 1).isEmpty());
@@ -79,10 +79,10 @@ class StandardPowerTest {
 
     @Test
     void checkMovesInvalidLevel(){
-        b.getSquare(0,0).buildLevel();
-        b.getSquare(0,0).buildLevel();
+        b.getSquare(0,0).buildLevel(b.getSquare(0,0).getLevel() + 1);
+        b.getSquare(0,0).buildLevel(b.getSquare(0,0).getLevel() + 1);
         ArrayList<Error> errors = p.checkMove(wmp1, 0, 0);
-        assertEquals(true, errors.contains(Error.INVALID_LEVEL));
+        assertEquals(true, errors.contains(Error.INVALID_LEVEL_MOVE));
         assertEquals(1, errors.size());
     }
 
@@ -104,7 +104,7 @@ class StandardPowerTest {
 
     @Test
     void checkMoveAfterBuild(){
-        p.updateBuild(wmp1,0,0);
+        p.updateBuild(wmp1,0,0, b.getSquare(0,0).getLevel() + 1);
         ArrayList<Error> errors = p.checkMove(wmp1,0,0);
         assertEquals(true,errors.contains(Error.MOVE_AFTER_BUILD));
         assertEquals(1, errors.size());
@@ -113,15 +113,15 @@ class StandardPowerTest {
     @Test
     void checkAllIllegalMoves() {
         p.updateMove(wmp1, 1, 2);
-        p.updateBuild(wfp1, 4, 4);
-        p.updateBuild(wfp1, 4, 4);
-        p.updateBuild(wfp1, 4, 4);
-        p.updateBuild(wfp1, 4, 4);
+        p.updateBuild(wfp1, 4, 4,b.getSquare(4,4).getLevel() + 1);
+        p.updateBuild(wfp1, 4, 4, b.getSquare(4,4).getLevel() + 1);
+        p.updateBuild(wfp1, 4, 4, b.getSquare(4,4).getLevel() + 1);
+        p.updateBuild(wfp1, 4, 4, b.getSquare(4,4).getLevel() + 1);
         ArrayList<Error> errors = p.checkMove(wmp1, 4, 4);
         assertEquals(true, errors.contains(Error.MOVES_EXCEEDED));
         assertEquals(true, errors.contains(Error.MOVE_AFTER_BUILD));
         assertEquals(true, errors.contains(Error.NOT_ADJACENT));
-        assertEquals(true, errors.contains(Error.INVALID_LEVEL));
+        assertEquals(true, errors.contains(Error.INVALID_LEVEL_MOVE));
         assertEquals(true, errors.contains(Error.IS_DOME));
         assertEquals(5, errors.size());
     }
@@ -129,10 +129,10 @@ class StandardPowerTest {
 
     @Test
     void checkBuild() {
-        assertThrows(IllegalArgumentException.class, () -> p.checkBuild(wfp1, -1, 0));
-        assertThrows(IllegalArgumentException.class, () -> p.checkBuild(wfp1, 1, 8));
-        assertThrows(IllegalArgumentException.class, () -> p.checkBuild(wfp1, 5, 4));
-        assertThrows(IllegalArgumentException.class, () -> p.checkBuild(null, 3, 4));
+        assertThrows(IllegalArgumentException.class, () -> p.checkBuild(wfp1, -1, 0,1));
+        assertThrows(IllegalArgumentException.class, () -> p.checkBuild(wfp1, 1, 8,1));
+        assertThrows(IllegalArgumentException.class, () -> p.checkBuild(wfp1, 5, 4,1));
+        assertThrows(IllegalArgumentException.class, () -> p.checkBuild(null, 3, 4,1));
 
     }
 
@@ -140,19 +140,19 @@ class StandardPowerTest {
     void checkBuildLegal() {
         // Check a legal move
         p.updateMove(wmp1, 2, 1);
-        assertEquals(true, p.checkBuild(wmp2, 1, 1).isEmpty());
+        assertEquals(true, p.checkBuild(wmp2, 1, 1,1).isEmpty());
     }
 
     @Test
     void checkAllIllegalBuild(){
-        p.updateBuild(wmp1, 1, 1);
-        p.updateBuild(wfp2, 3, 3);
-        p.updateBuild(wfp2, 3, 3);
-        p.updateBuild(wfp2, 3, 3);
-        p.updateBuild(wfp2, 3, 3);
+        p.updateBuild(wmp1, 1, 1,b.getSquare(1,1).getLevel() + 1);
+        p.updateBuild(wfp2, 3, 3,b.getSquare(3,3).getLevel() + 1);
+        p.updateBuild(wfp2, 3, 3,b.getSquare(3,3).getLevel() + 1);
+        p.updateBuild(wfp2, 3, 3,b.getSquare(3,3).getLevel() + 1);
+        p.updateBuild(wfp2, 3, 3,b.getSquare(3,3).getLevel() + 1);
 
 
-        ArrayList<Error> errors = p.checkBuild(wmp1, 3, 3);
+        ArrayList<Error> errors = p.checkBuild(wmp1, 3, 3,b.getSquare(3,3).getLevel() + 1);
         assertEquals(true, errors.contains(Error.BUILDS_EXCEEDED));
         assertEquals(true, errors.contains(Error.BUILD_BEFORE_MOVE));
         assertEquals(true, errors.contains(Error.NOT_ADJACENT));
@@ -163,7 +163,7 @@ class StandardPowerTest {
     @Test
     void checkBuildNotFree() {
         p.updateMove(wfp2, 3, 3);
-        ArrayList<Error> errors = p.checkBuild(wfp2,3,4);
+        ArrayList<Error> errors = p.checkBuild(wfp2,3,4, b.getSquare(3,4).getLevel() + 1);
         assertEquals(true, errors.contains(Error.NOT_FREE));
         assertEquals(1, errors.size());
     }
@@ -171,8 +171,8 @@ class StandardPowerTest {
     @Test
     void checkBuildsExceeded(){
         p.updateMove(wmp2,0,2);
-        p.updateBuild(wmp2,0,3);
-        ArrayList<Error> errors = p.checkBuild(wmp2,1,3);
+        p.updateBuild(wmp2,0,3,b.getSquare(0,3).getLevel() + 1);
+        ArrayList<Error> errors = p.checkBuild(wmp2,1,3, b.getSquare(1,3).getLevel()+ 1);
         assertEquals(true, errors.contains(Error.BUILDS_EXCEEDED));
         assertEquals(1, errors.size());
     }
@@ -180,7 +180,7 @@ class StandardPowerTest {
     @Test
     void checkBuildNotAdjacent(){
         p.updateMove(wfp1,4,4);
-        ArrayList<Error> errors = p.checkBuild(wfp1,4,2);
+        ArrayList<Error> errors = p.checkBuild(wfp1,4,2, b.getSquare(4,2).getLevel() + 1);
         assertEquals(true, errors.contains(Error.NOT_ADJACENT));
         assertEquals(1, errors.size());
     }
@@ -189,14 +189,14 @@ class StandardPowerTest {
     void checkBuildIsDome(){
         p.updateMove(wfp1,3,3);
         b.getSquare(4,4).setDome(true);
-        ArrayList<Error> errors = p.checkBuild(wfp1,4,4);
+        ArrayList<Error> errors = p.checkBuild(wfp1,4,4, b.getSquare(4,4).getLevel() + 1);
         assertEquals(true, errors.contains(Error.IS_DOME));
         assertEquals(1, errors.size());
     }
 
     @Test
     void checkBuildBeforeMove(){
-        ArrayList<Error> errors = p.checkBuild(wfp1,4,4);
+        ArrayList<Error> errors = p.checkBuild(wfp1,4,4, b.getSquare(4,4).getLevel() + 1);
         assertEquals(true, errors.contains(Error.BUILD_BEFORE_MOVE));
         assertEquals(1, errors.size());
     }
@@ -212,10 +212,10 @@ class StandardPowerTest {
         l3 = b.getSquare(3, 0);
         //level 2
         for (int i = 0; i < 2; i++)
-            l2.buildLevel();
+            l2.buildLevel(i+1);
         //level 3
         for (int i = 0; i < 3; i++)
-            l3.buildLevel();
+            l3.buildLevel(i+1);
 
         assertEquals(2, l2.getLevel());
         assertEquals(3, l3.getLevel());
@@ -258,14 +258,14 @@ class StandardPowerTest {
 
     @Test
     void updateBuild() {
-        assertThrows(IllegalArgumentException.class, () -> p.updateBuild(wfp1, -1, 0));
-        assertThrows(IllegalArgumentException.class, () -> p.updateBuild(wfp1, 1, 8));
-        assertThrows(IllegalArgumentException.class, () -> p.updateBuild(wfp1, 5, 4));
+        assertThrows(IllegalArgumentException.class, () -> p.updateBuild(wfp1, -1, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> p.updateBuild(wfp1, 1, 8, 1));
+        assertThrows(IllegalArgumentException.class, () -> p.updateBuild(wfp1, 5, 4, 1));
         assertThrows(IllegalArgumentException.class, () -> p.updateMove(null, 3, 4));
         assertThrows(IllegalStateException.class, () -> p.updateMove(wfp1, 3, 4));
 
         //wmp1 builds on 2,1
-        p.updateBuild(wmp1, 2, 1);
+        p.updateBuild(wmp1, 2, 1, b.getSquare(2,1).getLevel() + 1);
         assertEquals(wmp1.getLastSquareBuild(), b.getSquare(2, 1));
         assertEquals(1, b.getSquare(2, 1).getLevel());
         assertEquals(false, b.getSquare(2, 1).getDome());

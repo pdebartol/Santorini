@@ -52,14 +52,16 @@ class SquareTest {
 
     @Test
     void buildLevelAndIsCompleteTower() {
+        assertThrows(IllegalArgumentException.class, () -> gameBoard.getSquare(2,2).buildLevel(0));
 
         for (int i = 0; i < 4; i++) {
             assertEquals(false, gameBoard.getSquare(4,4 ).isCompleteTower());
             assertEquals(i, gameBoard.getSquare(4, 4).getLevel());
-            gameBoard.getSquare(4, 4).buildLevel();
+            gameBoard.getSquare(4, 4).buildLevel(i+1);
         }
+
         assertEquals(true, gameBoard.getSquare(4,4).isCompleteTower());
-        assertThrows(IllegalStateException.class, () -> gameBoard.getSquare(4, 4).buildLevel());
+        assertThrows(IllegalStateException.class, () -> gameBoard.getSquare(4, 4).buildLevel(3));
     }
 
 
