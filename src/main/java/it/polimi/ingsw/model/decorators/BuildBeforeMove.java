@@ -24,8 +24,8 @@ public class BuildBeforeMove extends PowerDecorator {
     }
 
     @Override
-    public ArrayList<Error> checkBuild(Worker w, int x, int y) {
-        return super.checkBuild(w, x, y);
+    public ArrayList<Error> checkBuild(Worker w, int x, int y, int l) {
+        return super.checkBuild(w, x, y, l);
     }
 
 }

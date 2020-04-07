@@ -98,16 +98,14 @@ public class Square {
     }
 
     /**
-     * This method allows to build on the square (increment the level)
+     * This method allows to build on the square.
      */
 
-    public void buildLevel() {
-            if(isCompleteTower())
-                throw new IllegalStateException("Can't build: the tower is complete!");
-            else if (level == 3)
-                dome = true;
-            else
-                ++level;
+    public void buildLevel(int l) {
+        if(l < 1 || l > 4) throw new IllegalArgumentException("Invalid level value!");
+        if(l > level)
+            if(l == 4) setDome(true);
+            else level = l;
     }
 
 

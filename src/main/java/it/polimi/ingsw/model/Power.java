@@ -27,10 +27,11 @@ public interface Power {
       * @param w is the worker that wants to build
       * @param x is the x square coordinate where the worker wants to build
       * @param y is the y square coordinate where the worker wants to build
+      * @param l is the level the worker wants to build
       * @return an ArrayList that is empty if the build is legal, otherwise it contains the errors that prevent the worker from building.
       */
 
-     ArrayList<Error> checkBuild(Worker w, int x, int y);
+     ArrayList<Error> checkBuild(Worker w, int x, int y, int l);
 
      /**
       * This method checks if the player has won
@@ -55,9 +56,10 @@ public interface Power {
       * @param w is the worker that builds
       * @param x is the x square coordinate where the worker builds
       * @param y is the y square coordinate where the worker builds
+      * @param l is the level the worker builds
       */
 
-     void updateBuild(Worker w, int x, int y);
+     void updateBuild(Worker w, int x, int y, int l);
 
 
      /**

@@ -31,8 +31,8 @@ public abstract class PowerDecorator implements Power {
     }
 
     @Override
-    public ArrayList<Error> checkBuild(Worker w, int x, int y) {
-        return decoratedPower.checkBuild(w, x, y);
+    public ArrayList<Error> checkBuild(Worker w, int x, int y, int l) {
+        return decoratedPower.checkBuild(w, x, y, l);
     }
 
     @Override
@@ -46,8 +46,8 @@ public abstract class PowerDecorator implements Power {
     }
 
     @Override
-    public void updateBuild(Worker w, int x, int y) {
-        decoratedPower.updateBuild(w, x, y);
+    public void updateBuild(Worker w, int x, int y, int l) {
+        decoratedPower.updateBuild(w, x, y, l);
     }
 
     @Override

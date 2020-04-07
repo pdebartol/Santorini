@@ -10,9 +10,9 @@ import java.util.ArrayList;
 /**
  * This class implements the power which allows worker to build onto the same square where it is located.
  * This power decorates Zeus's power.
- *
  * @author marcoDige
  */
+
 public class BuildUnderfoot extends PowerDecorator {
 
     // constructors
@@ -28,12 +28,13 @@ public class BuildUnderfoot extends PowerDecorator {
      * @param w is the worker that wants to build
      * @param x is the x square coordinate where the worker wants to build
      * @param y is the y square coordinate where the worker wants to build
+     * @param l is the level the worker wants to build
      * @return an ArrayList that is empty if the build is legal, otherwise it contains the errors that prevent the worker from building.
      */
 
     @Override
-    public ArrayList<Error> checkBuild(Worker w, int x, int y) {
-        ArrayList<Error> errors = super.checkBuild(w, x, y);
+    public ArrayList<Error> checkBuild(Worker w, int x, int y, int l) {
+        ArrayList<Error> errors = super.checkBuild(w, x, y, l);
         if(!errors.isEmpty())
             if(w.getCurrentSquare().getXPosition() == x && w.getCurrentSquare().getYPosition() == y) {
                 errors.remove(Error.NOT_FREE);

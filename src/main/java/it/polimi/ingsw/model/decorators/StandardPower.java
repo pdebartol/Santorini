@@ -80,7 +80,7 @@ public class StandardPower implements Power {
         // Level check
         int climbHeight = s.getLevel() - w.getCurrentSquare().getLevel();
 
-        if(climbHeight > 1) errors.add(Error.INVALID_LEVEL);
+        if(climbHeight > 1) errors.add(Error.INVALID_LEVEL_MOVE);
 
         // Occupation check
         if(!s.isFree()) errors.add(Error.NOT_FREE);
@@ -97,13 +97,15 @@ public class StandardPower implements Power {
      * @param w is the worker that wants to build
      * @param x is the x square coordinate where the worker wants to build
      * @param y is the y square coordinate where the worker wants to build
+     * @param l is the level the worker wants to build
      * @return an ArrayList that is empty if the build is legal, otherwise it contains the errors that prevent the worker from building.
      */
 
     @Override
-    public ArrayList<Error> checkBuild(Worker w, int x, int y) {
+    public ArrayList<Error> checkBuild(Worker w, int x, int y, int l) {
 
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
+        if(l < 1 || l > 4) throw new IllegalArgumentException("Invalid level value!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
         ArrayList<Error>  errors = new ArrayList<>();
@@ -111,11 +113,15 @@ public class StandardPower implements Power {
 
         // Check build tokens
         if(board.getNBuild() >= maxBuild) errors.add(Error.BUILDS_EXCEEDED);
+
         //Can't  build before move
         if(board.getNMoves() == 0) errors.add(Error.BUILD_BEFORE_MOVE);
 
         // Adjacent check
         if(!board.isAdjacent(w.getCurrentSquare(),s))  errors.add(Error.NOT_ADJACENT);
+
+        //Level check
+        if(l != s.getLevel() + 1) errors.add(Error.INVALID_LEVEL_BUILD);
 
         // Dome check
         if(s.getDome()) errors.add(Error.IS_DOME);
@@ -165,17 +171,19 @@ public class StandardPower implements Power {
      * @param w is the worker that builds
      * @param x is the x square coordinate where the worker builds
      * @param y is the y square coordinate where the worker builds
+     * @param l is the level the worker builds
      */
 
     @Override
-    public void updateBuild(Worker w, int x, int y) {
+    public void updateBuild(Worker w, int x, int y, int l) {
 
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
+        if(l < 1 || l > 4) throw new IllegalArgumentException("Invalid level value!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
         Square s = board.getSquare(x,y);
 
-        s.buildLevel();
+        s.buildLevel(l);
         w.setLastSquareBuild(s);
         board.incNBuild();
     }

@@ -27,10 +27,11 @@ public class EndRemoveNeighbour extends PowerDecorator {
      * @param w is the worker that builds
      * @param x is the x square coordinate where the worker builds
      * @param y is the y square coordinate where the worker builds
+     * @param l is the level the worker builds
      */
     @Override
-    public void updateBuild(Worker w, int x, int y) {
-        super.updateBuild(w, x, y);
+    public void updateBuild(Worker w, int x, int y, int l) {
+        super.updateBuild(w, x, y, l);
         replaceAndBuild(w);
     }
 
@@ -46,7 +47,7 @@ public class EndRemoveNeighbour extends PowerDecorator {
                 Square s = getBoard().getSquare(x, y);
                 if (x >= 0 && x <= 4 && y >= 0 && y <= 4 && s.getLevel() < w.getCurrentSquare().getLevel() && !s.isFree() && s.getWorker().getColor() != w.getColor()){
                     s.getWorker().removeFromGame();
-                    s.buildLevel();
+                    s.buildLevel(s.getLevel() + 1);
                 }
             }
     }

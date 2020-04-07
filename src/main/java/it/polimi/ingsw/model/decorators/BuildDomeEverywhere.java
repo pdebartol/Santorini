@@ -8,6 +8,12 @@ import it.polimi.ingsw.model.Worker;
 
 import java.util.ArrayList;
 
+/**
+ * This class implements the power which allows worker to build dome also if level is not 3.
+ * This power decorates Atlas's power.
+ * @author marcoDige
+ */
+
 public class BuildDomeEverywhere extends PowerDecorator {
 
     //constructors
@@ -18,13 +24,20 @@ public class BuildDomeEverywhere extends PowerDecorator {
 
     //methods
 
-    @Override
-    public ArrayList<Error> checkBuild(Worker w, int x, int y) {
-        return super.checkBuild(w, x, y);
-    }
+    /**
+     * This method overrides checkBuild (PowerDecorator) decorating decoratedPower with BuildDomeEverywhere rules.
+     * @param w is the worker that wants to build
+     * @param x is the x square coordinate where the worker wants to build
+     * @param y is the y square coordinate where the worker wants to build
+     * @param l is the level the worker wants to build
+     * @return an ArrayList that is empty if the build is legal, otherwise it contains the errors that prevent the worker from building.
+     */
 
     @Override
-    public void updateBuild(Worker w, int x, int y) {
-        super.updateBuild(w, x, y);
+    public ArrayList<Error> checkBuild(Worker w, int x, int y, int l) {
+        ArrayList<Error> errors = super.checkBuild(w, x, y, l);
+        if(errors.contains(Error.INVALID_LEVEL_BUILD) && l == 4) errors.remove(Error.INVALID_LEVEL_BUILD);
+        return errors;
     }
+
 }

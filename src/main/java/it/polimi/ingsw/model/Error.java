@@ -3,7 +3,8 @@ package it.polimi.ingsw.model;
 public enum Error {
     NOT_FREE,
     NOT_ADJACENT,
-    INVALID_LEVEL,
+    INVALID_LEVEL_MOVE,
+    INVALID_LEVEL_BUILD,
     IS_DOME,
     MOVE_AFTER_BUILD,
     BUILD_BEFORE_MOVE,

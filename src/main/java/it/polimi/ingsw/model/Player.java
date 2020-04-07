@@ -94,8 +94,9 @@ public class Player implements PropertyChangeListener {
                         int x = worker.getCurrentSquare().getXPosition() + i;
                         int y = worker.getCurrentSquare().getYPosition() + j;
                         if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
-                            if (god.getPower().checkBuild(worker,x,y).isEmpty())
-                                return true;
+                            for(int k = 1; k < 5; ++k)
+                                if (god.getPower().checkBuild(worker,x,y,k).isEmpty())
+                                    return true;
                     }
                 }
         return false;
@@ -111,7 +112,7 @@ public class Player implements PropertyChangeListener {
      * @return true or false to indicate if the move was done or not
      */
 
-    public boolean move(Worker w, int x, int y){
+    ArrayList<Error> move(Worker w, int x, int y){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
         Power power = god.getPower();
@@ -119,11 +120,10 @@ public class Player implements PropertyChangeListener {
         if(errors.isEmpty()){
             power.updateMove(w,x,y);
             // if(power.checkWin(w)) send to view a msg to signal winner
-            return true;
         }else
             sendErrorMsg(errors);
 
-        return false;
+        return errors;
     }
 
     /**
@@ -135,18 +135,17 @@ public class Player implements PropertyChangeListener {
      * @return true or false to indicate if the build move was done or not
      */
 
-    public boolean build(Worker w, int x, int y){
+    ArrayList<Error> build(Worker w, int x, int y, int k){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
         Power power = god.getPower();
-        ArrayList<Error> errors = power.checkBuild(w, x, y);
+        ArrayList<Error> errors = power.checkBuild(w, x, y, k);
         if(errors.isEmpty()){
-            power.updateBuild(w,x,y);
-            return true;
+            power.updateBuild(w, x, y, k);
         }else
             sendErrorMsg(errors);
 
-        return false;
+        return errors;
     }
 
     /**
@@ -161,7 +160,9 @@ public class Player implements PropertyChangeListener {
                     //send to view a msg for the error
                 case NOT_ADJACENT:
                     //send to view a msg for the error
-                case INVALID_LEVEL:
+                case INVALID_LEVEL_MOVE:
+                    //send to view a msg for the error
+                case INVALID_LEVEL_BUILD:
                     //send to view a msg for the error
                 case IS_DOME:
                     //send to view a msg for the error
