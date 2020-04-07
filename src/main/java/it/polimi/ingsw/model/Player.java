@@ -135,13 +135,13 @@ public class Player implements PropertyChangeListener {
      * @return true or false to indicate if the build move was done or not
      */
 
-    public ArrayList<Error> build(Worker w, int x, int y, int k){
+    public ArrayList<Error> build(Worker w, int x, int y, int l){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
         Power power = god.getPower();
-        ArrayList<Error> errors = power.checkBuild(w, x, y, k);
+        ArrayList<Error> errors = power.checkBuild(w, x, y, l);
         if(errors.isEmpty()){
-            power.updateBuild(w, x, y, k);
+            power.updateBuild(w, x, y, l);
         }else
             sendErrorMsg(errors);
 
