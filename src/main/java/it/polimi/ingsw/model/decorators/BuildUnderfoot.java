@@ -34,7 +34,7 @@ public class BuildUnderfoot extends PowerDecorator {
 
     @Override
     public ArrayList<Error> checkBuild(Worker w, int x, int y, int l) {
-        ArrayList<Error> errors = super.checkBuild(w, x, y, l);
+        ArrayList<Error> errors = decoratedPower.checkBuild(w, x, y, l);
         if(!errors.isEmpty())
             if(w.getCurrentSquare().getXPosition() == x && w.getCurrentSquare().getYPosition() == y) {
                 errors.remove(Error.NOT_FREE);

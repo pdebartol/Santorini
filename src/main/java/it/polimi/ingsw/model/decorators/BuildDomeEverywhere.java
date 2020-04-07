@@ -35,7 +35,7 @@ public class BuildDomeEverywhere extends PowerDecorator {
 
     @Override
     public ArrayList<Error> checkBuild(Worker w, int x, int y, int l) {
-        ArrayList<Error> errors = super.checkBuild(w, x, y, l);
+        ArrayList<Error> errors = decoratedPower.checkBuild(w, x, y, l);
         if(errors.contains(Error.INVALID_LEVEL_BUILD) && l == 4) errors.remove(Error.INVALID_LEVEL_BUILD);
         return errors;
     }

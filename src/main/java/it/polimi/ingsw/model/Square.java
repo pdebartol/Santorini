@@ -39,7 +39,6 @@ public class Square {
     //methods
 
     public void setWorker(Worker worker) {
-
         if(this.isFree())
             this.worker = worker;
         else
@@ -105,7 +104,7 @@ public class Square {
         if(l < 1 || l > 4) throw new IllegalArgumentException("Invalid level value!");
         if(l > level) {
             if (l == 4) setDome(true);
-            level = l;
+            else level = l;
         }else throw new IllegalStateException("can't remove level!");
     }
 

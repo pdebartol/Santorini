@@ -26,7 +26,7 @@ public class NoWinPerimeter extends PowerDecorator {
 
     @Override
     public boolean checkWin(Worker w) {
-        if(super.checkWin(w)){
+        if(decoratedPower.checkWin(w)){
             int x = w.getCurrentSquare().getXPosition(), y = w.getCurrentSquare().getYPosition();
             return (x != 0 && x != 4 && y != 0 && y != 4);
         }

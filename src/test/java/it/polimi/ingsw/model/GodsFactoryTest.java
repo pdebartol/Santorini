@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test suite for GodsFactory
+ * this suite tests that the god's power is right in all critical cases (decorators decorating all other gods)
  * @author pierobartolo
  */
 class GodsFactoryTest {
@@ -331,8 +332,6 @@ class GodsFactoryTest {
         checkAthenaAndHera(Athena,Hera);
 
     }
-
-
 
 
     public void checkAthenaAndHera(God Athena, God Hera) {

@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test suite for Square class
+ * @author pierobartolo & aledimaio
  */
 
 class SquareTest {
@@ -17,25 +18,21 @@ class SquareTest {
     @BeforeEach
     void setUp() {
         gameBoard = new Board();
+        worker = new Worker(Color.GREY, "female");
     }
 
 
-    /**
-     * check if the setWorker() method works
-     */
-
     @Test
     void setWorker() {
-        worker = new Worker(Color.GREY, "female");
         assertNull(gameBoard.getSquare(0, 0).getWorker());
         gameBoard.getSquare(0,0).setWorker(worker);
         assertEquals(gameBoard.getSquare(0,0).getWorker(), worker);
-        assertThrows(IllegalStateException.class, () -> gameBoard.getSquare(0,0 ).setWorker(new Worker(Color.WHITE,"male")));
+
+        assertThrows(IllegalStateException.class, () -> gameBoard.getSquare(0,0).setWorker(new Worker(Color.WHITE,"male")));
     }
 
     @Test
     void removeWorker() {
-        worker = new Worker(Color.GREY, "female");
         gameBoard.getSquare(1,1).setWorker(worker);
         gameBoard.getSquare(1,1).removeWorker();
         assertNull(gameBoard.getSquare(1, 1).getWorker());
@@ -44,7 +41,6 @@ class SquareTest {
 
     @Test
     void isFree() {
-        worker = new Worker(Color.GREY, "female");
         assertEquals(true, gameBoard.getSquare(1,1).isFree());
         gameBoard.getSquare(1,1).setWorker(worker);
         assertEquals(false, gameBoard.getSquare(1,1).isFree());
@@ -54,14 +50,19 @@ class SquareTest {
     void buildLevelAndIsCompleteTower() {
         assertThrows(IllegalArgumentException.class, () -> gameBoard.getSquare(2,2).buildLevel(0));
 
+        //buildLevel() test
         for (int i = 0; i < 4; i++) {
             assertEquals(false, gameBoard.getSquare(4,4 ).isCompleteTower());
             assertEquals(i, gameBoard.getSquare(4, 4).getLevel());
             gameBoard.getSquare(4, 4).buildLevel(i+1);
         }
 
+        //build dome test
+        assertEquals(3, gameBoard.getSquare(4, 4).getLevel());
+        assertEquals(true, gameBoard.getSquare(4,4).getDome());
         assertEquals(true, gameBoard.getSquare(4,4).isCompleteTower());
         assertThrows(IllegalStateException.class, () -> gameBoard.getSquare(4, 4).buildLevel(3));
+
     }
 
 

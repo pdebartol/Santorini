@@ -34,7 +34,7 @@ public class BuildBeforeMove extends PowerDecorator {
 
     @Override
     public ArrayList<Error> checkMove(Worker w, int x, int y) {
-        ArrayList<Error> errors = super.checkMove(w, x, y);
+        ArrayList<Error> errors = decoratedPower.checkMove(w, x, y);
         if (decoratedPower.getBoard().getNBuild() > 0 && w.getCurrentSquare().getLevel() < decoratedPower.getBoard().getSquare(x,y).getLevel()) { // build before move
             errors.add(Error.CANT_MOVE_UP);
         }

@@ -33,7 +33,7 @@ public class MoveSwap extends PowerDecorator {
 
     @Override
     public ArrayList<Error> checkMove(Worker w, int x, int y) {
-        ArrayList<Error> errors = super.checkMove(w, x, y);
+        ArrayList<Error> errors = decoratedPower.checkMove(w, x, y);
         errors.remove(Error.NOT_FREE);
         return errors;
     }
@@ -49,9 +49,9 @@ public class MoveSwap extends PowerDecorator {
     public void updateMove(Worker w, int x, int y) {
         if(getBoard().getSquare(x,y).getWorker() != null) {
             Worker opw = getBoard().getSquare(x, y).removeWorker();
-            super.updateMove(w, x, y);
+            decoratedPower.updateMove(w, x, y);
             opw.updateWorkerPosition(w.getLastSquareMove());
         } else
-            super.updateMove(w, x, y);
+            decoratedPower.updateMove(w, x, y);
     }
 }

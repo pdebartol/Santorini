@@ -50,7 +50,6 @@ public class BlockMoveUp extends PowerDecorator {
         else{
             support.firePropertyChange("moved_up", false,true); // notifies CanMoveUp of the move
         }
-        super.updateMove(w,x,y);
-
+        decoratedPower.updateMove(w,x,y);
     }
 }

@@ -26,7 +26,7 @@ public class Down2Win extends PowerDecorator {
 
     @Override
     public boolean checkWin(Worker w) {
-        if(super.checkWin(w))
+        if(decoratedPower.checkWin(w))
             return true;
         else
             return w.getLastSquareMove().getLevel() - w.getCurrentSquare().getLevel() > 1 ;

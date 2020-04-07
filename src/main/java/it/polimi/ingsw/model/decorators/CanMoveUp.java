@@ -39,7 +39,7 @@ public class CanMoveUp extends PowerDecorator implements PropertyChangeListener 
     @Override
     public ArrayList<Error> checkMove(Worker w, int x, int y) {
         if(moveUp || w.getCurrentSquare().getLevel() >= getBoard().getSquare(x,y).getLevel()){
-            return super.checkMove(w, x, y);
+            return decoratedPower.checkMove(w, x, y);
         }
         else{
             ArrayList<Error> errors = super.checkMove(w,x,y);

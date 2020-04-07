@@ -34,7 +34,7 @@ public class MovePush extends PowerDecorator {
 
     @Override
     public ArrayList<Error> checkMove(Worker w, int x, int y) {
-        ArrayList<Error> errors = super.checkMove(w, x, y);
+        ArrayList<Error> errors = decoratedPower.checkMove(w, x, y);
         if(errors.size() == 1 && errors.contains(Error.NOT_FREE)) {
             errors.remove(Error.NOT_FREE);
             int sameDirectionX = x + (x - w.getCurrentSquare().getXPosition());
@@ -56,11 +56,11 @@ public class MovePush extends PowerDecorator {
     public void updateMove(Worker w, int x, int y) {
         if(getBoard().getSquare(x,y).getWorker() != null) {
             Worker opw = getBoard().getSquare(x, y).removeWorker();
-            super.updateMove(w, x, y);
+            decoratedPower.updateMove(w, x, y);
             int sameDirectionX = x + (x - w.getCurrentSquare().getXPosition());
             int sameDirectionY = y + (y - w.getCurrentSquare().getYPosition());
             opw.updateWorkerPosition(getBoard().getSquare(sameDirectionX,sameDirectionY));
         } else
-            super.updateMove(w, x, y);
+            decoratedPower.updateMove(w, x, y);
     }
 }

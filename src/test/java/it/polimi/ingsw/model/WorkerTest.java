@@ -49,13 +49,16 @@ class WorkerTest {
         assertThrows(IllegalArgumentException.class, () -> worker.updateWorkerPosition(null));
 
         // Check normal functioning
+        // Set the worker on the board
         worker.setWorkerOnBoard(gameBoard.getSquare(2,1));
         assertEquals(worker,gameBoard.getSquare(2,1).getWorker());
         assertEquals(worker.getCurrentSquare(),gameBoard.getSquare(2,1));
         assertNull(worker.getLastSquareMove());
+
         worker.updateWorkerPosition(gameBoard.getSquare(2,2));
         assertEquals(worker, gameBoard.getSquare(2,2).getWorker());
         assertEquals(worker.getLastSquareMove(), gameBoard.getSquare(2,1));
         assertEquals(worker.getCurrentSquare(), gameBoard.getSquare(2,2));
+        assertEquals(null, worker.getLastSquareMove().getWorker());
     }
 }

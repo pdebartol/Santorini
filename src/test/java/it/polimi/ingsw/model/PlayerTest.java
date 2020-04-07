@@ -27,6 +27,7 @@ class PlayerTest {
      * Check that the worker is removed from the Player's available workers.
      * This might happen if Medusa is in game.
      */
+
     @Test
     void checkRemoveWorker(){
         Worker worker1 = Objects.requireNonNull(player1.getWorkers().get(0));

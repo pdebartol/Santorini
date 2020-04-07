@@ -53,7 +53,7 @@ public class ExtraBuild extends PowerDecorator {
      */
     @Override
     public ArrayList<Error> checkBuild(Worker w, int x, int y, int l) {
-        ArrayList<Error> errors = super.checkBuild(w, x, y, l);
+        ArrayList<Error> errors = decoratedPower.checkBuild(w, x, y, l);
         if (!errors.contains(Error.BUILDS_EXCEEDED) && decoratedPower.getBoard().getNBuild() != 0) { // Extra Build
             if (onlySameSpace && (w.getLastSquareBuild().getXPosition() != x || w.getLastSquareBuild().getYPosition() != y)) {
                 errors.add(Error.EXTRA_BUILD_ONLY_SAME_SPACE);
@@ -61,7 +61,7 @@ public class ExtraBuild extends PowerDecorator {
             if (notSameSpace && (w.getLastSquareBuild().getYPosition() == x && w.getLastSquareBuild().getYPosition() == y)) {
                 errors.add(Error.EXTRA_BUILD_NOT_SAME_SPACE);
             }
-            if (notPerimeter && (x == 0 || x == 5) && (y == 0 || y == 5)) {
+            if (notPerimeter && (x == 0 || x == 4) && (y == 0 || y == 4)) {
                 errors.add(Error.EXTRA_BUILD_NOT_PERIMETER);
             }
         }

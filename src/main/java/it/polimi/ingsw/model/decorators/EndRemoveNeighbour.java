@@ -31,7 +31,7 @@ public class EndRemoveNeighbour extends PowerDecorator {
      */
     @Override
     public void updateBuild(Worker w, int x, int y, int l) {
-        super.updateBuild(w, x, y, l);
+        decoratedPower.updateBuild(w, x, y, l);
         replaceAndBuild(w);
     }
 
