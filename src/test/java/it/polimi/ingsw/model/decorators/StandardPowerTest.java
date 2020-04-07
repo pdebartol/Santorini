@@ -272,14 +272,4 @@ class StandardPowerTest {
         assertEquals(1, b.getNBuild());
     }
 
-    @Test
-    void checkTurn() {
-        assertEquals(true, p.checkTurn(0));
-        assertEquals(true, p.checkTurn(1));
-        p.updateMove(wmp1, 2, 1);
-        assertEquals(false, p.checkTurn(0));
-        assertEquals(true, p.checkTurn(1));
-        p.updateBuild(wmp1, 3, 1);
-        assertEquals(false, p.checkTurn(1));
-    }
 }
