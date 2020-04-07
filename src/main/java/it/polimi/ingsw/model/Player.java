@@ -112,7 +112,7 @@ public class Player implements PropertyChangeListener {
      * @return true or false to indicate if the move was done or not
      */
 
-    ArrayList<Error> move(Worker w, int x, int y){
+    public ArrayList<Error> move(Worker w, int x, int y){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
         Power power = god.getPower();
@@ -135,7 +135,7 @@ public class Player implements PropertyChangeListener {
      * @return true or false to indicate if the build move was done or not
      */
 
-    ArrayList<Error> build(Worker w, int x, int y, int k){
+    public ArrayList<Error> build(Worker w, int x, int y, int k){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
         Power power = god.getPower();
