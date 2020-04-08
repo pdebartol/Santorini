@@ -111,22 +111,22 @@ public class StandardPower implements Power {
         ArrayList<Error>  errors = new ArrayList<>();
         Square s = board.getSquare(x,y);
 
-        // Check build tokens
+        //Check build tokens
         if(board.getNBuild() >= maxBuild) errors.add(Error.BUILDS_EXCEEDED);
 
-        //Can't  build before move
+        //Can't build before move
         if(board.getNMoves() == 0) errors.add(Error.BUILD_BEFORE_MOVE);
 
-        // Adjacent check
+        //Adjacent check
         if(!board.isAdjacent(w.getCurrentSquare(),s))  errors.add(Error.NOT_ADJACENT);
 
         //Level check
         if(l != s.getLevel() + 1) errors.add(Error.INVALID_LEVEL_BUILD);
 
-        // Dome check
+        //Dome check
         if(s.getDome()) errors.add(Error.IS_DOME);
 
-        // Occupation check
+        //Occupation check
         if(!s.isFree()) errors.add(Error.NOT_FREE);
 
         return errors;
