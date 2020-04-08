@@ -34,11 +34,11 @@ class PlayerTest {
         Worker worker2 = Objects.requireNonNull(player1.getWorkers().get(1));
 
         assertEquals(2, player1.getWorkers().size());
-        assertEquals(true,player1.getWorkers().contains(worker1));
-        assertEquals(true,player1.getWorkers().contains(worker2));
+        assertTrue(player1.getWorkers().contains(worker1));
+        assertTrue(player1.getWorkers().contains(worker2));
         worker1.removeFromGame();
         assertEquals(1, player1.getWorkers().size());
-        assertEquals(true,player1.getWorkers().contains(worker2));
+        assertTrue(player1.getWorkers().contains(worker2));
 
     }
 

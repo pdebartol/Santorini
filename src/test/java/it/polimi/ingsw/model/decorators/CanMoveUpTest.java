@@ -67,14 +67,14 @@ class CanMoveUpTest {
         //Artemis check
         b.resetCounters();
         b.getSquare(3,4).buildLevel(1);
-        assertEquals(true,p2.move(p2.getWorkers().get(0),3,4).contains(Error.BLOCK_MOVE_UP));
-        assertEquals(true,p2.move(p2.getWorkers().get(0),4,3).isEmpty());
+        assertTrue(p2.move(p2.getWorkers().get(0), 3, 4).contains(Error.BLOCK_MOVE_UP));
+        assertTrue(p2.move(p2.getWorkers().get(0), 4, 3).isEmpty());
 
         // Apollo check
         b.resetCounters();
         b.getSquare(2,1).buildLevel(1);
-        assertEquals(true,p3.move(p3.getWorkers().get(0),2,1).contains(Error.BLOCK_MOVE_UP));
-        assertEquals(true,p3.move(p3.getWorkers().get(0),1,2).isEmpty());
+        assertTrue(p3.move(p3.getWorkers().get(0), 2, 1).contains(Error.BLOCK_MOVE_UP));
+        assertTrue(p3.move(p3.getWorkers().get(0), 1, 2).isEmpty());
     }
 
     /**
@@ -90,12 +90,12 @@ class CanMoveUpTest {
         // Artemis check
         b.resetCounters();
         b.getSquare(3,4).buildLevel(1);
-        assertEquals(true,p2.move(p2.getWorkers().get(0),3,4).isEmpty());
+        assertTrue(p2.move(p2.getWorkers().get(0), 3, 4).isEmpty());
 
         // Apollo check
         b.resetCounters();
         b.getSquare(2,1).buildLevel(1);
-        assertEquals(true,p3.move(p3.getWorkers().get(0),2,1).isEmpty());
+        assertTrue(p3.move(p3.getWorkers().get(0), 2, 1).isEmpty());
     }
 
     /**
@@ -114,14 +114,14 @@ class CanMoveUpTest {
         //Artemis check
         b.resetCounters();
         b.getSquare(3,4).buildLevel(1);
-        assertEquals(true,p2.move(p2.getWorkers().get(0),3,4).contains(Error.BLOCK_MOVE_UP));
-        assertEquals(true,p2.move(p2.getWorkers().get(0),4,3).isEmpty());
+        assertTrue(p2.move(p2.getWorkers().get(0), 3, 4).contains(Error.BLOCK_MOVE_UP));
+        assertTrue(p2.move(p2.getWorkers().get(0), 4, 3).isEmpty());
 
         // Apollo check
         b.resetCounters();
         b.getSquare(2,1).buildLevel(1);
-        assertEquals(true,p3.move(p3.getWorkers().get(0),2,1).contains(Error.BLOCK_MOVE_UP));
-        assertEquals(true,p3.move(p3.getWorkers().get(0),1,2).isEmpty());
+        assertTrue(p3.move(p3.getWorkers().get(0), 2, 1).contains(Error.BLOCK_MOVE_UP));
+        assertTrue(p3.move(p3.getWorkers().get(0), 1, 2).isEmpty());
 
         //Athena doesn't moves up
         b.getSquare(1,1).buildLevel(1);
@@ -131,12 +131,12 @@ class CanMoveUpTest {
         // Artemis check
         b.resetCounters();
         b.getSquare(4,4).buildLevel(1);
-        assertEquals(true,p2.move(p2.getWorkers().get(0),4,4).isEmpty());
+        assertTrue(p2.move(p2.getWorkers().get(0), 4, 4).isEmpty());
 
         // Apollo check
         b.resetCounters();
         b.getSquare(2,2).buildLevel(1);
-        assertEquals(true,p3.move(p3.getWorkers().get(0),2,2).isEmpty());
+        assertTrue(p3.move(p3.getWorkers().get(0), 2, 2).isEmpty());
 
     }
 

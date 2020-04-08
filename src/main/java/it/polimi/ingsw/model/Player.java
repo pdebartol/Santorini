@@ -120,6 +120,7 @@ public class Player implements PropertyChangeListener {
         if(errors.isEmpty()){
             power.updateMove(w,x,y);
             // if(power.checkWin(w)) send to view a msg to signal winner
+            //send to view a msg to signal changes
         }else
             sendErrorMsg(errors);
 
@@ -143,6 +144,7 @@ public class Player implements PropertyChangeListener {
         ArrayList<Error> errors = power.checkBuild(w, x, y, l);
         if(errors.isEmpty()){
             power.updateBuild(w, x, y, l);
+            //send to view a msg to signal changes
         }else
             sendErrorMsg(errors);
 
@@ -178,6 +180,16 @@ public class Player implements PropertyChangeListener {
                 case BLOCK_MOVE_UP:
                     //send to view a msg for the error
                 case CANT_DOME_UNDERFOOT:
+                    //send to view a msg for the error
+                case SAME_DIRECTION_NOT_FREE:
+                    //send to view a msg for the error
+                case EXTRA_BUILD_NOT_PERIMETER:
+                    //send to view a msg for the error
+                case EXTRA_MOVE_NOT_BACK:
+                    //send to view a msg for the error
+                case EXTRA_BUILD_ONLY_SAME_SPACE:
+                    //send to view a msg for the error
+                case CANT_MOVE_UP:
                     //send to view a msg for the error
             }
     }

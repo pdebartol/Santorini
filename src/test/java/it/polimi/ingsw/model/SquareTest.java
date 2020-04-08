@@ -41,9 +41,9 @@ class SquareTest {
 
     @Test
     void isFree() {
-        assertEquals(true, gameBoard.getSquare(1,1).isFree());
+        assertTrue(gameBoard.getSquare(1, 1).isFree());
         gameBoard.getSquare(1,1).setWorker(worker);
-        assertEquals(false, gameBoard.getSquare(1,1).isFree());
+        assertFalse(gameBoard.getSquare(1, 1).isFree());
     }
 
     @Test
@@ -52,15 +52,15 @@ class SquareTest {
 
         //buildLevel() test
         for (int i = 0; i < 4; i++) {
-            assertEquals(false, gameBoard.getSquare(4,4 ).isCompleteTower());
+            assertFalse(gameBoard.getSquare(4, 4).isCompleteTower());
             assertEquals(i, gameBoard.getSquare(4, 4).getLevel());
             gameBoard.getSquare(4, 4).buildLevel(i+1);
         }
 
         //build dome test
         assertEquals(3, gameBoard.getSquare(4, 4).getLevel());
-        assertEquals(true, gameBoard.getSquare(4,4).getDome());
-        assertEquals(true, gameBoard.getSquare(4,4).isCompleteTower());
+        assertTrue(gameBoard.getSquare(4, 4).getDome());
+        assertTrue(gameBoard.getSquare(4, 4).isCompleteTower());
         assertThrows(IllegalStateException.class, () -> gameBoard.getSquare(4, 4).buildLevel(3));
 
     }

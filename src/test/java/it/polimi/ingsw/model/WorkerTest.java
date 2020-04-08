@@ -59,6 +59,6 @@ class WorkerTest {
         assertEquals(worker, gameBoard.getSquare(2,2).getWorker());
         assertEquals(worker.getLastSquareMove(), gameBoard.getSquare(2,1));
         assertEquals(worker.getCurrentSquare(), gameBoard.getSquare(2,2));
-        assertEquals(null, worker.getLastSquareMove().getWorker());
+        assertNull(worker.getLastSquareMove().getWorker());
     }
 }
