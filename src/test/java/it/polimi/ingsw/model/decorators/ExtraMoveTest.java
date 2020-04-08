@@ -93,7 +93,7 @@ class ExtraMoveTest {
     }
 
     /**
-     *      * This method tests Triton's power with Athena and Hera present on the board.
+     * This method tests Triton's power with Athena and Hera present on the board.
      */
 
     @Test
