@@ -162,6 +162,7 @@ public class StandardPower implements Power {
         if(s.equals(w.getCurrentSquare())) throw new IllegalStateException("Can't move on the same Square!");
 
         w.updateWorkerPosition(s);
+        w.getLastSquareMove().removeWorker();
         board.incNMoves();
     }
 
