@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ExtraMoveTest {
     Board b;
-    Player p1, p2, p3, p4;
+    Player p1, p2, p3;
 
     /**
      * Setup for testing :
@@ -58,42 +58,44 @@ class ExtraMoveTest {
 
 
     /**
-     * This method tests Artemis' power with Athena and Hera present on the board.
+     * This method tests Artemis' power with Athena present on the board.
+     * Artemis' power:  Your Worker may move one additional time, but not back to its initial space.
      */
     @Test
     public void checkArtemisWithAthena(){
         b.getSquare(0,2).buildLevel(1);
         b.resetCounters();
-        assertEquals(true,p2.move(p2.getWorkers().get(1),0,2).isEmpty());
+        assertTrue(p2.move(p2.getWorkers().get(1), 0, 2).isEmpty());
 
         b.resetCounters();
-        assertEquals(true,p1.move(p1.getWorkers().get(0),0,1).isEmpty());
+        assertTrue(p1.move(p1.getWorkers().get(0), 0, 1).isEmpty());
 
         // Check Artemis cannot move back
         ArrayList<Error> temp_errors = p1.move(p1.getWorkers().get(0),0,0);
-        assertEquals(true, temp_errors.contains(Error.EXTRA_MOVE_NOT_BACK));
+        assertTrue(temp_errors.contains(Error.EXTRA_MOVE_NOT_BACK));
         assertEquals(1,temp_errors.size());
 
         // Check Artemis can move again but Athena blocks him
         b.getSquare(1,1).buildLevel(1);
         temp_errors = p1.move(p1.getWorkers().get(0),1,1);
-        assertEquals(true, temp_errors.contains(Error.BLOCK_MOVE_UP));
+        assertTrue(temp_errors.contains(Error.BLOCK_MOVE_UP));
         assertEquals(1,temp_errors.size());
 
         // Check Artemis can move again
         temp_errors = p1.move(p1.getWorkers().get(0),1,2);
-        assertEquals(true,temp_errors.isEmpty());
+        assertTrue(temp_errors.isEmpty());
 
         // Check Artemis can't move for the third time
         temp_errors = p1.move(p1.getWorkers().get(0),2,3);
-        assertEquals(true, temp_errors.contains(Error.MOVES_EXCEEDED));
+        assertTrue(temp_errors.contains(Error.MOVES_EXCEEDED));
         assertEquals(1,temp_errors.size());
 
         b.resetCounters();
     }
 
     /**
-     * This method tests Triton's power with Athena and Hera present on the board.
+     * This method tests Triton's power with Athena present on the board.
+     * Triton's power: Each time your Worker moves into a perimeter space, it may immediately move again.
      */
 
     @Test
@@ -102,26 +104,26 @@ class ExtraMoveTest {
 
         // Activating Athena's power
         b.resetCounters();
-        assertEquals(true,p2.move(p2.getWorkers().get(1),0,2).isEmpty());
+        assertTrue(p2.move(p2.getWorkers().get(1), 0, 2).isEmpty());
 
         // Triton's turn
         b.resetCounters();
-        assertEquals(true,p3.move(p3.getWorkers().get(1),1,4).isEmpty());
+        assertTrue(p3.move(p3.getWorkers().get(1), 1, 4).isEmpty());
 
         // Check Triton can move again on perimeter
-        assertEquals(true, p3.move(p3.getWorkers().get(1),2,4).isEmpty());
-        assertEquals(true, p3.move(p3.getWorkers().get(1),3,4).isEmpty());
+        assertTrue(p3.move(p3.getWorkers().get(1), 2, 4).isEmpty());
+        assertTrue(p3.move(p3.getWorkers().get(1), 3, 4).isEmpty());
 
         // Check Triton can't move up because of Athena's power
         b.getSquare(2,4).buildLevel(1);
         ArrayList<Error> temp_errors = p3.move(p3.getWorkers().get(1),2,4);
-        assertEquals(true,temp_errors.contains(Error.BLOCK_MOVE_UP));
+        assertTrue(temp_errors.contains(Error.BLOCK_MOVE_UP));
         assertEquals(1,temp_errors.size());
 
         //Check Triton can't move outside perimeter
-        assertEquals(true, p3.move(p3.getWorkers().get(1),3,3).isEmpty());
+        assertTrue(p3.move(p3.getWorkers().get(1), 3, 3).isEmpty());
          temp_errors = p3.move(p3.getWorkers().get(1),3,2);
-        assertEquals(true, temp_errors.contains(Error.MOVES_EXCEEDED));
+        assertTrue(temp_errors.contains(Error.MOVES_EXCEEDED));
         assertEquals(1, temp_errors.size());
 
     }
