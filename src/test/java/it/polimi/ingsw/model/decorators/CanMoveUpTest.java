@@ -78,12 +78,12 @@ class CanMoveUpTest {
     }
 
     /**
-     * This method tests that, when Athena's player doesn't move up in his turn, the others player can move up in their turn.
+     * This method tests that, when Athena's player doesn't move up in his turn, the others can move up in their turn.
      */
 
     @Test
     public void notAthenaBlock(){
-        //Athena doesn't moves up
+        //Athena doesn't move up
         b.resetCounters();
         p1.move(p1.getWorkers().get(0),1,0);
 

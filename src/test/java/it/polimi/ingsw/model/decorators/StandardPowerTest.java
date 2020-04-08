@@ -281,7 +281,6 @@ class StandardPowerTest {
         assertEquals(wmp1, l3.getWorker());
         // worker win (his move is from level 2 to level 3)
         assertEquals(true, p.checkWin(wmp1));
-
     }
 
     /**
