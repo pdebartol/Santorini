@@ -166,6 +166,18 @@ class PlayerTest {
 
     @Test
     void legalMove(){
+        //the position (0,1) represents a valid position where p1 can move
+        p1.move(p1.getWorkers().get(0),0,1);
+
+        //check update in square
+        assertEquals(p1.getWorkers().get(0), b.getSquare(0,1).getWorker());
+
+        //check update in worker
+        assertEquals(b.getSquare(0,1), p1.getWorkers().get(0).getCurrentSquare());
+        assertEquals(b.getSquare(0,0), p1.getWorkers().get(0).getLastSquareMove());
+
+        //check starting position has been emptied
+        assertNull(b.getSquare(0, 0).getWorker());
     }
 
     /**
@@ -174,7 +186,15 @@ class PlayerTest {
 
     @Test
     void illegalMove(){
+        //the position (0,2) is occupied by p3 and isn't adjacent to player1's male worker
+        p1.move(p1.getWorkers().get(0),0,2);
 
+        //check that nothing has changed
+        assertEquals(p1.getWorkers().get(0), b.getSquare(0,0).getWorker());
+        assertEquals(b.getSquare(0,0), p1.getWorkers().get(0).getCurrentSquare());
+
+        assertEquals(p3.getWorkers().get(0), b.getSquare(0,2).getWorker());
+        assertEquals(b.getSquare(0,2), p3.getWorkers().get(0).getCurrentSquare());
     }
 
     @Test

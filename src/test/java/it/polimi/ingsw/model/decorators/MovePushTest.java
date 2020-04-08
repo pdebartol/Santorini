@@ -87,9 +87,7 @@ class MovePushTest {
         b.getSquare(2,2).buildLevel(2);
         b.resetCounters();
 
-        assertTrue(p1.getGod().getPower().checkMove(p1.getWorkers().get(1),2,2).isEmpty());
-        p1.getGod().getPower().updateMove(p1.getWorkers().get(1), 2,2);
-        //p1.move(p1.getWorkers().get(1), 2,2);
+        p1.move(p1.getWorkers().get(1), 2,2);
 
     }
 

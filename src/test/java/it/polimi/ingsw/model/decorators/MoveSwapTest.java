@@ -48,7 +48,7 @@ class MoveSwapTest {
         p2.getWorkers().get(1).setWorkerOnBoard(b.getSquare(4,2));
 
         // p3 sets workers
-        p3.getWorkers().get(0).setWorkerOnBoard(b.getSquare(1,0));
+        p3.getWorkers().get(0).setWorkerOnBoard(b.getSquare(1,2));
         p3.getWorkers().get(1).setWorkerOnBoard(b.getSquare(1,1));
 
     }
@@ -79,9 +79,35 @@ class MoveSwapTest {
         assertEquals(p3.getWorkers().get(0), b.getSquare(0,1).getWorker());
         assertEquals(p3.getWorkers().get(0).getCurrentSquare(), b.getSquare(0,1));
 
-        //check if other worker has been swapped
-        assertEquals(p1.getWorkers().get(1), b.getSquare(1,0).getWorker());
-        assertEquals(p1.getWorkers().get(1).getCurrentSquare(), b.getSquare(1,0));
+        //check if the other worker has been swapped
+        assertEquals(p1.getWorkers().get(1), b.getSquare(1,2).getWorker());
+        assertEquals(p1.getWorkers().get(1).getCurrentSquare(), b.getSquare(1,2));
 
+    }
+
+    /**
+     * This method check that the player who uses worker swapped by another worker from level 2 to level 3, cant' win
+     */
+
+    @Test
+    void cantWinSwappedCheck(){
+        b.getSquare(1,1).buildLevel(3);
+
+        p1.move(p1.getWorkers().get(0),1,0);
+
+        b.getSquare(1,0).buildLevel(2);
+
+        b.resetCounters();
+        p3.move(p3.getWorkers().get(1),1,0);
+
+        assertEquals(p3.getWorkers().get(1), b.getSquare(1,0).getWorker());
+        assertEquals(p3.getWorkers().get(1).getCurrentSquare(), b.getSquare(1,0));
+
+        //check if the other worker has been swapped
+        assertEquals(p1.getWorkers().get(0), b.getSquare(1,1).getWorker());
+        assertEquals(p1.getWorkers().get(0).getCurrentSquare(), b.getSquare(1,1));
+
+        //check that p1 hasn't won
+        assertFalse(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));
     }
 }

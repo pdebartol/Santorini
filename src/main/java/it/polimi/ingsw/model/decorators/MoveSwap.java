@@ -47,10 +47,10 @@ public class MoveSwap extends PowerDecorator {
 
     @Override
     public void updateMove(Worker w, int x, int y) {
-        if(getBoard().getSquare(x,y).getWorker() != null) {
+        if(!getBoard().getSquare(x,y).isFree()) {
             Worker opw = getBoard().getSquare(x, y).removeWorker();
             decoratedPower.updateMove(w, x, y);
-            opw.updateWorkerPosition(w.getLastSquareMove());
+            opw.setWorkerOnBoard(w.getLastSquareMove());
         } else
             decoratedPower.updateMove(w, x, y);
     }
