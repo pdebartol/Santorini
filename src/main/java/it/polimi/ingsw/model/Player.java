@@ -114,7 +114,7 @@ public class Player implements PropertyChangeListener {
 
     public ArrayList<Error> move(Worker w, int x, int y){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
         Power power = god.getPower();
         ArrayList<Error> errors = power.checkMove(w, x, y);
         if(errors.isEmpty()){
@@ -137,7 +137,8 @@ public class Player implements PropertyChangeListener {
 
     public ArrayList<Error> build(Worker w, int x, int y, int l){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
+        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
+        if(l < 1 || l > 3 ) throw new IllegalArgumentException("Invalid level!");
         Power power = god.getPower();
         ArrayList<Error> errors = power.checkBuild(w, x, y, l);
         if(errors.isEmpty()){

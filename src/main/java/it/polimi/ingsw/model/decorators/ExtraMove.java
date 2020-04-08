@@ -66,7 +66,7 @@ public class ExtraMove extends PowerDecorator {
     @Override
     public void updateMove(Worker w, int x, int y) {
         decoratedPower.updateMove(w, x, y);
-        if(onPerimeter && (x == 0 || x == 5) && (y == 0 || y == 5)){ // Infinite moves on perimeter
+        if(onPerimeter && (x == 0 || x == 4 || y == 0 || y == 4)){ // Infinite moves on perimeter
             decoratedPower.getBoard().decNMoves();
         }
     }
