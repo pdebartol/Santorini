@@ -74,8 +74,8 @@ class GodsFactoryTest {
         assertEquals(NoWinPerimeter.class, Artemis.getPower().getClass());
         assertEquals(CanMoveUp.class, ((PowerDecorator) Artemis.getPower()).decoratedPower.getClass());
         assertEquals(ExtraMove.class, ((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower.getClass());
-        assertTrue(((ExtraMove) (((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower)).isNotMoveBack());
-        assertFalse(((ExtraMove) (((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower)).isOnPerimeter());
+        assertTrue(((ExtraMove) (((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower)).notMoveBack);
+        assertFalse(((ExtraMove) (((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower)).onPerimeter);
         assertEquals(((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxMoves(), 2);
         assertEquals(((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Artemis.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxBuild(), 1);
 
@@ -124,9 +124,9 @@ class GodsFactoryTest {
         assertEquals(NoWinPerimeter.class, Demeter.getPower().getClass());
         assertEquals(CanMoveUp.class, ((PowerDecorator) Demeter.getPower()).decoratedPower.getClass());
         assertEquals(ExtraBuild.class, ((PowerDecorator) ((PowerDecorator) Demeter.getPower()).decoratedPower).decoratedPower.getClass());
-        assertFalse(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Demeter.getPower()).decoratedPower).decoratedPower)).isNotPerimeter());
-        assertTrue(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Demeter.getPower()).decoratedPower).decoratedPower)).isNotSameSpace());
-        assertFalse(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Demeter.getPower()).decoratedPower).decoratedPower)).isOnlySameSpace());
+        assertFalse(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Demeter.getPower()).decoratedPower).decoratedPower)).notPerimeter);
+        assertTrue(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Demeter.getPower()).decoratedPower).decoratedPower)).notSameSpace);
+        assertFalse(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Demeter.getPower()).decoratedPower).decoratedPower)).onlySameSpace);
         assertEquals(1,((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Demeter.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxMoves());
         assertEquals(2,((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Demeter.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxBuild());
 
@@ -151,9 +151,9 @@ class GodsFactoryTest {
         assertEquals(NoWinPerimeter.class, Hephaestus.getPower().getClass());
         assertEquals(CanMoveUp.class, ((PowerDecorator) Hephaestus.getPower()).decoratedPower.getClass());
         assertEquals( ExtraBuild.class, ((PowerDecorator) ((PowerDecorator) Hephaestus.getPower()).decoratedPower).decoratedPower.getClass());
-        assertFalse(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Hephaestus.getPower()).decoratedPower).decoratedPower)).isNotPerimeter());
-        assertFalse(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Hephaestus.getPower()).decoratedPower).decoratedPower)).isNotSameSpace());
-        assertTrue(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Hephaestus.getPower()).decoratedPower).decoratedPower)).isOnlySameSpace());
+        assertFalse(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Hephaestus.getPower()).decoratedPower).decoratedPower)).notPerimeter);
+        assertFalse(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Hephaestus.getPower()).decoratedPower).decoratedPower)).notSameSpace);
+        assertTrue(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Hephaestus.getPower()).decoratedPower).decoratedPower)).onlySameSpace);
         assertEquals(1, ((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Hephaestus.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxMoves());
         assertEquals(2, ((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Hephaestus.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxBuild());
 
@@ -248,9 +248,9 @@ class GodsFactoryTest {
         assertEquals(NoWinPerimeter.class, Hestia.getPower().getClass());
         assertEquals(CanMoveUp.class, ((PowerDecorator) Hestia.getPower()).decoratedPower.getClass());
         assertEquals( ExtraBuild.class, ((PowerDecorator) ((PowerDecorator) Hestia.getPower()).decoratedPower).decoratedPower.getClass());
-        assertTrue(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Hestia.getPower()).decoratedPower).decoratedPower)).isNotPerimeter());
-        assertFalse(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Hestia.getPower()).decoratedPower).decoratedPower)).isNotSameSpace());
-        assertFalse(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Hestia.getPower()).decoratedPower).decoratedPower)).isOnlySameSpace());
+        assertTrue(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Hestia.getPower()).decoratedPower).decoratedPower)).notPerimeter);
+        assertFalse(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Hestia.getPower()).decoratedPower).decoratedPower)).notSameSpace);
+        assertFalse(((ExtraBuild) (((PowerDecorator) ((PowerDecorator) Hestia.getPower()).decoratedPower).decoratedPower)).onlySameSpace);
         assertEquals(1,((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Hestia.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxMoves());
         assertEquals(2,((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Hestia.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxBuild());
 
@@ -299,8 +299,8 @@ class GodsFactoryTest {
         assertEquals(NoWinPerimeter.class,Triton.getPower().getClass());
         assertEquals(CanMoveUp.class, ((PowerDecorator) Triton.getPower()).decoratedPower.getClass());
         assertEquals(ExtraMove.class, ((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower.getClass());
-        assertFalse(((ExtraMove) (((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower)).isNotMoveBack());
-        assertTrue(((ExtraMove) (((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower)).isOnPerimeter());
+        assertFalse(((ExtraMove) (((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower)).notMoveBack);
+        assertTrue(((ExtraMove) (((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower)).onPerimeter);
         assertEquals(1,((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxMoves());
         assertEquals(1,((StandardPower) (((PowerDecorator) (((PowerDecorator) ((PowerDecorator) Triton.getPower()).decoratedPower).decoratedPower)).decoratedPower)).getMaxBuild());
 

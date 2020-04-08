@@ -19,17 +19,17 @@ public class ExtraBuild extends PowerDecorator {
     /**
      * (If true) The worker may build one additional block on top of his first block (not a dome).
      */
-    private boolean onlySameSpace;
+    public boolean onlySameSpace;
 
     /**
      * (If true) The worker may build one additional block but not on top of his first block.
      */
-    private boolean notSameSpace;
+    public boolean notSameSpace;
 
     /**
      * (If true) The worker may build one additional block but not on a perimeter space.
      */
-    private boolean notPerimeter;
+    public boolean notPerimeter;
 
     //constructors
 
@@ -71,15 +71,5 @@ public class ExtraBuild extends PowerDecorator {
         return errors;
 
     }
-    public boolean isOnlySameSpace() {
-        return onlySameSpace;
-    }
 
-    public boolean isNotSameSpace() {
-        return notSameSpace;
-    }
-
-    public boolean isNotPerimeter() {
-        return notPerimeter;
-    }
 }

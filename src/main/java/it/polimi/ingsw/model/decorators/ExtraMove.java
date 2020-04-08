@@ -18,12 +18,12 @@ public class ExtraMove extends PowerDecorator {
     /**
      * (If true) The worker may move again but not back to its initial space.
      */
-    private boolean notMoveBack;
+    public boolean notMoveBack;
 
     /**
      * (If true) The worker may move again if it moves into a perimeter space.
      */
-    private boolean onPerimeter;
+    public boolean onPerimeter;
 
     //constructors
 
@@ -71,11 +71,4 @@ public class ExtraMove extends PowerDecorator {
         }
     }
 
-    public boolean isNotMoveBack() {
-        return notMoveBack;
-    }
-
-    public boolean isOnPerimeter() {
-        return onPerimeter;
-    }
 }

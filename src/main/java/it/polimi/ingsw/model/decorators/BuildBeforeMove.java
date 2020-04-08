@@ -35,8 +35,10 @@ public class BuildBeforeMove extends PowerDecorator {
     @Override
     public ArrayList<Error> checkMove(Worker w, int x, int y) {
         ArrayList<Error> errors = decoratedPower.checkMove(w, x, y);
-        if (decoratedPower.getBoard().getNBuild() > 0 && w.getCurrentSquare().getLevel() < decoratedPower.getBoard().getSquare(x,y).getLevel()) { // build before move
-            errors.add(Error.CANT_MOVE_UP);
+        if (decoratedPower.getBoard().getNBuild() > 0) { // build before move
+            if(w.getCurrentSquare().getLevel() < decoratedPower.getBoard().getSquare(x,y).getLevel())
+                errors.add(Error.CANT_MOVE_UP);
+            errors.remove(Error.MOVE_AFTER_BUILD);
         }
         return errors;
     }
