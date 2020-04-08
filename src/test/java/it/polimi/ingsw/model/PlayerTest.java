@@ -42,15 +42,15 @@ class PlayerTest {
 
         // p1 sets workers
         p1.getWorkers().get(0).setWorkerOnBoard(b.getSquare(0,0));
-        p1.getWorkers().get(1).setWorkerOnBoard(b.getSquare(0,1));
+        p1.getWorkers().get(1).setWorkerOnBoard(b.getSquare(1,1));
 
         // p2 sets workers
         p2.getWorkers().get(0).setWorkerOnBoard(b.getSquare(4,4));
         p2.getWorkers().get(1).setWorkerOnBoard(b.getSquare(4,2));
 
         // p3 sets workers
-        p3.getWorkers().get(0).setWorkerOnBoard(b.getSquare(2,2));
-        p3.getWorkers().get(1).setWorkerOnBoard(b.getSquare(3,0));
+        p3.getWorkers().get(0).setWorkerOnBoard(b.getSquare(0,2));
+        p3.getWorkers().get(1).setWorkerOnBoard(b.getSquare(2,2));
     }
 
 
@@ -73,28 +73,132 @@ class PlayerTest {
     }
 
     /**
-     *
+     * This method tests that, if there is at least 1 adjacent square where at least 1 worker's player can move,
+     * canMove() return true.
      */
 
     @Test
     void canMoveCheck(){
+        //first check
+        assertTrue(p1.canMove());
 
+        //Only 1 square for p1 to move (p1 can move only workers.get(1) to (2,0) position)
+        b.getSquare(1,0).buildLevel(2);
+        b.getSquare(0,1).buildLevel(2);
+        b.getSquare(2,1).buildLevel(2);
+        b.getSquare(1,2).buildLevel(2);
+        assertTrue(p1.canMove());
     }
+
+    /**
+     * This method tests that, if there isn't at least 1 square where at least 1 worker's player can move,
+     * canMove() return false.
+     */
 
     @Test
     void cantMoveCheck(){
+        //There isn't position where p1 can move
+        b.getSquare(1,0).buildLevel(2);
+        b.getSquare(0,1).buildLevel(2);
+        b.getSquare(2,1).buildLevel(2);
+        b.getSquare(1,2).buildLevel(2);
+        b.getSquare(2,0).buildLevel(2);
+        assertFalse(p1.canMove());
+    }
+
+    @Test
+    void canBuildException(){
+        assertThrows(IllegalArgumentException.class, () -> p1.canBuild(null));
+    }
+
+    /**
+     * This method tests that, if there is at least 1 square where the worker's player used for move can build,
+     * canBuild() returns true.
+     */
+
+    @Test
+    void canBuildCheck() {
+        //first check
+        p1.move(p1.getWorkers().get(0),0,1); //The player have to move worker before build with him
+        assertTrue(p1.canBuild(p1.getWorkers().get(0)));
+
+        //only 1 square for p1 to build (the rest of squares is occupied or a complete tower)
+        b.getSquare(1,0).buildLevel(3);
+        b.getSquare(1,0).buildLevel(4);
+        b.getSquare(0,0).buildLevel(3);
+        b.getSquare(0,0).buildLevel(4);
+        b.getSquare(2,1).buildLevel(3);
+        b.getSquare(2,1).buildLevel(4);
+        assertTrue(p1.canBuild(p1.getWorkers().get(0)));
+    }
+
+    /**
+     * This method tests that, if there isn't at least 1 square where the worker's player used for move can build,
+     * canBuild() returns false.
+     */
+
+    @Test
+    void cantBuildCheck(){
+        p1.move(p1.getWorkers().get(0),0,1); //The player have to move worker before build with him
+
+        //There isn't position where p1 can build
+        b.getSquare(1,0).buildLevel(3);
+        b.getSquare(1,0).buildLevel(4);
+        b.getSquare(0,0).buildLevel(3);
+        b.getSquare(0,0).buildLevel(4);
+        b.getSquare(2,1).buildLevel(3);
+        b.getSquare(2,1).buildLevel(4);
+        b.getSquare(1,2).buildLevel(3);
+        b.getSquare(1,2).buildLevel(4);
+        assertFalse(p1.canBuild(p1.getWorkers().get(0)));
+    }
+
+    @Test
+    void moveException() {
+        assertThrows(IllegalArgumentException.class, () -> p1.move(null,1,2));
+        assertThrows(IllegalArgumentException.class, () -> p1.move(p1.getWorkers().get(0),-1,2));
+        assertThrows(IllegalArgumentException.class, () -> p1.move(p1.getWorkers().get(0),1,5));
+    }
+
+    /**
+     * This method check that, after a move() call, if this move is legal, model status is updated correctly.
+     */
+
+    @Test
+    void legalMove(){
+    }
+
+    /**
+     * This method check that, after a move() call, if this move is illegal, model status is unchanged.
+     */
+
+    @Test
+    void illegalMove(){
 
     }
 
     @Test
-    void canBuild() {
+    void buildException(){
+        assertThrows(IllegalArgumentException.class, () -> p1.build(null,1,2,1));
+        assertThrows(IllegalArgumentException.class, () -> p1.build(p1.getWorkers().get(0),-1,2,1));
+        assertThrows(IllegalArgumentException.class, () -> p1.build(p1.getWorkers().get(0),1,5,1));
+        assertThrows(IllegalArgumentException.class, () -> p1.build(p1.getWorkers().get(0),0,1,5));
     }
 
-    @Test
-    void move() {
-    }
+    /**
+     * This method check that, after a build() call, if this move is legal, model status is updated correctly.
+     */
 
     @Test
-    void build() {
+    void legalBuild(){
+
+    }
+
+    /**
+     * This method check that, after a build() call, if this move is legal, model status is updated correctly.
+     */
+
+    @Test
+    void illegalBuild() {
     }
 }

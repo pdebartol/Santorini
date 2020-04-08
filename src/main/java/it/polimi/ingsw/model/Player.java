@@ -70,35 +70,35 @@ public class Player implements PropertyChangeListener {
     public boolean canMove(){
         for(int i = -1; i <= 1 ; i++)
             for(int j = -1; j <= 1; j++){
-                    for (Worker worker : workers) {
-                        int x = worker.getCurrentSquare().getXPosition() + i;
-                        int y = worker.getCurrentSquare().getYPosition() + j;
-                        if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
-                            if (god.getPower().checkMove(worker,x,y).size() == 0)
-                                return true;
-                    }
+                for (Worker worker : workers) {
+                    int x = worker.getCurrentSquare().getXPosition() + i;
+                    int y = worker.getCurrentSquare().getYPosition() + j;
+                    if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
+                        if (god.getPower().checkMove(worker, x, y).isEmpty())
+                            return true;
                 }
+            }
         return false;
     }
 
     /**
      * This method checks if the player can Build in his turn (if the player can't build, he loses)
-     * @return true or false to indicate if at least one worker which player use can build in at least one square
-     * compatible with rules or not
+     * @param w is the worker player used for move (he have to use the same worker for build)
+     * @return true or false to indicate if worker which player use can build in at least one square compatible
+     * with rules or not
      */
 
-    public boolean canBuild(){
+    public boolean canBuild(Worker w){
+        if (w == null) throw new IllegalArgumentException("Null worker as argument!");
         for(int i = -1; i <= 1 ; i++)
             for(int j = -1; j <= 1; j++){
-                    for (Worker worker : workers) {
-                        int x = worker.getCurrentSquare().getXPosition() + i;
-                        int y = worker.getCurrentSquare().getYPosition() + j;
-                        if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
-                            for(int k = 1; k < 5; ++k)
-                                if (god.getPower().checkBuild(worker,x,y,k).isEmpty())
-                                    return true;
-                    }
-                }
+                int x = w.getCurrentSquare().getXPosition() + i;
+                int y = w.getCurrentSquare().getYPosition() + j;
+                if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
+                    for(int k = 1; k < 5; k++)
+                        if (god.getPower().checkBuild(w, x, y, k).isEmpty())
+                            return true;
+            }
         return false;
     }
 
@@ -119,8 +119,8 @@ public class Player implements PropertyChangeListener {
         ArrayList<Error> errors = power.checkMove(w, x, y);
         if(errors.isEmpty()){
             power.updateMove(w,x,y);
-            // if(power.checkWin(w)) send to view a msg to signal winner
-            //send to view a msg to signal changes
+            //TODO: notify possible win to view
+            //TODO: notify changes to view
         }else
             sendErrorMsg(errors);
 
@@ -144,7 +144,7 @@ public class Player implements PropertyChangeListener {
         ArrayList<Error> errors = power.checkBuild(w, x, y, l);
         if(errors.isEmpty()){
             power.updateBuild(w, x, y, l);
-            //send to view a msg to signal changes
+            //TODO: notify changes to view
         }else
             sendErrorMsg(errors);
 
@@ -160,37 +160,37 @@ public class Player implements PropertyChangeListener {
         for(Error e: errors)
             switch (e){
                 case NOT_FREE:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case NOT_ADJACENT:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case INVALID_LEVEL_MOVE:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case INVALID_LEVEL_BUILD:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case IS_DOME:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case MOVE_AFTER_BUILD:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case BUILD_BEFORE_MOVE:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case BUILDS_EXCEEDED:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case MOVES_EXCEEDED:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case BLOCK_MOVE_UP:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case CANT_DOME_UNDERFOOT:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case SAME_DIRECTION_NOT_FREE:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case EXTRA_BUILD_NOT_PERIMETER:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case EXTRA_MOVE_NOT_BACK:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case EXTRA_BUILD_ONLY_SAME_SPACE:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
                 case CANT_MOVE_UP:
-                    //send to view a msg for the error
+                    //TODO: notify to view this error
             }
     }
 

@@ -23,7 +23,7 @@ class Down2WinTest {
 
     /**
      * Setup for testing:
-     * - 1 player (He uses Pan's power)
+     * - 1 player (with Pan's power)
      * - all workers set on board
      */
 
@@ -73,7 +73,7 @@ class Down2WinTest {
      */
 
     @Test
-    void Down2WinDecoratedCheck(){
+    void down2WinDecoratedCheck(){
         b.getSquare(2,3).buildLevel(1);
         b.getSquare(2,4).buildLevel(2);
 

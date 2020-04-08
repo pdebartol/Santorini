@@ -60,7 +60,7 @@ class BuildUnderfootTest {
     }
 
     /**
-     * This method verifies if Zeus's power works, both check and build has been tested
+     * This method verifies if BuildUnderFoot power works, both check and build has been tested
      */
 
     @Test
@@ -97,7 +97,7 @@ class BuildUnderfootTest {
     }
 
     /**
-     * This method tests that a player cannot win if uses Zeus's power to go from a level two to a level 3
+     * This method tests that a player cannot win if he uses BuildUnderFoot to go from a level two to a level 3
      */
 
     @Test
@@ -110,13 +110,14 @@ class BuildUnderfootTest {
         assertEquals(p1.getWorkers().get(0), b.getSquare(0,0).getWorker());
         assertEquals(1, b.getSquare(0,0).getLevel());
         p1.move(p1.getWorkers().get(0),1,1);
+
         //build level 3
         p1.build(p1.getWorkers().get(0),1,1,3);
         assertEquals(3, b.getSquare(1,1).getLevel());
         assertEquals(p1.getWorkers().get(0), b.getSquare(1,1).getWorker());
+
         //check if Player win
         assertFalse(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));
-
 
     }
 }

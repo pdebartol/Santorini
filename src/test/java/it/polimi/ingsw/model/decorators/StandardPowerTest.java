@@ -263,9 +263,11 @@ class StandardPowerTest {
         Square l2, l3;
         l2 = b.getSquare(2, 0);
         l3 = b.getSquare(3, 0);
+
         //level 2
         for (int i = 0; i < 2; i++)
             l2.buildLevel(i+1);
+
         //level 3
         for (int i = 0; i < 3; i++)
             l3.buildLevel(i+1);

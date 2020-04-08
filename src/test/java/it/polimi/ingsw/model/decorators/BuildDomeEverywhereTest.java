@@ -23,7 +23,7 @@ class BuildDomeEverywhereTest {
 
     /**
      * Setup for testing:
-     * - 1 Player
+     * - 1 Player (with Atlas' power)
      * - all workers set on board
      */
 
@@ -39,8 +39,6 @@ class BuildDomeEverywhereTest {
         // p1 sets workers
         p1.getWorkers().get(0).setWorkerOnBoard(b.getSquare(2,2));
         p1.getWorkers().get(1).setWorkerOnBoard(b.getSquare(0,0));
-
-
     }
 
     /**
@@ -50,13 +48,13 @@ class BuildDomeEverywhereTest {
     @Test
     void checkStandardBuild() {
 
-        //Check if can build before moves or under itself
-        assertFalse(p1.getGod().getPower().checkBuild(p1.getWorkers().get(0),2,2,1).isEmpty());
         //Player moves worker before build
         p1.move(p1.getWorkers().get(0),2,1);
-        //Check if worker cannot build a "middle level"
+
+        //Check that worker cannot build a "middle level" not following standard rules
         assertFalse(p1.getGod().getPower().checkBuild(p1.getWorkers().get(0),2,2,2).isEmpty());
-        //Check if worker can build a level 1 from level 0
+
+        //Check that worker can build a level 1 from level 0 (this follow standard rules)
         assertTrue(p1.getGod().getPower().checkBuild(p1.getWorkers().get(0),2,2,1).isEmpty());
 
     }
@@ -70,6 +68,7 @@ class BuildDomeEverywhereTest {
 
         //Player moves worker before build
         p1.move(p1.getWorkers().get(0),2,3);
+
         //Check if worker can build directly a dome (Atlas's power)
         assertTrue(p1.getGod().getPower().checkBuild(p1.getWorkers().get(0),2,2,4).isEmpty());
 
