@@ -211,7 +211,17 @@ class PlayerTest {
 
     @Test
     void legalBuild(){
+        //before build worker have to move
+        p2.move(p2.getWorkers().get(0),4,3);
 
+        //build in (3,3) position a level 1 represents a valid build
+        p2.build(p2.getWorkers().get(0),3,3,1);
+
+        //check level update
+        assertEquals(1, b.getSquare(3,3).getLevel());
+
+        //check last build position update
+        assertEquals(b.getSquare(3,3),p2.getWorkers().get(0).getLastSquareBuild());
     }
 
     /**
@@ -220,5 +230,14 @@ class PlayerTest {
 
     @Test
     void illegalBuild() {
+        //before build worker have to move
+        p2.move(p2.getWorkers().get(0),4,3);
+
+        //build in (3,3) position a level 2 represents a illegal build
+        p2.build(p2.getWorkers().get(0),3,3,2);
+
+        //check that nothing has changed
+        assertEquals(0, b.getSquare(3,3).getLevel());
+        assertEquals(null,p2.getWorkers().get(0).getLastSquareBuild());
     }
 }
