@@ -85,16 +85,16 @@ class BoardTest {
         assertThrows(IllegalArgumentException.class, () -> gameBoard.isAdjacent(null,null));
 
         // Two adjacent squares
-        assertEquals(true, gameBoard.isAdjacent(gameBoard.getSquare(1, 1), gameBoard.getSquare(1, 2)));
-        assertEquals(true, gameBoard.isAdjacent(gameBoard.getSquare(0, 0), gameBoard.getSquare(0, 1)));
+        assertTrue(gameBoard.isAdjacent(gameBoard.getSquare(1, 1), gameBoard.getSquare(1, 2)));
+        assertTrue(gameBoard.isAdjacent(gameBoard.getSquare(0, 0), gameBoard.getSquare(0, 1)));
 
         // Same square
-        assertEquals(false, gameBoard.isAdjacent(gameBoard.getSquare(0,0), gameBoard.getSquare(0,0)));
-        assertEquals(false, gameBoard.isAdjacent(gameBoard.getSquare(4,4), gameBoard.getSquare(4,4)));
+        assertFalse(gameBoard.isAdjacent(gameBoard.getSquare(0, 0), gameBoard.getSquare(0, 0)));
+        assertFalse(gameBoard.isAdjacent(gameBoard.getSquare(4, 4), gameBoard.getSquare(4, 4)));
 
         // Not adjacent squares
-        assertEquals(false, gameBoard.isAdjacent(gameBoard.getSquare(1,1), gameBoard.getSquare(2,3)));
-        assertEquals(false, gameBoard.isAdjacent(gameBoard.getSquare(0,0), gameBoard.getSquare(4,4)));
+        assertFalse(gameBoard.isAdjacent(gameBoard.getSquare(1, 1), gameBoard.getSquare(2, 3)));
+        assertFalse(gameBoard.isAdjacent(gameBoard.getSquare(0, 0), gameBoard.getSquare(4, 4)));
 
     }
 }

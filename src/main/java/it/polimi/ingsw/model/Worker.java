@@ -113,7 +113,6 @@ public class Worker  {
 
     public void updateWorkerPosition(Square s) {
         if( s == null) throw new IllegalArgumentException("Null square as argument!");
-        currentSquare.removeWorker();
         lastSquareMove = currentSquare;
         currentSquare = s;
         s.setWorker(this);

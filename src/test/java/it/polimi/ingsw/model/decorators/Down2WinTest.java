@@ -6,23 +6,25 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test suite for Down2Win class represents Pan's power
+ * Test suite for Down2Win
  * @author aledimaio
  */
 
 class Down2WinTest {
 
     Board b;
-    Player p1, p2, p3;
+    Player p1;
 
     /**
      * Setup for testing:
-     * 3 players, each of them have workers set on board
+     * - 1 player (He uses Pan's power)
+     * - all workers set on board
      */
 
     @BeforeEach
@@ -30,53 +32,62 @@ class Down2WinTest {
 
         b = new Board();
         GodsFactory factory = new GodsFactory(b);
-        p1 = new Player("pierobartolo", Color.WHITE);
-        p2 = new Player("marcodige",Color.GREY);
-        p3 = new Player("aledimaio",Color.AZURE);
-        ArrayList<God> gods = factory.getGods(new ArrayList<>(Arrays.asList(8,5,9)));
-        p1.setGod(Objects.requireNonNull(gods.get(0))); // Minotaur
-        p2.setGod(Objects.requireNonNull(gods.get(1))); // Demeter
-        p3.setGod(Objects.requireNonNull(gods.get(2))); // Pan
-
-        // p1 sets workers
-        p1.getWorkers().get(0).setWorkerOnBoard(b.getSquare(0,0));
-        p1.getWorkers().get(1).setWorkerOnBoard(b.getSquare(0,1));
-
-        // p2 sets workers
-        p2.getWorkers().get(0).setWorkerOnBoard(b.getSquare(4,4));
-        p2.getWorkers().get(1).setWorkerOnBoard(b.getSquare(4,2));
+        p1 = new Player("aledimaio",Color.AZURE);
+        ArrayList<God> gods = factory.getGods(new ArrayList<>(Collections.singletonList(9)));
+        p1.setGod(Objects.requireNonNull(gods.get(0))); // Pan
 
         // p3 sets workers
-        p3.getWorkers().get(0).setWorkerOnBoard(b.getSquare(2,2));
-        p3.getWorkers().get(1).setWorkerOnBoard(b.getSquare(3,0));
-
-
+        p1.getWorkers().get(0).setWorkerOnBoard(b.getSquare(2,2));
+        p1.getWorkers().get(1).setWorkerOnBoard(b.getSquare(3,0));
     }
+
+    /**
+     * This method tests that p1 can win with StandardPower win condition.
+     */
 
     @Test
-    void checkWin() {
+    void standardWinCaseCheck(){
+        //set a ladder for test Standard win case
+        b.getSquare(2,3).buildLevel(1);
+        b.getSquare(2,4).buildLevel(2);
+        b.getSquare(3,4).buildLevel(3);
 
-        Square l0, l2;
-        l0 = b.getSquare(2,2);
-        l2 = b.getSquare(2,3);
+        //move up to level 1
+        b.resetCounters();
+        p1.move(p1.getWorkers().get(0),2,3);
+        assertFalse(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));
 
-        assertEquals(0, b.getSquare(2,2).getLevel());
-        assertEquals(0, b.getSquare(2,3).getLevel());
+        //move up to level 2
+        b.resetCounters();
+        p1.move(p1.getWorkers().get(0),2,4);
+        assertFalse(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));
 
-        for (int i = 0; i < 2; i++)
-            l2.buildLevel(i+1);
-
-        assertEquals(2, b.getSquare(2,3).getLevel());
-
-        p3.getWorkers().get(0).updateWorkerPosition(l2);
-
-        assertEquals(p3.getWorkers().get(0), l2.getWorker());
-        assertFalse(p3.getGod().getPower().checkWin(p3.getWorkers().get(0)));
-
-        p3.getGod().getPower().updateMove(p3.getWorkers().get(0),2,2);
-        assertEquals(p3.getWorkers().get(0), b.getSquare(2,2).getWorker());
-        //check if the player wins
-        assertTrue(p3.getGod().getPower().checkWin(p3.getWorkers().get(0)));
-
+        //move up to level 3
+        b.resetCounters();
+        p1.move(p1.getWorkers().get(0),3,4);
+        assertTrue(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));
     }
+
+    /**
+     * This method tests that p1 can win with Down2Win win condition.
+     */
+
+    @Test
+    void Down2WinDecoratedCheck(){
+        b.getSquare(2,3).buildLevel(1);
+        b.getSquare(2,4).buildLevel(2);
+
+        b.resetCounters();
+        p1.move(p1.getWorkers().get(0),2,3);
+
+        b.resetCounters();
+        p1.move(p1.getWorkers().get(0),2,4);
+
+        b.resetCounters();
+        p1.move(p1.getWorkers().get(0),3,4);
+
+        assertTrue(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));
+    }
+
+
 }
