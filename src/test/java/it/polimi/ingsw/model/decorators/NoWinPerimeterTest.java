@@ -153,7 +153,7 @@ class NoWinPerimeterTest {
         b.resetCounters();
 
         p3.move(p2.getWorkers().get(0), 1,4);
-        
+
         assertFalse(p3.getGod().getPower().checkWin(p3.getWorkers().get(0)));
 
     }
