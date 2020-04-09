@@ -96,7 +96,7 @@ class EndRemoveNeighbourTest {
         assertNull(b.getSquare(2,1).getWorker());
         //check if a level was build
         assertEquals(1, b.getSquare(2,1).getLevel());
-        assertEquals(p2.getWorkers().get(1), b.getSquare(3,1).getWorker());
+        assertEquals(p2.getWorkers().get(0), b.getSquare(3,1).getWorker());
         assertEquals(p3.getWorkers().get(0), b.getSquare(3,2).getWorker());
         assertEquals(p3.getWorkers().get(1), b.getSquare(4,4).getWorker());
 

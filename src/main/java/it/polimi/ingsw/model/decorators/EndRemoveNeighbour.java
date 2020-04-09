@@ -44,10 +44,12 @@ public class EndRemoveNeighbour extends PowerDecorator {
             for(int j = -1; j <= 1; j++){
                 int x = w.getCurrentSquare().getXPosition() + i;
                 int y = w.getCurrentSquare().getYPosition() + j;
-                Square s = getBoard().getSquare(x, y);
-                if (x >= 0 && x <= 4 && y >= 0 && y <= 4 && s.getLevel() < w.getCurrentSquare().getLevel() && !s.isFree() && s.getWorker().getColor() != w.getColor()){
-                    s.getWorker().removeFromGame();
-                    s.buildLevel(s.getLevel() + 1);
+                if (x >= 0 && x <= 4 && y >= 0 && y <= 4) {
+                    Square s = getBoard().getSquare(x, y);
+                    if (s.getLevel() < w.getCurrentSquare().getLevel() && !s.isFree() && s.getWorker().getColor() != w.getColor()) {
+                        s.getWorker().removeFromGame();
+                        s.buildLevel(s.getLevel() + 1);
+                    }
                 }
             }
     }
