@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.decorators;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Error;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +13,8 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test suite for BuildDomeEverywhere class, Atlas's power
- * @author aledimaio
+ * Test suite for BuildDomeEverywhere
+ * @author aledimaio & pierobartolo
  */
 
 class BuildDomeEverywhereTest {
@@ -29,7 +30,6 @@ class BuildDomeEverywhereTest {
 
     @BeforeEach
     void setUp() {
-
         b = new Board();
         GodsFactory factory = new GodsFactory(b);
         p1 = new Player("aledimaio", Color.WHITE);
@@ -42,35 +42,107 @@ class BuildDomeEverywhereTest {
     }
 
     /**
-     * This method tests if standard checkBuild still works
+     * This method tests if the standard Build works properly
      */
 
     @Test
     void checkStandardBuild() {
+        // Start turn
+        b.resetCounters();
 
         //Player moves worker before build
-        p1.move(p1.getWorkers().get(0),2,1);
+        assertTrue(p1.move(p1.getWorkers().get(0),2,1).isEmpty());
 
         //Check that worker cannot build a "middle level" not following standard rules
-        assertFalse(p1.getGod().getPower().checkBuild(p1.getWorkers().get(0),2,2,2).isEmpty());
+        ArrayList<Error> temp_errors = p1.build(p1.getWorkers().get(0), 2,2,2);
+        assertTrue(temp_errors.contains(Error.INVALID_LEVEL_BUILD));
+        assertEquals(1,temp_errors.size());
 
-        //Check that worker can build a level 1 from level 0 (this follow standard rules)
-        assertTrue(p1.getGod().getPower().checkBuild(p1.getWorkers().get(0),2,2,1).isEmpty());
-
+        //Check that worker can build a level 1 on a level 0 (this follow from standard rules)
+        assertTrue(p1.build(p1.getWorkers().get(0),2,2,1).isEmpty());
     }
 
     /**
-     * This method tests the BuildDomeEverywhere functionality
+     * This method tests Atlas' power: Your Worker may build a dome at any level.
+     * It checks that a dome can be built at level 0.
      */
 
     @Test
-    void checkBuildDomeEverywhere(){
+    void checkBuildDomeLevel0(){
 
         //Player moves worker before build
-        p1.move(p1.getWorkers().get(0),2,3);
+        assertTrue((p1.move(p1.getWorkers().get(0),2,3).isEmpty()));
 
-        //Check if worker can build directly a dome (Atlas's power)
-        assertTrue(p1.getGod().getPower().checkBuild(p1.getWorkers().get(0),2,2,4).isEmpty());
-
+        //Check buildDome at level 0
+        assertEquals(0,b.getSquare(2,2).getLevel());
+        assertTrue(p1.build(p1.getWorkers().get(0),2,2,4).isEmpty());
     }
+
+    /**
+     * This method tests Atlas' power: Your Worker may build a dome at any level.
+     * It checks that a dome can be built at level 1.
+     */
+
+    @Test
+    void checkBuildDomeLevel1(){
+        //Player moves worker before build
+        assertTrue((p1.move(p1.getWorkers().get(0),2,3).isEmpty()));
+
+        //Check buildDome at level 0
+        b.getSquare(2,2).buildLevel(1);
+        assertEquals(1,b.getSquare(2,2).getLevel());
+        assertTrue(p1.build(p1.getWorkers().get(0),2,2,4).isEmpty());
+    }
+
+    /**
+     * This method tests Atlas' power: Your Worker may build a dome at any level.
+     * It checks that a dome can be built at level 2.
+     */
+
+    @Test
+    void checkBuildDomeLevel2(){
+        //Player moves worker before build
+        assertTrue((p1.move(p1.getWorkers().get(0),2,3).isEmpty()));
+
+        //Check buildDome at level 0
+        b.getSquare(2,2).buildLevel(2);
+        assertEquals(2,b.getSquare(2,2).getLevel());
+        assertTrue(p1.build(p1.getWorkers().get(0),2,2,4).isEmpty());
+    }
+
+    /**
+     * This method tests Atlas' power: Your Worker may build a dome at any level.
+     * It checks that a dome can be built at level 3.
+     */
+
+    @Test
+    void checkBuildDomeLevel3(){
+        //Player moves worker before build
+        assertTrue((p1.move(p1.getWorkers().get(0),2,3).isEmpty()));
+
+        //Check buildDome at level 0
+        b.getSquare(2,2).buildLevel(3);
+        assertEquals(3,b.getSquare(2,2).getLevel());
+        assertTrue(p1.build(p1.getWorkers().get(0),2,2,4).isEmpty());
+    }
+
+    /**
+     * This method tests Atlas' power: Your Worker may build a dome at any level.
+     * It checks that a dome can't be built on top of another dome.
+     */
+
+    @Test
+    void checkBuildDomeOnAnotherDome(){
+        //Player moves worker before build
+        assertTrue((p1.move(p1.getWorkers().get(0),2,3).isEmpty()));
+
+        //Check buildDome at level 0
+        b.getSquare(2,2).buildLevel(4);
+        assertEquals(0,b.getSquare(2,2).getLevel());
+        assertTrue(b.getSquare(2,2).getDome());
+        ArrayList<Error> temp_errors = p1.build(p1.getWorkers().get(0),2,2,4);
+        assertTrue(temp_errors.contains(Error.IS_DOME));
+        assertEquals(1,temp_errors.size());
+    }
+
 }
