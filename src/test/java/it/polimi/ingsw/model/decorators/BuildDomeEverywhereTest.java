@@ -24,7 +24,7 @@ class BuildDomeEverywhereTest {
 
     /**
      * Setup for testing:
-     * - 1 Player (with Atlas' power)
+     * - 1 Player --> Atlas
      * - all workers set on board
      */
 
