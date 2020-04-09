@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,7 +72,7 @@ class ExtraMoveTest {
         assertTrue(p1.move(p1.getWorkers().get(0), 0, 1).isEmpty());
 
         // Check Artemis cannot move back
-        ArrayList<Error> temp_errors = p1.move(p1.getWorkers().get(0),0,0);
+        List<Error> temp_errors = p1.move(p1.getWorkers().get(0),0,0);
         assertTrue(temp_errors.contains(Error.EXTRA_MOVE_NOT_BACK));
         assertEquals(1,temp_errors.size());
 
@@ -116,7 +117,7 @@ class ExtraMoveTest {
 
         // Check Triton can't move up because of Athena's power
         b.getSquare(2,4).buildLevel(1);
-        ArrayList<Error> temp_errors = p3.move(p3.getWorkers().get(1),2,4);
+        List<Error> temp_errors = p3.move(p3.getWorkers().get(1),2,4);
         assertTrue(temp_errors.contains(Error.BLOCK_MOVE_UP));
         assertEquals(1,temp_errors.size());
 

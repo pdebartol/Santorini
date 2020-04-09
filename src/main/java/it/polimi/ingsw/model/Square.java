@@ -17,8 +17,8 @@ public class Square {
 
     private int level;
     private boolean dome;
-    private int xPosition;
-    private int yPosition;
+    private final int xPosition;
+    private final int yPosition;
     private Worker worker;
 
     //constructors
@@ -75,6 +75,7 @@ public class Square {
      */
 
     public Worker removeWorker() {
+        if(worker == null) throw new IllegalStateException("Can't remove worker from a free square!");
         Worker w = worker;
         worker = null;
         return w;

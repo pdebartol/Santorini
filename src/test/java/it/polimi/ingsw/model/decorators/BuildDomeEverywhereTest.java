@@ -5,10 +5,7 @@ import it.polimi.ingsw.model.Error;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,7 +51,7 @@ class BuildDomeEverywhereTest {
         assertTrue(p1.move(p1.getWorkers().get(0),2,1).isEmpty());
 
         //Check that worker cannot build a "middle level" not following standard rules
-        ArrayList<Error> temp_errors = p1.build(p1.getWorkers().get(0), 2,2,2);
+        List<Error> temp_errors = p1.build(p1.getWorkers().get(0), 2,2,2);
         assertTrue(temp_errors.contains(Error.INVALID_LEVEL_BUILD));
         assertEquals(1,temp_errors.size());
 
@@ -140,7 +137,7 @@ class BuildDomeEverywhereTest {
         b.getSquare(2,2).buildLevel(4);
         assertEquals(0,b.getSquare(2,2).getLevel());
         assertTrue(b.getSquare(2,2).getDome());
-        ArrayList<Error> temp_errors = p1.build(p1.getWorkers().get(0),2,2,4);
+        List<Error> temp_errors = p1.build(p1.getWorkers().get(0),2,2,4);
         assertTrue(temp_errors.contains(Error.IS_DOME));
         assertEquals(1,temp_errors.size());
     }

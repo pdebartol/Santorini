@@ -1,12 +1,8 @@
 package it.polimi.ingsw.model;
 
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.EventObject;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
+import java.util.*;
 
 /**
  * Player represents a player who is currently playing in the match.
@@ -39,6 +35,7 @@ public class Player implements PropertyChangeListener {
         this.workers = new ArrayList<>();
         this.workers.add(new Worker(color,"male"));
         this.workers.add(new Worker(color, "female"));
+        god = null;
 
         // Player observes workers
         Objects.requireNonNull(workers.get(0)).addPropertyChangeListener(this);
@@ -47,7 +44,15 @@ public class Player implements PropertyChangeListener {
 
     //methods
 
-    public void setGod(God g){ this.god = g; }
+    /**
+     * This is a particular setter. It makes God immutable, once set god, player can't change it.
+     * @param g is the god player want to use
+     */
+
+    public void setGod(God g){
+        if(god == null)
+            this.god = g;
+    }
 
     public String getUsername(){
         return username;
@@ -112,11 +117,14 @@ public class Player implements PropertyChangeListener {
      * @return true or false to indicate if the move was done or not
      */
 
-    public ArrayList<Error> move(Worker w, int x, int y){
+    public List<Error> move(Worker w, int x, int y){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
         Power power = god.getPower();
-        ArrayList<Error> errors = power.checkMove(w, x, y);
+
+        //make error list immutable out of model
+        List<Error> errorList = power.checkMove(w, x, y);
+        List<Error> errors = Collections.unmodifiableList(errorList);
         if(errors.isEmpty()){
             power.updateMove(w,x,y);
             //TODO: notify possible win to view
@@ -136,12 +144,15 @@ public class Player implements PropertyChangeListener {
      * @return true or false to indicate if the build move was done or not
      */
 
-    public ArrayList<Error> build(Worker w, int x, int y, int l){
+    public List<Error> build(Worker w, int x, int y, int l){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
         if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
         if(l < 1 || l > 4 ) throw new IllegalArgumentException("Invalid level!");
         Power power = god.getPower();
-        ArrayList<Error> errors = power.checkBuild(w, x, y, l);
+
+        //make error list immutable out of model
+        List<Error> errorList = power.checkBuild(w, x, y, l);
+        List<Error> errors = Collections.unmodifiableList(errorList);
         if(errors.isEmpty()){
             power.updateBuild(w, x, y, l);
             //TODO: notify changes to view
@@ -156,7 +167,7 @@ public class Player implements PropertyChangeListener {
      * @param errors array of errors
      */
 
-    public void sendErrorMsg(ArrayList<Error> errors){
+    public void sendErrorMsg(List<Error> errors){
         for(Error e: errors)
             switch (e){
                 case NOT_FREE:

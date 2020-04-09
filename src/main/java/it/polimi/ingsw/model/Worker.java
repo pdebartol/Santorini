@@ -16,8 +16,8 @@ public class Worker  {
     private PropertyChangeSupport support;
 
 
-    private Color color;
-    private String gender;
+    private final Color color;
+    private final String gender;
 
     /**
      * lastSquareMove represents the square where the worker was localized before being moved
@@ -101,7 +101,8 @@ public class Worker  {
      * @param s is the square where worker must start
      */
     public void setWorkerOnBoard(Square s){
-        if( s == null) throw new IllegalArgumentException("Null square as argument!");
+        if(s == null) throw new IllegalArgumentException("Null square as argument!");
+        if(!s.isFree()) throw  new IllegalStateException("Can't set worker on an occupied square");
         currentSquare = s;
         lastSquareMove = s;
         s.setWorker(this);
@@ -113,7 +114,8 @@ public class Worker  {
      */
 
     public void updateWorkerPosition(Square s) {
-        if( s == null) throw new IllegalArgumentException("Null square as argument!");
+        if(s == null) throw new IllegalArgumentException("Null square as argument!");
+        if(!s.isFree()) throw new IllegalStateException("Can't set worker on an occupied square");
         lastSquareMove = currentSquare;
         currentSquare = s;
         s.setWorker(this);

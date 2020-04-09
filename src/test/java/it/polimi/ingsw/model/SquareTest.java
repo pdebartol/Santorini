@@ -33,6 +33,9 @@ class SquareTest {
 
     @Test
     void removeWorker() {
+        //check that it's impossible to remove worker from free square
+        assertThrows(IllegalStateException.class, () -> gameBoard.getSquare(1,1).removeWorker());
+
         gameBoard.getSquare(1,1).setWorker(worker);
         gameBoard.getSquare(1,1).removeWorker();
         assertNull(gameBoard.getSquare(1, 1).getWorker());

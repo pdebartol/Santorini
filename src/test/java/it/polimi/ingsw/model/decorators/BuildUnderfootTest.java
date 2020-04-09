@@ -5,10 +5,7 @@ import it.polimi.ingsw.model.Error;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -76,7 +73,7 @@ class BuildUnderfootTest {
 
 
         //check that a worker cannot build more than a level under its foot
-        ArrayList<Error> temp_errors = p1.build(p1.getWorkers().get(0),1,1,2);
+        List<Error> temp_errors = p1.build(p1.getWorkers().get(0),1,1,2);
         assertTrue(temp_errors.contains(Error.INVALID_LEVEL_BUILD));
         assertEquals(1,temp_errors.size());
 
@@ -100,7 +97,7 @@ class BuildUnderfootTest {
         // Check worker cannot build a dome under its foot
         b.getSquare(1,1).buildLevel(3);
         assertEquals(3,b.getSquare(1,1).getLevel());
-        ArrayList<Error> temp_errors = p1.build(p1.getWorkers().get(0), 1,1,4);
+        List<Error> temp_errors = p1.build(p1.getWorkers().get(0), 1,1,4);
         assertTrue(temp_errors.contains(Error.CANT_DOME_UNDERFOOT));
         assertEquals(1,temp_errors.size());
 

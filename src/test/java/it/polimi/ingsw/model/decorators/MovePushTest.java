@@ -5,10 +5,7 @@ import it.polimi.ingsw.model.Error;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -77,7 +74,7 @@ class MovePushTest {
     void checkIllegalMove(){
 
         //move and check that p1 can move his female worker from (1,1) to (2,1) (the position (3,1) is free)
-        ArrayList<Error> errors = p1.move(p1.getWorkers().get(1),2,1);
+        List<Error> errors = p1.move(p1.getWorkers().get(1),2,1);
         assertFalse(errors.isEmpty());
 
         //check SAME_DIRECTION_NOT_FREE error

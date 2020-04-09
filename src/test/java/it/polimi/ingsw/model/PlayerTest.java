@@ -1,11 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.decorators.NoWinPerimeter;
 import it.polimi.ingsw.model.decorators.StandardPower;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestTemplate;
-
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,6 +52,13 @@ class PlayerTest {
         p3.getWorkers().get(1).setWorkerOnBoard(b.getSquare(2,2));
     }
 
+    @Test
+    void checksetGod(){
+        //check that i can't change god during the game
+        p1.setGod(new God("new","-",new NoWinPerimeter(new StandardPower(1,1,b))));
+        assertEquals("Standard", p1.getGod().getName());
+        assertEquals(StandardPower.class, p1.getGod().getPower().getClass());
+    }
 
     /**
      * Check that the worker is removed from the Player's available workers.
@@ -238,6 +244,16 @@ class PlayerTest {
 
         //check that nothing has changed
         assertEquals(0, b.getSquare(3,3).getLevel());
-        assertEquals(null,p2.getWorkers().get(0).getLastSquareBuild());
+        assertNull(p2.getWorkers().get(0).getLastSquareBuild());
+    }
+
+    @Test
+    void checkImmutableErrors(){
+        List<Error> errorsMove = p1.move(p1.getWorkers().get(0),1,1);
+        List<Error> errorsBuild = p1.build(p1.getWorkers().get(0),1,1, 1);
+
+        //check that i can change my error list
+        assertThrows(UnsupportedOperationException.class, () -> errorsMove.remove(Error.NOT_FREE));
+        assertThrows(UnsupportedOperationException.class, () -> errorsBuild.remove(Error.BUILD_BEFORE_MOVE));
     }
 }

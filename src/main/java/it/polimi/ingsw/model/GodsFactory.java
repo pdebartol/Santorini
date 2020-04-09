@@ -67,9 +67,7 @@ public class GodsFactory {
                 int maxMoves =  Integer.parseInt(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/maxMoves/text()")).get(0));
                 int maxBuilds = Integer.parseInt(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/maxBuilds/text()")).get(0));
 
-                if (Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/CanMoveUp/text()")).get(0).equals("true") ){
-                    powers_id.push(0);
-                }
+
                 if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BuildBeforeMove/text()")).get(0).equals("true")){
                     powers_id.push(1);
                 }

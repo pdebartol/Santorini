@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -75,7 +76,7 @@ class BuildBeforeMoveTest {
         assertTrue(p1.build(p1.getWorkers().get(0),0,1,1).isEmpty());
 
         // Check cannot build two times before move
-        ArrayList<Error> temp_errors = p1.build(p1.getWorkers().get(0),0,1,2);
+        List<Error> temp_errors = p1.build(p1.getWorkers().get(0),0,1,2);
         assertTrue(temp_errors.contains(Error.BUILD_BEFORE_MOVE));
         assertEquals(1,temp_errors.size());
 

@@ -1,14 +1,11 @@
 package it.polimi.ingsw.model;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class God  {
 
     //attributes
 
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
     private Power power;
 
     //constructors
