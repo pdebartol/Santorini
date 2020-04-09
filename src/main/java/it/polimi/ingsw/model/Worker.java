@@ -103,6 +103,7 @@ public class Worker  {
     public void setWorkerOnBoard(Square s){
         if( s == null) throw new IllegalArgumentException("Null square as argument!");
         currentSquare = s;
+        lastSquareMove = s;
         s.setWorker(this);
     }
 

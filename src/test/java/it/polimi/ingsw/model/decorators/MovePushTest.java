@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.decorators;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Error;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test suite for MovePush class, Minotaur's power
- * @author aledimaio
+ * @author aledimaio & marcoDige
  */
 
 class MovePushTest {
@@ -48,51 +49,44 @@ class MovePushTest {
     }
 
     /**
-     * This method check Player with Minotaur's power can move his worker in a level 2 occupied square from a level 1 square
-     * (the level two square is empty next the same direction of moves
+     * This method check that Player with Minotaur's power can move his worker in occupied square and push worker who occupy
+     * that square to the next square in the same direction when it's free.
      */
 
     @Test
-    void checkMove() {
+    void checkValidMove() {
 
-        b.getSquare(1,1).buildLevel(1);
-        b.getSquare(2,2).buildLevel(2);
+        //move and check that p1 can move his female worker from (1,1) to (2,2) (the position (3,3) is free)
+        assertTrue(p1.move(p1.getWorkers().get(1),2,2).isEmpty());
 
-        //check if setup is correct
-        assertEquals(p1.getWorkers().get(1), b.getSquare(1,1).getWorker());
-        assertEquals(1, b.getSquare(1,1).getLevel());
-        assertEquals(p2.getWorkers().get(0), b.getSquare(2,2).getWorker());
-        assertEquals(2, b.getSquare(2,2).getLevel());
-
-        //check if checkMove decorated is correct
-        assertTrue(p1.getGod().getPower().checkMove(p1.getWorkers().get(1),2,2).isEmpty());
-
+        //check changes in model status
+        assertEquals(p1.getWorkers().get(1),b.getSquare(2,2).getWorker());
+        assertEquals(b.getSquare(2,2),p1.getWorkers().get(1).getCurrentSquare());
+        assertEquals(b.getSquare(1,1),p1.getWorkers().get(1).getLastSquareMove());
+        assertEquals(p2.getWorkers().get(0),b.getSquare(3,3).getWorker());
+        assertEquals(b.getSquare(3,3),p2.getWorkers().get(0).getCurrentSquare());
+        assertNotEquals(b.getSquare(2,2),p2.getWorkers().get(0).getLastSquareMove());
     }
 
-    @Test
-    void checkMoveOccupiedSquare(){
-
-        b.getSquare(1,1).buildLevel(1);
-        b.getSquare(2,2).buildLevel(2);
-        b.resetCounters();
-
-        assertFalse(p1.getGod().getPower().checkMove(p1.getWorkers().get(1),2,1).isEmpty());
-
-    }
+    /**
+     * This method check that Player with Minotaur's power can't move his worker in occupied square and push worker who occupy
+     * that square to the next square in the same direction when it isn't free.
+     */
 
     @Test
-    void updateMove() {
+    void checkIllegalMove(){
 
-        b.getSquare(1,1).buildLevel(1);
-        b.getSquare(2,2).buildLevel(2);
-        b.resetCounters();
+        //move and check that p1 can move his female worker from (1,1) to (2,1) (the position (3,1) is free)
+        ArrayList<Error> errors = p1.move(p1.getWorkers().get(1),2,1);
+        assertFalse(errors.isEmpty());
 
-        p1.move(p1.getWorkers().get(1), 2,2);
+        //check SAME_DIRECTION_NOT_FREE error
+        assertTrue(errors.contains(Error.SAME_DIRECTION_NOT_FREE) && errors.size() == 1);
 
     }
 
     /**
-     * This method check if an opponent's worker pushed could bring him to victory
+     * This method check if an opponent's worker pushed from level 2 to level 3 results winner
      */
 
     @Test
@@ -101,25 +95,12 @@ class MovePushTest {
         b.getSquare(1,1).buildLevel(1);
         b.getSquare(2,2).buildLevel(2);
         b.getSquare(3,3).buildLevel(3);
-        b.resetCounters();
 
-        //check of setup
-        assertEquals(p1.getWorkers().get(1), b.getSquare(1,1).getWorker());
-        assertEquals(p2.getWorkers().get(0), b.getSquare(2,2).getWorker());
-        assertNull(b.getSquare(3, 3).getWorker());
-        assertEquals(1, b.getSquare(1,1).getLevel());
-        assertEquals(2, b.getSquare(2,2).getLevel());
-        assertEquals(3, b.getSquare(3,3).getLevel());
-
-        //move to 2,2 square and push worker 0 of player 2 to 3,3 square
-        assertTrue(p1.getGod().getPower().checkMove(p1.getWorkers().get(1),2,2).isEmpty());
-        p1.move(p1.getWorkers().get(1), 2,2);
-
-        assertEquals(p2.getWorkers().get(0), b.getSquare(3,3).getWorker());
+        //p1's male worker moves to (2,2) square and push p2's male worker to (3,3) square
+        p1.move(p1.getWorkers().get(1),2,2);
 
         //check if player 2 wins if pushed up by minotaur's power
         assertFalse(p2.getGod().getPower().checkWin(p2.getWorkers().get(0)));
-
     }
 
 }

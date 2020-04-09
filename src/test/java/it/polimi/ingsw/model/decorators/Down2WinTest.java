@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test suite for Down2Win
- * @author aledimaio
+ * @author aledimaio & marcoDige
  */
 
 class Down2WinTest {
