@@ -11,8 +11,8 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test suite for EndRemoveNeighbour class, Medusa's power
- * @author aledimaio
+ * Test suite for EndRemoveNeighbour
+ * @author aledimaio 
  */
 
 class EndRemoveNeighbourTest {
@@ -22,7 +22,9 @@ class EndRemoveNeighbourTest {
 
     /**
      * Setup for testing:
-     * - 3 players
+     * - p1 --> Medusa
+     * - p2 --> Artemis
+     * - p3 --> Apolllo
      * - all workers set on board
      */
 
@@ -59,10 +61,11 @@ class EndRemoveNeighbourTest {
 
     @Test
     void checkStandardMove() {
+        // Start turn
+        b.resetCounters();
 
         b.getSquare(1,2).buildLevel(2);
         b.getSquare(0,2).buildLevel(1);
-        b.resetCounters();
 
         assertTrue(p1.getGod().getPower().checkMove(p1.getWorkers().get(0),0,2).isEmpty());
         p1.move(p1.getWorkers().get(0),0,2);

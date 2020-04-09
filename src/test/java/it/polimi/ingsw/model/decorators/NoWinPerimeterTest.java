@@ -11,7 +11,7 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test suite for NoWinPerimeter class, Hera's power
+ * Test suite for NoWinPerimeter class
  * @author aledimaio
  */
 
@@ -22,7 +22,9 @@ class NoWinPerimeterTest {
 
     /**
      * Setup for testing:
-     * - 3 players
+     * - 1 Player --> Hera
+     * - 2 Player --> Apollo
+     * - 3 Player --> Zeus
      * - all workers set on board
      */
 
@@ -54,7 +56,7 @@ class NoWinPerimeterTest {
     }
 
     /**
-     * This method tests if Hera can win with standard win condition
+     * This method tests if Hera can win with the standard win condition.
      */
 
     @Test
@@ -73,87 +75,144 @@ class NoWinPerimeterTest {
     }
 
     /**
-     * This method check if Hera can win moving into a perimeter space, case 1: move to perimeter from a perimeter square
+     * This method check that Hera can win moving into a perimeter space. when it's coming from a perimeter space.
      */
 
     @Test
-    void checkHeraWinConditionHerself_case1(){
-
-        b.getSquare(0,0).buildLevel(2);
-        b.getSquare(0,1).buildLevel(3);
+    void checkHeraWinConditionHerself_Perimeter(){
+        // Start turn
         b.resetCounters();
 
-        p1.move(p1.getWorkers().get(0),0,1);
+        // Build levels
+        b.getSquare(0,0).buildLevel(2);
+        b.getSquare(0,1).buildLevel(3);
+        assertEquals(2,b.getSquare(0,0).getLevel());
+        assertEquals(3,b.getSquare(0,1).getLevel());
 
+        // Move and win
+        assertTrue(p1.move(p1.getWorkers().get(0),0,1).isEmpty());
+
+        // Check victory
         assertTrue(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));
 
     }
 
     /**
-     * This method check if Hera can win moving into a perimeter space, case 2: move from a non-perimeter space
+     * This method check that Hera can win moving into a perimeter space when it's coming from a regular square.
      */
 
     @Test
-    void heckHeraWinConditionHerself_case2(){
-
-        b.getSquare(1,1).buildLevel(2);
-        b.getSquare(0,1).buildLevel(3);
+    void checkHeraWinConditionHerself_notPerimeter(){
+        // Start turn
         b.resetCounters();
 
-        p1.move(p1.getWorkers().get(1), 0,1);
+        // Build levels
+        b.getSquare(1,1).buildLevel(2);
+        b.getSquare(0,1).buildLevel(3);
+        assertEquals(2,b.getSquare(1,1).getLevel());
+        assertEquals(3,b.getSquare(0,1).getLevel());
 
+        // Move and win
+        assertTrue(p1.move(p1.getWorkers().get(1), 0,1).isEmpty());
+
+        // Check victory
         assertTrue(p1.getGod().getPower().checkWin(p1.getWorkers().get(1)));
 
     }
 
     /**
-     * This method check if standard win condition still works for other players
+     * This method check if standard win condition still works for other players (Apollo) that move into a non-perimeter space.
      */
 
     @Test
-    void checkOthersStandardWinCondition(){
-
-        b.getSquare(4,4).buildLevel(2);
-        b.getSquare(3,3).buildLevel(3);
+    void checkOthersStandardWinCondition_Apollo(){
+        // Start turn
         b.resetCounters();
 
-        p2.move(p2.getWorkers().get(0),3,3);
+        // Build levels
+        b.getSquare(4,4).buildLevel(2);
+        b.getSquare(3,3).buildLevel(3);
+        assertEquals(2,b.getSquare(4,4).getLevel());
+        assertEquals(3,b.getSquare(3,3).getLevel());
 
+        // Move and win
+        assertTrue(p2.move(p2.getWorkers().get(0),3,3).isEmpty());
+
+        // Check victory
         assertTrue(p2.getGod().getPower().checkWin(p2.getWorkers().get(0)));
 
     }
 
     /**
-     * This method tests the impossibility to win for a player moving into a perimeter space
-     * case 1: moving from a perimeter space
+     * This method check if standard win condition still works for other players (Zeus) that move into a non-perimeter space.
      */
 
     @Test
-    void checkOthersWinConditionWithHera_case1(){
+    void checkOthersStandardWinCondition_Zeus(){
+        // Start turn
+        b.resetCounters();
 
+        // Build levels
+        b.getSquare(1,3).buildLevel(2);
+        b.getSquare(1,2).buildLevel(3);
+        assertEquals(2,b.getSquare(1,3).getLevel());
+        assertEquals(3,b.getSquare(1,2).getLevel());
+
+        // Move and win
+        assertTrue(p3.move(p3.getWorkers().get(0),1,2).isEmpty());
+
+        // Check victory
+        assertTrue(p3.getGod().getPower().checkWin(p3.getWorkers().get(0)));
+
+    }
+
+
+    /**
+     * This method tests the impossibility to win for a player moving into a perimeter space
+     * case 1: moving from a perimeter space
+     * Hera's power: An opponent cannot win by moving into a perimeter space.
+     */
+
+    @Test
+    void checkCannotWinOnPerimeter_fromPerimeter(){
+        // Start turn
+        b.resetCounters();
+
+        // Build levels
         b.getSquare(4,4).buildLevel(2);
         b.getSquare(3,4).buildLevel(3);
+        assertEquals(2,  b.getSquare(4,4).getLevel());
+        assertEquals( 3,b.getSquare(3,4).getLevel());
 
-        p2.move(p2.getWorkers().get(0),3,4);
+        // Move and notWin
+        assertTrue(p2.move(p2.getWorkers().get(0),3,4).isEmpty());
 
+        // Check that the player didn't win
         assertFalse(p2.getGod().getPower().checkWin(p2.getWorkers().get(0)));
 
     }
 
     /**
      * This method tests the impossibility to win for a player moving into a perimeter space
-     * case 2: moving from a non-perimeter space
+     * case 2: moving from a non-perimeter space (regular space)
+     * Hera's power: An opponent cannot win by moving into a perimeter space.
      */
 
     @Test
-    void checkOthersWinConditionWithHera_case2(){
-
-        b.getSquare(1,3).buildLevel(2);
-        b.getSquare(1,4).buildLevel(3);
+    void checkCannotWinOnPerimeter_fromRegular(){
+        // Start turn
         b.resetCounters();
 
-        p3.move(p2.getWorkers().get(0), 1,4);
+        // Build levels
+        b.getSquare(1,3).buildLevel(2);
+        b.getSquare(1,4).buildLevel(3);
+        assertEquals(2,b.getSquare(1,3).getLevel());
+        assertEquals(3,b.getSquare(1,4).getLevel());
 
+        // Move and notWin
+        assertTrue(p3.move(p3.getWorkers().get(0), 1,4).isEmpty());
+
+        // Check that the player didn't win
         assertFalse(p3.getGod().getPower().checkWin(p3.getWorkers().get(0)));
 
     }
