@@ -106,10 +106,16 @@ class MovePushTest {
         //check of setup
         assertEquals(p1.getWorkers().get(1), b.getSquare(1,1).getWorker());
         assertEquals(p2.getWorkers().get(0), b.getSquare(2,2).getWorker());
+        assertNull(b.getSquare(3, 3).getWorker());
+        assertEquals(1, b.getSquare(1,1).getLevel());
+        assertEquals(2, b.getSquare(2,2).getLevel());
+        assertEquals(3, b.getSquare(3,3).getLevel());
 
         //move to 2,2 square and push worker 0 of player 2 to 3,3 square
-        assertTrue(p1.getGod().getPower().checkMove(p1.getWorkers().get(1),2,2).isEmpty()); //questa tutto ok!
+        assertTrue(p1.getGod().getPower().checkMove(p1.getWorkers().get(1),2,2).isEmpty());
         p1.move(p1.getWorkers().get(1), 2,2);
+
+        assertEquals(p2.getWorkers().get(0), b.getSquare(3,3).getWorker());
 
         //check if player 2 wins if pushed up by minotaur's power
         assertFalse(p2.getGod().getPower().checkWin(p2.getWorkers().get(0)));
