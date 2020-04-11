@@ -21,6 +21,7 @@ public class GodsFactory {
 
     private Board gameBoard;
     private Document document;
+    BlockMoveUp bmu_god;
 
     //constructors
 
@@ -40,9 +41,6 @@ public class GodsFactory {
         }
     }
 
-
-    //attributes
-    BlockMoveUp bmu_god;
     //methods
 
     /**
@@ -55,6 +53,7 @@ public class GodsFactory {
      *
      * @return an ArrayList<God> with all created gods
      */
+
     public ArrayList<God> getGods(ArrayList<Integer> ids){
         if(ids == null || ids.isEmpty()) throw new IllegalArgumentException("No ids given!");
         ArrayList<God> gods = new ArrayList<>();
@@ -140,6 +139,7 @@ public class GodsFactory {
      * @param temp is the instance of Power decorated during each recursive step
      * @return the decorated Power
      */
+
     private Power getPowers(Stack<Integer> powers, Power temp){
         if(powers.empty()){
             return temp;
@@ -202,6 +202,7 @@ public class GodsFactory {
      * @param gods contains all the gods created
      * @param  applyToAll contains the god's name whose power should be applied to all the other
      */
+
     private void decorateOtherGods(ArrayList<God> gods, Map<Integer,String> applyToAll){
         if(!applyToAll.isEmpty()){
             for(Integer power: applyToAll.keySet())
@@ -220,6 +221,7 @@ public class GodsFactory {
      * @return the parsed xml file
      * @throws Exception error during xml parsing
      */
+
     private  Document getDocument() throws Exception
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -233,6 +235,7 @@ public class GodsFactory {
      * @param xpathExpression is the expression that identifies the node in the document
      * @return a List<String> containing the strings that match the expression
      */
+
     private  List<String> evaluateXPath( String xpathExpression) {
         try {
             // Create XPathFactory object

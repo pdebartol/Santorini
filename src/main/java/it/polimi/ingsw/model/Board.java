@@ -15,6 +15,7 @@ public class Board {
 
     private int nMoves;
     private int nBuild;
+
     /**
      * Square[][] table is a matrix of Square objects, that represents the set of box of the table.
      */
@@ -71,10 +72,14 @@ public class Board {
     public void incNMoves() {
         nMoves = nMoves + 1;
     }
+
+    /**
+     * This method decrement the number of moves done in this turn.
+     */
+
     public void decNMoves() {
         nMoves = nMoves - 1;
     }
-
 
     /**
      * This method increment the number of build done in this turn.

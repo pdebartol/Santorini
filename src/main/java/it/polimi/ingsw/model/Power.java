@@ -11,7 +11,6 @@ public interface Power {
 
      //methods
 
-
      /**
       * This method checks if moving the worker to a given square is a legit move
       * @param w is the worker that wants to move

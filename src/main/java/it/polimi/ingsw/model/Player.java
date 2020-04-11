@@ -83,6 +83,7 @@ public class Player implements PropertyChangeListener {
                             return true;
                 }
             }
+        //TODO: notify to view this player can't move (he loses)
         return false;
     }
 
@@ -104,6 +105,7 @@ public class Player implements PropertyChangeListener {
                         if (god.getPower().checkBuild(w, x, y, k).isEmpty())
                             return true;
             }
+        //TODO: notify to view this player can't build (he loses)
         return false;
     }
 
@@ -217,6 +219,8 @@ public class Player implements PropertyChangeListener {
             Worker w = (Worker) evt.getOldValue();
             workers.remove(w);
             w.removePropertyChangeListener(this);
+            //TODO: notify to view that a worker was removed
+            //TODO: notify to view if this player has no worker (he loses)
         }
     }
 }

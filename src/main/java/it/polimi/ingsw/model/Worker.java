@@ -14,8 +14,6 @@ public class Worker  {
     //attributes
 
     private PropertyChangeSupport support;
-
-
     private final Color color;
     private final String gender;
 
@@ -47,8 +45,6 @@ public class Worker  {
     }
 
     //methods
-
-
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         support.addPropertyChangeListener(pcl);
