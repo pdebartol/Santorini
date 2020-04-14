@@ -52,6 +52,8 @@ class MovePushTest {
 
     @Test
     void checkValidMove() {
+        //chose worker for the turn
+        p1.getWorkers().get(1).IsMovingOn();
 
         //move and check that p1 can move his female worker from (1,1) to (2,2) (the position (3,3) is free)
         assertTrue(p1.move(p1.getWorkers().get(1),2,2).isEmpty());
@@ -72,6 +74,8 @@ class MovePushTest {
 
     @Test
     void checkIllegalMove(){
+        //chose worker for the turn
+        p1.getWorkers().get(1).IsMovingOn();
 
         //move and check that p1 can move his female worker from (1,1) to (2,1) (the position (3,1) is free)
         List<Error> errors = p1.move(p1.getWorkers().get(1),2,1);
@@ -92,6 +96,9 @@ class MovePushTest {
         b.getSquare(1,1).buildLevel(1);
         b.getSquare(2,2).buildLevel(2);
         b.getSquare(3,3).buildLevel(3);
+
+        //chose worker for the turn
+        p1.getWorkers().get(1).IsMovingOn();
 
         //p1's male worker moves to (2,2) square and push p2's male worker to (3,3) square
         p1.move(p1.getWorkers().get(1),2,2);

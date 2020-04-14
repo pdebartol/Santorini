@@ -53,7 +53,7 @@ class PlayerTest {
     }
 
     @Test
-    void checksetGod(){
+    void checkSetGod(){
         //check that i can't change god during the game
         p1.setGod(new God("new","-",new NoWinPerimeter(new StandardPower(1,1,b))));
         assertEquals("Standard", p1.getGod().getName());
@@ -76,6 +76,11 @@ class PlayerTest {
         worker1.removeFromGame();
         assertEquals(1, p1.getWorkers().size());
         assertTrue(p1.getWorkers().contains(worker2));
+    }
+
+    @Test
+    void canMoveWorkerException(){
+        assertThrows(IllegalArgumentException.class, () -> p1.canMoveWorker(null));
     }
 
     /**
@@ -113,7 +118,7 @@ class PlayerTest {
     }
 
     @Test
-    void canBuildException(){
+    void canBuildWorkerException(){
         assertThrows(IllegalArgumentException.class, () -> p1.canBuildWorker(null));
     }
 
@@ -123,7 +128,10 @@ class PlayerTest {
      */
 
     @Test
-    void canBuildCheck() {
+    void canBuildWorkerCheck() {
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
+
         //first check
         p1.move(p1.getWorkers().get(0),0,1); //The player have to move worker before build with him
         assertTrue(p1.canBuildWorker(p1.getWorkers().get(0)));
@@ -144,7 +152,13 @@ class PlayerTest {
      */
 
     @Test
-    void cantBuildCheck(){
+    void cantBuildWorkerCheck(){
+        //check that player can build with a worker he didn't chose
+        assertFalse(p1.canBuildWorker(p1.getWorkers().get(0)));
+
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
+
         p1.move(p1.getWorkers().get(0),0,1); //The player have to move worker before build with him
 
         //There isn't position where p1 can build
@@ -172,6 +186,9 @@ class PlayerTest {
 
     @Test
     void legalMove(){
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
+
         //the position (0,1) represents a valid position where p1 can move
         p1.move(p1.getWorkers().get(0),0,1);
 
@@ -192,6 +209,9 @@ class PlayerTest {
 
     @Test
     void illegalMove(){
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
+
         //the position (0,2) is occupied by p3 and isn't adjacent to player1's male worker
         p1.move(p1.getWorkers().get(0),0,2);
 
@@ -217,6 +237,9 @@ class PlayerTest {
 
     @Test
     void legalBuild(){
+        //chose worker for the turn
+        p2.getWorkers().get(0).IsMovingOn();
+
         //before build worker have to move
         p2.move(p2.getWorkers().get(0),4,3);
 
@@ -236,6 +259,9 @@ class PlayerTest {
 
     @Test
     void illegalBuild() {
+        //chose worker for the turn
+        p2.getWorkers().get(0).IsMovingOn();
+
         //before build worker have to move
         p2.move(p2.getWorkers().get(0),4,3);
 

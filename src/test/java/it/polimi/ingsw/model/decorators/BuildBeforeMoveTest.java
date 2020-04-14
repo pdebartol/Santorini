@@ -67,12 +67,18 @@ class BuildBeforeMoveTest {
     public void checkPrometheusAndHera(){
         //Activate Athena's Power
         b.getSquare(0,3).buildLevel(1);
-        b.resetCounters();
-        assertTrue(p2.move(p2.getWorkers().get(1), 0, 3).isEmpty());
 
+        //chose worker for the turn
+        p2.getWorkers().get(1).IsMovingOn();
+
+        assertTrue(p2.move(p2.getWorkers().get(1), 0, 3).isEmpty());
+        b.incNBuild();
+        p2.endTurn();
+
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
 
         // Build before move
-        b.resetCounters();
         assertTrue(p1.build(p1.getWorkers().get(0),0,1,1).isEmpty());
 
         // Check cannot build two times before move
@@ -105,7 +111,11 @@ class BuildBeforeMoveTest {
         // Check Prometheus can't win with Hera's power
         b.getSquare(1,1).buildLevel(1);
         b.getSquare(1,1).buildLevel(2);
-        b.resetCounters();
+        p1.endTurn();
+
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
+
         assertTrue(p1.move(p1.getWorkers().get(0),0,1).isEmpty());
         assertFalse(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));
 

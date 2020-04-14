@@ -59,8 +59,14 @@ class MoveSwapTest {
 
     @Test
     void checkMove() {
+        //chose worker for the turn
+        p3.getWorkers().get(0).IsMovingOn();
+
         //position (0,1) is occupied by player 1 female worker (with MoveSwap power Apollo can swap his position with this worker)
         assertTrue(p3.getGod().getPower().checkMove(p3.getWorkers().get(0),0,1).isEmpty());
+
+        //chose worker for the turn
+        p2.getWorkers().get(0).IsMovingOn();
 
         //on the same position, Artemis cannot swap his position
         assertFalse(p2.getGod().getPower().checkMove(p2.getWorkers().get(0),0,1).isEmpty());
@@ -73,11 +79,16 @@ class MoveSwapTest {
 
     @Test
     void updateMove() {
+        //chose worker for the turn
+        p3.getWorkers().get(0).IsMovingOn();
 
         //check if worker can move to an occupied
         p3.move(p3.getWorkers().get(0),0,1);
         assertEquals(p3.getWorkers().get(0), b.getSquare(0,1).getWorker());
         assertEquals(p3.getWorkers().get(0).getCurrentSquare(), b.getSquare(0,1));
+
+        //chose worker for the turn
+        p1.getWorkers().get(1).IsMovingOn();
 
         //check if the other worker has been swapped
         assertEquals(p1.getWorkers().get(1), b.getSquare(1,2).getWorker());
@@ -91,13 +102,21 @@ class MoveSwapTest {
 
     @Test
     void cantWinSwappedCheck(){
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
+
         b.getSquare(1,1).buildLevel(3);
 
         p1.move(p1.getWorkers().get(0),1,0);
+        p1.build(p1.getWorkers().get(0),0,0,1);
 
         b.getSquare(1,0).buildLevel(2);
 
-        b.resetCounters();
+        p1.endTurn();
+
+        //chose worker for the turn
+        p3.getWorkers().get(1).IsMovingOn();
+
         p3.move(p3.getWorkers().get(1),1,0);
 
         assertEquals(p3.getWorkers().get(1), b.getSquare(1,0).getWorker());

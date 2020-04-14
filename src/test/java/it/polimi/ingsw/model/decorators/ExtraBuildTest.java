@@ -57,18 +57,24 @@ class ExtraBuildTest {
 
      @Test
      public void DemeterAndAthena(){
+
          // Worker SetUp
          p1.getWorkers().get(0).setWorkerOnBoard(b.getSquare(0,0));
          p1.getWorkers().get(1).setWorkerOnBoard(b.getSquare(1,0));
 
          //Activate Athena's Power
+         //chose worker for the turn
+         p4.getWorkers().get(1).IsMovingOn();
+
          b.getSquare(3,4).buildLevel(1);
-         b.resetCounters();
          assertTrue(p4.move(p4.getWorkers().get(1), 3, 4).isEmpty());
+         b.incNBuild();
+         p4.endTurn();
 
          // Check Demeter cannot move up because of Athena's power
-         b.resetCounters();
          b.getSquare(0,1).buildLevel(1);
+         //chose worker for the turn
+         p1.getWorkers().get(0).IsMovingOn();
          List<Error> temp_errors = p1.move(p1.getWorkers().get(0),0,1);
          assertTrue(temp_errors.contains(Error.BLOCK_MOVE_UP));
          assertEquals(1,temp_errors.size());
@@ -104,12 +110,16 @@ class ExtraBuildTest {
 
          //Activate Athena's Power
          b.getSquare(3,4).buildLevel(1);
-         b.resetCounters();
+         //chose worker for the turn
+         p4.getWorkers().get(1).IsMovingOn();
          assertTrue(p4.move(p4.getWorkers().get(1), 3, 4).isEmpty());
+         b.incNBuild();
+         p4.endTurn();
 
          // Check Demeter cannot move up because of Athena's power
-         b.resetCounters();
          b.getSquare(0,1).buildLevel(1);
+         //chose worker for the turn
+         p2.getWorkers().get(0).IsMovingOn();
          List<Error> temp_errors = p2.move(p2.getWorkers().get(0),0,1);
          assertTrue(temp_errors.contains(Error.BLOCK_MOVE_UP));
          assertEquals(1,temp_errors.size());
@@ -131,12 +141,18 @@ class ExtraBuildTest {
          assertTrue(temp_errors.contains(Error.BUILDS_EXCEEDED));
          assertEquals(1,temp_errors.size());
 
+         p2.endTurn();
+
          // Deactivate Athena's power
-         b.resetCounters();
+         //chose worker for the turn
+         p4.getWorkers().get(1).IsMovingOn();
          assertTrue(p4.move(p4.getWorkers().get(1), 3, 3).isEmpty());
+         b.incNBuild();
+         p4.endTurn();
 
          // Check Hephaestus can't ExtraBuild a dome
-         b.resetCounters();
+         //chose worker for the turn
+         p2.getWorkers().get(0).IsMovingOn();
          assertTrue(p2.move(p2.getWorkers().get(0), 0, 1).isEmpty());
          assertTrue(p2.build(p2.getWorkers().get(0), 0, 0, 3).isEmpty());
          temp_errors = p2.build(p2.getWorkers().get(0),0,0,4);
@@ -157,12 +173,16 @@ class ExtraBuildTest {
 
          //Activate Athena's Power
          b.getSquare(3,4).buildLevel(1);
-         b.resetCounters();
+         //chose worker for the turn
+         p4.getWorkers().get(1).IsMovingOn();
          assertTrue(p4.move(p4.getWorkers().get(1), 3, 4).isEmpty());
+         b.incNBuild();
+         p4.endTurn();
 
          // Check Hestia cannot move up because of Athena's power
-         b.resetCounters();
          b.getSquare(0,1).buildLevel(1);
+         //chose worker for the turn
+         p3.getWorkers().get(0).IsMovingOn();
          List<Error> temp_errors = p3.move(p3.getWorkers().get(0),0,1);
          assertTrue(temp_errors.contains(Error.BLOCK_MOVE_UP));
          assertEquals(1,temp_errors.size());

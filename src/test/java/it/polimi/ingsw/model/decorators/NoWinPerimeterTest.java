@@ -64,9 +64,11 @@ class NoWinPerimeterTest {
 
         b.getSquare(1,1).buildLevel(2);
         b.getSquare(2,2).buildLevel(3);
-        b.resetCounters();
 
         assertEquals(p1.getWorkers().get(0), b.getSquare(0,0).getWorker());
+
+        //chose worker for the turn
+        p1.getWorkers().get(1).IsMovingOn();
 
         p1.move(p1.getWorkers().get(1), 2,2);
 
@@ -80,8 +82,8 @@ class NoWinPerimeterTest {
 
     @Test
     void checkHeraWinConditionHerself_Perimeter(){
-        // Start turn
-        b.resetCounters();
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
 
         // Build levels
         b.getSquare(0,0).buildLevel(2);
@@ -103,8 +105,8 @@ class NoWinPerimeterTest {
 
     @Test
     void checkHeraWinConditionHerself_notPerimeter(){
-        // Start turn
-        b.resetCounters();
+        //chose worker for the turn
+        p1.getWorkers().get(1).IsMovingOn();
 
         // Build levels
         b.getSquare(1,1).buildLevel(2);
@@ -126,8 +128,8 @@ class NoWinPerimeterTest {
 
     @Test
     void checkOthersStandardWinCondition_Apollo(){
-        // Start turn
-        b.resetCounters();
+        //chose worker for the turn
+        p2.getWorkers().get(0).IsMovingOn();
 
         // Build levels
         b.getSquare(4,4).buildLevel(2);
@@ -149,8 +151,8 @@ class NoWinPerimeterTest {
 
     @Test
     void checkOthersStandardWinCondition_Zeus(){
-        // Start turn
-        b.resetCounters();
+        //chose worker for the turn
+        p3.getWorkers().get(0).IsMovingOn();
 
         // Build levels
         b.getSquare(1,3).buildLevel(2);
@@ -175,8 +177,8 @@ class NoWinPerimeterTest {
 
     @Test
     void checkCannotWinOnPerimeter_fromPerimeter(){
-        // Start turn
-        b.resetCounters();
+        //chose worker for the turn
+        p2.getWorkers().get(0).IsMovingOn();
 
         // Build levels
         b.getSquare(4,4).buildLevel(2);
@@ -200,8 +202,8 @@ class NoWinPerimeterTest {
 
     @Test
     void checkCannotWinOnPerimeter_fromRegular(){
-        // Start turn
-        b.resetCounters();
+        //chose worker for the turn
+        p3.getWorkers().get(0).IsMovingOn();
 
         // Build levels
         b.getSquare(1,3).buildLevel(2);

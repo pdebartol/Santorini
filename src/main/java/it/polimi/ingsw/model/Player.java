@@ -259,7 +259,9 @@ public class Player implements PropertyChangeListener {
         if(workers.size() == 0) throw new IllegalArgumentException("No workers passed");
 
         Power power = god.getPower();
-        return power.endOfTurn(workers);
+        if(power.endOfTurn(workers)) return true;
+        //TODO: notify view that player can't finish his turn
+        return false;
     }
 
 

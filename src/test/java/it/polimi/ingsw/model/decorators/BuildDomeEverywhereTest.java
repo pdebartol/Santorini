@@ -44,8 +44,8 @@ class BuildDomeEverywhereTest {
 
     @Test
     void checkStandardBuild() {
-        // Start turn
-        b.resetCounters();
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
 
         //Player moves worker before build
         assertTrue(p1.move(p1.getWorkers().get(0),2,1).isEmpty());
@@ -66,6 +66,8 @@ class BuildDomeEverywhereTest {
 
     @Test
     void checkBuildDomeLevel0(){
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
 
         //Player moves worker before build
         assertTrue((p1.move(p1.getWorkers().get(0),2,3).isEmpty()));
@@ -82,6 +84,9 @@ class BuildDomeEverywhereTest {
 
     @Test
     void checkBuildDomeLevel1(){
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
+
         //Player moves worker before build
         assertTrue((p1.move(p1.getWorkers().get(0),2,3).isEmpty()));
 
@@ -98,6 +103,9 @@ class BuildDomeEverywhereTest {
 
     @Test
     void checkBuildDomeLevel2(){
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
+
         //Player moves worker before build
         assertTrue((p1.move(p1.getWorkers().get(0),2,3).isEmpty()));
 
@@ -114,6 +122,9 @@ class BuildDomeEverywhereTest {
 
     @Test
     void checkBuildDomeLevel3(){
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
+
         //Player moves worker before build
         assertTrue((p1.move(p1.getWorkers().get(0),2,3).isEmpty()));
 
@@ -130,6 +141,9 @@ class BuildDomeEverywhereTest {
 
     @Test
     void checkBuildDomeOnAnotherDome(){
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
+
         //Player moves worker before build
         assertTrue((p1.move(p1.getWorkers().get(0),2,3).isEmpty()));
 

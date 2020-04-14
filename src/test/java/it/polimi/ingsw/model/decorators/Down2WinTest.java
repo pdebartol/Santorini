@@ -51,20 +51,32 @@ class Down2WinTest {
         b.getSquare(2,4).buildLevel(2);
         b.getSquare(3,4).buildLevel(3);
 
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
+
         //move up to level 1
-        b.resetCounters();
         p1.move(p1.getWorkers().get(0),2,3);
         assertFalse(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));
+        b.incNBuild();
+        p1.endTurn();
+
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
 
         //move up to level 2
-        b.resetCounters();
         p1.move(p1.getWorkers().get(0),2,4);
         assertFalse(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));
+        b.incNBuild();
+        p1.endTurn();
+
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
 
         //move up to level 3
-        b.resetCounters();
         p1.move(p1.getWorkers().get(0),3,4);
         assertTrue(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));
+        b.incNBuild();
+        p1.endTurn();
     }
 
     /**
@@ -76,14 +88,23 @@ class Down2WinTest {
         b.getSquare(2,3).buildLevel(1);
         b.getSquare(2,4).buildLevel(2);
 
-        b.resetCounters();
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
         p1.move(p1.getWorkers().get(0),2,3);
+        b.incNBuild();
+        p1.endTurn();
 
-        b.resetCounters();
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
         p1.move(p1.getWorkers().get(0),2,4);
+        b.incNBuild();
+        p1.endTurn();
 
-        b.resetCounters();
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
         p1.move(p1.getWorkers().get(0),3,4);
+        b.incNBuild();
+        p1.endTurn();
 
         assertTrue(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));
     }

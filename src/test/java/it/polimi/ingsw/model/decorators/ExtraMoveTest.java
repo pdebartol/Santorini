@@ -65,10 +65,18 @@ class ExtraMoveTest {
     @Test
     public void checkArtemisWithAthena(){
         b.getSquare(0,2).buildLevel(1);
-        b.resetCounters();
-        assertTrue(p2.move(p2.getWorkers().get(1), 0, 2).isEmpty());
 
-        b.resetCounters();
+        //chose worker for the turn
+        p2.getWorkers().get(1).IsMovingOn();
+
+        assertTrue(p2.move(p2.getWorkers().get(1), 0, 2).isEmpty());
+        b.incNBuild();
+
+        p2.endTurn();
+
+        //chose worker for the turn
+        p1.getWorkers().get(0).IsMovingOn();
+
         assertTrue(p1.move(p1.getWorkers().get(0), 0, 1).isEmpty());
 
         // Check Artemis cannot move back
@@ -90,8 +98,6 @@ class ExtraMoveTest {
         temp_errors = p1.move(p1.getWorkers().get(0),2,3);
         assertTrue(temp_errors.contains(Error.MOVES_EXCEEDED));
         assertEquals(1,temp_errors.size());
-
-        b.resetCounters();
     }
 
     /**
@@ -103,12 +109,19 @@ class ExtraMoveTest {
     public void checkTritonWithAthena(){
         b.getSquare(0,2).buildLevel(1);
 
+        //chose worker for the turn
+        p2.getWorkers().get(1).IsMovingOn();
+
         // Activating Athena's power
-        b.resetCounters();
         assertTrue(p2.move(p2.getWorkers().get(1), 0, 2).isEmpty());
+        b.incNBuild();
+
+        p2.endTurn();
 
         // Triton's turn
-        b.resetCounters();
+        //chose worker for the turn
+        p3.getWorkers().get(1).IsMovingOn();
+
         assertTrue(p3.move(p3.getWorkers().get(1), 1, 4).isEmpty());
 
         // Check Triton can move again on perimeter
