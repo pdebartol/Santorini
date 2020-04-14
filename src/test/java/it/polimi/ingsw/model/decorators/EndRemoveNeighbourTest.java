@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test suite for EndRemoveNeighbour
- * @author aledimaio 
+ * @author aledimaio & pierobartolo
  */
 
 class EndRemoveNeighbourTest {
@@ -56,16 +56,18 @@ class EndRemoveNeighbourTest {
     }
 
     /**
-     * This method checks that no workers were removed
+     * This method checks the StandardMove of Medusa.
+     * No opponent's workers should be removed.
+     * Corners should not be a problem for Medusa's power.
      */
 
     @Test
-    void checkStandardMove() {
+    void checkStandardMoveAndCorners() {
         // Move
-        assertTrue(p1.move(p1.getWorkers().get(0),2,2).isEmpty());
+        assertTrue(p1.move(p1.getWorkers().get(0),0,3).isEmpty());
 
         // Build
-        assertTrue(p1.build(p1.getWorkers().get(0), 1,2,1).isEmpty());
+        assertTrue(p1.build(p1.getWorkers().get(0), 0,2,1).isEmpty());
 
         // Check that workers were not removed
         assertNotNull(p2.getWorkers().get(0));
@@ -75,47 +77,70 @@ class EndRemoveNeighbourTest {
 
     }
 
+
     /**
-     * This method tests that only one opponent's worker eas remove
+     * This method tests Medusa's power:  (End Of Turn) If possible, your Workers build in lower neighboring spaces that are
+     * occupied by opponent Workers, removing the opponent Workers from the game.
+     * In this test only one worker activates its power.
      */
 
     @Test
-    void checkOneNeighbourWorkerRemoved(){
-        b.resetCounters();
+    void checkMedusaOneWorker(){
 
-        p1.move(p1.getWorkers().get(0), 1,1);
-        p1.build(p1.getWorkers().get(0), 1,0,1);
+        // Move & Build
+        b.getSquare(2,2).buildLevel(1);
+        assertTrue(p1.move(p1.getWorkers().get(0), 2,2).isEmpty());
+        assertTrue(p1.build(p1.getWorkers().get(0), 1,2,1).isEmpty());
 
-        assertEquals(p1.getWorkers().get(1), b.getSquare(1,3).getWorker());
-        //check the absence of opponent's worker
-        assertNull(b.getSquare(2,1).getWorker());
-        //check if a level was build
-        assertEquals(1, b.getSquare(2,1).getLevel());
-        assertEquals(p2.getWorkers().get(0), b.getSquare(3,1).getWorker());
-        assertEquals(p3.getWorkers().get(0), b.getSquare(3,2).getWorker());
-        assertEquals(p3.getWorkers().get(1), b.getSquare(4,4).getWorker());
-
+        // End Turn (Medusa's power activates)
         assertTrue(p1.endTurn());
 
+        // Check opponent's worker was replaced with a new level
+        assertEquals(1,p3.getWorkers().size());
+        assertNull(b.getSquare(3,2).getWorker());
+        assertEquals(1,b.getSquare(3,2).getLevel());
 
+        assertEquals(0,p2.getWorkers().size());
+        assertNull(b.getSquare(2,1).getWorker());
+        assertEquals(1,b.getSquare(2,1).getLevel());
+        assertNull(b.getSquare(3,1).getWorker());
+        assertEquals(1,b.getSquare(3,1).getLevel());
+
+        // Check Medusa's workers were not removed
+        assertEquals(2,p1.getWorkers().size());
     }
 
     /**
-     * This method tests that more than one workers were remove
+     * This method tests Medusa's power:  (End Of Turn) If possible, your Workers build in lower neighboring spaces that are
+     * occupied by opponent Workers, removing the opponent Workers from the game.
+     * In this test both Medusa's workers activate their power.
      */
 
     @Test
-    void checkNeighbourWorkersRemoved(){
+    void checkMedusaBothWorker(){
 
-        b.getSquare(1,2).buildLevel(2);
+        // Move & Build
         b.getSquare(2,2).buildLevel(1);
-        b.resetCounters();
+        b.getSquare(1,2).buildLevel(2);
+        assertTrue(p1.move(p1.getWorkers().get(1), 2,2).isEmpty());
+        assertTrue(p1.build(p1.getWorkers().get(1), 1,3,1).isEmpty());
 
-        p1.move(p1.getWorkers().get(0), 2,2);
-        p1.build(p1.getWorkers().get(0),3,3,1);
+        // End Turn (Medusa's power activates)
+        assertTrue(p1.endTurn());
 
+        // Check opponent's worker was replaced with a new level
+        assertEquals(1,p3.getWorkers().size());
+        assertNull(b.getSquare(3,2).getWorker());
+        assertEquals(1,b.getSquare(3,2).getLevel());
 
+        assertEquals(0,p2.getWorkers().size());
+        assertNull(b.getSquare(2,1).getWorker());
+        assertEquals(1,b.getSquare(2,1).getLevel());
+        assertNull(b.getSquare(3,1).getWorker());
+        assertEquals(1,b.getSquare(3,1).getLevel());
 
+        // Check Medusa's workers were not removed
+        assertEquals(2,p1.getWorkers().size());
     }
 
 
