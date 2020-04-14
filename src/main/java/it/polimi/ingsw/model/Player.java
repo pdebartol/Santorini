@@ -223,4 +223,21 @@ public class Player implements PropertyChangeListener {
             //TODO: notify to view if this player has no worker (he loses)
         }
     }
+
+    /**
+     * This method is called at the end of each turn.
+     * It resets moves and builds counters and activates "End of Turn" powers.
+     * @param w an arraylist containing the player's workers.
+     * @return True if the player can end the turn, false otherwise.
+     */
+
+    public boolean endTurn( ArrayList<Worker> w){
+        if(w == null) throw new IllegalArgumentException("Null worker as argument!");
+        if(w.size() == 0) throw new IllegalArgumentException("No workers passed");
+
+        Power power = god.getPower();
+        return power.endTurn();
+    }
+
+
 }
