@@ -67,45 +67,62 @@ public class Player implements PropertyChangeListener {
     }
 
     /**
+     * This method checks if the worker passed can move in at least one square.
+     * @param w is the player's worker on which method checks if it can move
+     * @return true or false to indicate if worker passed can move in at least one square compatible with rules or not
+     */
+
+    public boolean canMoveWorker(Worker w){
+        if (w == null) throw new IllegalArgumentException("Null worker as argument!");
+
+        for(int i = -1; i <= 1 ; i++)
+            for(int j = -1; j <= 1; j++){
+                    int x = w.getCurrentSquare().getXPosition() + i;
+                    int y = w.getCurrentSquare().getYPosition() + j;
+                    if (x >= 0 && x <= 4 && y >= 0 && y <= 4) {
+                        ArrayList<Error> errors = god.getPower().checkMove(w, x, y);
+                        if (errors.isEmpty() || (errors.size() == 1 && errors.contains(Error.ISNT_WORKER_CHOSEN)))
+                            return true;
+                    }
+            }
+        return false;
+    }
+
+    /**
      * This method checks if the player is blocked (if the player can't move, he loses)
      * @return true or false to indicate if at least one worker which player use can move in at least one square
      * compatible with rules or not
      */
 
     public boolean canMove(){
-        for(int i = -1; i <= 1 ; i++)
-            for(int j = -1; j <= 1; j++){
-                for (Worker worker : workers) {
-                    int x = worker.getCurrentSquare().getXPosition() + i;
-                    int y = worker.getCurrentSquare().getYPosition() + j;
-                    if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
-                        if (god.getPower().checkMove(worker, x, y).isEmpty())
-                            return true;
-                }
-            }
+        for (Worker worker : workers) {
+            if(canMoveWorker(worker)) return true;
+        }
         //TODO: notify to view this player can't move (he loses)
         return false;
     }
 
     /**
-     * This method checks if the player can Build in his turn (if the player can't build, he loses)
-     * @param w is the worker player used for move (he have to use the same worker for build)
-     * @return true or false to indicate if worker which player use can build in at least one square compatible
+     * This method checks if the worker passed can build in at least one square.
+     * @param w is the player's worker on which method checks if it can build
+     * @return true or false to indicate if worker passed can build in at least one square compatible
      * with rules or not
      */
 
-    public boolean canBuild(Worker w){
+    public boolean canBuildWorker(Worker w){
         if (w == null) throw new IllegalArgumentException("Null worker as argument!");
+
         for(int i = -1; i <= 1 ; i++)
             for(int j = -1; j <= 1; j++){
                 int x = w.getCurrentSquare().getXPosition() + i;
                 int y = w.getCurrentSquare().getYPosition() + j;
                 if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
-                    for(int k = 1; k < 5; k++)
+                    for (int k = 1; k < 5; k++) {
+                        ArrayList<Error> errors = god.getPower().checkBuild(w, x, y, k);
                         if (god.getPower().checkBuild(w, x, y, k).isEmpty())
                             return true;
+                    }
             }
-        //TODO: notify to view this player can't build (he loses)
         return false;
     }
 
@@ -172,6 +189,8 @@ public class Player implements PropertyChangeListener {
     public void sendErrorMsg(List<Error> errors){
         for(Error e: errors)
             switch (e){
+                case ISNT_WORKER_CHOSEN:
+                    //TODO: notify to view this error
                 case NOT_FREE:
                     //TODO: notify to view this error
                 case NOT_ADJACENT:
@@ -227,7 +246,6 @@ public class Player implements PropertyChangeListener {
     /**
      * This method is called at the end of each turn.
      * It resets moves and builds counters and activates "End of Turn" powers.
-     * @param w an arraylist containing the player's workers.
      * @return True if the player can end the turn, false otherwise.
      */
 

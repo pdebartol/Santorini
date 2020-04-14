@@ -87,6 +87,9 @@ public class StandardPower implements Power {
         // Can't move on dome check
         if(s.getDome()) errors.add(Error.IS_DOME);
 
+        //Check that w is the worker chosen for this turn
+        if(!w.getIsMoving()) errors.add(Error.ISNT_WORKER_CHOSEN);
+
         return errors;
 
     }
@@ -126,6 +129,9 @@ public class StandardPower implements Power {
 
         //Occupation check
         if(!s.isFree()) errors.add(Error.NOT_FREE);
+
+        //Check that w is the worker chosen for this turn
+        if(!w.getIsMoving()) errors.add(Error.ISNT_WORKER_CHOSEN);
 
         return errors;
     }

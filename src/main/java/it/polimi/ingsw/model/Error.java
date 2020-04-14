@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 public enum Error {
+    ISNT_WORKER_CHOSEN,
     BLOCK_MOVE_UP,
     BUILDS_EXCEEDED,
     BUILD_BEFORE_MOVE,
