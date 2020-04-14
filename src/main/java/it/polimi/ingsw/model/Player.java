@@ -231,9 +231,9 @@ public class Player implements PropertyChangeListener {
      * @return True if the player can end the turn, false otherwise.
      */
 
-    public boolean endTurn( ArrayList<Worker> w){
-        if(w == null) throw new IllegalArgumentException("Null worker as argument!");
-        if(w.size() == 0) throw new IllegalArgumentException("No workers passed");
+    public boolean endTurn(){
+        if(workers == null) throw new IllegalArgumentException("Null worker as argument!");
+        if(workers.size() == 0) throw new IllegalArgumentException("No workers passed");
 
         Power power = god.getPower();
         return power.endOfTurn(workers);

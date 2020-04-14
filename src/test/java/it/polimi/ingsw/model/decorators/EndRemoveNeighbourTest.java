@@ -24,7 +24,7 @@ class EndRemoveNeighbourTest {
      * Setup for testing:
      * - p1 --> Medusa
      * - p2 --> Artemis
-     * - p3 --> Apolllo
+     * - p3 --> Apollo
      * - all workers set on board
      */
 
@@ -56,27 +56,22 @@ class EndRemoveNeighbourTest {
     }
 
     /**
-     * This method check tha no workers were remove
+     * This method checks that no workers were removed
      */
 
     @Test
     void checkStandardMove() {
-        // Start turn
-        b.resetCounters();
+        // Move
+        assertTrue(p1.move(p1.getWorkers().get(0),2,2).isEmpty());
 
-        b.getSquare(1,2).buildLevel(2);
-        b.getSquare(0,2).buildLevel(1);
+        // Build
+        assertTrue(p1.build(p1.getWorkers().get(0), 1,2,1).isEmpty());
 
-        assertTrue(p1.getGod().getPower().checkMove(p1.getWorkers().get(0),0,2).isEmpty());
-        p1.move(p1.getWorkers().get(0),0,2);
-        assertTrue(p1.getGod().getPower().checkBuild(p1.getWorkers().get(0), 0,3,1).isEmpty());
-        p1.build(p1.getWorkers().get(0), 0,3,1);
-
-        assertEquals(p1.getWorkers().get(1), b.getSquare(1,3).getWorker());
-        assertEquals(p2.getWorkers().get(0), b.getSquare(2,1).getWorker());
-        assertEquals(p2.getWorkers().get(1), b.getSquare(3,1).getWorker());
-        assertEquals(p3.getWorkers().get(0), b.getSquare(3,2).getWorker());
-        assertEquals(p3.getWorkers().get(1), b.getSquare(4,4).getWorker());
+        // Check that workers were not removed
+        assertNotNull(p2.getWorkers().get(0));
+        assertNotNull(p2.getWorkers().get(1));
+        assertNotNull(p3.getWorkers().get(0));
+        assertNotNull(p3.getWorkers().get(1));
 
     }
 
@@ -86,9 +81,6 @@ class EndRemoveNeighbourTest {
 
     @Test
     void checkOneNeighbourWorkerRemoved(){
-
-        b.getSquare(1,2).buildLevel(2);
-        b.getSquare(1,1).buildLevel(1);
         b.resetCounters();
 
         p1.move(p1.getWorkers().get(0), 1,1);
@@ -102,6 +94,8 @@ class EndRemoveNeighbourTest {
         assertEquals(p2.getWorkers().get(0), b.getSquare(3,1).getWorker());
         assertEquals(p3.getWorkers().get(0), b.getSquare(3,2).getWorker());
         assertEquals(p3.getWorkers().get(1), b.getSquare(4,4).getWorker());
+
+        assertTrue(p1.endTurn());
 
 
     }
