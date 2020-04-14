@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.PowerDecorator;
 import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.Worker;
 
+import java.util.ArrayList;
+
 /**
  * This class implements the power which, at end of his turn, allows a worker to replace opponent's workers occupying lower
  * neighbour squares with a block and remove them from the game.
@@ -23,16 +25,20 @@ public class EndRemoveNeighbour extends PowerDecorator {
     //methods
 
     /**
-     * This method overrides updateBuild (PowerDecorator) decorating decoratedPower with EndRemoveNeighbour rules.
-     * @param w is the worker that builds
-     * @param x is the x square coordinate where the worker builds
-     * @param y is the y square coordinate where the worker builds
-     * @param l is the level the worker builds
+     * This method overrides endOfTurn (PowerDecorator) decorating decoratedPower with EndRemoveNeighbour rules.
+     * @param workers is the arrayList of worker that player uses
+     * @return true -> The turn is correctly finish
+     *         false -> The turn cannot finish now
      */
+
     @Override
-    public void updateBuild(Worker w, int x, int y, int l) {
-        decoratedPower.updateBuild(w, x, y, l);
-        replaceAndBuild(w);
+    public boolean endOfTurn(ArrayList<Worker> workers){
+        if(decoratedPower.endOfTurn(workers)){
+            for(Worker w: workers)
+                replaceAndBuild(w);
+            return true;
+        }
+        return false;
     }
 
     /**
