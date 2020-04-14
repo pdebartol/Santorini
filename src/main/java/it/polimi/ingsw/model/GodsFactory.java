@@ -227,7 +227,7 @@ public class GodsFactory {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder.parse("godConfig.xml");
+        return builder.parse("src/main/resources/godConfig.xml");
     }
 
     /**
