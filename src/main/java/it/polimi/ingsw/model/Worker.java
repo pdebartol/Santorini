@@ -35,6 +35,11 @@ public class Worker  {
 
     private Square currentSquare;
 
+    /**
+     * isMoving indicates if this worker was chosen for the turn
+     */
+
+    private boolean isMoving;
 
     //constructors
 
@@ -74,10 +79,22 @@ public class Worker  {
         return lastSquareBuild;
     }
 
+    public boolean getIsMoving() {
+        return isMoving;
+    }
+
 
     public void setLastSquareBuild(Square s) {
         if( s == null) throw new IllegalArgumentException("Null square as argument!");
         lastSquareBuild = s;
+    }
+
+    public void IsMovingOn(){
+        isMoving = true;
+    }
+
+    public void IsMovingOff(){
+        isMoving = false;
     }
 
     /**

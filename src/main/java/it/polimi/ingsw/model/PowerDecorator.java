@@ -54,4 +54,7 @@ public abstract class PowerDecorator implements Power {
     public Board getBoard() {
         return decoratedPower.getBoard();
     }
+
+    @Override
+    public boolean endOfTurn(ArrayList<Worker> workers){return decoratedPower.endOfTurn(workers);}
 }

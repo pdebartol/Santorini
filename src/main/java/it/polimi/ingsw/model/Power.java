@@ -67,4 +67,14 @@ public interface Power {
       */
 
      Board getBoard();
+
+     /**
+      * This method is called when a player finish his turn. It checks that player has done standard moves and
+      * reset all counters or flag for the turn in model.
+      * @param workers is the arrayList of worker that player uses
+      * @return true -> The turn is correctly finish
+      *         false -> The turn cannot finish now
+      */
+
+     boolean endOfTurn(ArrayList<Worker> workers);
 }
