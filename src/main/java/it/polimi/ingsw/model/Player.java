@@ -98,7 +98,8 @@ public class Player implements PropertyChangeListener {
         for (Worker worker : workers) {
             if(canMoveWorker(worker)) return true;
         }
-        //TODO: notify to view this player can't move (he loses)
+
+        //TODO: notify to view this player can't move
         return false;
     }
 
@@ -119,10 +120,14 @@ public class Player implements PropertyChangeListener {
                 if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
                     for (int k = 1; k < 5; k++) {
                         ArrayList<Error> errors = god.getPower().checkBuild(w, x, y, k);
-                        if (god.getPower().checkBuild(w, x, y, k).isEmpty())
+                        if (errors.contains(Error.ISNT_WORKER_CHOSEN))
+                            return false;
+                        if (errors.isEmpty())
                             return true;
                     }
             }
+
+        //TODO: notify to view player can't build
         return false;
     }
 

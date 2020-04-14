@@ -59,6 +59,9 @@ class StandardPowerTest {
 
     @Test
     void checkValidMove() {
+        //chose player for the turn
+        wmp1.IsMovingOn();
+
         //move on the same level
         assertTrue(p.checkMove(wmp1, 2, 1).isEmpty());
 
@@ -74,6 +77,9 @@ class StandardPowerTest {
 
     @Test
     void checkMoveNotFree() {
+        //chose player for the turn
+        wmp1.IsMovingOn();
+
         ArrayList<Error> errors = p.checkMove(wmp1, 0, 1);
 
         // (0,1) position is occupy by wmp2
@@ -83,6 +89,9 @@ class StandardPowerTest {
 
     @Test
     void checkMovesNotAdjacent() {
+        //chose player for the turn
+        wmp1.IsMovingOn();
+
         ArrayList<Error> errors = p.checkMove(wmp1, 3, 1);
 
         // wmp1 is in (1,1) position that isn't adjacent to (3,1) position
@@ -92,6 +101,9 @@ class StandardPowerTest {
 
     @Test
     void checkMovesInvalidLevel(){
+        //chose player for the turn
+        wmp1.IsMovingOn();
+
         b.getSquare(0,0).buildLevel(2);
 
         // wmp1 is on level 0 square. He is trying to move into a level 2 square
@@ -102,6 +114,9 @@ class StandardPowerTest {
 
     @Test
     void checkMovesExceeded(){
+        //chose player for the turn
+        wmp1.IsMovingOn();
+
         p.updateMove(wmp1,1,2);
 
         // wmp1 is trying to move 2 times, for standard power it is not possible
@@ -112,6 +127,9 @@ class StandardPowerTest {
 
     @Test
     void checkMoveIsDome(){
+        //chose player for the turn
+        wmp1.IsMovingOn();
+
         b.getSquare(0,0).setDome(true);
 
         //wmp1 is trying to move into a square occupied by dome
@@ -122,11 +140,25 @@ class StandardPowerTest {
 
     @Test
     void checkMoveAfterBuild(){
+        //chose player for the turn
+        wmp1.IsMovingOn();
+
         p.updateBuild(wmp1,0,0, 1);
 
         //wmp1 is trying to move after a build move
         ArrayList<Error> errors = p.checkMove(wmp1,0,0);
         assertTrue(errors.contains(Error.MOVE_AFTER_BUILD));
+        assertEquals(1, errors.size());
+    }
+
+    @Test
+    void checkIsntWorkerChosen(){
+        //chose player for the turn
+        wmp1.IsMovingOn();
+
+        //wfp1 is trying to move
+        ArrayList<Error> errors = p.checkMove(wfp1,4,4);
+        assertTrue(errors.contains(Error.ISNT_WORKER_CHOSEN));
         assertEquals(1, errors.size());
     }
 
@@ -146,7 +178,8 @@ class StandardPowerTest {
         assertTrue(errors.contains(Error.NOT_ADJACENT));
         assertTrue(errors.contains(Error.INVALID_LEVEL_MOVE));
         assertTrue(errors.contains(Error.IS_DOME));
-        assertEquals(5, errors.size());
+        assertTrue(errors.contains(Error.ISNT_WORKER_CHOSEN));
+        assertEquals(6, errors.size());
     }
 
     /**
@@ -164,13 +197,19 @@ class StandardPowerTest {
 
     @Test
     void checkBuildLegal() {
+        //chose player for the turn
+        wmp1.IsMovingOn();
+
         //worker has to move before build
         p.updateMove(wmp1, 2, 1);
-        assertTrue(p.checkBuild(wmp2, 1, 1, 1).isEmpty());
+        assertTrue(p.checkBuild(wmp1, 1, 1, 1).isEmpty());
     }
 
     @Test
     void checkBuildNotFree() {
+        //chose player for the turn
+        wfp2.IsMovingOn();
+
         //worker has to move before build
         p.updateMove(wfp2, 3, 3);
         ArrayList<Error> errors = p.checkBuild(wfp2,3,4, 1);
@@ -182,6 +221,9 @@ class StandardPowerTest {
 
     @Test
     void checkBuildsExceeded(){
+        //chose player for the turn
+        wmp2.IsMovingOn();
+
         //worker has to move before build
         p.updateMove(wmp2,0,2);
 
@@ -195,6 +237,9 @@ class StandardPowerTest {
 
     @Test
     void checkBuildNotAdjacent(){
+        //chose player for the turn
+        wfp1.IsMovingOn();
+
         //worker has to move before build
         p.updateMove(wfp1,4,4);
 
@@ -206,6 +251,9 @@ class StandardPowerTest {
 
     @Test
     void checkBuildIsDome(){
+        //chose player for the turn
+        wfp1.IsMovingOn();
+
         //worker has to move before build
         p.updateMove(wfp1,3,3);
         b.getSquare(4,4).setDome(true);
@@ -218,6 +266,9 @@ class StandardPowerTest {
 
     @Test
     void checkBuildBeforeMove(){
+        //chose player for the turn
+        wfp1.IsMovingOn();
+
         //worker is trying to build before his move
         ArrayList<Error> errors = p.checkBuild(wfp1,4,4, b.getSquare(4,4).getLevel() + 1);
         assertTrue(errors.contains(Error.BUILD_BEFORE_MOVE));
@@ -226,12 +277,29 @@ class StandardPowerTest {
 
     @Test
     void checkBuildInvalidLevel(){
+        //chose player for the turn
+        wfp1.IsMovingOn();
+
         //worker has to move before build
         p.updateMove(wfp1,3,3);
 
         //worker is trying to build onto a square where there is a dome
         ArrayList<Error> errors = p.checkBuild(wfp1,4,4, 2);
         assertTrue(errors.contains(Error.INVALID_LEVEL_BUILD));
+        assertEquals(1, errors.size());
+    }
+
+    @Test
+    void checkBuildIsntWorkerChosen(){
+        //chose player for the turn
+        wmp1.IsMovingOn();
+
+        //worker has to move before build
+        p.updateMove(wmp1,1,2);
+
+        //worker is trying to build onto a square where there is a dome
+        ArrayList<Error> errors = p.checkBuild(wfp1,4,4, 1);
+        assertTrue(errors.contains(Error.ISNT_WORKER_CHOSEN));
         assertEquals(1, errors.size());
     }
 
@@ -251,7 +319,8 @@ class StandardPowerTest {
         assertTrue(errors.contains(Error.NOT_ADJACENT));
         assertTrue(errors.contains(Error.IS_DOME));
         assertTrue(errors.contains(Error.INVALID_LEVEL_BUILD));
-        assertEquals(5, errors.size());
+        assertTrue(errors.contains(Error.ISNT_WORKER_CHOSEN));
+        assertEquals(6, errors.size());
     }
 
     @Test
@@ -337,6 +406,35 @@ class StandardPowerTest {
         assertEquals(1, b.getSquare(2, 1).getLevel());
         assertFalse(b.getSquare(2, 1).getDome());
         assertEquals(1, b.getNBuild());
+    }
+
+    @Test
+    void endOfTurnException(){
+        assertThrows(IllegalArgumentException.class, () -> p.endOfTurn(null));
+        wmp1.removeFromGame();
+        wfp1.removeFromGame();
+        assertThrows(IllegalArgumentException.class, () -> p.endOfTurn(p1.getWorkers()));
+    }
+
+    @Test
+    void endOfTurn(){
+        //chose player for the turn
+        wmp1.IsMovingOn();
+
+        //check that player have to do at least a standard move to finis his turn
+        assertFalse(p.endOfTurn(p1.getWorkers()));
+        p.updateMove(wmp1,1,2);
+        assertFalse(p.endOfTurn(p1.getWorkers()));
+
+        p.updateBuild(wmp1,1,1,1);
+
+        //check that player can finish his turn after a standard move
+        assertTrue(p.endOfTurn(p1.getWorkers()));
+
+        //check that all flags in model are reset
+        assertEquals(0, b.getNMoves());
+        assertEquals(0, b.getNBuild());
+        assertFalse(wmp1.getIsMoving());
     }
 
 }

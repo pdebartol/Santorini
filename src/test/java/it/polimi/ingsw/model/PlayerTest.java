@@ -114,7 +114,7 @@ class PlayerTest {
 
     @Test
     void canBuildException(){
-        assertThrows(IllegalArgumentException.class, () -> p1.canBuild(null));
+        assertThrows(IllegalArgumentException.class, () -> p1.canBuildWorker(null));
     }
 
     /**
@@ -126,7 +126,7 @@ class PlayerTest {
     void canBuildCheck() {
         //first check
         p1.move(p1.getWorkers().get(0),0,1); //The player have to move worker before build with him
-        assertTrue(p1.canBuild(p1.getWorkers().get(0)));
+        assertTrue(p1.canBuildWorker(p1.getWorkers().get(0)));
 
         //only 1 square for p1 to build (the rest of squares is occupied or a complete tower)
         b.getSquare(1,0).buildLevel(3);
@@ -135,7 +135,7 @@ class PlayerTest {
         b.getSquare(0,0).buildLevel(4);
         b.getSquare(2,1).buildLevel(3);
         b.getSquare(2,1).buildLevel(4);
-        assertTrue(p1.canBuild(p1.getWorkers().get(0)));
+        assertTrue(p1.canBuildWorker(p1.getWorkers().get(0)));
     }
 
     /**
@@ -156,7 +156,7 @@ class PlayerTest {
         b.getSquare(2,1).buildLevel(4);
         b.getSquare(1,2).buildLevel(3);
         b.getSquare(1,2).buildLevel(4);
-        assertFalse(p1.canBuild(p1.getWorkers().get(0)));
+        assertFalse(p1.canBuildWorker(p1.getWorkers().get(0)));
     }
 
     @Test

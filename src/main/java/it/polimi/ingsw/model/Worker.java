@@ -47,6 +47,7 @@ public class Worker  {
         this.color = color;
         this.gender = gender;
         this.support = new PropertyChangeSupport(this);
+        this.isMoving = false;
     }
 
     //methods

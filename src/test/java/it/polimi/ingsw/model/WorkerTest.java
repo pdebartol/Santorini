@@ -72,4 +72,13 @@ class WorkerTest {
 
         assertThrows(IllegalStateException.class, () -> worker.updateWorkerPosition(gameBoard.getSquare(1,2)));
     }
+
+    @Test
+    void OnOffIsMoving(){
+        worker.IsMovingOn();
+        assertTrue(worker.getIsMoving());
+
+        worker.IsMovingOff();
+        assertFalse(worker.getIsMoving());
+    }
 }
