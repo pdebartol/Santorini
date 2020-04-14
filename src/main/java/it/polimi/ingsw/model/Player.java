@@ -236,7 +236,7 @@ public class Player implements PropertyChangeListener {
         if(w.size() == 0) throw new IllegalArgumentException("No workers passed");
 
         Power power = god.getPower();
-        return power.endTurn();
+        return power.endOfTurn(workers);
     }
 
 
