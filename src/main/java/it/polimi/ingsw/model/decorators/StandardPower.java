@@ -199,12 +199,19 @@ public class StandardPower implements Power {
      * This method is called when a player finish his turn. It checks that player has done standard moves and
      * reset all counters or flag for the turn in model.
      * @param workers is the arrayList of worker that player uses
-     * @return true -> The turn is correctly finish
-     *         false -> The turn cannot finish now
+     * @return true -> The turn can end without problems.
+     *         false -> The turn cannot end because the player has not moved/built.
      */
 
     @Override
     public boolean endOfTurn(ArrayList<Worker> workers){
+        if(workers == null) throw new IllegalArgumentException("Null worker as argument!");
+        if(workers.size() == 0) throw new IllegalArgumentException("No workers passed");
+        if(board.getNBuild() == 0 ||  board.getNMoves() == 0) return false;
+        board.resetCounters();
+        for (Worker w: workers){
+            w.IsMovingOff();
+        }
         return true;
     }
 }
