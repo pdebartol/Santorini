@@ -75,10 +75,10 @@ class WorkerTest {
 
     @Test
     void OnOffIsMoving(){
-        worker.IsMovingOn();
+        worker.isMovingOn();
         assertTrue(worker.getIsMoving());
 
-        worker.IsMovingOff();
+        worker.isMovingOff();
         assertFalse(worker.getIsMoving());
     }
 }

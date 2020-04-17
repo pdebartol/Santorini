@@ -52,7 +52,7 @@ class Down2WinTest {
         b.getSquare(3,4).buildLevel(3);
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         //move up to level 1
         p1.move(p1.getWorkers().get(0),2,3);
@@ -61,7 +61,7 @@ class Down2WinTest {
         p1.endTurn();
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         //move up to level 2
         p1.move(p1.getWorkers().get(0),2,4);
@@ -70,7 +70,7 @@ class Down2WinTest {
         p1.endTurn();
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         //move up to level 3
         p1.move(p1.getWorkers().get(0),3,4);
@@ -89,19 +89,19 @@ class Down2WinTest {
         b.getSquare(2,4).buildLevel(2);
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
         p1.move(p1.getWorkers().get(0),2,3);
         b.incNBuild();
         p1.endTurn();
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
         p1.move(p1.getWorkers().get(0),2,4);
         b.incNBuild();
         p1.endTurn();
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
         p1.move(p1.getWorkers().get(0),3,4);
         b.incNBuild();
         p1.endTurn();

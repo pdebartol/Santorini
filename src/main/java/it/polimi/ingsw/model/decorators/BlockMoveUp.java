@@ -31,10 +31,6 @@ public class BlockMoveUp extends PowerDecorator {
 
     //methods
 
-    public void addPropertyChangeListener(PropertyChangeListener pcl) {
-        support.addPropertyChangeListener(pcl);
-    }
-
     /**
      * This method overrides updateMove (PowerDecorator) decorating decoratedPower with BlockMoveUp rules.
      * @param w is the worker that moves
@@ -51,5 +47,9 @@ public class BlockMoveUp extends PowerDecorator {
             support.firePropertyChange("moved_up", false,true); // notifies CanMoveUp of the move
         }
         decoratedPower.updateMove(w,x,y);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
     }
 }

@@ -60,7 +60,7 @@ class StandardPowerTest {
     @Test
     void checkValidMove() {
         //chose worker for the turn
-        wmp1.IsMovingOn();
+        wmp1.isMovingOn();
 
         //move on the same level
         assertTrue(p.checkMove(wmp1, 2, 1).isEmpty());
@@ -78,7 +78,7 @@ class StandardPowerTest {
     @Test
     void checkMoveNotFree() {
         //chose worker for the turn
-        wmp1.IsMovingOn();
+        wmp1.isMovingOn();
 
         ArrayList<Error> errors = p.checkMove(wmp1, 0, 1);
 
@@ -90,7 +90,7 @@ class StandardPowerTest {
     @Test
     void checkMovesNotAdjacent() {
         //chose worker for the turn
-        wmp1.IsMovingOn();
+        wmp1.isMovingOn();
 
         ArrayList<Error> errors = p.checkMove(wmp1, 3, 1);
 
@@ -102,7 +102,7 @@ class StandardPowerTest {
     @Test
     void checkMovesInvalidLevel(){
         //chose worker for the turn
-        wmp1.IsMovingOn();
+        wmp1.isMovingOn();
 
         b.getSquare(0,0).buildLevel(2);
 
@@ -115,7 +115,7 @@ class StandardPowerTest {
     @Test
     void checkMovesExceeded(){
         //chose worker for the turn
-        wmp1.IsMovingOn();
+        wmp1.isMovingOn();
 
         p.updateMove(wmp1,1,2);
 
@@ -128,7 +128,7 @@ class StandardPowerTest {
     @Test
     void checkMoveIsDome(){
         //chose worker for the turn
-        wmp1.IsMovingOn();
+        wmp1.isMovingOn();
 
         b.getSquare(0,0).setDome(true);
 
@@ -141,7 +141,7 @@ class StandardPowerTest {
     @Test
     void checkMoveAfterBuild(){
         //chose worker for the turn
-        wmp1.IsMovingOn();
+        wmp1.isMovingOn();
 
         p.updateBuild(wmp1,0,0, 1);
 
@@ -154,7 +154,7 @@ class StandardPowerTest {
     @Test
     void checkIsntWorkerChosen(){
         //chose worker for the turn
-        wmp1.IsMovingOn();
+        wmp1.isMovingOn();
 
         //wfp1 is trying to move
         ArrayList<Error> errors = p.checkMove(wfp1,4,4);
@@ -198,7 +198,7 @@ class StandardPowerTest {
     @Test
     void checkBuildLegal() {
         //chose worker for the turn
-        wmp1.IsMovingOn();
+        wmp1.isMovingOn();
 
         //worker has to move before build
         p.updateMove(wmp1, 2, 1);
@@ -208,7 +208,7 @@ class StandardPowerTest {
     @Test
     void checkBuildNotFree() {
         //chose worker for the turn
-        wfp2.IsMovingOn();
+        wfp2.isMovingOn();
 
         //worker has to move before build
         p.updateMove(wfp2, 3, 3);
@@ -222,7 +222,7 @@ class StandardPowerTest {
     @Test
     void checkBuildsExceeded(){
         //chose worker for the turn
-        wmp2.IsMovingOn();
+        wmp2.isMovingOn();
 
         //worker has to move before build
         p.updateMove(wmp2,0,2);
@@ -238,7 +238,7 @@ class StandardPowerTest {
     @Test
     void checkBuildNotAdjacent(){
         //chose worker for the turn
-        wfp1.IsMovingOn();
+        wfp1.isMovingOn();
 
         //worker has to move before build
         p.updateMove(wfp1,4,4);
@@ -252,7 +252,7 @@ class StandardPowerTest {
     @Test
     void checkBuildIsDome(){
         //chose worker for the turn
-        wfp1.IsMovingOn();
+        wfp1.isMovingOn();
 
         //worker has to move before build
         p.updateMove(wfp1,3,3);
@@ -267,7 +267,7 @@ class StandardPowerTest {
     @Test
     void checkBuildBeforeMove(){
         //chose worker for the turn
-        wfp1.IsMovingOn();
+        wfp1.isMovingOn();
 
         //worker is trying to build before his move
         ArrayList<Error> errors = p.checkBuild(wfp1,4,4, b.getSquare(4,4).getLevel() + 1);
@@ -278,7 +278,7 @@ class StandardPowerTest {
     @Test
     void checkBuildInvalidLevel(){
         //chose worker for the turn
-        wfp1.IsMovingOn();
+        wfp1.isMovingOn();
 
         //worker has to move before build
         p.updateMove(wfp1,3,3);
@@ -292,7 +292,7 @@ class StandardPowerTest {
     @Test
     void checkBuildIsntWorkerChosen(){
         //chose worker for the turn
-        wmp1.IsMovingOn();
+        wmp1.isMovingOn();
 
         //worker has to move before build
         p.updateMove(wmp1,1,2);
@@ -419,7 +419,7 @@ class StandardPowerTest {
     @Test
     void endOfTurn(){
         //chose worker for the turn
-        wmp1.IsMovingOn();
+        wmp1.isMovingOn();
 
         //check that player have to do at least a standard move to finis his turn
         assertFalse(p.endOfTurn(p1.getWorkers()));

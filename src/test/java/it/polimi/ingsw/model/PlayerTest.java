@@ -130,7 +130,7 @@ class PlayerTest {
     @Test
     void canBuildWorkerCheck() {
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         //first check
         p1.move(p1.getWorkers().get(0),0,1); //The player have to move worker before build with him
@@ -157,7 +157,7 @@ class PlayerTest {
         assertFalse(p1.canBuildWorker(p1.getWorkers().get(0)));
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         p1.move(p1.getWorkers().get(0),0,1); //The player have to move worker before build with him
 
@@ -187,7 +187,7 @@ class PlayerTest {
     @Test
     void legalMove(){
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         //the position (0,1) represents a valid position where p1 can move
         p1.move(p1.getWorkers().get(0),0,1);
@@ -210,7 +210,7 @@ class PlayerTest {
     @Test
     void illegalMove(){
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         //the position (0,2) is occupied by p3 and isn't adjacent to player1's male worker
         p1.move(p1.getWorkers().get(0),0,2);
@@ -238,7 +238,7 @@ class PlayerTest {
     @Test
     void legalBuild(){
         //chose worker for the turn
-        p2.getWorkers().get(0).IsMovingOn();
+        p2.getWorkers().get(0).isMovingOn();
 
         //before build worker have to move
         p2.move(p2.getWorkers().get(0),4,3);
@@ -260,7 +260,7 @@ class PlayerTest {
     @Test
     void illegalBuild() {
         //chose worker for the turn
-        p2.getWorkers().get(0).IsMovingOn();
+        p2.getWorkers().get(0).isMovingOn();
 
         //before build worker have to move
         p2.move(p2.getWorkers().get(0),4,3);

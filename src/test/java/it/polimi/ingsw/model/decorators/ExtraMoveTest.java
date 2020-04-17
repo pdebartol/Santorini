@@ -67,7 +67,7 @@ class ExtraMoveTest {
         b.getSquare(0,2).buildLevel(1);
 
         //chose worker for the turn
-        p2.getWorkers().get(1).IsMovingOn();
+        p2.getWorkers().get(1).isMovingOn();
 
         assertTrue(p2.move(p2.getWorkers().get(1), 0, 2).isEmpty());
         b.incNBuild();
@@ -75,7 +75,7 @@ class ExtraMoveTest {
         p2.endTurn();
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         assertTrue(p1.move(p1.getWorkers().get(0), 0, 1).isEmpty());
 
@@ -110,7 +110,7 @@ class ExtraMoveTest {
         b.getSquare(0,2).buildLevel(1);
 
         //chose worker for the turn
-        p2.getWorkers().get(1).IsMovingOn();
+        p2.getWorkers().get(1).isMovingOn();
 
         // Activating Athena's power
         assertTrue(p2.move(p2.getWorkers().get(1), 0, 2).isEmpty());
@@ -120,7 +120,7 @@ class ExtraMoveTest {
 
         // Triton's turn
         //chose worker for the turn
-        p3.getWorkers().get(1).IsMovingOn();
+        p3.getWorkers().get(1).isMovingOn();
 
         assertTrue(p3.move(p3.getWorkers().get(1), 1, 4).isEmpty());
 
@@ -134,11 +134,28 @@ class ExtraMoveTest {
         assertTrue(temp_errors.contains(Error.BLOCK_MOVE_UP));
         assertEquals(1,temp_errors.size());
 
-        //Check Triton can't move outside perimeter
+        //Check Triton can't move after it goes outside perimeter
         assertTrue(p3.move(p3.getWorkers().get(1), 3, 3).isEmpty());
-         temp_errors = p3.move(p3.getWorkers().get(1),3,2);
+        temp_errors = p3.move(p3.getWorkers().get(1),3,2);
         assertTrue(temp_errors.contains(Error.MOVES_EXCEEDED));
         assertEquals(1, temp_errors.size());
+    }
+
+    @Test
+    void CanStopOnPerimeterCheck(){
+        // Triton's turn
+        //chose worker for the turn
+        p3.getWorkers().get(1).isMovingOn();
+
+        assertTrue(p3.move(p3.getWorkers().get(1), 1, 4).isEmpty());
+
+        // Check Triton can move again on perimeter
+        assertTrue(p3.move(p3.getWorkers().get(1), 2, 4).isEmpty());
+        assertTrue(p3.move(p3.getWorkers().get(1), 3, 4).isEmpty());
+        b.incNBuild();
+
+        //Check Triton can finish its turn on perimeter square
+        assertTrue(p3.endTurn());
 
     }
 

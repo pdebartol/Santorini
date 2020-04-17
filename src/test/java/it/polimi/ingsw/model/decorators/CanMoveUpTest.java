@@ -61,7 +61,7 @@ class CanMoveUpTest {
     public void athenaBlock(){
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         // Athena moves up
         b.getSquare(1,0).buildLevel(1);
@@ -70,7 +70,7 @@ class CanMoveUpTest {
         p1.endTurn();
 
         //chose worker for the turn
-        p2.getWorkers().get(0).IsMovingOn();
+        p2.getWorkers().get(0).isMovingOn();
 
         //Artemis check
         b.getSquare(3,4).buildLevel(1);
@@ -80,7 +80,7 @@ class CanMoveUpTest {
         p2.endTurn();
 
         //chose worker for the turn
-        p3.getWorkers().get(0).IsMovingOn();
+        p3.getWorkers().get(0).isMovingOn();
 
         // Apollo check
         b.getSquare(2,1).buildLevel(1);
@@ -97,7 +97,7 @@ class CanMoveUpTest {
     @Test
     public void notAthenaBlock(){
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         //Athena doesn't move up
         p1.move(p1.getWorkers().get(0),1,0);
@@ -105,7 +105,7 @@ class CanMoveUpTest {
         p1.endTurn();
 
         //chose worker for the turn
-        p2.getWorkers().get(0).IsMovingOn();
+        p2.getWorkers().get(0).isMovingOn();
 
         // Artemis check
         b.getSquare(3,4).buildLevel(1);
@@ -114,7 +114,7 @@ class CanMoveUpTest {
         p2.endTurn();
 
         //chose worker for the turn
-        p3.getWorkers().get(0).IsMovingOn();
+        p3.getWorkers().get(0).isMovingOn();
 
         // Apollo check
         b.getSquare(2,1).buildLevel(1);
@@ -130,7 +130,7 @@ class CanMoveUpTest {
     @Test
     public void twoTurnMix(){
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         // Athena moves up
         b.getSquare(1,0).buildLevel(1);
@@ -139,7 +139,7 @@ class CanMoveUpTest {
         p1.endTurn();
 
         //chose worker for the turn
-        p2.getWorkers().get(0).IsMovingOn();
+        p2.getWorkers().get(0).isMovingOn();
 
         //Artemis check
         b.getSquare(3,4).buildLevel(1);
@@ -149,7 +149,7 @@ class CanMoveUpTest {
         p2.endTurn();
 
         //chose worker for the turn
-        p3.getWorkers().get(0).IsMovingOn();
+        p3.getWorkers().get(0).isMovingOn();
 
         // Apollo check
         b.getSquare(2,1).buildLevel(1);
@@ -159,7 +159,7 @@ class CanMoveUpTest {
         p3.endTurn();
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         //Athena doesn't moves up
         b.getSquare(1,1).buildLevel(1);
@@ -169,7 +169,7 @@ class CanMoveUpTest {
         p1.endTurn();
 
         //chose worker for the turn
-        p2.getWorkers().get(0).IsMovingOn();
+        p2.getWorkers().get(0).isMovingOn();
 
         // Artemis check
         b.getSquare(4,4).buildLevel(1);
@@ -178,7 +178,7 @@ class CanMoveUpTest {
         p2.endTurn();
 
         //chose worker for the turn
-        p3.getWorkers().get(0).IsMovingOn();
+        p3.getWorkers().get(0).isMovingOn();
 
         // Apollo check
         b.getSquare(2,2).buildLevel(1);

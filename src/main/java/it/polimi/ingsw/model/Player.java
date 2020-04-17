@@ -187,6 +187,22 @@ public class Player implements PropertyChangeListener {
     }
 
     /**
+     * This method is called at the end of each turn.
+     * It resets moves and builds counters and activates "End of Turn" powers.
+     * @return True if the player can end the turn, false otherwise.
+     */
+
+    public boolean endTurn(){
+        if(workers == null) throw new IllegalArgumentException("Null worker as argument!");
+        if(workers.size() == 0) throw new IllegalArgumentException("No workers passed");
+
+        Power power = god.getPower();
+        if(power.endOfTurn(workers)) return true;
+        //TODO: notify view that player can't finish his turn
+        return false;
+    }
+
+    /**
      * This method send to view errors found during the check if the move or build is invalid.
      * @param errors array of errors
      */
@@ -247,22 +263,4 @@ public class Player implements PropertyChangeListener {
             //TODO: notify to view if this player has no worker (he loses)
         }
     }
-
-    /**
-     * This method is called at the end of each turn.
-     * It resets moves and builds counters and activates "End of Turn" powers.
-     * @return True if the player can end the turn, false otherwise.
-     */
-
-    public boolean endTurn(){
-        if(workers == null) throw new IllegalArgumentException("Null worker as argument!");
-        if(workers.size() == 0) throw new IllegalArgumentException("No workers passed");
-
-        Power power = god.getPower();
-        if(power.endOfTurn(workers)) return true;
-        //TODO: notify view that player can't finish his turn
-        return false;
-    }
-
-
 }

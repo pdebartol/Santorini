@@ -68,7 +68,7 @@ class NoWinPerimeterTest {
         assertEquals(p1.getWorkers().get(0), b.getSquare(0,0).getWorker());
 
         //chose worker for the turn
-        p1.getWorkers().get(1).IsMovingOn();
+        p1.getWorkers().get(1).isMovingOn();
 
         p1.move(p1.getWorkers().get(1), 2,2);
 
@@ -83,7 +83,7 @@ class NoWinPerimeterTest {
     @Test
     void checkHeraWinConditionHerself_Perimeter(){
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         // Build levels
         b.getSquare(0,0).buildLevel(2);
@@ -106,7 +106,7 @@ class NoWinPerimeterTest {
     @Test
     void checkHeraWinConditionHerself_notPerimeter(){
         //chose worker for the turn
-        p1.getWorkers().get(1).IsMovingOn();
+        p1.getWorkers().get(1).isMovingOn();
 
         // Build levels
         b.getSquare(1,1).buildLevel(2);
@@ -129,7 +129,7 @@ class NoWinPerimeterTest {
     @Test
     void checkOthersStandardWinCondition_Apollo(){
         //chose worker for the turn
-        p2.getWorkers().get(0).IsMovingOn();
+        p2.getWorkers().get(0).isMovingOn();
 
         // Build levels
         b.getSquare(4,4).buildLevel(2);
@@ -152,7 +152,7 @@ class NoWinPerimeterTest {
     @Test
     void checkOthersStandardWinCondition_Zeus(){
         //chose worker for the turn
-        p3.getWorkers().get(0).IsMovingOn();
+        p3.getWorkers().get(0).isMovingOn();
 
         // Build levels
         b.getSquare(1,3).buildLevel(2);
@@ -178,7 +178,7 @@ class NoWinPerimeterTest {
     @Test
     void checkCannotWinOnPerimeter_fromPerimeter(){
         //chose worker for the turn
-        p2.getWorkers().get(0).IsMovingOn();
+        p2.getWorkers().get(0).isMovingOn();
 
         // Build levels
         b.getSquare(4,4).buildLevel(2);
@@ -203,7 +203,7 @@ class NoWinPerimeterTest {
     @Test
     void checkCannotWinOnPerimeter_fromRegular(){
         //chose worker for the turn
-        p3.getWorkers().get(0).IsMovingOn();
+        p3.getWorkers().get(0).isMovingOn();
 
         // Build levels
         b.getSquare(1,3).buildLevel(2);

@@ -64,7 +64,7 @@ class EndRemoveNeighbourTest {
     @Test
     void checkStandardMoveAndCorners() {
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         // Move
         assertTrue(p1.move(p1.getWorkers().get(0),0,3).isEmpty());
@@ -91,7 +91,7 @@ class EndRemoveNeighbourTest {
     void checkMedusaOneWorker(){
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         // Move & Build
         b.getSquare(2,2).buildLevel(1);
@@ -125,7 +125,7 @@ class EndRemoveNeighbourTest {
     @Test
     void checkMedusaBothWorker(){
         //chose worker for the turn
-        p1.getWorkers().get(1).IsMovingOn();
+        p1.getWorkers().get(1).isMovingOn();
 
         // Move & Build
         b.getSquare(2,2).buildLevel(1);

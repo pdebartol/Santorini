@@ -53,22 +53,11 @@ public class ExtraMove extends PowerDecorator {
                 errors.add(Error.EXTRA_MOVE_NOT_BACK);
         }
 
+        int cx = w.getCurrentSquare().getXPosition(), cy = w.getCurrentSquare().getYPosition();
+        if(onPerimeter && (cx == 0 || cx == 4 || cy == 0 || cy == 4))
+            errors.remove(Error.MOVES_EXCEEDED);
+
         return errors;
-    }
-
-    /**
-     * This method overrides updateMove (PowerDecorator) decorating decoratedPower with ExtraMove rules.
-     * @param w is the worker that moves
-     * @param x is the x square coordinate where the worker moves
-     * @param y is the y square coordinate where the worker moves
-     */
-
-    @Override
-    public void updateMove(Worker w, int x, int y) {
-        decoratedPower.updateMove(w, x, y);
-        if(onPerimeter && (x == 0 || x == 4 || y == 0 || y == 4)){ // Infinite moves on perimeter
-            decoratedPower.getBoard().decNMoves();
-        }
     }
 
 }

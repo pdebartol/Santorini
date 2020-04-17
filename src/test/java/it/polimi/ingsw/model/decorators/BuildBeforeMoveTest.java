@@ -69,14 +69,14 @@ class BuildBeforeMoveTest {
         b.getSquare(0,3).buildLevel(1);
 
         //chose worker for the turn
-        p2.getWorkers().get(1).IsMovingOn();
+        p2.getWorkers().get(1).isMovingOn();
 
         assertTrue(p2.move(p2.getWorkers().get(1), 0, 3).isEmpty());
         b.incNBuild();
         p2.endTurn();
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         // Build before move
         assertTrue(p1.build(p1.getWorkers().get(0),0,1,1).isEmpty());
@@ -114,7 +114,7 @@ class BuildBeforeMoveTest {
         p1.endTurn();
 
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         assertTrue(p1.move(p1.getWorkers().get(0),0,1).isEmpty());
         assertFalse(p1.getGod().getPower().checkWin(p1.getWorkers().get(0)));

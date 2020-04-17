@@ -52,14 +52,6 @@ public class Worker  {
 
     //methods
 
-    public void addPropertyChangeListener(PropertyChangeListener pcl) {
-        support.addPropertyChangeListener(pcl);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener pcl) {
-        support.removePropertyChangeListener(pcl);
-    }
-
     public Square getCurrentSquare() {
         return currentSquare;
     }
@@ -90,11 +82,11 @@ public class Worker  {
         lastSquareBuild = s;
     }
 
-    public void IsMovingOn(){
+    public void isMovingOn(){
         isMoving = true;
     }
 
-    public void IsMovingOff(){
+    public void isMovingOff(){
         isMoving = false;
     }
 
@@ -133,6 +125,14 @@ public class Worker  {
         lastSquareMove = currentSquare;
         currentSquare = s;
         s.setWorker(this);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
     }
 
 }

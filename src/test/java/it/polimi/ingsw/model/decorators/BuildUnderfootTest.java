@@ -47,7 +47,7 @@ class BuildUnderfootTest {
     @Test
     void checkStandardBuild() {
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         //Player moves worker before build
         assertTrue(p1.move(p1.getWorkers().get(0),1,1).isEmpty());
@@ -66,7 +66,7 @@ class BuildUnderfootTest {
     @Test
     void checkBuildUnderFoot(){
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         //Player moves worker before build
         assertTrue(p1.move(p1.getWorkers().get(0),1,1).isEmpty());
@@ -89,7 +89,7 @@ class BuildUnderfootTest {
     @Test
     void checkCannotBuildDomeUnderFoot(){
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         //Player moves worker before build
         p1.move(p1.getWorkers().get(0),1,1);
@@ -110,7 +110,7 @@ class BuildUnderfootTest {
     @Test
     void checkWinConditionUnderFoot(){
         //chose worker for the turn
-        p1.getWorkers().get(0).IsMovingOn();
+        p1.getWorkers().get(0).isMovingOn();
 
         //Player moves worker before build
         p1.move(p1.getWorkers().get(0),1,1);

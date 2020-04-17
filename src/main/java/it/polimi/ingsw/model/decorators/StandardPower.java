@@ -216,7 +216,7 @@ public class StandardPower implements Power {
         if(board.getNBuild() == 0 ||  board.getNMoves() == 0) return false;
         board.resetCounters();
         for (Worker w: workers){
-            w.IsMovingOff();
+            w.isMovingOff();
         }
         return true;
     }

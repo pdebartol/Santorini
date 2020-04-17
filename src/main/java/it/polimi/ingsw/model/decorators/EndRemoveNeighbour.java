@@ -45,6 +45,7 @@ public class EndRemoveNeighbour extends PowerDecorator {
      * This method allows replacing w opponent's workers occupying lower neighbour squares with a block and remove them from the game.
      * @param w is the reference worker around whom the operation takes place
      */
+
     private void replaceAndBuild(Worker w){
         for(int i = -1; i <= 1 ; i++)
             for(int j = -1; j <= 1; j++){
