@@ -1,5 +1,11 @@
 package it.polimi.ingsw.model;
 
+
+/**
+ * Error is the enum representing the error codes showing up when the player moves or builds.
+ * @author pierobartolo
+ */
+
 public enum Error {
     ISNT_WORKER_CHOSEN,
     BLOCK_MOVE_UP,

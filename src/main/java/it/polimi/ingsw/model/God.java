@@ -1,12 +1,17 @@
 package it.polimi.ingsw.model;
 
+/**
+ * God is the class representing the god's card with his name, description and power.
+ * @author pierobartolo
+ */
+
 public class God  {
 
     //attributes
 
     private final String name;
     private final String description;
-    private Power power;
+    private  Power power;
 
     //constructors
 
