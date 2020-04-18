@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.decorators;
 
-import it.polimi.ingsw.model.Power;
-import it.polimi.ingsw.model.PowerDecorator;
-import it.polimi.ingsw.model.Square;
-import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.*;
 
 import java.util.ArrayList;
 
@@ -51,7 +48,7 @@ public class EndRemoveNeighbour extends PowerDecorator {
             for(int j = -1; j <= 1; j++){
                 int x = w.getCurrentSquare().getXPosition() + i;
                 int y = w.getCurrentSquare().getYPosition() + j;
-                if (x >= 0 && x <= 4 && y >= 0 && y <= 4) {
+                if (x >= 0 && x < Board.SIZE && y >= 0 && y < Board.SIZE) {
                     Square s = getBoard().getSquare(x, y);
                     if (s.getLevel() < w.getCurrentSquare().getLevel() && !s.isFree() && s.getWorker().getColor() != w.getColor()) {
                         s.getWorker().removeFromGame();

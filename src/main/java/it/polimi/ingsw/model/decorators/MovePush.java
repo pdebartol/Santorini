@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.decorators;
 
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Error;
-import it.polimi.ingsw.model.Power;
-import it.polimi.ingsw.model.PowerDecorator;
-import it.polimi.ingsw.model.Worker;
 
 import java.util.ArrayList;
 
@@ -39,7 +37,7 @@ public class MovePush extends PowerDecorator {
             errors.remove(Error.NOT_FREE);
             int sameDirectionX = x + (x - w.getCurrentSquare().getXPosition());
             int sameDirectionY = y + (y - w.getCurrentSquare().getYPosition());
-            if(!(sameDirectionX >= 0 && sameDirectionX <= 4 && sameDirectionY >= 0 && sameDirectionY <= 4 && getBoard().getSquare(sameDirectionX,sameDirectionY).isFree()))
+            if(!(sameDirectionX >= 0 && sameDirectionX < Board.SIZE && sameDirectionY >= 0 && sameDirectionY < Board.SIZE && getBoard().getSquare(sameDirectionX,sameDirectionY).isFree()))
                 errors.add(Error.SAME_DIRECTION_NOT_FREE);
         }
         return errors;

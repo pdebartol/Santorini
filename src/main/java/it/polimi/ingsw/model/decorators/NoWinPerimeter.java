@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.decorators;
 
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Power;
 import it.polimi.ingsw.model.PowerDecorator;
 import it.polimi.ingsw.model.Worker;
@@ -28,7 +29,7 @@ public class NoWinPerimeter extends PowerDecorator {
     public boolean checkWin(Worker w) {
         if(decoratedPower.checkWin(w)){
             int x = w.getCurrentSquare().getXPosition(), y = w.getCurrentSquare().getYPosition();
-            return (x != 0 && x != 4 && y != 0 && y != 4);
+            return (x != 0 && x != Board.SIZE-1 && y != 0 && y != Board.SIZE-1);
         }
         return false;
     }

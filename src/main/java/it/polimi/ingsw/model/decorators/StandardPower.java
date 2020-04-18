@@ -61,7 +61,7 @@ public class StandardPower implements Power {
 
     @Override
     public ArrayList<Error> checkMove(Worker w, int x, int y) {
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
+        if (x < 0 || x >= Board.SIZE || y < 0 || y >= Board.SIZE) throw new IllegalArgumentException("Invalid coordinates!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
         ArrayList<Error> errors = new ArrayList<>();
@@ -105,7 +105,7 @@ public class StandardPower implements Power {
 
     @Override
     public ArrayList<Error> checkBuild(Worker w, int x, int y, int l) {
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
+        if (x < 0 || x >= Board.SIZE || y < 0 || y >= Board.SIZE) throw new IllegalArgumentException("Invalid coordinates!");
         if(l < 1 || l > 4) throw new IllegalArgumentException("Invalid level value!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
@@ -158,7 +158,7 @@ public class StandardPower implements Power {
     @Override
     public void updateMove(Worker w, int x, int y) {
 
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
+        if (x < 0 || x >= Board.SIZE || y < 0 || y >= Board.SIZE) throw new IllegalArgumentException("Invalid coordinates!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
         Square s = board.getSquare(x,y);
@@ -180,7 +180,7 @@ public class StandardPower implements Power {
 
     @Override
     public void updateBuild(Worker w, int x, int y, int l) {
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
+        if (x < 0 || x >= Board.SIZE || y < 0 || y >= Board.SIZE) throw new IllegalArgumentException("Invalid coordinates!");
         if(l < 1 || l > 4) throw new IllegalArgumentException("Invalid level value!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 

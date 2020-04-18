@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.decorators;
 
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Error;
-import it.polimi.ingsw.model.Power;
-import it.polimi.ingsw.model.PowerDecorator;
-import it.polimi.ingsw.model.Worker;
 
 import java.util.ArrayList;
 
@@ -54,7 +52,7 @@ public class ExtraMove extends PowerDecorator {
         }
 
         int cx = w.getCurrentSquare().getXPosition(), cy = w.getCurrentSquare().getYPosition();
-        if(onPerimeter && (cx == 0 || cx == 4 || cy == 0 || cy == 4))
+        if(onPerimeter && (cx == 0 || cx == Board.SIZE-1 || cy == 0 || cy == Board.SIZE-1))
             errors.remove(Error.MOVES_EXCEEDED);
 
         return errors;

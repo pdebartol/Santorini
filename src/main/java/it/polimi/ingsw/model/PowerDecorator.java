@@ -13,7 +13,7 @@ public abstract class PowerDecorator implements Power {
     //attributes
 
     /**
-     * decoratedPower represents the already power decorated.
+     * decoratedPower represents the decorated power.
      */
 
     protected Power decoratedPower;

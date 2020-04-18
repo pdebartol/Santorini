@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.decorators;
 
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Error;
-import it.polimi.ingsw.model.Power;
-import it.polimi.ingsw.model.PowerDecorator;
-import it.polimi.ingsw.model.Worker;
 
 import java.util.ArrayList;
 
@@ -64,7 +62,7 @@ public class ExtraBuild extends PowerDecorator {
             if (notSameSpace && (w.getLastSquareBuild().getYPosition() == x && w.getLastSquareBuild().getYPosition() == y)) {
                 errors.add(Error.EXTRA_BUILD_NOT_SAME_SPACE);
             }
-        if (notPerimeter && (x == 0 || x == 4 || y == 0 || y == 4)) {
+        if (notPerimeter && (x == 0 || x == Board.SIZE-1 || y == 0 || y == Board.SIZE-1)) {
                 errors.add(Error.EXTRA_BUILD_NOT_PERIMETER);
             }
         }

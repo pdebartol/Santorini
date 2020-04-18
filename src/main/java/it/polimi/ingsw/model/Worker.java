@@ -4,8 +4,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
- * Worker represents a pawn that player uses to play.
- * color and gender can't be changed once worker has been created.
+ * Worker represents a pawn that the player uses to play.
+ * Color and gender can't be changed once the worker has been created.
  * @author aledimaio & marcoDige
  */
 
@@ -18,25 +18,25 @@ public class Worker  {
     private final String gender;
 
     /**
-     * lastSquareMove represents the square where the worker was localized before being moved
+     * lastSquareMove represents the square where the worker was before being moved.
      */
 
     private Square lastSquareMove;
 
     /**
-     * lastSquareBuild represents the square where the worker last built
+     * lastSquareBuild represents the square where the worker last built.
      */
 
     private Square lastSquareBuild;
 
     /**
-     * currentSquare represents the square where the worker is currently localized
+     * currentSquare represents the square where the worker is currently localized.
      */
 
     private Square currentSquare;
 
     /**
-     * isMoving indicates if this worker was chosen for the turn
+     * isMoving indicates if this worker was chosen for the turn.
      */
 
     private boolean isMoving;

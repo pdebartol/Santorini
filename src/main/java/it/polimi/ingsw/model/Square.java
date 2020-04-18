@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * Square represents a single box of the entire board/table.
+ * Square represents a single cell of the entire game board.
  * xPosition and yPosition can't be changed once square has been created.
  * @author aledimaio
  */
@@ -11,7 +11,7 @@ public class Square {
     //attributes
 
     /**
-     * Square class have attributes to represents its position in the board/table (xPosition and yPosition), the worker
+     * Square class have attributes to represents its position in the game board (xPosition and yPosition), the worker
      * on it, the level and if there is a dome or not
      */
 
@@ -24,7 +24,7 @@ public class Square {
     //constructors
 
     /**
-     * Class constructors which constructs a Square with a specified coordinate.
+     * Class constructor which constructs a Square with a specific coordinate.
      * @param xPosition is the square position in table
      * @param yPosition is the square position in table
      */
