@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * Board is the entire game board.
+ * Board is the class representing the entire game board.
  * @author aledimaio
  */
 
@@ -10,26 +10,35 @@ public class Board {
     //attributes
 
     /**
-     * moveUp is a flag that indicate if in a specific moment a Player can move up.
+     * Number of rows/columns in the board.
+     */
+
+    public static final int SIZE = 5;
+
+    /**
+     * nMoves contains the number of moves made in the current turn.
      */
 
     private int nMoves;
+
+    /**
+     * nMoves contains the number of builds made in the current turn.
+     */
+
     private int nBuild;
 
     /**
-     * Square[][] table is a matrix of Square objects, that represents the set of box of the table.
+     *  table is a 5x5 matrix containing Square objects. It represents the board of our game.
      */
 
     private Square[][] table;
 
-
     //constructors
 
     public Board() {
-        this.table = new Square[5][5];
-
-        for(int x = 0; x < 5 ; x++){
-            for(int y = 4; y >= 0 ; y--)
+        this.table = new Square[SIZE][SIZE];
+        for(int x = 0; x < SIZE ; x++){
+            for(int y = 0; y < SIZE; y++)
                 this.table[x][y] = new Square(x, y);
         }
     }
@@ -45,19 +54,19 @@ public class Board {
     }
 
     /**
-     * This method allows to log into a certain Square position.
+     * This method gives access a certain Square position.
      * @param x the x position of Square onto board
      * @param y the y position of Square onto board
      * @return The square in (x,y) position
      */
 
     public Square getSquare(int x, int y){
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Null worker as argument!");
+        if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) throw new IllegalArgumentException("Null worker as argument!");
         return table[x][y];
     }
 
     /**
-     * This method reset nMove and nBuild to 0.
+     * This method reset nMoves and nBuild to 0.
      */
 
     public void resetCounters() {
@@ -74,14 +83,6 @@ public class Board {
     }
 
     /**
-     * This method decrement the number of moves done in this turn.
-     */
-
-    public void decNMoves() {
-        nMoves = nMoves - 1;
-    }
-
-    /**
      * This method increment the number of build done in this turn.
      */
 
@@ -90,7 +91,7 @@ public class Board {
     }
 
     /**
-     * This method control if 2 squares are adjacent.
+     * This method checks if 2 squares are adjacent.
      * @param s1 is the first square
      * @param s2 is the second square
      * @return true --> s1 and s2 are adjacent
