@@ -79,7 +79,7 @@ public class Player implements PropertyChangeListener {
             for(int j = -1; j <= 1; j++){
                     int x = w.getCurrentSquare().getXPosition() + i;
                     int y = w.getCurrentSquare().getYPosition() + j;
-                    if (x >= 0 && x <= 4 && y >= 0 && y <= 4) {
+                    if (x >= 0 && x < Board.SIZE && y >= 0 && y < Board.SIZE) {
                         ArrayList<Error> errors = god.getPower().checkMove(w, x, y);
                         if (errors.isEmpty() || (errors.size() == 1 && errors.contains(Error.ISNT_WORKER_CHOSEN)))
                             return true;
@@ -117,8 +117,8 @@ public class Player implements PropertyChangeListener {
             for(int j = -1; j <= 1; j++){
                 int x = w.getCurrentSquare().getXPosition() + i;
                 int y = w.getCurrentSquare().getYPosition() + j;
-                if (x >= 0 && x <= 4 && y >= 0 && y <= 4)
-                    for (int k = 1; k < 5; k++) {
+                if (x >= 0 && x < Board.SIZE && y >= 0 && y <= Board.SIZE)
+                    for (int k = 1; k < Board.SIZE; k++) {
                         ArrayList<Error> errors = god.getPower().checkBuild(w, x, y, k);
                         if (errors.contains(Error.ISNT_WORKER_CHOSEN))
                             return false;
@@ -143,7 +143,7 @@ public class Player implements PropertyChangeListener {
 
     public List<Error> move(Worker w, int x, int y){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
+        if (x < 0 || x >= Board.SIZE || y < 0 || y >= Board.SIZE) throw new IllegalArgumentException("Invalid coordinates!");
         Power power = god.getPower();
 
         //make error list immutable out of model
@@ -170,7 +170,7 @@ public class Player implements PropertyChangeListener {
 
     public List<Error> build(Worker w, int x, int y, int l){
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
-        if (x < 0 || x > 4 || y < 0 || y > 4) throw new IllegalArgumentException("Invalid coordinates!");
+        if (x < 0 || x >= Board.SIZE || y < 0 || y >= Board.SIZE) throw new IllegalArgumentException("Invalid coordinates!");
         if(l < 1 || l > 4 ) throw new IllegalArgumentException("Invalid level!");
         Power power = god.getPower();
 
@@ -197,13 +197,12 @@ public class Player implements PropertyChangeListener {
         if(workers.size() == 0) throw new IllegalArgumentException("No workers passed");
 
         Power power = god.getPower();
-        if(power.endOfTurn(workers)) return true;
+        return power.endOfTurn(workers);
         //TODO: notify view that player can't finish his turn
-        return false;
     }
 
     /**
-     * This method send to view errors found during the check if the move or build is invalid.
+     * This method sends to the view the errors found during the check if the move or build is invalid.
      * @param errors array of errors
      */
 
