@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 
 /**
- * PowerDecorator is an abstract class necessary as a basis for the decoration of gods' powers.
+ * PowerDecorator is an abstract class necessary as a basis for the decoration of gods' powers (it is a part of Decorator pattern).
  * All methods call the corresponding decoratedPower method.
  * @author marcoDige
  */

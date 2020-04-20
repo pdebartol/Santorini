@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Power is the interface responsible for implementing the god's power.
+ * This interface is used to implement the pattern decorator.
  * @author pierobartolo
  */
 

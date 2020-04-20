@@ -7,6 +7,7 @@ import java.util.*;
 /**
  * Player represents a player who is currently playing in the match.
  * Username can't be changed once player has been created.
+ * This class listen Worker class in order to delete a worker from the worker list when it is eliminated.
  * @author marcoDige
  */
 

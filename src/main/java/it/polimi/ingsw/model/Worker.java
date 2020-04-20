@@ -6,6 +6,7 @@ import java.beans.PropertyChangeSupport;
 /**
  * Worker represents a pawn that the player uses to play.
  * Color and gender can't be changed once the worker has been created.
+ * This class is listened from Player class (when a worker is deleted, Player has to delete this worker from his worker list).
  * @author aledimaio & marcoDige
  */
 
