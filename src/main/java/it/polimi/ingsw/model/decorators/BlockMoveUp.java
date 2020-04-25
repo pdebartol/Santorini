@@ -1,14 +1,12 @@
 package it.polimi.ingsw.model.decorators;
 
 
-import it.polimi.ingsw.model.Error;
 import it.polimi.ingsw.model.Power;
 import it.polimi.ingsw.model.PowerDecorator;
 import it.polimi.ingsw.model.Worker;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 
 /**
  * This class implements the power which blocks opponent players to move up if the worker moves up in this turn.

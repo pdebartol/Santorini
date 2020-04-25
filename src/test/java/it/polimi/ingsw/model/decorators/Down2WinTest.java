@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.decorators;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.enums.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +32,7 @@ class Down2WinTest {
 
         b = new Board();
         GodsFactory factory = new GodsFactory(b);
-        p1 = new Player("aledimaio",Color.AZURE);
+        p1 = new Player("aledimaio", Color.AZURE);
         ArrayList<God> gods = factory.getGods(new ArrayList<>(Collections.singletonList(9)));
         p1.setGod(Objects.requireNonNull(gods.get(0))); // Pan
 

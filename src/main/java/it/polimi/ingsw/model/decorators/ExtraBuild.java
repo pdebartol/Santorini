@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.decorators;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.Error;
+import it.polimi.ingsw.model.enums.Error;
 
 import java.util.ArrayList;
 

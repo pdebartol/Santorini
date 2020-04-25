@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.model.enums.Error;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
@@ -166,6 +169,7 @@ public class Player implements PropertyChangeListener {
      * @param w is the worker who wants to build
      * @param x is the x square coordinate where the worker wants to build
      * @param y is the y square coordinate where the worker wants to build
+     * @param l is the level that the worker wants to build
      * @return true or false to indicate if the build move was done or not
      */
 

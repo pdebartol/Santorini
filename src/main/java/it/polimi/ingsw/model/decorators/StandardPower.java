@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Power;
 import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.Worker;
-import it.polimi.ingsw.model.Error;
+import it.polimi.ingsw.model.enums.Error;
 
 import java.util.ArrayList;
 

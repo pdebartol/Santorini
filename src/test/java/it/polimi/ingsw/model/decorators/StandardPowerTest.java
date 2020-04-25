@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model.decorators;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.Error;
+import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.model.enums.Error;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

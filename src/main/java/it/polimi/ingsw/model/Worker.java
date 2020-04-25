@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.enums.Color;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
