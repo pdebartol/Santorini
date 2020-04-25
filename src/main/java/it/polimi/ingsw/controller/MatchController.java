@@ -7,26 +7,26 @@ public class MatchController implements ActionListener {
 
     /**
      * This method is triggered when the player moves his worker.
-     * @param workerId id of the worker moved
+     * @param workerGender gender of the worker moved
      * @param x is the x square coordinate where the worker wants to move
      * @param y is the y square coordinate where the worker wants to move
      */
 
     @Override
-    public void onWorkerMove(int workerId, int x, int y) {
+    public void onWorkerMove(String workerGender, int x, int y) {
 
     }
 
     /**
      * This method is triggered when the player builds something.
-     * @param workerId id of the worker moved
+     * @param workerGender gender of the worker moved
      * @param x is the x square coordinate where the worker wants to build
      * @param y is the y square coordinate where the worker wants to build
      * @param level is the level that the worker wants to build
      */
 
     @Override
-    public void onWorkerBuild(int workerId, int x, int y, int level) {
+    public void onWorkerBuild(String workerGender, int x, int y, int level) {
 
     }
 
@@ -42,13 +42,13 @@ public class MatchController implements ActionListener {
 
     /**
      * This method is triggered in the initial phase, when the player places his workers on the board.
-     * @param workerId id of the worker placed
+     * @param workerGender gender of the worker placed
      * @param x is the x square coordinate where the worker is set
      * @param y is the y square coordinate where the worker is set
      */
 
     @Override
-    public void onPlayerSetWorker(int workerId, int x, int y) {
+    public void onPlayerSetWorker(String workerGender, int x, int y) {
 
     }
 
@@ -74,11 +74,11 @@ public class MatchController implements ActionListener {
 
     /**
      * This method is triggered in the initial phase, when the challenger chooses the player starting the match.
-     * @param playerId id of the chosen player.
+     * @param playerUsername id of the chosen player.
      */
 
     @Override
-    public void onChallengerChooseStartingPlayer(int playerId) {
+    public void onChallengerChooseStartingPlayer(String playerUsername) {
 
     }
 

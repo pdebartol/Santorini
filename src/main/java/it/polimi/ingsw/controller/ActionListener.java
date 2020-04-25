@@ -10,11 +10,11 @@ import java.util.ArrayList;
  */
 
 public interface ActionListener {
-     void onWorkerMove(int workerId, int x, int y);
-     void onWorkerBuild(int workerId, int x, int y, int level);
+     void onWorkerMove(String workerGender, int x, int y);
+     void onWorkerBuild(String workerGender, int x, int y, int level);
      void onPlayerEndTurn();
-     void onPlayerSetWorker(int workerId, int x, int y);
+     void onPlayerSetWorker(String workerGender, int x, int y);
      void onPlayerChooseGod(Integer godId);
      void onChallengerChooseGods(ArrayList<Integer> godIds);
-     void onChallengerChooseStartingPlayer(int playerId);
+     void onChallengerChooseStartingPlayer(String playerUsername);
 }
