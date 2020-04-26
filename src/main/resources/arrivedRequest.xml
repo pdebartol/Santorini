@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Request>
+
+    <Mode>none</Mode>
+    <Username>none</Username>
+
+    <Login>
+        <Color>none</Color>
+    </Login>
+
+    <GodList>
+        <GodId1>0</GodId1>
+        <GodId2>0</GodId2>
+        <GodId3>0</GodId3>
+    </GodList>
+
+    <GodChosen>
+        <GodName>none</GodName>
+    </GodChosen>
+
+    <SetupOnBoard>
+        <xWorker0>0</xWorker0>
+        <yWorker0>0</yWorker0>
+        <xWorker1>0</xWorker1>
+        <yWorker1>0</yWorker1>
+    </SetupOnBoard>
+
+    <WorkerChosenForTurn>
+        <WorkerId>0</WorkerId>
+    </WorkerChosenForTurn>
+
+    <Move>
+        <WorkerId>0</WorkerId>
+        <xPosition>0</xPosition>
+        <yPosition>0</yPosition>
+    </Move>
+
+    <Build>
+        <WorkerId>0</WorkerId>
+        <xPosition>0</xPosition>
+        <yPosition>0</yPosition>
+    </Build>
+
+</Request>

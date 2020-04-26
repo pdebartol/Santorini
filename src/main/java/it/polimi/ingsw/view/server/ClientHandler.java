@@ -20,30 +20,23 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
 
-        File file = new File("src/main/resources/clientRequest.xml");
+        File file = new File("src/main/resources/arrivedRequest.xml");
 
         try {
             InputStream in = client.getInputStream();
             FileOutputStream out = new FileOutputStream(file, false);
 
-            byte[] buffer = new byte[256];
-
-            for(int r = in.read(buffer); r != 1; r = in.read(buffer)) {
-                out.write(buffer, 0, r);
-            }
+            //byte[] buffer = new byte[(int) file.length()];
+            byte[] buffer = new byte[16000];
+            int r = in.read(buffer);
+            out.write(buffer,0, r);
 
             out.flush();
             out.close();
             in.close();
-            file.delete();
+            client.close();
         } catch (IOException e) {
             System.err.println(e.getMessage());
-        }finally {
-            try{
-                client.close();
-            }catch (IOException e){
-                System.err.println(e.getMessage());
-            }
         }
     }
 }
