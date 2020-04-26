@@ -77,7 +77,7 @@ public class RequestParser {
                 int bWorkerId = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0));
                 xb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
                 yb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
-                virtualView.moveRequest(username,bWorkerId,xb,yb);
+                virtualView.buildRequest(username,bWorkerId,xb,yb);
                 break;
             case "endOfTurn":
                 virtualView.endOfTurn(username);
