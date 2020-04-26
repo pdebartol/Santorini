@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.enums.Color;
 
 import java.util.ArrayList;
 
@@ -10,11 +11,16 @@ import java.util.ArrayList;
  */
 
 public interface ActionListener {
-     void onWorkerMove(String workerGender, int x, int y);
-     void onWorkerBuild(String workerGender, int x, int y, int level);
-     void onPlayerEndTurn();
-     void onPlayerSetWorker(String workerGender, int x, int y);
-     void onPlayerChooseGod(Integer godId);
+     // setup methods
+     void onNewPlayer(String playerUsername, Color workerColor);
+     String onStartGame();
      void onChallengerChooseGods(ArrayList<Integer> godIds);
      void onChallengerChooseStartingPlayer(String playerUsername);
+     void onPlayerChooseGod(String playerUsername, Integer godId);
+     void onPlayerSetWorker(String playerUsername, String workerGender, int x, int y);
+
+     // in-game methods
+     void onWorkerMove(String playerUsername, String workerGender, int x, int y);
+     void onWorkerBuild(String playerUsername, String workerGender, int x, int y, int level);
+     void onPlayerEndTurn(String playerUsername);
 }

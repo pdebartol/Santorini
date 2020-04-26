@@ -41,10 +41,6 @@ public class VirtualView {
 
     }
 
-    void choseWorkerForTurnRequest(String username, int workerId){
-
-    }
-
     void moveRequest(String username, int workerId, int x, int y){
 
     }

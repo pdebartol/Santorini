@@ -66,6 +66,24 @@ public class Player implements PropertyChangeListener {
         return workers;
     }
 
+    public Worker getWorkerByGender(String workerGender){
+        for(Worker w: workers){
+            if(w.getGender().equals(workerGender)){
+                return w;
+            }
+        }
+        throw new IllegalArgumentException("Wrong gender as argument!");    }
+
+
+    public Worker getActiveWorker(){
+        for(Worker w: workers){
+            if(w.getIsMoving()) {
+                return w;
+            }
+        }
+        return null;
+    }
+
     public God getGod() {
         return god;
     }
