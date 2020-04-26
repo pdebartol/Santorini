@@ -20,11 +20,11 @@ public class VirtualView {
 
     }
 
-    void startGame(String username){
+    void startGameRequest(String username){
 
     }
 
-    void chooseStartingPlayer(String challenger, String playerChosen){
+    void chooseStartingPlayerRequest(String username, String playerChosen){
 
     }
 

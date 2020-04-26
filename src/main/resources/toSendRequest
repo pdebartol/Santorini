@@ -8,6 +8,10 @@
         <Color>none</Color>
     </Login>
 
+    <StartingPlayerChosen>
+        <PlayerChosen>none</PlayerChosen>
+    </StartingPlayerChosen>
+
     <GodList>
         <GodId1>0</GodId1>
         <GodId2>0</GodId2>

@@ -35,10 +35,13 @@ public class RequestParser {
             case "login" :
                 String color = Objects.requireNonNull(evaluateXPath("/Request/Login/Color/text()")).get(0);
                 virtualView.loginRequest(username,color);
-            case "creategods" :
-                for(int i = 0; i < 3 ; ++i){
+            case "startGame" :
+                virtualView.startGameRequest(username);
+            case "startingPlayerChosen" :
+                String playerChosen = Objects.requireNonNull(evaluateXPath("/Request/StartingPlayerChosen/PlayerChosen/text()")).get(0);
+                virtualView.chooseStartingPlayerRequest(username,playerChosen);
+            case "createGods" :
 
-                }
         }
     }
 
