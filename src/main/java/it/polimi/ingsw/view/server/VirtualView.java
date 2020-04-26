@@ -20,6 +20,15 @@ public class VirtualView {
 
     }
 
+    void startGame(String username){
+
+    }
+
+    void chooseStartingPlayer(String challenger, String playerChosen){
+
+    }
+
+
     void createGodsRequest(String username, ArrayList<Integer> ids){
 
     }
