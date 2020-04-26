@@ -1,48 +1,74 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<Request>
+<Requests>
 
     <Mode>none</Mode>
     <Username>none</Username>
 
-    <Login>
+    <Request>
+        <Mode>login</Mode>
         <Color>none</Color>
-    </Login>
+    </Request>
 
-    <StartingPlayerChosen>
+    <Request>
+        <Mode>choseStartingPlayer</Mode>
         <PlayerChosen>none</PlayerChosen>
-    </StartingPlayerChosen>
+    </Request>
 
-    <GodList>
-        <GodId1>0</GodId1>
-        <GodId2>0</GodId2>
-        <GodId3>0</GodId3>
-    </GodList>
+    <Request>
+        <Mode>createGods</Mode>
+        <Gods>
+            <God>
+                <n>0</n>
+                <id>0</id>
+            </God>
+            <God>
+                <n>1</n>
+                <id>0</id>
+            </God>
+            <God>
+                <n>2</n>
+                <id>0</id>
+            </God>
+        </Gods>
+    </Request>
 
-    <GodChosen>
+    <Request>
+        <Mode>choseGod</Mode>
         <GodName>none</GodName>
-    </GodChosen>
+    </Request>
 
-    <SetupOnBoard>
-        <xWorker0>0</xWorker0>
-        <yWorker0>0</yWorker0>
-        <xWorker1>0</xWorker1>
-        <yWorker1>0</yWorker1>
-    </SetupOnBoard>
+    <Request>
+        <Mode>setWorkersOnBoard</Mode>
+        <Positions>
+            <Position>
+                <WorkerId>0</WorkerId>
+                <x>0</x>
+                <y>0</y>
+            </Position>
+            <Position>
+                <WorkerId>1</WorkerId>
+                <x>0</x>
+                <y>0</y>
+            </Position>
+        </Positions>
+    </Request>
 
-    <WorkerChosenForTurn>
-        <WorkerId>0</WorkerId>
-    </WorkerChosenForTurn>
+    <Request>
+        <Mode>move</Mode>
+        <Position>
+            <WorkerId>0</WorkerId>
+            <xPosition>0</xPosition>
+            <yPosition>0</yPosition>
+        </Position>
+    </Request>
 
-    <Move>
-        <WorkerId>0</WorkerId>
-        <xPosition>0</xPosition>
-        <yPosition>0</yPosition>
-    </Move>
+    <Request>
+        <Mode>build</Mode>
+        <Position>
+            <WorkerId>0</WorkerId>
+            <xPosition>0</xPosition>
+            <yPosition>0</yPosition>
+        </Position>
+    </Request>
 
-    <Build>
-        <WorkerId>0</WorkerId>
-        <xPosition>0</xPosition>
-        <yPosition>0</yPosition>
-    </Build>
-
-</Request>
+</Requests>
