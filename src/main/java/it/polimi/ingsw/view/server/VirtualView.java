@@ -19,8 +19,7 @@ public class VirtualView {
     }
 
     void loginRequest(String username, Color color){
-        ArrayList<Error> errors = new ArrayList<>();
-        errors = controllerListener.onNewPlayer(username, color);
+        ArrayList<Error> errors = controllerListener.onNewPlayer(username, color);
 
         //TODO if !empty send errors back to client
     }
@@ -37,8 +36,8 @@ public class VirtualView {
         //TODO if !empty send errors back to client
     }
 
-    void choseGodRequest(String username, String godName){
-       // ArrayList<Error> errors = controllerListener.onPlayerChooseGod(username, godId );
+    void choseGodRequest(String username, int godId){
+       ArrayList<Error> errors = controllerListener.onPlayerChooseGod(username, godId );
     }
 
     void chooseStartingPlayerRequest(String username, String playerChosen){

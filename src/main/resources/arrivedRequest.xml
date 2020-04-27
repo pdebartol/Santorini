@@ -34,7 +34,9 @@
 
     <Request>
         <Mode>choseGod</Mode>
-        <GodName>none</GodName>
+        <God>
+            <id>0</id>
+        </God>
     </Request>
 
     <Request>

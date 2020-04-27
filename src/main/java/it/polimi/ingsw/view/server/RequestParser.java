@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.server;
 
+import it.polimi.ingsw.model.enums.Color;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -33,7 +34,7 @@ public class RequestParser {
     //method
 
     /**
-     * This method reads the request mode in arrivedRequest.xml, it extracts data which client sent and call the
+     * This method reads the request mode in arrivedRequest.xml, extracts data which client sent and call the
      * method in virtualView which corresponds to the request mode
      */
 
@@ -45,7 +46,7 @@ public class RequestParser {
         switch (mode){
             case "login" :
                 String color = Objects.requireNonNull(evaluateXPath(standardPath + "/Color/text()")).get(0);
-                virtualView.loginRequest(username,color);
+                virtualView.loginRequest(username, Color.valueOfLabel(color));
                 break;
             case "startGame" :
                 virtualView.startGameRequest(username);
@@ -63,8 +64,8 @@ public class RequestParser {
                 virtualView.createGodsRequest(username,ids);
                 break;
             case "choseGod" :
-                String godName = Objects.requireNonNull(evaluateXPath(standardPath +"/GodName/text()")).get(0);
-                virtualView.choseGodRequest(username, godName);
+                int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/God/id/text()")).get(0));
+                virtualView.choseGodRequest(username, godId);
                 break;
             case "setWorkersOnBoard" :
                 int x,y;
@@ -96,12 +97,23 @@ public class RequestParser {
     }
 
     /**
+     * This method verify if mode is end (client want to exit from game)
+     * @return true -> mode is "end"
+     *         false -> mode isn't "end"
+     */
+
+    public boolean parseEndRequest(){
+        String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
+        return mode.equals("end");
+    }
+
+    /**
      * This method creates the document object and parses 'arrivedRequest.xml' file
      * @return the parsed xml file
      * @throws Exception error during xml parsing
      */
 
-    private  Document getDocument() throws Exception
+    private Document getDocument() throws Exception
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);

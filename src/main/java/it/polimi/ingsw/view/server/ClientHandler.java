@@ -23,7 +23,8 @@ public class ClientHandler implements Runnable{
     //methods
 
     /**
-     * This method allows to take a file from connection with client and to start the Request process and send Answer to client.
+     * This method allows to take a file from connection with client, to start the Request process and send Answer to client
+     * The communication go down when client send a "end" mode file.
      */
 
     @Override
@@ -32,23 +33,30 @@ public class ClientHandler implements Runnable{
         File file = new File("src/main/resources/arrivedRequest.xml");
 
         try {
+            System.out.println("Client " + client + " connection has done!");
             InputStream in = client.getInputStream();
-            FileOutputStream out = new FileOutputStream(file, false);
-
+            FileOutputStream outFile = new FileOutputStream(file, false);
+            OutputStream out = client.getOutputStream();
             byte[] buffer = new byte[2000];
             int r = in.read(buffer);
-            out.write(buffer,0, r);
+            outFile.write(buffer, 0, r);
 
             processRequest();
             sendAnswer();
 
+            outFile.flush();
             out.flush();
+            outFile.close();
             out.close();
             in.close();
             client.close();
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            System.err.println("Client disconnection!");
         }
+    }
+
+    private boolean isEndMode(){
+        return new RequestParser().parseEndRequest();
     }
 
     /**
