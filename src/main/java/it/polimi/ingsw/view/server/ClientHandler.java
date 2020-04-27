@@ -12,7 +12,7 @@ public class ClientHandler implements Runnable{
 
     //attributes
 
-    private Socket client;
+    private final Socket client;
 
     //constructors
 
@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable{
             InputStream in = client.getInputStream();
             FileOutputStream out = new FileOutputStream(file, false);
 
-            byte[] buffer = new byte[(int) file.length()];
+            byte[] buffer = new byte[2000];
             int r = in.read(buffer);
             out.write(buffer,0, r);
 
