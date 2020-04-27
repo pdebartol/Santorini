@@ -65,7 +65,7 @@
     <Request>
         <Mode>build</Mode>
         <Position>
-            <WorkerId>0</WorkerId>
+            <WorkerId>1</WorkerId>
             <xPosition>0</xPosition>
             <yPosition>0</yPosition>
         </Position>

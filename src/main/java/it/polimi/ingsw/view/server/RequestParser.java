@@ -8,6 +8,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.*;
 import java.util.*;
 
+/** This class is responsible for parsing the arrivedRequest XML and call VirtualView methods to starting
+ * the request processing.
+ * @author marcoDige
+ */
+
 public class RequestParser {
 
     //attributes
@@ -27,6 +32,11 @@ public class RequestParser {
 
     //method
 
+    /**
+     * This method reads the request mode in arrivedRequest.xml, it extracts data which client sent and call the
+     * method in virtualView which corresponds to the request mode
+     */
+
     public void parseRequest(){
         String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
         String username = Objects.requireNonNull(evaluateXPath("/Requests/Username/text()")).get(0);
@@ -40,7 +50,7 @@ public class RequestParser {
             case "startGame" :
                 virtualView.startGameRequest(username);
                 break;
-            case "startingPlayerChosen" :
+            case "choseStartingPlayer" :
                 String playerChosen = Objects.requireNonNull(evaluateXPath(standardPath +"/PlayerChosen/text()")).get(0);
                 virtualView.chooseStartingPlayerRequest(username,playerChosen);
                 break;
@@ -56,7 +66,7 @@ public class RequestParser {
                 String godName = Objects.requireNonNull(evaluateXPath(standardPath +"/GodName/text()")).get(0);
                 virtualView.choseGodRequest(username, godName);
                 break;
-            case "SetWorkersOnBoard" :
+            case "setWorkersOnBoard" :
                 int x,y;
                 x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='0']/xPosition/text()")).get(0));
                 y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='0']/yPosition/text()")).get(0));

@@ -3,6 +3,11 @@ package it.polimi.ingsw.view.server;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * This class manages a single client TCP socket connection.
+ * @author marcoDige
+ */
+
 public class ClientHandler implements Runnable{
 
     //attributes
@@ -17,6 +22,10 @@ public class ClientHandler implements Runnable{
 
     //methods
 
+    /**
+     * This method allows to take a file from connection with client and to start the Request process and send Answer to client.
+     */
+
     @Override
     public void run() {
 
@@ -26,10 +35,12 @@ public class ClientHandler implements Runnable{
             InputStream in = client.getInputStream();
             FileOutputStream out = new FileOutputStream(file, false);
 
-            //byte[] buffer = new byte[(int) file.length()];
-            byte[] buffer = new byte[16000];
+            byte[] buffer = new byte[(int) file.length()];
             int r = in.read(buffer);
             out.write(buffer,0, r);
+
+            processRequest();
+            sendAnswer();
 
             out.flush();
             out.close();
@@ -38,5 +49,17 @@ public class ClientHandler implements Runnable{
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    /**
+     * This method start a client request processing in server. It uses a RequestParser to start this process.
+     */
+
+    private void processRequest(){
+        new RequestParser().parseRequest();
+    }
+
+    private void sendAnswer(){
+
     }
 }

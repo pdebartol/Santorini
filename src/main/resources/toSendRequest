@@ -42,13 +42,13 @@
         <Positions>
             <Position>
                 <WorkerId>0</WorkerId>
-                <x>0</x>
-                <y>0</y>
+                <xPosition>0</xPosition>
+                <yPosition>0</yPosition>
             </Position>
             <Position>
                 <WorkerId>1</WorkerId>
-                <x>0</x>
-                <y>0</y>
+                <xPosition>0</xPosition>
+                <yPosition>0</yPosition>
             </Position>
         </Positions>
     </Request>
@@ -65,7 +65,7 @@
     <Request>
         <Mode>build</Mode>
         <Position>
-            <WorkerId>0</WorkerId>
+            <WorkerId>1</WorkerId>
             <xPosition>0</xPosition>
             <yPosition>0</yPosition>
         </Position>
