@@ -6,7 +6,22 @@ package it.polimi.ingsw.model.enums;
  */
 
 public enum Color {
-    WHITE,
-    GREY,
-    AZURE
+    WHITE("W"),
+    GREY("G"),
+    AZURE("A");
+
+    private final String label;
+
+     Color(String label){
+        this.label = label;
+    }
+
+    public static Color valueOfLabel(String label) {
+        for (Color e : values()) {
+            if (e.label.equals(label)) {
+                return e;
+            }
+        }
+        return null;
+    }
 }

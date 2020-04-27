@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.server;
 
+import it.polimi.ingsw.model.enums.Color;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -34,7 +35,7 @@ public class RequestParser {
         switch (mode){
             case "login" :
                 String color = Objects.requireNonNull(evaluateXPath("/Request/Login/Color/text()")).get(0);
-                virtualView.loginRequest(username,color);
+                virtualView.loginRequest(username, Color.valueOfLabel(color));
             case "startGame" :
                 virtualView.startGameRequest(username);
             case "startingPlayerChosen" :

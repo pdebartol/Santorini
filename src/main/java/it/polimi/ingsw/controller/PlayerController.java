@@ -1,9 +1,14 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.enums.Error;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+/**
+ * PlayerController handles the players in the current match.
+ * @author pierobartolo
+ */
 
 public class PlayerController {
 
@@ -22,8 +27,18 @@ public class PlayerController {
         return players.get((players.indexOf(currentPlayer)+1)%players.size());
     }
 
-    public void addPlayer(Player p){
-        players.add(p);
+    public ArrayList<Error> addPlayer(Player player){
+        ArrayList<Error> errors = new ArrayList<>();
+        for(Player p: players){
+            if(player.getUsername().equals(p.getUsername())) errors.add(Error.LOGIN_USERNAME_NOT_AVAILABLE);
+            if(player.getWorkers().get(0).getColor().equals(p.getWorkers().get(0).getColor())) errors.add(Error.LOGIN_COLOR_NOT_AVAILABLE);
+            if(players.size() >= 3 && !errors.contains(Error.LOGIN_TOO_MANY_PLAYERS)) errors.add(Error.LOGIN_TOO_MANY_PLAYERS);
+        }
+
+        if(errors.isEmpty())
+            players.add(player);
+
+        return errors;
     }
 
     public Integer getNumberOfPlayers(){
@@ -44,11 +59,16 @@ public class PlayerController {
         throw new IllegalArgumentException("Invalid Username!");
     }
 
+
     public void setCurrentPlayerByIndex(int index) {
+        if(currentPlayer != null) currentPlayer.setActive(false);
         this.currentPlayer = players.get(index);
+        currentPlayer.setActive(true);
     }
 
     public void setCurrentPlayer(Player p){
+        if(currentPlayer != null) currentPlayer.setActive(false);
         this.currentPlayer = p;
+        currentPlayer.setActive(true);
     }
 }

@@ -25,13 +25,19 @@ public class MatchController implements ActionListener {
      * The current match's board.
      */
 
-    Board gameBoard;
+    private Board gameBoard;
 
     /**
-     * selectedGods contains the gods selected by the challenger indexed by their ids.
+     * selectedGods contains the gods selected by the challenger, indexed by their ids.
      */
 
     HashMap<Integer,God> selectedGods;
+
+    /**
+     * index of the challenger in the players arraylist
+     */
+
+    int challengerIndex;
 
     public MatchController(){
         playerController = new PlayerController();
@@ -44,11 +50,17 @@ public class MatchController implements ActionListener {
      * This method is triggered when a new player logs in.
      * @param playerUsername the username of the new player.
      * @param workerColor the worker's color for the new player.
+     * @return an ArrayList containing the errors (if there were some):
+     *         LOGIN_COLOR_NOT_AVAILABLE --> the color was taken by another player
+     *         LOGIN_USERNAME_NOT_AVAILABLE --> the username was taken by another player
+     *         LOGIN_TOO_MANY_PLAYERS --> there are already three players connected
      */
 
     @Override
-    public void onNewPlayer(String playerUsername, Color workerColor) {
-        playerController.addPlayer(new Player(playerUsername, workerColor));
+    public ArrayList<Error> onNewPlayer(String playerUsername, Color workerColor) {
+        if(workerColor == null) throw new IllegalArgumentException("Invalid worker color during login!");
+        if(playerUsername == null || playerUsername.isEmpty()) throw new IllegalArgumentException("Invalid username during login!");
+        return playerController.addPlayer(new Player(playerUsername, workerColor));
     }
 
     /**
@@ -59,38 +71,53 @@ public class MatchController implements ActionListener {
     @Override
     public String onStartGame() {
         Random randomGenerator = new Random();
-        int challengerIndex = randomGenerator.nextInt(playerController.getNumberOfPlayers());
-        playerController.setCurrentPlayerByIndex((challengerIndex+1)%playerController.getNumberOfPlayers());
+        challengerIndex = randomGenerator.nextInt(playerController.getNumberOfPlayers());
+        playerController.setCurrentPlayerByIndex((challengerIndex));
         return playerController.getPlayerByIndex(challengerIndex).getUsername();
     }
 
     /**
      * This method is triggered in the initial phase, when the challenger choose the gods for the match.
      * @param godIds contains the ids of the chosen gods.
+     * @return an ArrayList containing the errors (if there were some):
+     *          SETUP_IS_NOT_CHALLENGER --> only the challenger chan choose the gods
      */
 
     @Override
-    public void onChallengerChooseGods(ArrayList<Integer> godIds) {
-        GodsFactory factory = new GodsFactory(gameBoard);
-        ArrayList<God> temp_gods = factory.getGods(godIds);
-        for(int i=0; i< godIds.size();i++){
-            selectedGods.put(godIds.get(i), temp_gods.get(i));
+    public ArrayList<Error> onChallengerChooseGods(String playerUsername, ArrayList<Integer> godIds) {
+        ArrayList<Error> errors = new ArrayList<>();
+        if(!playerController.getCurrentPlayer().getUsername().equals(playerUsername)) errors.add(Error.SETUP_IS_NOT_CHALLENGER);
+        if(errors.isEmpty()){
+            try {
+                GodsFactory factory = new GodsFactory(gameBoard);
+                ArrayList<God> temp_gods = factory.getGods(godIds);
+                for (int i = 0; i < godIds.size(); i++) {
+                    selectedGods.put(godIds.get(i), temp_gods.get(i));
+                }
+                playerController.setCurrentPlayerByIndex((challengerIndex+1)%(playerController.getNumberOfPlayers()));
+            }
+
+            catch(Exception e){
+                throw new IllegalArgumentException("Illegal god ids!");
+            }
         }
+
+        return errors;
     }
 
 
     /**
-     * This method is triggered when the player chooses his god.
+     * This method is triggered when the player selects his god.
      * @param godId id of the god chosen
      */
 
     @Override
-    public void onPlayerChooseGod(String playerUsername, Integer godId) {
-        if(!playerController.getCurrentPlayer().getUsername().equals(playerUsername)){
-            //TODO notify view that it's not their turn
-        }
-        playerController.getCurrentPlayer().setGod(selectedGods.get(godId));
-        //TODO return next player
+    public ArrayList<Error> onPlayerChooseGod(String playerUsername, Integer godId) {
+        ArrayList<Error> errors = new ArrayList<>();
+        if(!playerController.getCurrentPlayer().getUsername().equals(playerUsername)) errors.add(Error.INGAME_NOT_YOUR_TURN);
+        if(errors.isEmpty())
+            playerController.getCurrentPlayer().setGod(selectedGods.get(godId));
+        return errors;
     }
 
     /**

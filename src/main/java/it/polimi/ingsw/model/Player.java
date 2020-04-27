@@ -26,6 +26,13 @@ public class Player implements PropertyChangeListener {
     private ArrayList<Worker> workers;
     private God god;
 
+    /**
+     * true --> it's the player's turn
+     * false --> it's not the player's turn
+     */
+
+    private boolean active;
+
     //constructors
 
     /**
@@ -284,5 +291,9 @@ public class Player implements PropertyChangeListener {
             //TODO: notify to view that a worker was removed
             //TODO: notify to view if this player has no worker (he loses)
         }
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
