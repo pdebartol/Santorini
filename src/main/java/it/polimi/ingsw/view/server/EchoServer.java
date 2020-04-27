@@ -8,6 +8,11 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * This class manages a multi-client TCP socket connection.
+ * @author marcoDige
+ */
+
 public class EchoServer {
 
     //attributes
@@ -21,13 +26,18 @@ public class EchoServer {
         this.port = port;
     }
 
+    //methods
+
     public static void main(String[] args)
     {
         EchoServer echoServer = new EchoServer(1234);
         echoServer.start();
     }
 
-    //methods
+    /**
+     * This method allows server to start to accept a connection from a client and create a thread which manages a
+     * specific client connection (the connection is multi-client).
+     */
 
     public void start(){
         ExecutorService executor = Executors.newCachedThreadPool();
@@ -51,6 +61,11 @@ public class EchoServer {
         executor.shutdown();
 
     }
+
+    /**
+     * This method initializes a ServerSocket on port.
+     * @throws IOException when the initialization was not done
+     */
 
     public void initializeConnection() throws IOException{
         server = new ServerSocket(port);

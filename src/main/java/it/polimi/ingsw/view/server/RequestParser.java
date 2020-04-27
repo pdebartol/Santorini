@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.server;
 
-import it.polimi.ingsw.model.enums.Color;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -8,6 +7,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.*;
 import java.util.*;
+
+/** This class is responsible for parsing the arrivedRequest XML and call VirtualView methods to starting
+ * the request processing.
+ * @author marcoDige
+ */
 
 public class RequestParser {
 
@@ -28,21 +32,66 @@ public class RequestParser {
 
     //method
 
+    /**
+     * This method reads the request mode in arrivedRequest.xml, it extracts data which client sent and call the
+     * method in virtualView which corresponds to the request mode
+     */
+
     public void parseRequest(){
-        String mode = Objects.requireNonNull(evaluateXPath("/Request/Mode/text()")).get(0);
-        String username = Objects.requireNonNull(evaluateXPath("/Request/Username/text()")).get(0);
+        String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
+        String username = Objects.requireNonNull(evaluateXPath("/Requests/Username/text()")).get(0);
+        String standardPath = "/Requests/Request[Mode=\"" + mode + "\"]";
 
         switch (mode){
             case "login" :
-                String color = Objects.requireNonNull(evaluateXPath("/Request/Login/Color/text()")).get(0);
-                virtualView.loginRequest(username, Color.valueOfLabel(color));
+                String color = Objects.requireNonNull(evaluateXPath(standardPath + "/Color/text()")).get(0);
+                virtualView.loginRequest(username,color);
+                break;
             case "startGame" :
                 virtualView.startGameRequest(username);
-            case "startingPlayerChosen" :
-                String playerChosen = Objects.requireNonNull(evaluateXPath("/Request/StartingPlayerChosen/PlayerChosen/text()")).get(0);
+                break;
+            case "choseStartingPlayer" :
+                String playerChosen = Objects.requireNonNull(evaluateXPath(standardPath +"/PlayerChosen/text()")).get(0);
                 virtualView.chooseStartingPlayerRequest(username,playerChosen);
+                break;
             case "createGods" :
-
+                ArrayList<Integer> ids = new ArrayList<>();
+                for(int i = 0; i < 3; ++i){
+                    int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Gods/God[n='" + Integer.toString(i) + "']/id/text()")).get(0));
+                    if(id != 0) ids.add(id);
+                }
+                virtualView.createGodsRequest(username,ids);
+                break;
+            case "choseGod" :
+                String godName = Objects.requireNonNull(evaluateXPath(standardPath +"/GodName/text()")).get(0);
+                virtualView.choseGodRequest(username, godName);
+                break;
+            case "setWorkersOnBoard" :
+                int x,y;
+                x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='0']/xPosition/text()")).get(0));
+                y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='0']/yPosition/text()")).get(0));
+                virtualView.setupOnBoardRequest(username,0,x,y);
+                x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='1']/xPosition/text()")).get(0));
+                y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='1']/yPosition/text()")).get(0));
+                virtualView.setupOnBoardRequest(username,1,x,y);
+                break;
+            case "move" :
+                int xm,ym;
+                int mWorkerId = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0));
+                xm = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
+                ym = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
+                virtualView.moveRequest(username,mWorkerId,xm,ym);
+                break;
+            case "build":
+                int xb,yb;
+                int bWorkerId = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0));
+                xb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
+                yb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
+                virtualView.buildRequest(username,bWorkerId,xb,yb);
+                break;
+            case "endOfTurn":
+                virtualView.endOfTurn(username);
+                break;
         }
     }
 
