@@ -14,7 +14,7 @@ import java.util.Random;
  * @author pierobartolo
  */
 
-public class MatchController implements ActionListener {
+public class MatchController implements ControllerActionListener {
 
     /**
      * playerController handles the players ArrayList.

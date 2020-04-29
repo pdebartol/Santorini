@@ -61,57 +61,58 @@ public class GodsFactory {
         try{
             for (Integer currentGod : ids) {
                 Stack<Integer> powers_id = new Stack<>();
-                String name = Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/name/text()")).get(0);
-                String description =  Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/description/text()")).get(0);
-                int maxMoves =  Integer.parseInt(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/maxMoves/text()")).get(0));
-                int maxBuilds = Integer.parseInt(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/maxBuilds/text()")).get(0));
+                String standardPath = "/Divinities/God[id='" + currentGod + "']";
+                String name = Objects.requireNonNull(evaluateXPath(standardPath + "/name/text()")).get(0);
+                String description =  Objects.requireNonNull(evaluateXPath(standardPath + "/description/text()")).get(0);
+                int maxMoves =  Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath + "/maxMoves/text()")).get(0));
+                int maxBuilds = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath + "/maxBuilds/text()")).get(0));
 
 
-                if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BuildBeforeMove/text()")).get(0).equals("true")){
+                if(Objects.requireNonNull(evaluateXPath(standardPath + "/BuildBeforeMove/text()")).get(0).equals("true")){
                     powers_id.push(1);
                 }
-                if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/MoveSwap/text()")).get(0).equals("true")){
+                if(Objects.requireNonNull(evaluateXPath(standardPath + "/MoveSwap/text()")).get(0).equals("true")){
                     powers_id.push(2);
                 }
-                if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/MovePush/text()")).get(0).equals("true")){
+                if(Objects.requireNonNull(evaluateXPath(standardPath + "/MovePush/text()")).get(0).equals("true")){
                     powers_id.push(3);
                 }
-                if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/Down2Win/text()")).get(0).equals("true")){
+                if(Objects.requireNonNull(evaluateXPath(standardPath + "/Down2Win/text()")).get(0).equals("true")){
                     powers_id.push(4);
                 }
-                if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/ExtraMove/canMove/text()")).get(0).equals("true")){
-                    if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/ExtraMove/notMoveBack/text()")).get(0).equals("true")){
+                if(Objects.requireNonNull(evaluateXPath(standardPath + "/ExtraMove/canMove/text()")).get(0).equals("true")){
+                    if(Objects.requireNonNull(evaluateXPath(standardPath + "/ExtraMove/notMoveBack/text()")).get(0).equals("true")){
                         powers_id.push(5);
                     }
                     else{
                         powers_id.push(6);
                     }
                 }
-                if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/ExtraBuild/canBuild/text()")).get(0).equals("true")){
-                    if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/ExtraBuild/onlySameSpace/text()")).get(0).equals("true")){
+                if(Objects.requireNonNull(evaluateXPath(standardPath + "/ExtraBuild/canBuild/text()")).get(0).equals("true")){
+                    if(Objects.requireNonNull(evaluateXPath(standardPath + "/ExtraBuild/onlySameSpace/text()")).get(0).equals("true")){
                         powers_id.push(7);
                     }
-                    else if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/ExtraBuild/notSameSpace/text()")).get(0).equals("true")) {
+                    else if(Objects.requireNonNull(evaluateXPath(standardPath + "/ExtraBuild/notSameSpace/text()")).get(0).equals("true")) {
                         powers_id.push(8);
                     }
                     else{
                         powers_id.push(9);
                     }
                 }
-                if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BuildDomeEverywhere/text()")).get(0).equals("true")){
+                if(Objects.requireNonNull(evaluateXPath(standardPath + "/BuildDomeEverywhere/text()")).get(0).equals("true")){
                     powers_id.push(10);
                 }
-                if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BlockMoveUp/text()")).get(0).equals("true")){
+                if(Objects.requireNonNull(evaluateXPath(standardPath + "/BlockMoveUp/text()")).get(0).equals("true")){
                     powers_id.push(11);
                     applyToAll.put(0,name);
                 }
-                if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/BuildUnderfoot/text()")).get(0).equals("true")){
+                if(Objects.requireNonNull(evaluateXPath(standardPath + "/BuildUnderfoot/text()")).get(0).equals("true")){
                     powers_id.push(12);
                 }
-                if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/NoWinPerimeter/text()")).get(0).equals("true")){
+                if(Objects.requireNonNull(evaluateXPath(standardPath + "/NoWinPerimeter/text()")).get(0).equals("true")){
                     applyToAll.put(13,name);
                 }
-                if(Objects.requireNonNull(evaluateXPath("/Divinities/God[id='" + currentGod + "']/EndRemoveNeighbour/text()")).get(0).equals("true")){
+                if(Objects.requireNonNull(evaluateXPath(standardPath + "/EndRemoveNeighbour/text()")).get(0).equals("true")){
                     powers_id.push(14);
                 }
 

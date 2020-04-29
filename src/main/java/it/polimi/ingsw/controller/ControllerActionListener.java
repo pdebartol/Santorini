@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author pierobartolo
  */
 
-public interface ActionListener {
+public interface ControllerActionListener {
      // setup methods
      ArrayList<Error> onNewPlayer(String playerUsername, Color workerColor);
      String onStartGame();

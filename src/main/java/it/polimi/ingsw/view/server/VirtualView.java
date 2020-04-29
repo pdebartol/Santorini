@@ -1,20 +1,22 @@
 package it.polimi.ingsw.view.server;
 
-import it.polimi.ingsw.controller.ActionListener;
+import it.polimi.ingsw.controller.ControllerActionListener;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
 
 import java.util.ArrayList;
 
-public class VirtualView {
+public class VirtualView implements ViewActionListener{
 
     //attributes
 
-    ActionListener controllerListener;
+    ControllerActionListener controllerListener;
 
     //methods
 
-    public void setListener(ActionListener l){
+    //Request Methods
+
+    public void setListener(ControllerActionListener l){
         this.controllerListener = l;
     }
 
@@ -62,5 +64,7 @@ public class VirtualView {
     void endOfTurn(String username){
 
     }
+
+    // Answer Methods
 
 }
