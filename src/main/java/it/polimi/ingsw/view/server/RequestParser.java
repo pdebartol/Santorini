@@ -7,6 +7,7 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.*;
+import java.net.Socket;
 import java.util.*;
 
 /** This class is responsible for parsing the arrivedRequest XML and call VirtualView methods to starting
@@ -19,7 +20,6 @@ public class RequestParser {
     //attributes
 
     private Document document;
-    private final VirtualView virtualView;
 
     public RequestParser(){
         try{
@@ -28,7 +28,6 @@ public class RequestParser {
         catch (Exception e){
             System.out.println("Error during XML parsing.");
         }
-        virtualView = new VirtualView();
     }
 
     //method
@@ -38,22 +37,18 @@ public class RequestParser {
      * method in virtualView which corresponds to the request mode
      */
 
-    public void parseRequest(){
+    public void parseRequest(VirtualView vrtV){
         String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
         String username = Objects.requireNonNull(evaluateXPath("/Requests/Username/text()")).get(0);
         String standardPath = "/Requests/Request[Mode=\"" + mode + "\"]";
 
         switch (mode){
-            case "login" :
-                String color = Objects.requireNonNull(evaluateXPath(standardPath + "/Color/text()")).get(0);
-                virtualView.loginRequest(username, Color.valueOfLabel(color));
-                break;
             case "startGame" :
-                virtualView.startGameRequest(username);
+                vrtV.startGameRequest(username);
                 break;
             case "choseStartingPlayer" :
                 String playerChosen = Objects.requireNonNull(evaluateXPath(standardPath +"/PlayerChosen/text()")).get(0);
-                virtualView.chooseStartingPlayerRequest(username,playerChosen);
+                vrtV.chooseStartingPlayerRequest(username,playerChosen);
                 break;
             case "createGods" :
                 ArrayList<Integer> ids = new ArrayList<>();
@@ -61,39 +56,58 @@ public class RequestParser {
                     int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Gods/God[n='" + Integer.toString(i) + "']/id/text()")).get(0));
                     if(id != 0) ids.add(id);
                 }
-                virtualView.createGodsRequest(username,ids);
+                vrtV.createGodsRequest(username,ids);
                 break;
             case "choseGod" :
                 int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/God/id/text()")).get(0));
-                virtualView.choseGodRequest(username, godId);
+                vrtV.choseGodRequest(username, godId);
                 break;
             case "setWorkersOnBoard" :
                 int x,y;
                 x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='0']/xPosition/text()")).get(0));
                 y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='0']/yPosition/text()")).get(0));
-                virtualView.setupOnBoardRequest(username,0,x,y);
+                vrtV.setupOnBoardRequest(username,0,x,y);
                 x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='1']/xPosition/text()")).get(0));
                 y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='1']/yPosition/text()")).get(0));
-                virtualView.setupOnBoardRequest(username,1,x,y);
+                vrtV.setupOnBoardRequest(username,1,x,y);
                 break;
             case "move" :
                 int xm,ym;
                 int mWorkerId = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0));
                 xm = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
                 ym = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
-                virtualView.moveRequest(username,mWorkerId,xm,ym);
+                vrtV.moveRequest(username,mWorkerId,xm,ym);
                 break;
             case "build":
                 int xb,yb;
                 int bWorkerId = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0));
                 xb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
                 yb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
-                virtualView.buildRequest(username,bWorkerId,xb,yb);
+                vrtV.buildRequest(username,bWorkerId,xb,yb);
                 break;
             case "endOfTurn":
-                virtualView.endOfTurn(username);
+                vrtV.endOfTurn(username);
                 break;
         }
+    }
+
+    /**
+     * This method verify if mode is login (client want to login in the match). If it's true, it parses login data from
+     * arrivedRequest.xml and call virtualView function to process the login request.
+     * @return true -> mode is "login"
+     *         false -> mode isn't "login"
+     */
+
+    public boolean parseLoginRequest(VirtualView vrtV, Socket socket){
+        String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
+        String standardPath = "/Requests/Request[Mode=\"" + mode + "\"]";
+        if(mode.equals("login")){
+            String username = Objects.requireNonNull(evaluateXPath("/Requests/Username/text()")).get(0);
+            String color = Objects.requireNonNull(evaluateXPath(standardPath + "/Color/text()")).get(0);
+            vrtV.loginRequest(username, Color.valueOfLabel(color),socket);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -102,9 +116,14 @@ public class RequestParser {
      *         false -> mode isn't "end"
      */
 
-    public boolean parseEndRequest(){
+    public boolean parseEndRequest(VirtualView vrtV){
         String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
-        return mode.equals("end");
+        String username = Objects.requireNonNull(evaluateXPath("/Requests/Username/text()")).get(0);
+        if(mode.equals("end")){
+            vrtV.onEndRequest(username);
+            return true;
+        }
+        return false;
     }
 
     /**

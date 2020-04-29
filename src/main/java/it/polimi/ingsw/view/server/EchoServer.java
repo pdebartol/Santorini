@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.server;
 
+import it.polimi.ingsw.controller.MatchController;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,11 +19,13 @@ public class EchoServer {
 
     private final int port;
     private ServerSocket server;
+    private VirtualView virtualView;
 
     //constructors
 
     public EchoServer(int port){
         this.port = port;
+        virtualView = new VirtualView(new MatchController());
     }
 
     //methods
@@ -49,7 +53,7 @@ public class EchoServer {
         while (true) {
             try {
                 Socket client = server.accept();
-                executor.submit(new ClientHandler(client));
+                executor.submit(new ClientHandler(client,virtualView));
             } catch(IOException e) {
                 break;
             }

@@ -13,11 +13,13 @@ public class ClientHandler implements Runnable{
     //attributes
 
     private final Socket client;
+    private final VirtualView virtualView;
 
     //constructors
 
-    public ClientHandler(Socket socket) {
+    public ClientHandler(Socket socket, VirtualView vrtV) {
         this.client = socket;
+        this.virtualView = vrtV;
     }
 
     //methods
@@ -30,39 +32,32 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
 
-        File fileIn = new File("src/main/resources/arrivedRequest");
-        File fileOut = new File("src/main/resources/toSendAnswer");
+        File requestFile = new File("src/main/resources/arrivedRequest");
 
         try {
             System.out.println("Client " + client + " connection has done!");
             InputStream in = client.getInputStream();
-            FileOutputStream outFileIn = new FileOutputStream(fileIn, false);
-            FileInputStream inFileOut = new FileInputStream(fileOut);
-            OutputStream out = client.getOutputStream();
+            FileOutputStream FileIn = new FileOutputStream(requestFile, false);
 
             while(true) {
                 byte[] buffer = new byte[2000];
                 int rIn = in.read(buffer);
-                outFileIn.write(buffer,0,rIn);
+                FileIn.write(buffer,0,rIn);
                 if(isEndMode()){
                     break;
                 }else{
-                    processRequest();
-                    outFileIn.flush();
-
-                    int rOut = inFileOut.read(buffer);
-                    out.write(buffer,0,rOut);
-                    out.flush();
+                    if(!isLoginRequest())
+                        processRequest();
+                    FileIn.flush();
                 }
             }
 
-            outFileIn.close();
-            inFileOut.close();
-            out.close();
+            FileIn.close();
             in.close();
             System.out.println("Connection with " + client + " closed!");
             client.close();
         } catch (IOException e) {
+            virtualView.removeClientBySocket(client);
             System.err.println("Client disconnection!");
         }
     }
@@ -74,7 +69,7 @@ public class ClientHandler implements Runnable{
      */
 
     private boolean isEndMode(){
-        return new RequestParser().parseEndRequest();
+        return new RequestParser().parseEndRequest(virtualView);
     }
 
     /**
@@ -82,6 +77,14 @@ public class ClientHandler implements Runnable{
      */
 
     private void processRequest(){
-        new RequestParser().parseRequest();
+        new RequestParser().parseRequest(virtualView);
     }
+
+    /**
+     * This method verify if the request mode is "login".
+     * @return true -> "login" request mode
+     *         false -> not "login" request mode
+     */
+
+    private boolean isLoginRequest() {return new RequestParser().parseLoginRequest(virtualView,client);}
 }
