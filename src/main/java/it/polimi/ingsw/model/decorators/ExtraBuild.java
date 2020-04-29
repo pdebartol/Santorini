@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 /**
  * This class implements the power to build one additional block under some conditions.
- * This power decorates Hephaestus, Demeter and Hestia's powers.
  * @author pierobartolo
  */
 

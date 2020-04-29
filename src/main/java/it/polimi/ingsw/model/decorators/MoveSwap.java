@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 /**
  * This class implements the power which allows worker to move into a square occupied by another worker and switch positions with him.
- * This power decorates Apollo's power.
  * @author marcoDige
  */
 

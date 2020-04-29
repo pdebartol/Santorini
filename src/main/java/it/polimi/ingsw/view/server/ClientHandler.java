@@ -30,30 +30,48 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
 
-        File file = new File("src/main/resources/arrivedRequest.xml");
+        File fileIn = new File("src/main/resources/arrivedRequest");
+        File fileOut = new File("src/main/resources/toSendAnswer");
 
         try {
             System.out.println("Client " + client + " connection has done!");
             InputStream in = client.getInputStream();
-            FileOutputStream outFile = new FileOutputStream(file, false);
+            FileOutputStream outFileIn = new FileOutputStream(fileIn, false);
+            FileInputStream inFileOut = new FileInputStream(fileOut);
             OutputStream out = client.getOutputStream();
-            byte[] buffer = new byte[2000];
-            int r = in.read(buffer);
-            outFile.write(buffer, 0, r);
 
-            processRequest();
-            sendAnswer();
+            while(true) {
+                byte[] buffer = new byte[2000];
+                int rIn = in.read(buffer);
+                outFileIn.write(buffer,0,rIn);
+                if(isEndMode()){
+                    break;
+                }else{
+                    processRequest();
+                    outFileIn.flush();
 
-            outFile.flush();
-            out.flush();
-            outFile.close();
+                    int rOut = inFileOut.read(buffer);
+                    out.write(buffer,0,rOut);
+                    out.flush();
+                }
+            }
+
+            outFileIn.close();
+            inFileOut.close();
             out.close();
             in.close();
+            System.out.println("Connection with " + client + " closed!");
             client.close();
         } catch (IOException e) {
             System.err.println("Client disconnection!");
         }
     }
+
+    /**
+     * This method verify if the request mode is "end".
+     * @return true -> "end" request mode
+     *         false -> not "end" request mode
+     */
 
     private boolean isEndMode(){
         return new RequestParser().parseEndRequest();
@@ -65,9 +83,5 @@ public class ClientHandler implements Runnable{
 
     private void processRequest(){
         new RequestParser().parseRequest();
-    }
-
-    private void sendAnswer(){
-
     }
 }

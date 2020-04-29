@@ -10,7 +10,6 @@ import java.beans.PropertyChangeSupport;
 
 /**
  * This class implements the power which blocks opponent players to move up if the worker moves up in this turn.
- * This power decorates Athena's power.
  * @author pierobartolo
  */
 

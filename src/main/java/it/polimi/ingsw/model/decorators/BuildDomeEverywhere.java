@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 /**
  * This class implements the power which allows worker to build dome also if level is not 3.
- * This power decorates Atlas's power.
  * @author marcoDige
  */
 

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 /**
  * This class implements the power which allows worker to build onto the same square where it is located.
- * This power decorates Zeus's power.
  * @author marcoDige
  */
 

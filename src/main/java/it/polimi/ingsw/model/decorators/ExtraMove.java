@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 /**
  * This class implements the power to move one more time under some conditions.
- * This power decorates Artemis and Triton's powers.
  * @author pierobartolo
  */
 public class ExtraMove extends PowerDecorator {

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 /**
  * This class implements the power to build both before and after moving if the worker does not move up.
- * This power decorates Prometheus' power.
  * @author pierobartolo
  */
 

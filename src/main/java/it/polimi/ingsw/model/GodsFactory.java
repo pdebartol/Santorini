@@ -11,7 +11,7 @@ import javax.xml.xpath.*;
 import java.util.*;
 
 /** This class is responsible for parsing the XML and creating the
- * gods according to the rules in 'godConfig.xml'
+ * gods according to the rules in 'godConfig'
  * @author pierobartolo & marcoDige
  */
 
@@ -45,7 +45,7 @@ public class GodsFactory {
 
     /**
      * This method returns an ArrayList<God> with all the Gods specified in the ids parameter.
-     * It parses 'godConfig.xml' creating an instance of each God as described in the file.
+     * It parses 'godConfig' creating an instance of each God as described in the file.
      * In doing so, it uses a Stack<Integer> to save the God's powers and a Map<Integer,String>
      * to save powers which need to be applied to others Gods
      * @param ids ArrayList<Integer> containing the id of every God the controller wants to create
@@ -217,7 +217,7 @@ public class GodsFactory {
 
 
     /**
-     * This method creates the document object and parses 'godConfig.xml' file
+     * This method creates the document object and parses 'godConfig' file
      * @return the parsed xml file
      * @throws Exception error during xml parsing
      */
@@ -227,7 +227,7 @@ public class GodsFactory {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder.parse("src/main/resources/godConfig.xml");
+        return builder.parse("src/main/resources/godConfig");
     }
 
     /**

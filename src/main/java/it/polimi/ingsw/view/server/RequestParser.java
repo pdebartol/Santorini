@@ -34,7 +34,7 @@ public class RequestParser {
     //method
 
     /**
-     * This method reads the request mode in arrivedRequest.xml, extracts data which client sent and call the
+     * This method reads the request mode in arrivedRequest, extracts data which client sent and call the
      * method in virtualView which corresponds to the request mode
      */
 
@@ -108,7 +108,7 @@ public class RequestParser {
     }
 
     /**
-     * This method creates the document object and parses 'arrivedRequest.xml' file
+     * This method creates the document object and parses 'arrivedRequest' file
      * @return the parsed xml file
      * @throws Exception error during xml parsing
      */
@@ -118,7 +118,7 @@ public class RequestParser {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder.parse("src/main/resources/arrivedRequest.xml");
+        return builder.parse("src/main/resources/arrivedRequest");
     }
 
     /**

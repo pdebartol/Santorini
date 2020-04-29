@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.Worker;
 
 /**
  * This class implements the power which inhibits opponent players to win on perimeter.
- * This power decorates all in game gods' powers when a player chooses Hera (except the player whose god's power is Hera).
  * @author marcoDige
  */
 public class NoWinPerimeter extends PowerDecorator {

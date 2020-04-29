@@ -7,7 +7,6 @@ import java.util.ArrayList;
 /**
  * This class implements the power which, at end of his turn, allows a worker to replace opponent's workers occupying lower
  * neighbour squares with a block and remove them from the game.
- * This power decorates Medusa's power.
  * @author marcoDige
  */
 

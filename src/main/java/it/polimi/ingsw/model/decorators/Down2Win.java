@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.Worker;
 
 /**
  * This class implements the power which allows the player to win also if his worker moves down 2 or more levels.
- * This power decorates Pan's power.
  * @author marcoDige
  */
 public class Down2Win extends PowerDecorator {

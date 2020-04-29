@@ -31,6 +31,4 @@ public enum Error {
     LOGIN_TOO_MANY_PLAYERS,
     SETUP_IS_NOT_CHALLENGER,
     INGAME_NOT_YOUR_TURN
-
-
 }

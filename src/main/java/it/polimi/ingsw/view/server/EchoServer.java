@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.server;
 
-import it.polimi.ingsw.controller.ActionListener;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,7 +15,7 @@ public class EchoServer {
 
     //attributes
 
-    private int port;
+    private final int port;
     private ServerSocket server;
 
     //constructors
@@ -30,7 +28,11 @@ public class EchoServer {
 
     public static void main(String[] args)
     {
-        EchoServer echoServer = new EchoServer(1234);
+        int p;
+        if(args.length == 1) p = Integer.parseInt(args[0]);
+        else p = 1234;
+
+        EchoServer echoServer = new EchoServer(p);
         echoServer.start();
     }
 
@@ -42,17 +44,12 @@ public class EchoServer {
     public void start(){
         ExecutorService executor = Executors.newCachedThreadPool();
 
-        try {
-            initializeConnection();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            return;
-        }
+        initializeServer();
 
         while (true) {
             try {
-                Socket socket = server.accept();
-                executor.submit(new ClientHandler(socket));
+                Socket client = server.accept();
+                executor.submit(new ClientHandler(client));
             } catch(IOException e) {
                 break;
             }
@@ -67,8 +64,14 @@ public class EchoServer {
      * @throws IOException when the initialization was not done
      */
 
-    public void initializeConnection() throws IOException{
-        server = new ServerSocket(port);
+    public void initializeServer(){
+        try{
+            server = new ServerSocket(port);
+        }catch (IOException e){
+            System.err.println(e.getMessage());
+            return;
+        }
+
         System.out.println("Server socket ready on port: " + port);
     }
 
