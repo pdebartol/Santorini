@@ -7,28 +7,43 @@ package it.polimi.ingsw.model.enums;
  */
 
 public enum Error {
-    ISNT_WORKER_CHOSEN,
-    BLOCK_MOVE_UP,
-    BUILDS_EXCEEDED,
-    BUILD_BEFORE_MOVE,
-    CANT_DOME_UNDERFOOT,
-    CANT_MOVE_UP,
-    EXTRA_BUILD_NOT_PERIMETER,
-    EXTRA_BUILD_NOT_SAME_SPACE,
-    EXTRA_BUILD_ONLY_SAME_SPACE,
-    EXTRA_MOVE_NOT_BACK,
-    INVALID_LEVEL_BUILD,
-    INVALID_LEVEL_MOVE,
-    IS_DOME,
-    MOVES_EXCEEDED,
-    MOVE_AFTER_BUILD,
-    NOT_ADJACENT,
-    NOT_FREE,
-    SAME_DIRECTION_NOT_FREE,
-    EXTRA_BUILD_NOT_DOME,
-    LOGIN_USERNAME_NOT_AVAILABLE,
-    LOGIN_COLOR_NOT_AVAILABLE,
-    LOGIN_TOO_MANY_PLAYERS,
-    SETUP_IS_NOT_CHALLENGER,
-    INGAME_NOT_YOUR_TURN
+    ISNT_WORKER_CHOSEN("isntWorkerChosen"),
+    BLOCK_MOVE_UP("blockMoveUp"),
+    BUILDS_EXCEEDED("buildsExceeded"),
+    BUILD_BEFORE_MOVE("buildBeforeMove"),
+    CANT_DOME_UNDERFOOT("cantDomeUnderfoot"),
+    CANT_MOVE_UP("cantMoveUp"),
+    EXTRA_BUILD_NOT_PERIMETER("extraBuildNotPerimeter"),
+    EXTRA_BUILD_NOT_SAME_SPACE("extraBuildNotSameSpace"),
+    EXTRA_BUILD_ONLY_SAME_SPACE("extraBuildOnlySameSpace"),
+    EXTRA_MOVE_NOT_BACK("extraMoveNotBack"),
+    INVALID_LEVEL_BUILD("invalidLevelBuild"),
+    INVALID_LEVEL_MOVE("invalidLevelMove"),
+    IS_DOME("isDome"),
+    MOVES_EXCEEDED("movesExceeded"),
+    MOVE_AFTER_BUILD("moveAfterBuild"),
+    NOT_ADJACENT("notAdjacent"),
+    NOT_FREE("notFree"),
+    SAME_DIRECTION_NOT_FREE("sameDirectionNotFree"),
+    EXTRA_BUILD_NOT_DOME("extra"),
+    LOGIN_USERNAME_NOT_AVAILABLE("loginUsernameNotAvailable"),
+    LOGIN_COLOR_NOT_AVAILABLE("loginColorNotAvailable"),
+    LOGIN_TOO_MANY_PLAYERS("LoginTooManyPlayers"),
+    SETUP_IS_NOT_CHALLENGER("SetupIsNotChallenger"),
+    INGAME_NOT_YOUR_TURN("InGameNotYourTurn");
+
+    private final String label;
+
+    Error(String label){
+        this.label = label;
+    }
+
+    public static Error valueOfLabel(String label) {
+        for (Error err : values()) {
+            if (err.label.equals(label)) {
+                return err;
+            }
+        }
+        return null;
+    }
 }

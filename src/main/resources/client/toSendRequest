@@ -4,59 +4,40 @@
     <Mode></Mode>
     <Username></Username>
 
-    <Request>
-        <Mode>login</Mode>
+    <Request Mode = "login">
         <Color></Color>
     </Request>
 
-    <Request>
-        <Mode>choseStartingPlayer</Mode>
+    <Request Mode = "choseStartingPlayer">
         <PlayerChosen></PlayerChosen>
     </Request>
 
-    <Request>
-        <Mode>createGods</Mode>
+    <Request Mode = "createGods">
         <Gods>
-            <God>
-                <n>0</n>
-                <id></id>
-            </God>
-            <God>
-                <n>1</n>
-                <id></id>
-            </God>
-            <God>
-                <n>2</n>
-                <id></id>
-            </God>
+            <God n = "0">3</God>
+            <God n = "1">4</God>
+            <God n = "2">5</God>
         </Gods>
     </Request>
 
-    <Request>
-        <Mode>choseGod</Mode>
-        <God>
-            <id></id>
-        </God>
+    <Request Mode = "choseGod">
+        <God></God>
     </Request>
 
-    <Request>
-        <Mode>setWorkersOnBoard</Mode>
+    <Request Mode="SetWorkersOnBoard">
         <Positions>
-            <Position>
-                <WorkerId>0</WorkerId>
+            <Position WorkerId = "0">
                 <xPosition></xPosition>
                 <yPosition></yPosition>
             </Position>
-            <Position>
-                <WorkerId>1</WorkerId>
+            <Position WorkerId = "1">
                 <xPosition></xPosition>
                 <yPosition></yPosition>
             </Position>
         </Positions>
     </Request>
 
-    <Request>
-        <Mode>move</Mode>
+    <Request Mode = "move">
         <Position>
             <WorkerId></WorkerId>
             <xPosition></xPosition>
@@ -64,8 +45,7 @@
         </Position>
     </Request>
 
-    <Request>
-        <Mode>build</Mode>
+    <Request Mode ="build">
         <Position>
             <WorkerId></WorkerId>
             <xPosition></xPosition>

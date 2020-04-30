@@ -40,7 +40,7 @@ public class RequestParser {
     public void parseRequest(VirtualView vrtV){
         String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
         String username = Objects.requireNonNull(evaluateXPath("/Requests/Username/text()")).get(0);
-        String standardPath = "/Requests/Request[Mode=\"" + mode + "\"]";
+        String standardPath = "/Requests/Request[@Mode=\"" + mode + "\"]";
 
         switch (mode){
             case "startGame" :
@@ -53,22 +53,23 @@ public class RequestParser {
             case "createGods" :
                 ArrayList<Integer> ids = new ArrayList<>();
                 for(int i = 0; i < 3; ++i){
-                    int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Gods/God[n='" + i + "']/id/text()")).get(0));
+                    int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Gods/God[@n=" + i + "]/text()")).get(0));
                     if(id != 0) ids.add(id);
                 }
+
                 vrtV.createGodsRequest(username,ids);
                 break;
             case "choseGod" :
-                int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/God/id/text()")).get(0));
+                int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/God/text()")).get(0));
                 vrtV.choseGodRequest(username, godId);
                 break;
             case "setWorkersOnBoard" :
                 int x,y;
-                x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='0']/xPosition/text()")).get(0));
-                y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='0']/yPosition/text()")).get(0));
+                x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[@WorkerId='0']/xPosition/text()")).get(0));
+                y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[@WorkerId='0']/yPosition/text()")).get(0));
                 vrtV.setupOnBoardRequest(username,0,x,y);
-                x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='1']/xPosition/text()")).get(0));
-                y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[WorkerId='1']/yPosition/text()")).get(0));
+                x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[@WorkerId='1']/xPosition/text()")).get(0));
+                y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[@WorkerId='1']/yPosition/text()")).get(0));
                 vrtV.setupOnBoardRequest(username,1,x,y);
                 break;
             case "move" :
@@ -100,8 +101,8 @@ public class RequestParser {
 
     public boolean parseLoginRequest(VirtualView vrtV, Socket socket){
         String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
-        String standardPath = "/Requests/Request[Mode=\"" + mode + "\"]";
         if(mode.equals("login")){
+            String standardPath = "/Requests/Request[@Mode=\"" + mode + "\"]";
             String username = Objects.requireNonNull(evaluateXPath("/Requests/Username/text()")).get(0);
             String color = Objects.requireNonNull(evaluateXPath(standardPath + "/Color/text()")).get(0);
             vrtV.loginRequest(username, Color.valueOfLabel(color),socket);
@@ -118,8 +119,8 @@ public class RequestParser {
 
     public boolean parseEndRequest(VirtualView vrtV){
         String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
-        String username = Objects.requireNonNull(evaluateXPath("/Requests/Username/text()")).get(0);
         if(mode.equals("end")){
+            String username = Objects.requireNonNull(evaluateXPath("/Requests/Username/text()")).get(0);
             vrtV.onEndRequest(username);
             return true;
         }
@@ -137,7 +138,7 @@ public class RequestParser {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder.parse("src/main/resources/arrivedRequest");
+        return builder.parse("src/main/resources/server/arrivedRequest");
     }
 
     /**
