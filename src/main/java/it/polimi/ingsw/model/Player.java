@@ -23,7 +23,7 @@ public class Player implements PropertyChangeListener {
      * workers is an array of Worker objects, that represents the workers which Player use to play.
      */
 
-    private ArrayList<Worker> workers;
+    private final ArrayList<Worker> workers;
     private God god;
 
     /**

@@ -16,7 +16,7 @@ public class Worker  {
 
     //attributes
 
-    private PropertyChangeSupport support;
+    private final PropertyChangeSupport support;
     private final Color color;
     private final String gender;
 

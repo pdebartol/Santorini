@@ -29,13 +29,9 @@ public class VirtualView implements ViewActionListener{
             if(socket.equals(clients.get(u))) clients.remove(u);
     }
 
-    public void removeClientByUsername(String username){
-        clients.remove(username);
-    }
-
     //Request Methods
 
-    public void loginRequest(String username, Color color, Socket socket){
+    public synchronized void loginRequest(String username, Color color, Socket socket){
         ArrayList<Error> errors = controllerListener.onNewPlayer(username, color);
         if(errors.isEmpty()) clients.put(username,socket);
 
@@ -82,9 +78,10 @@ public class VirtualView implements ViewActionListener{
     }
 
     public void onEndRequest(String username){
-        removeClientByUsername(username);
+        clients.remove(username);
     }
 
     // Answer Methods
 
+    // Communication Methods
 }

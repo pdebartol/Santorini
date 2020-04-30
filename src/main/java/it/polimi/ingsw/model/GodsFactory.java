@@ -19,7 +19,7 @@ public class GodsFactory {
 
     //attributes
 
-    private Board gameBoard;
+    private final Board gameBoard;
     private Document document;
     BlockMoveUp bmu_god;
 

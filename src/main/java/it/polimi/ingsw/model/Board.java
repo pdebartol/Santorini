@@ -31,7 +31,7 @@ public class Board {
      *  table is a 5x5 matrix containing Square objects. It represents the board of our game.
      */
 
-    private Square[][] table;
+    private final Square[][] table;
 
     //constructors
 

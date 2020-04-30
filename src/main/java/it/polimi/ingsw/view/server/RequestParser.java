@@ -53,7 +53,7 @@ public class RequestParser {
             case "createGods" :
                 ArrayList<Integer> ids = new ArrayList<>();
                 for(int i = 0; i < 3; ++i){
-                    int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Gods/God[n='" + Integer.toString(i) + "']/id/text()")).get(0));
+                    int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Gods/God[n='" + i + "']/id/text()")).get(0));
                     if(id != 0) ids.add(id);
                 }
                 vrtV.createGodsRequest(username,ids);

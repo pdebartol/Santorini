@@ -1,6 +1,9 @@
 package it.polimi.ingsw.view.server;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 
 /**
@@ -32,33 +35,34 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
 
-        File requestFile = new File("src/main/resources/arrivedRequest");
+        File requestFile = new File("src/main/resources/server/arrivedRequest");
+        System.out.println("Client " + client + " has connected!");
 
         try {
-            System.out.println("Client " + client + " connection has done!");
             InputStream in = client.getInputStream();
-            FileOutputStream FileIn = new FileOutputStream(requestFile, false);
+            FileOutputStream fileIn = new FileOutputStream(requestFile, false);
 
             while(true) {
                 byte[] buffer = new byte[2000];
                 int rIn = in.read(buffer);
-                FileIn.write(buffer,0,rIn);
+                fileIn.write(buffer,0,rIn);
                 if(isEndMode()){
                     break;
                 }else{
                     if(!isLoginRequest())
                         processRequest();
-                    FileIn.flush();
+                    fileIn.flush();
                 }
             }
 
-            FileIn.close();
+            fileIn.close();
             in.close();
             System.out.println("Connection with " + client + " closed!");
             client.close();
-        } catch (IOException e) {
+        } catch(IOException e) {
+            //TODO: Manage client disconnection
             virtualView.removeClientBySocket(client);
-            System.err.println("Client disconnection!");
+            System.err.println("Client " + client + " has disconnected!");
         }
     }
 

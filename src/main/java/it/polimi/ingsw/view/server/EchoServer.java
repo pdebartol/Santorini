@@ -19,7 +19,7 @@ public class EchoServer {
 
     private final int port;
     private ServerSocket server;
-    private VirtualView virtualView;
+    private final VirtualView virtualView;
 
     //constructors
 
@@ -65,7 +65,6 @@ public class EchoServer {
 
     /**
      * This method initializes a ServerSocket on port.
-     * @throws IOException when the initialization was not done
      */
 
     public void initializeServer(){

@@ -16,7 +16,7 @@ import java.beans.PropertyChangeSupport;
 public class BlockMoveUp extends PowerDecorator {
 
     //attributes
-    private PropertyChangeSupport support;
+    private final PropertyChangeSupport support;
 
     //constructors
 
