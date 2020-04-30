@@ -14,6 +14,7 @@ public class PlayerController {
 
     private ArrayList<Player> players;
     private Player currentPlayer;
+    String challengerUsername;
 
     public PlayerController() {
         players = new ArrayList<>();
@@ -25,6 +26,12 @@ public class PlayerController {
 
     public Player getNextPlayer(){
         return players.get((players.indexOf(currentPlayer)+1)%players.size());
+    }
+
+    public void nextTurn(){
+        this.getNextPlayer().setActive(false);
+        currentPlayer =  this.getNextPlayer();
+        currentPlayer.setActive(true);
     }
 
     public ArrayList<Error> addPlayer(Player player){
@@ -70,5 +77,13 @@ public class PlayerController {
         if(currentPlayer != null) currentPlayer.setActive(false);
         this.currentPlayer = p;
         currentPlayer.setActive(true);
+    }
+
+    public void setChallengerUsername(String challengerUsername){
+        this.challengerUsername = challengerUsername;
+    }
+
+    public String getChallengerUsername(){
+        return challengerUsername;
     }
 }

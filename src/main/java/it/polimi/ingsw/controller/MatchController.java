@@ -19,6 +19,7 @@ public class MatchController implements ControllerActionListener {
     /**
      * playerController handles the players ArrayList.
      */
+
     PlayerController playerController;
 
     /**
@@ -32,12 +33,6 @@ public class MatchController implements ControllerActionListener {
      */
 
     HashMap<Integer,God> selectedGods;
-
-    /**
-     * index of the challenger in the players arraylist
-     */
-
-    int challengerIndex;
 
     public MatchController(){
         playerController = new PlayerController();
@@ -68,11 +63,13 @@ public class MatchController implements ControllerActionListener {
      * @return a String containing the challenger username.
      */
 
+    //TODO check that there are no conflicts
     @Override
     public String onStartGame() {
         Random randomGenerator = new Random();
-        challengerIndex = randomGenerator.nextInt(playerController.getNumberOfPlayers());
+        int challengerIndex = randomGenerator.nextInt(playerController.getNumberOfPlayers());
         playerController.setCurrentPlayerByIndex((challengerIndex));
+        playerController.setChallengerUsername(playerController.getCurrentPlayer().getUsername());
         return playerController.getPlayerByIndex(challengerIndex).getUsername();
     }
 
@@ -86,7 +83,7 @@ public class MatchController implements ControllerActionListener {
     @Override
     public ArrayList<Error> onChallengerChooseGods(String playerUsername, ArrayList<Integer> godIds) {
         ArrayList<Error> errors = new ArrayList<>();
-        if(!playerController.getCurrentPlayer().getUsername().equals(playerUsername)) errors.add(Error.SETUP_IS_NOT_CHALLENGER);
+        if(!playerController.getChallengerUsername().equals(playerUsername)) errors.add(Error.SETUP_IS_NOT_CHALLENGER);
         if(errors.isEmpty()){
             try {
                 GodsFactory factory = new GodsFactory(gameBoard);
@@ -94,7 +91,7 @@ public class MatchController implements ControllerActionListener {
                 for (int i = 0; i < godIds.size(); i++) {
                     selectedGods.put(godIds.get(i), temp_gods.get(i));
                 }
-                playerController.setCurrentPlayerByIndex((challengerIndex+1)%(playerController.getNumberOfPlayers()));
+                playerController.nextTurn();
             }
 
             catch(Exception e){
@@ -109,6 +106,8 @@ public class MatchController implements ControllerActionListener {
     /**
      * This method is triggered when the player selects his god.
      * @param godId id of the god chosen
+     * @return an ArrayList containing the errors (if there were some):
+     *         INGAME_NOT_YOUR_TURN --> player cannot choose the god if it is not his turn
      */
 
     @Override
@@ -117,18 +116,29 @@ public class MatchController implements ControllerActionListener {
         if(!playerController.getCurrentPlayer().getUsername().equals(playerUsername)) errors.add(Error.INGAME_NOT_YOUR_TURN);
         if(errors.isEmpty())
             playerController.getCurrentPlayer().setGod(selectedGods.get(godId));
+            // if it is not the challenger end the turn
+            if(!playerController.getChallengerUsername().equals(playerUsername))
+                playerController.nextTurn();
         return errors;
     }
 
     /**
      * This method is triggered in the initial phase, when the challenger chooses the player starting the match.
      * @param playerUsername id of the chosen player.
+     * @return an ArrayList containing the errors (if there were some):
+     *         SETUP_IS_NOT_CHALLENGER --> only the challenger chan choose the starting player
+     *         INGAME_NOT_YOUR_TURN --> player cannot choose the god if it is not his turn
      */
 
     @Override
-    public void onChallengerChooseStartingPlayer(String playerUsername) {
-        playerController.setCurrentPlayer(playerController.getPlayerByUsername(playerUsername));
-        //TODO notify view of the starting player
+    public ArrayList<Error> onChallengerChooseStartingPlayer(String playerUsername, String chosenPlayer) {
+        ArrayList<Error> errors = new ArrayList<>();
+        if(!playerController.getChallengerUsername().equals(playerUsername)) errors.add(Error.SETUP_IS_NOT_CHALLENGER);
+        if(!playerController.getCurrentPlayer().getUsername().equals(playerUsername)) errors.add(Error.INGAME_NOT_YOUR_TURN);
+
+        if(errors.isEmpty()) playerController.setCurrentPlayer(playerController.getPlayerByUsername(chosenPlayer));
+
+        return errors;
     }
 
 
@@ -137,16 +147,28 @@ public class MatchController implements ControllerActionListener {
      * @param workerGender gender of the worker placed
      * @param x is the x square coordinate where the worker is set
      * @param y is the y square coordinate where the worker is set
+     * @return an ArrayList containing the errors (if there were some):
+     *         SETUP_WORKER_ON_OCCUPIED_SQUARE --> cannot set the worker on square that is not free
+     *         INGAME_NOT_YOUR_TURN --> player cannot place a worker if it is not his turn
+     *         SETUP_WORKER_ALREADY_SET --> cannot set the worker if it's already on a square
      */
 
     @Override
-    public void onPlayerSetWorker(String playerUsername, String workerGender, int x, int y) {
-        if(!playerController.getCurrentPlayer().getUsername().equals(playerUsername)){
-            //TODO notify view that it's not their turn
+    public ArrayList<Error> onPlayerSetWorker(String playerUsername, String workerGender, int x, int y) {
+        ArrayList<Error> errors = new ArrayList<>();
+        Worker chosenWorker = playerController.getCurrentPlayer().getWorkerByGender(workerGender);
 
+        if(!playerController.getCurrentPlayer().getUsername().equals(playerUsername)) errors.add(Error.INGAME_NOT_YOUR_TURN);
+        if(!gameBoard.getSquare(x,y).isFree()) errors.add(Error.SETUP_WORKER_ON_OCCUPIED_SQUARE);
+        if(chosenWorker.getCurrentSquare() != null) errors.add(Error.SETUP_WORKER_ALREADY_SET);
+
+        // set Worker
+        if(errors.isEmpty()){
+            chosenWorker.setWorkerOnBoard(gameBoard.getSquare(x,y));
+            if(workerGender.equals("female")) playerController.nextTurn();
         }
-        //TODO handle square occupied case
-        playerController.getCurrentPlayer().getWorkerByGender(workerGender).setWorkerOnBoard(gameBoard.getSquare(x,y));
+
+        return errors;
     }
 
     /**
@@ -154,17 +176,19 @@ public class MatchController implements ControllerActionListener {
      * @param workerGender gender of the worker moved
      * @param x is the x square coordinate where the worker wants to move
      * @param y is the y square coordinate where the worker wants to move
+     * @return an ArrayList containing the errors (if there were some):
+     *        INGAME_NOT_YOUR_TURN --> player cannot move a worker if it is not his turn
      */
 
     @Override
     public void onWorkerMove(String playerUsername, String workerGender, int x, int y) {
+        ArrayList<Error> errors = new ArrayList<>();
         Player currentPlayer = playerController.getCurrentPlayer();
+        if(!currentPlayer.getUsername().equals(playerUsername)) errors.add(Error.INGAME_NOT_YOUR_TURN);
         Worker selectedWorker = currentPlayer.getWorkerByGender(workerGender);
         Worker activeWorker = currentPlayer.getActiveWorker();
 
-        if(!currentPlayer.getUsername().equals(playerUsername)){
-            //TODO wrong player
-        }
+
 
         if(activeWorker != null){
             if(!selectedWorker.getGender().equals(activeWorker.getGender())){

@@ -30,7 +30,10 @@ public enum Error {
     LOGIN_COLOR_NOT_AVAILABLE("loginColorNotAvailable"),
     LOGIN_TOO_MANY_PLAYERS("LoginTooManyPlayers"),
     SETUP_IS_NOT_CHALLENGER("SetupIsNotChallenger"),
+    SETUP_WORKER_ON_OCCUPIED_SQUARE("SetupWorkerOnOccupiedSquare"),
+    SETUP_WORKER_ALREADY_SET("SetupWorkerAlreadySet"),
     INGAME_NOT_YOUR_TURN("InGameNotYourTurn");
+
 
     private final String label;
 

@@ -55,8 +55,11 @@ public class VirtualView implements ViewActionListener{
     }
 
     public void chooseStartingPlayerRequest(String username, String playerChosen){
+        ArrayList<Error> errors = controllerListener.onChallengerChooseStartingPlayer(username, playerChosen);
 
+        //TODO if !empty send errors back to client
     }
+
 
 
 

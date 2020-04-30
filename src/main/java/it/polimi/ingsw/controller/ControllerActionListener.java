@@ -17,8 +17,8 @@ public interface ControllerActionListener {
      String onStartGame();
      ArrayList<Error> onChallengerChooseGods(String playerUsername, ArrayList<Integer> godIds);
      ArrayList<Error> onPlayerChooseGod(String playerUsername, Integer godId);
-     void onChallengerChooseStartingPlayer(String playerUsername);
-     void onPlayerSetWorker(String playerUsername, String workerGender, int x, int y);
+     ArrayList<Error> onChallengerChooseStartingPlayer(String playerUsername, String chosenPlayer);
+     ArrayList<Error> onPlayerSetWorker(String playerUsername, String workerGender, int x, int y);
 
      // in-game methods
      void onWorkerMove(String playerUsername, String workerGender, int x, int y);
