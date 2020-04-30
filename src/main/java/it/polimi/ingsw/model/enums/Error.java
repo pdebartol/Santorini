@@ -49,4 +49,13 @@ public enum Error {
         }
         return null;
     }
+
+    public static String labelOfEnum(Error e){
+        for (Error err : values()) {
+            if (err.equals(e)) {
+                return err.label;
+            }
+        }
+        return null;
+    }
 }

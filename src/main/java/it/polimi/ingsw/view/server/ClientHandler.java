@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
 
-        File requestFile = new File("src/main/resources/server/arrivedRequest");
+        File requestFile = new File("src/main/resources/server/msgIn");
         System.out.println("Client " + client + " has connected!");
 
         try {
@@ -44,8 +44,8 @@ public class ClientHandler implements Runnable{
 
             while(true) {
                 byte[] buffer = new byte[2000];
-                int rIn = in.read(buffer);
-                fileIn.write(buffer,0,rIn);
+                int r = in.read(buffer);
+                fileIn.write(buffer,0,r);
                 if(isEndMode()){
                     break;
                 }else{

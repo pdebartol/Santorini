@@ -10,7 +10,7 @@ import javax.xml.xpath.*;
 import java.net.Socket;
 import java.util.*;
 
-/** This class is responsible for parsing the arrivedRequest XML and call VirtualView methods to starting
+/** This class is responsible for parsing the msgIn XML and call VirtualView methods to starting
  * the request processing.
  * @author marcoDige
  */
@@ -33,7 +33,7 @@ public class RequestParser {
     //method
 
     /**
-     * This method reads the request mode in arrivedRequest, extracts data which client sent and call the
+     * This method reads the request mode in msgIn, extracts data which client sent and call the
      * method in virtualView which corresponds to the request mode
      */
 
@@ -56,7 +56,6 @@ public class RequestParser {
                     int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Gods/God[@n=" + i + "]/text()")).get(0));
                     if(id != 0) ids.add(id);
                 }
-
                 vrtV.createGodsRequest(username,ids);
                 break;
             case "choseGod" :
@@ -94,7 +93,7 @@ public class RequestParser {
 
     /**
      * This method verify if mode is login (client want to login in the match). If it's true, it parses login data from
-     * arrivedRequest.xml and call virtualView function to process the login request.
+     * msgIn.xml and call virtualView function to process the login request.
      * @return true -> mode is "login"
      *         false -> mode isn't "login"
      */
@@ -128,7 +127,7 @@ public class RequestParser {
     }
 
     /**
-     * This method creates the document object and parses 'arrivedRequest' file
+     * This method creates the document object and parses 'msgIn' file
      * @return the parsed xml file
      * @throws Exception error during xml parsing
      */
@@ -138,7 +137,7 @@ public class RequestParser {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder.parse("src/main/resources/server/arrivedRequest");
+        return builder.parse("src/main/resources/server/msgIn");
     }
 
     /**

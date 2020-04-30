@@ -13,6 +13,7 @@ public class VirtualView implements ViewActionListener{
 
     private final ControllerActionListener controllerListener;
     private final Map<String,Socket> clients;
+    private String starter;
 
     //constructors
 
@@ -33,9 +34,17 @@ public class VirtualView implements ViewActionListener{
 
     public synchronized void loginRequest(String username, Color color, Socket socket){
         ArrayList<Error> errors = controllerListener.onNewPlayer(username, color);
-        if(errors.isEmpty()) clients.put(username,socket);
+        if(errors.isEmpty()){
+            if(clients.isEmpty()) starter = username;
+            clients.put(username,socket);
+            new XMLMessageWriter("toSendRequest").loginAcceptedAnswer(username);
+        }else{
+            new XMLMessageWriter("toSendRequest").loginRejectedAnswer(username,errors);
+        }
+        new MsgSender(socket).sendMsg("toSendRequest");
 
-        //TODO if !empty send errors back to client
+        //TODO send msg to other clients
+
     }
 
     public void startGameRequest(String username){
