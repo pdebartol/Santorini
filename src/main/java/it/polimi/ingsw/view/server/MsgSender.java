@@ -14,8 +14,8 @@ public class MsgSender {
         this.socket = s;
     }
 
-    public void sendMsg(String type) {
-        File file = new File("src/main/resources/server/" + type);
+    public void sendMsg(String fileName) {
+        File file = new File("src/main/resources/server/" + fileName);
 
         try {
             if(socket.isConnected()) {

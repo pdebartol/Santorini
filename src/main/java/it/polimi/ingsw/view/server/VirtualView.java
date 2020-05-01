@@ -37,30 +37,42 @@ public class VirtualView implements ViewActionListener{
         if(errors.isEmpty()){
             if(clients.isEmpty()) starter = username;
             clients.put(username,socket);
-            new XMLMessageWriter("toSendRequest").loginAcceptedAnswer(username);
+            new XMLMessageWriter("answer").loginAcceptedAnswer(username,color);
+            for (String user : clients.keySet())
+                if(!user.equals(username))
+                    new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
         }else{
-            new XMLMessageWriter("toSendRequest").loginRejectedAnswer(username,errors);
+            new XMLMessageWriter("answer").loginRejectedAnswer(username,errors);
         }
-        new MsgSender(socket).sendMsg("toSendRequest");
-
-        //TODO send msg to other clients
-
+        new MsgSender(socket).sendMsg("toSendAnswer");
     }
 
     public void startGameRequest(String username){
         String challengerUsername = controllerListener.onStartGame();
-
-        //TODO send challenger back to clients
+        new XMLMessageWriter("answer").startGameAcceptedAnswer(username);
+        for (String user : clients.keySet())
+            if(!user.equals(username))
+                new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
+        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
     }
 
     public void createGodsRequest(String username, ArrayList<Integer> ids){
         ArrayList<Error> errors = controllerListener.onChallengerChooseGods(username, ids);
 
-        //TODO if !empty send errors back to client
+        if(errors.isEmpty()){
+            new XMLMessageWriter("answer").createGodsAcceptedAnswer(username,ids);
+            for (String user : clients.keySet())
+                new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
+        }else{
+            new XMLMessageWriter("answer").createGodsRejectedAnswer(username,errors);
+            new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
+        }
     }
 
     public void choseGodRequest(String username, int godId){
        ArrayList<Error> errors = controllerListener.onPlayerChooseGod(username, godId );
+
+        //TODO if !empty send errors back to client
     }
 
     public void chooseStartingPlayerRequest(String username, String playerChosen){

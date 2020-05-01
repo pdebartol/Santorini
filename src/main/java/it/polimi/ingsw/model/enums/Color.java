@@ -24,4 +24,13 @@ public enum Color {
         }
         return null;
     }
+
+    public static String labelOfEnum(Color c){
+        for (Color col : values()) {
+            if (col.equals(c)) {
+                return col.label;
+            }
+        }
+        return null;
+    }
 }
