@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.enums.State;
+
 /**
  * Board is the class representing the entire game board.
  * @author aledimaio
@@ -33,9 +35,16 @@ public class Board {
 
     private final Square[][] table;
 
+    /**
+     * this variable saves the state of the current game.
+     */
+
+    private State gameState;
+
     //constructors
 
     public Board() {
+        this.gameState = State.LOGIN;
         this.table = new Square[SIZE][SIZE];
         for(int x = 0; x < SIZE ; x++){
             for(int y = 0; y < SIZE; y++)
@@ -68,7 +77,6 @@ public class Board {
     /**
      * This method reset nMoves and nBuild to 0.
      */
-
     public void resetCounters() {
         nMoves = 0;
         nBuild = 0;
@@ -107,4 +115,9 @@ public class Board {
         return xDist >= -1 && xDist <= 1 && yDist >= -1 && yDist <= 1;
     }
 
+    public State getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(String state){gameState = State.valueOfLabel(state);}
 }

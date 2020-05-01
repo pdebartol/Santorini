@@ -14,7 +14,8 @@ public class PlayerController {
 
     private ArrayList<Player> players;
     private Player currentPlayer;
-    String challengerUsername;
+    private String challengerUsername;
+    private int starterIndex;
 
     public PlayerController() {
         players = new ArrayList<>();
@@ -48,10 +49,20 @@ public class PlayerController {
         return errors;
     }
 
-    public Integer getNumberOfPlayers(){
+    public int getNumberOfPlayers(){
         return players.size();
     }
 
+    public int getPlayerIndex(String playerUsername){
+        int temp = 0;
+        for(Player p: players){
+            if(p.getUsername().equals(playerUsername)){
+                return temp;
+            }
+            temp++;
+        }
+        throw new IllegalArgumentException("Invalid Username!");
+    }
 
     public Player getPlayerByIndex(Integer index){
         return players.get(index);
@@ -85,5 +96,11 @@ public class PlayerController {
 
     public String getChallengerUsername(){
         return challengerUsername;
+    }
+
+    public int getStarterIndex(){ return starterIndex;}
+
+    public void setStarterIndex(int starterIndex) {
+        this.starterIndex = starterIndex;
     }
 }

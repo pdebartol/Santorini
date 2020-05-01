@@ -3,7 +3,9 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
+import it.polimi.ingsw.model.enums.State;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +55,7 @@ public class MatchController implements ControllerActionListener {
 
     @Override
     public ArrayList<Error> onNewPlayer(String playerUsername, Color workerColor) {
+        if (gameBoard.getGameState() != State.LOGIN) throw new IllegalStateException("Can't add a new player in this state!");
         if(workerColor == null) throw new IllegalArgumentException("Invalid worker color during login!");
         if(playerUsername == null || playerUsername.isEmpty()) throw new IllegalArgumentException("Invalid username during login!");
         return playerController.addPlayer(new Player(playerUsername, workerColor));
@@ -66,15 +69,19 @@ public class MatchController implements ControllerActionListener {
     //TODO check that there are no conflicts
     @Override
     public String onStartGame() {
+        if(gameBoard.getGameState() != State.LOGIN) throw new IllegalStateException("Can't start the game in this state!");
+        if(playerController.getNumberOfPlayers() < 2) throw new IllegalStateException("Can't start the game with less than 2 players!");
         Random randomGenerator = new Random();
         int challengerIndex = randomGenerator.nextInt(playerController.getNumberOfPlayers());
         playerController.setCurrentPlayerByIndex((challengerIndex));
         playerController.setChallengerUsername(playerController.getCurrentPlayer().getUsername());
+        gameBoard.setGameState("gods_setup");
         return playerController.getPlayerByIndex(challengerIndex).getUsername();
     }
 
     /**
      * This method is triggered in the initial phase, when the challenger choose the gods for the match.
+     * @param playerUsername username of the player making the request
      * @param godIds contains the ids of the chosen gods.
      * @return an ArrayList containing the errors (if there were some):
      *          SETUP_IS_NOT_CHALLENGER --> only the challenger chan choose the gods
@@ -82,6 +89,7 @@ public class MatchController implements ControllerActionListener {
 
     @Override
     public ArrayList<Error> onChallengerChooseGods(String playerUsername, ArrayList<Integer> godIds) {
+        if(gameBoard.getGameState() != State.GODS_SETUP) throw new IllegalStateException("Can't setup the gods in this state!");
         ArrayList<Error> errors = new ArrayList<>();
         if(!playerController.getChallengerUsername().equals(playerUsername)) errors.add(Error.SETUP_IS_NOT_CHALLENGER);
         if(errors.isEmpty()){
@@ -92,6 +100,7 @@ public class MatchController implements ControllerActionListener {
                     selectedGods.put(godIds.get(i), temp_gods.get(i));
                 }
                 playerController.nextTurn();
+                gameBoard.setGameState("choose_god");
             }
 
             catch(Exception e){
@@ -105,6 +114,7 @@ public class MatchController implements ControllerActionListener {
 
     /**
      * This method is triggered when the player selects his god.
+     * @param playerUsername username of the player making the request
      * @param godId id of the god chosen
      * @return an ArrayList containing the errors (if there were some):
      *         INGAME_NOT_YOUR_TURN --> player cannot choose the god if it is not his turn
@@ -112,19 +122,28 @@ public class MatchController implements ControllerActionListener {
 
     @Override
     public ArrayList<Error> onPlayerChooseGod(String playerUsername, Integer godId) {
+        if(gameBoard.getGameState() != State.CHOOSE_GOD) throw new IllegalStateException("Can't choose a god in this state!");
         ArrayList<Error> errors = new ArrayList<>();
         if(!playerController.getCurrentPlayer().getUsername().equals(playerUsername)) errors.add(Error.INGAME_NOT_YOUR_TURN);
-        if(errors.isEmpty())
+        if(errors.isEmpty()){
             playerController.getCurrentPlayer().setGod(selectedGods.get(godId));
             // if it is not the challenger end the turn
-            if(!playerController.getChallengerUsername().equals(playerUsername))
+            if(!playerController.getChallengerUsername().equals(playerUsername)){
                 playerController.nextTurn();
-        return errors;
+            }
+            else{
+                gameBoard.setGameState("choose_starter");
+            }
     }
+        return errors;
+
+    }
+
 
     /**
      * This method is triggered in the initial phase, when the challenger chooses the player starting the match.
-     * @param playerUsername id of the chosen player.
+     * @param playerUsername username of the player making the request
+     * @param chosenPlayer username of the starting player
      * @return an ArrayList containing the errors (if there were some):
      *         SETUP_IS_NOT_CHALLENGER --> only the challenger chan choose the starting player
      *         INGAME_NOT_YOUR_TURN --> player cannot choose the god if it is not his turn
@@ -132,11 +151,16 @@ public class MatchController implements ControllerActionListener {
 
     @Override
     public ArrayList<Error> onChallengerChooseStartingPlayer(String playerUsername, String chosenPlayer) {
+        if(gameBoard.getGameState() != State.CHOOSE_STARTER) throw new IllegalStateException("Can't choose the starter player in this state!");
         ArrayList<Error> errors = new ArrayList<>();
         if(!playerController.getChallengerUsername().equals(playerUsername)) errors.add(Error.SETUP_IS_NOT_CHALLENGER);
         if(!playerController.getCurrentPlayer().getUsername().equals(playerUsername)) errors.add(Error.INGAME_NOT_YOUR_TURN);
 
-        if(errors.isEmpty()) playerController.setCurrentPlayer(playerController.getPlayerByUsername(chosenPlayer));
+        if(errors.isEmpty()){
+            playerController.setCurrentPlayer(playerController.getPlayerByUsername(chosenPlayer));
+            playerController.setStarterIndex(playerController.getPlayerIndex(chosenPlayer));
+            gameBoard.setGameState("set_workers");
+        }
 
         return errors;
     }
@@ -144,6 +168,7 @@ public class MatchController implements ControllerActionListener {
 
     /**
      * This method is triggered in the initial phase, when the player places his workers on the board.
+     * @param playerUsername username of the player making the request
      * @param workerGender gender of the worker placed
      * @param x is the x square coordinate where the worker is set
      * @param y is the y square coordinate where the worker is set
@@ -155,6 +180,7 @@ public class MatchController implements ControllerActionListener {
 
     @Override
     public ArrayList<Error> onPlayerSetWorker(String playerUsername, String workerGender, int x, int y) {
+        if(gameBoard.getGameState() != State.SET_WORKERS) throw new IllegalStateException("Can't set workers in this state!");
         ArrayList<Error> errors = new ArrayList<>();
         Worker chosenWorker = playerController.getCurrentPlayer().getWorkerByGender(workerGender);
 
@@ -165,7 +191,13 @@ public class MatchController implements ControllerActionListener {
         // set Worker
         if(errors.isEmpty()){
             chosenWorker.setWorkerOnBoard(gameBoard.getSquare(x,y));
-            if(workerGender.equals("female")) playerController.nextTurn();
+            if(workerGender.equals("female")){
+                playerController.nextTurn();
+                // if everyone set the workers go to next state
+                if(playerController.getPlayerByIndex((playerController.getStarterIndex()+playerController.getNumberOfPlayers()-1)%playerController.getNumberOfPlayers()).getUsername().equals(playerUsername) ){
+                    gameBoard.setGameState("in_game");
+                }
+            }
         }
 
         return errors;
@@ -173,96 +205,119 @@ public class MatchController implements ControllerActionListener {
 
     /**
      * This method is triggered when the player moves his worker.
+     * @param playerUsername username of the player making the request
      * @param workerGender gender of the worker moved
      * @param x is the x square coordinate where the worker wants to move
      * @param y is the y square coordinate where the worker wants to move
      * @return an ArrayList containing the errors (if there were some):
      *        INGAME_NOT_YOUR_TURN --> player cannot move a worker if it is not his turn
+     *        INGAME_WRONG_WORKER --> player cannot move the inactive worker
      */
 
     @Override
-    public void onWorkerMove(String playerUsername, String workerGender, int x, int y) {
+    public ArrayList<Error> onWorkerMove(String playerUsername, String workerGender, int x, int y) {
+        if(gameBoard.getGameState() != State.IN_GAME) throw new IllegalStateException("Can't move the worker in this state!");
         ArrayList<Error> errors = new ArrayList<>();
         Player currentPlayer = playerController.getCurrentPlayer();
-        if(!currentPlayer.getUsername().equals(playerUsername)) errors.add(Error.INGAME_NOT_YOUR_TURN);
+        if(!currentPlayer.getUsername().equals(playerUsername)){
+            errors.add(Error.INGAME_NOT_YOUR_TURN);
+            return errors;
+        }
         Worker selectedWorker = currentPlayer.getWorkerByGender(workerGender);
         Worker activeWorker = currentPlayer.getActiveWorker();
 
-
-
         if(activeWorker != null){
             if(!selectedWorker.getGender().equals(activeWorker.getGender())){
-                //TODO wrong worker
+                errors.add(Error.INGAME_WRONG_WORKER);
+                return errors;
             }
+
             currentPlayer.move(selectedWorker,x,y);
         }
         else{
+            selectedWorker.isMovingOn();
             List<Error> temp_errors =  currentPlayer.move(selectedWorker,x,y);
-            if(temp_errors.isEmpty()){
-                selectedWorker.isMovingOn();
+            if(!temp_errors.isEmpty()){
+                selectedWorker.isMovingOff();
             }
         }
+        return errors;
     }
 
     /**
      * This method is triggered when the player builds something.
+     * @param playerUsername username of the player making the request
      * @param workerGender gender of the worker moved
      * @param x is the x square coordinate where the worker wants to build
      * @param y is the y square coordinate where the worker wants to build
      * @param level is the level that the worker wants to build
+     * @return an ArrayList containing the errors (if there were some):
+     *        INGAME_NOT_YOUR_TURN --> player cannot move a worker if it is not his turn
+     *        INGAME_WRONG_WORKER --> player cannot move the inactive worker
      */
 
     @Override
-    public void onWorkerBuild(String playerUsername, String workerGender, int x, int y, int level) {
+    public ArrayList<Error> onWorkerBuild(String playerUsername, String workerGender, int x, int y, int level) {
+        if(gameBoard.getGameState() != State.IN_GAME) throw new IllegalStateException("Can't build the worker in this state!");
+        ArrayList<Error> errors = new ArrayList<>();
         Player currentPlayer = playerController.getCurrentPlayer();
         Worker selectedWorker = currentPlayer.getWorkerByGender(workerGender);
         Worker activeWorker = currentPlayer.getActiveWorker();
 
         if(!currentPlayer.getUsername().equals(playerUsername)){
-            //TODO wrong player
+            errors.add(Error.INGAME_NOT_YOUR_TURN);
+            return errors;
         }
 
         if(activeWorker != null){
             if(!selectedWorker.getGender().equals(activeWorker.getGender())){
-                //TODO wrong worker
+                errors.add(Error.INGAME_WRONG_WORKER);
+                return errors;
             }
             currentPlayer.build(selectedWorker,x,y,level);
         }
         else{
+            selectedWorker.isMovingOn();
             List<Error> temp_errors =  currentPlayer.build(selectedWorker,x,y,level);
-            if(temp_errors.isEmpty()){
-                selectedWorker.isMovingOn();
+            if(!temp_errors.isEmpty()){
+                selectedWorker.isMovingOff();
             }
         }
+        return errors;
     }
 
 
     /**
      * This method is triggered when the player ends his turn.
+     * It sets the current player to the next player.
+     * It check if the next player can move.
+     * @param playerUsername username of the player making the request
+     * @return an ArrayList containing the errors (if there were some):
+     *         INGAME_NOT_YOUR_TURN --> player cannot move a worker if it is not his turn
      */
 
     @Override
-    public void onPlayerEndTurn(String playerUsername) {
-            Player currentPlayer = playerController.getCurrentPlayer();
-            if(!currentPlayer.getUsername().equals(playerUsername)){
-                //TODO wrong player
-            }
+    public ArrayList<Error> onPlayerEndTurn(String playerUsername) {
+        if(gameBoard.getGameState() != State.IN_GAME) throw new IllegalStateException("Can't end the turn in this state!");
+        Player currentPlayer = playerController.getCurrentPlayer();
+        ArrayList<Error> errors = new ArrayList<>();
 
-            playerController.getCurrentPlayer().endTurn();
-            playerController.getNextPlayer().canMove();
+        if(!currentPlayer.getUsername().equals(playerUsername)){
+            errors.add(Error.INGAME_NOT_YOUR_TURN);
+        }
+        if(errors.isEmpty()){
+            if(playerController.getCurrentPlayer().endTurn()){
+                playerController.getNextPlayer().canMove();
+                playerController.nextTurn();
+            }
+        }
+
+        return errors;
     }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+    public State getGameState() {
+        return gameBoard.getGameState();
+    }
 }

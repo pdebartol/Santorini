@@ -21,7 +21,7 @@ public interface ControllerActionListener {
      ArrayList<Error> onPlayerSetWorker(String playerUsername, String workerGender, int x, int y);
 
      // in-game methods
-     void onWorkerMove(String playerUsername, String workerGender, int x, int y);
-     void onWorkerBuild(String playerUsername, String workerGender, int x, int y, int level);
-     void onPlayerEndTurn(String playerUsername);
+     ArrayList<Error> onWorkerMove(String playerUsername, String workerGender, int x, int y);
+     ArrayList<Error> onWorkerBuild(String playerUsername, String workerGender, int x, int y, int level);
+     ArrayList<Error> onPlayerEndTurn(String playerUsername);
 }

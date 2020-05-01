@@ -75,6 +75,7 @@ public class VirtualView implements ViewActionListener{
 
     public void setupOnBoardRequest(String username, int workerId, int x, int y){
 
+
     }
 
     public void moveRequest(String username, int workerId, int x, int y){

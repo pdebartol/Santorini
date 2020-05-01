@@ -32,7 +32,9 @@ public enum Error {
     SETUP_IS_NOT_CHALLENGER("SetupIsNotChallenger"),
     SETUP_WORKER_ON_OCCUPIED_SQUARE("SetupWorkerOnOccupiedSquare"),
     SETUP_WORKER_ALREADY_SET("SetupWorkerAlreadySet"),
-    INGAME_NOT_YOUR_TURN("InGameNotYourTurn");
+    INGAME_NOT_YOUR_TURN("InGameNotYourTurn"),
+    INGAME_WRONG_WORKER("InGameWrongWorker");
+
 
 
     private final String label;
