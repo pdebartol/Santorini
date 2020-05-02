@@ -40,29 +40,28 @@ public class ClientHandler implements Runnable{
 
         try {
             InputStream in = client.getInputStream();
-            FileOutputStream fileIn = new FileOutputStream(requestFile, false);
+            FileOutputStream fileToWrite = new FileOutputStream(requestFile, false);
 
             while(true) {
                 byte[] buffer = new byte[2000];
                 int r = in.read(buffer);
-                fileIn.write(buffer,0,r);
+                fileToWrite.write(buffer,0,r);
                 if(isEndMode()){
                     break;
                 }else{
                     if(!isLoginRequest())
                         processRequest();
-                    fileIn.flush();
+                    fileToWrite.flush();
                 }
             }
 
-            fileIn.close();
+            fileToWrite.close();
             in.close();
             System.out.println("Connection with " + client + " closed!");
             client.close();
         } catch(IOException e) {
-            //TODO: Manage client disconnection
-            virtualView.removeClientBySocket(client);
             System.err.println("Client " + client + " has disconnected!");
+            //TODO: Manage client disconnection
         }
     }
 

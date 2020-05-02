@@ -1,10 +1,7 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<UpdateMsg>
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><UpdateMsg>
     <Mode></Mode>
-    <Username></Username>
+    <Author></Author>
 
-    <Updates>
-
-    </Updates>
+    <Update></Update>
 
 </UpdateMsg>

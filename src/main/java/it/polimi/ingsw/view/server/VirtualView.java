@@ -34,22 +34,28 @@ public class VirtualView implements ViewActionListener{
 
     public synchronized void loginRequest(String username, Color color, Socket socket){
         ArrayList<Error> errors = controllerListener.onNewPlayer(username, color);
+
         if(errors.isEmpty()){
             if(clients.isEmpty()) starter = username;
+
             clients.put(username,socket);
-            new XMLMessageWriter("answer").loginAcceptedAnswer(username,color);
+
+            new XMLMessageWriter().loginAcceptedAnswer(username,color);
             for (String user : clients.keySet())
                 if(!user.equals(username))
                     new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
         }else{
-            new XMLMessageWriter("answer").loginRejectedAnswer(username,errors);
+            new XMLMessageWriter().loginRejectedAnswer(username,errors);
         }
+
         new MsgSender(socket).sendMsg("toSendAnswer");
     }
 
     public void startGameRequest(String username){
         String challengerUsername = controllerListener.onStartGame();
-        new XMLMessageWriter("answer").startGameAcceptedAnswer(username);
+
+        new XMLMessageWriter().startGameAcceptedAnswer(username);
+
         for (String user : clients.keySet())
             if(!user.equals(username))
                 new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
@@ -60,11 +66,11 @@ public class VirtualView implements ViewActionListener{
         ArrayList<Error> errors = controllerListener.onChallengerChooseGods(username, ids);
 
         if(errors.isEmpty()){
-            new XMLMessageWriter("answer").createGodsAcceptedAnswer(username,ids);
+            new XMLMessageWriter().createGodsAcceptedAnswer(username,ids);
             for (String user : clients.keySet())
                 new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
         }else{
-            new XMLMessageWriter("answer").createGodsRejectedAnswer(username,errors);
+            new XMLMessageWriter().createGodsRejectedAnswer(username,errors);
             new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
         }
     }
@@ -80,10 +86,6 @@ public class VirtualView implements ViewActionListener{
 
         //TODO if !empty send errors back to client
     }
-
-
-
-
 
     public void setupOnBoardRequest(String username, int workerId, int x, int y){
 

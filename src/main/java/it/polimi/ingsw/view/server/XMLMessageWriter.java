@@ -7,7 +7,6 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -22,119 +21,91 @@ public class XMLMessageWriter {
 
     //attributes
 
-    private Document document1,document2;
+    private Document document;
+    private String filePath;
 
-    //constructors
-
-    public XMLMessageWriter(String type){
-        try{
-            if(type.equals("answer")) {
-                this.document1 = this.getDocument("src/main/resources/server/toSendRequest");
-                this.document2 = this.getDocument("src/main/resources/server/updateMsgOut");
-            }
-            if(type.equals("communication"))
-                this.document1 = this.getDocument("src/main/resources/server/extraCommunication");
-        }
-        catch (Exception e){
-            System.out.println("Error during XML parsing.");
-        }
-    }
 
     //methods
 
-    private void applyModification(Document doc,String filepath) {
+    //support methods
+
+    private void applyModification() {
         try {
+
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(filepath));
+
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(new File(filePath));
             transformer.transform(source, result);
+
         } catch (TransformerException e) {
             e.printStackTrace();
         }
     }
 
     private void setErrorList(List<Error> errors){
-        Node errorsTag = document1.getElementsByTagName("Errors").item(0);
-        resetChildList(errorsTag);
+        Node errorsTag = initializeTagList("Errors");
 
         for(Error error : errors){
             String sError = Error.labelOfEnum(error);
-            Element tag = document1.createElement(sError);
+            Element tag = document.createElement(sError);
             errorsTag.appendChild(tag);
         }
     }
 
-    private void setStandardAnswerValues(String usr,String md,String out){
-        Node mode = document1.getElementsByTagName("Mode").item(0);
-        Node username = document1.getElementsByTagName("Username").item(0);
-        Node outcome = document1.getElementsByTagName("Outcome").item(0);
+    private void setStandardAnswerValues(String user,String mod,String out){
+        setDocument("toSendAnswer");
+        Node mode = document.getElementsByTagName("Mode").item(0);
+        Node username = document.getElementsByTagName("Username").item(0);
+        Node outcome = document.getElementsByTagName("Outcome").item(0);
 
-        mode.setTextContent(md);
-        username.setTextContent(usr);
+        mode.setTextContent(mod);
+        username.setTextContent(user);
         outcome.setTextContent(out);
     }
 
-    private void setStandardUpdateValues(String usr,String md){
-        Node mode = document2.getElementsByTagName("Mode").item(0);
-        Node username = document2.getElementsByTagName("Username").item(0);
+    private void setStandardUpdateValues(String user,String mod){
+        setDocument("updateMsgOut");
+        Node mode = document.getElementsByTagName("Mode").item(0);
+        Node username = document.getElementsByTagName("Author").item(0);
 
-        mode.setTextContent(md);
-        username.setTextContent(usr);
+        mode.setTextContent(mod);
+        username.setTextContent(user);
     }
 
     private void resetChildList(Node list){
         while(list.hasChildNodes()){
-            Node error = list.getFirstChild();
-            list.removeChild(error);
+            Node child = list.getFirstChild();
+            list.removeChild(child);
         }
     }
-
-    public void loginAcceptedAnswer(String usr, Color c){
-        setStandardAnswerValues(usr,"login","accepted");
-        setStandardUpdateValues(usr,"newPlayer");
-
-        Node update2Tag = document2.getElementsByTagName("Update").item(0);
-        resetChildList(update2Tag);
-
-        Element tag = document2.createElement("Username");
-        tag.setTextContent(usr);
-        update2Tag.appendChild(tag);
-        tag = document2.createElement("Color");
-        tag.setTextContent(Color.labelOfEnum(c));
-        update2Tag.appendChild(tag);
+    
+    private void appendTag(Node father, String tagName, String textContent){
+        Element tag = document.createElement(tagName);
+        tag.setTextContent(textContent);
+        father.appendChild(tag);
+    }
+    
+    private void appendTag(Node father, String tagName){
+        Element tag = document.createElement(tagName);
+        father.appendChild(tag);
     }
 
-    public void loginRejectedAnswer(String usr, List<Error> errors){
-        setStandardAnswerValues(usr,"login","rejected");
-
-        setErrorList(errors);
+    private Node initializeTagList(String tagName){
+        Node tag = document.getElementsByTagName(tagName).item(0);
+        resetChildList(tag);
+        return tag;
     }
 
-    public void startGameAcceptedAnswer(String usr){
-        setStandardAnswerValues(usr,"startGame","accepted");
-        setStandardUpdateValues(usr,"startGame");
-
-        Node update2Tag = document2.getElementsByTagName("Update").item(0);
-        resetChildList(update2Tag);
-    }
-
-    public void createGodsAcceptedAnswer(String usr, ArrayList<Integer> ids){
-        setStandardUpdateValues(usr,"createGods");
-
-        Node update2Tag = document2.getElementsByTagName("Update").item(0);
-        resetChildList(update2Tag);
-
-        for(int id : ids){
-            Element tag = document2.createElement(String.valueOf(id));
-            update2Tag.appendChild(tag);
+    private void setDocument(String fileName){
+        try {
+            filePath = "src/main/resources/server/" + fileName;
+            this.document = this.getDocument(filePath);
         }
-    }
-
-    public void createGodsRejectedAnswer(String usr, List<Error> errors){
-        setStandardAnswerValues(usr,"createGods","rejected");
-
-        setErrorList(errors);
+        catch (Exception e){
+            System.out.println("Error during XML parsing.");
+        }
     }
 
     /**
@@ -149,5 +120,56 @@ public class XMLMessageWriter {
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
         return builder.parse(path);
+    }
+
+    //action methods
+
+    public void loginAcceptedAnswer(String user, Color c){
+        setStandardAnswerValues(user,"login","accepted");
+        applyModification();
+
+        
+        setStandardUpdateValues(user,"newPlayer");
+        Node updateTag = initializeTagList("Update");
+        
+        appendTag(updateTag,"Username",user);
+        appendTag(updateTag,"Color",Color.labelOfEnum(c));
+        applyModification();
+    }
+
+    public void loginRejectedAnswer(String user, List<Error> errors){
+        setStandardAnswerValues(user,"login","rejected");
+
+        setErrorList(errors);
+        applyModification();
+    }
+
+    public void startGameAcceptedAnswer(String user){
+        setStandardAnswerValues(user,"startGame","accepted");
+        applyModification();
+
+        setStandardUpdateValues(user,"startGame");
+
+        initializeTagList("Update");
+        initializeTagList("Errors");
+        applyModification();
+    }
+
+    public void createGodsAcceptedAnswer(String user, ArrayList<Integer> ids){
+        setStandardUpdateValues(user,"createGods");
+
+        Node updateTag = initializeTagList("Update");
+
+        for(int id : ids){
+            appendTag(updateTag, String.valueOf(id));
+        }
+        applyModification();
+    }
+
+    public void createGodsRejectedAnswer(String user, List<Error> errors){
+        setStandardAnswerValues(user,"createGods","rejected");
+
+        setErrorList(errors);
+        applyModification();
     }
 }
