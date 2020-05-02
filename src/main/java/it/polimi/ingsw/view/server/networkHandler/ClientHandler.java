@@ -1,4 +1,7 @@
-package it.polimi.ingsw.view.server;
+package it.polimi.ingsw.view.server.networkHandler;
+
+import it.polimi.ingsw.view.server.VirtualView;
+import it.polimi.ingsw.view.server.msgHandler.MsgInParser;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -72,7 +75,7 @@ public class ClientHandler implements Runnable{
      */
 
     private boolean isEndMode(){
-        return new RequestParser().parseEndRequest(virtualView);
+        return new MsgInParser().parseEndRequest(virtualView);
     }
 
     /**
@@ -80,7 +83,7 @@ public class ClientHandler implements Runnable{
      */
 
     private void processRequest(){
-        new RequestParser().parseRequest(virtualView);
+        new MsgInParser().parseRequest(virtualView);
     }
 
     /**
@@ -89,5 +92,5 @@ public class ClientHandler implements Runnable{
      *         false -> not "login" request mode
      */
 
-    private boolean isLoginRequest() {return new RequestParser().parseLoginRequest(virtualView,client);}
+    private boolean isLoginRequest() {return new MsgInParser().parseLoginRequest(virtualView,client);}
 }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.server;
+package it.polimi.ingsw.view.server.networkHandler;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,14 +18,14 @@ public class MsgSender {
         File file = new File("src/main/resources/server/" + fileName);
 
         try {
-            if(socket.isConnected()) {
-                OutputStream out = socket.getOutputStream();
-                FileInputStream fileIn = new FileInputStream(file);
 
-                byte[] buffer = new byte[2000];
-                int r = fileIn.read(buffer);
-                out.write(buffer, 0, r);
-            }
+            OutputStream out = socket.getOutputStream();
+            FileInputStream fileIn = new FileInputStream(file);
+
+            byte[] buffer = new byte[2000];
+            int r = fileIn.read(buffer);
+            out.write(buffer, 0, r);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

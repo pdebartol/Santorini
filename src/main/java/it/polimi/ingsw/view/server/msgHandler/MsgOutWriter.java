@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.server;
+package it.polimi.ingsw.view.server.msgHandler;
 
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
@@ -17,7 +17,7 @@ import java.util.List;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class XMLMessageWriter {
+public class MsgOutWriter {
 
     //attributes
 

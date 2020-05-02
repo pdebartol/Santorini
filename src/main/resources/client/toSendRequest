@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Requests>
 
-    <Mode></Mode>
-    <Username></Username>
+    <Mode>login</Mode>
+    <Username>Marco</Username>
 
     <Request Mode = "login">
-        <Color></Color>
+        <Color>W</Color>
     </Request>
 
     <Request Mode = "choseStartingPlayer">

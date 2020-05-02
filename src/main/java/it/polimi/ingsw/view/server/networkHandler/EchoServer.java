@@ -1,6 +1,7 @@
-package it.polimi.ingsw.view.server;
+package it.polimi.ingsw.view.server.networkHandler;
 
 import it.polimi.ingsw.controller.MatchController;
+import it.polimi.ingsw.view.server.VirtualView;
 
 import java.io.IOException;
 import java.net.ServerSocket;

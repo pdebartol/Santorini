@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><Answer>
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<Answer>
 
     <Mode></Mode>
     <Outcome></Outcome>
     <Username></Username>
 
-    <Update></Update>
+    <Update/>
 
-    <Errors></Errors>
+    <Errors/>
 
 </Answer>

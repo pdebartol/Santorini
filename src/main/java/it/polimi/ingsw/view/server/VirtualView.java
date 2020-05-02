@@ -3,6 +3,8 @@ package it.polimi.ingsw.view.server;
 import it.polimi.ingsw.controller.ControllerActionListener;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
+import it.polimi.ingsw.view.server.msgHandler.MsgOutWriter;
+import it.polimi.ingsw.view.server.networkHandler.MsgSender;
 
 import java.net.Socket;
 import java.util.*;
@@ -40,12 +42,12 @@ public class VirtualView implements ViewActionListener{
 
             clients.put(username,socket);
 
-            new XMLMessageWriter().loginAcceptedAnswer(username,color);
+            new MsgOutWriter().loginAcceptedAnswer(username,color);
             for (String user : clients.keySet())
                 if(!user.equals(username))
                     new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
         }else{
-            new XMLMessageWriter().loginRejectedAnswer(username,errors);
+            new MsgOutWriter().loginRejectedAnswer(username,errors);
         }
 
         new MsgSender(socket).sendMsg("toSendAnswer");
@@ -53,8 +55,9 @@ public class VirtualView implements ViewActionListener{
 
     public void startGameRequest(String username){
         String challengerUsername = controllerListener.onStartGame();
+        System.out.println("OK");
 
-        new XMLMessageWriter().startGameAcceptedAnswer(username);
+        new MsgOutWriter().startGameAcceptedAnswer(username);
 
         for (String user : clients.keySet())
             if(!user.equals(username))
@@ -66,11 +69,11 @@ public class VirtualView implements ViewActionListener{
         ArrayList<Error> errors = controllerListener.onChallengerChooseGods(username, ids);
 
         if(errors.isEmpty()){
-            new XMLMessageWriter().createGodsAcceptedAnswer(username,ids);
+            new MsgOutWriter().createGodsAcceptedAnswer(username,ids);
             for (String user : clients.keySet())
                 new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
         }else{
-            new XMLMessageWriter().createGodsRejectedAnswer(username,errors);
+            new MsgOutWriter().createGodsRejectedAnswer(username,errors);
             new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
         }
     }

@@ -1,6 +1,7 @@
-package it.polimi.ingsw.view.server;
+package it.polimi.ingsw.view.server.msgHandler;
 
 import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.view.server.VirtualView;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -15,13 +16,13 @@ import java.util.*;
  * @author marcoDige
  */
 
-public class RequestParser {
+public class MsgInParser {
 
     //attributes
 
     private Document document;
 
-    public RequestParser(){
+    public MsgInParser(){
         try{
             this.document = this.getDocument();
         }

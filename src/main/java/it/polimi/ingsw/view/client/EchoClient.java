@@ -1,18 +1,14 @@
 package it.polimi.ingsw.view.client;
 
-import it.polimi.ingsw.view.server.EchoServer;
-
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class EchoClient {
 
     //attributes
 
-    private String hostName;
-    private int port;
+    private final String hostName;
+    private final int port;
     private Socket server;
 
     //constructor
@@ -24,7 +20,7 @@ public class EchoClient {
 
     //methods
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         EchoClient echoClient;
         if (args.length == 2)
             echoClient = new EchoClient(args[0], Integer.parseInt(args[1]));
@@ -40,6 +36,7 @@ public class EchoClient {
 
         File inFile = new File("src/main/resources/client/msgIn");
         initializeClientConnection();
+        new MsgSender(server).sendMsg();
 
         try {
             InputStream in = server.getInputStream();
