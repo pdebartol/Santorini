@@ -7,7 +7,8 @@ import it.polimi.ingsw.model.enums.Error;
 import java.util.ArrayList;
 
 /**
- * This interface defines the actions on which the controller updates the model.
+ * This interface defines the view's actions on which the controller updates the model
+ * (it is a part of Observer pattern).
  * @author pierobartolo
  */
 

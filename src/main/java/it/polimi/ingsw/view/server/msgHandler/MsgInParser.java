@@ -63,28 +63,23 @@ public class MsgInParser {
                 int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/God/text()")).get(0));
                 vrtV.choseGodRequest(username, godId);
                 break;
-            case "setWorkersOnBoard" :
-                int x,y;
-                x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[@WorkerId='0']/xPosition/text()")).get(0));
-                y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[@WorkerId='0']/yPosition/text()")).get(0));
-                vrtV.setupOnBoardRequest(username,0,x,y);
-                x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[@WorkerId='1']/xPosition/text()")).get(0));
-                y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[@WorkerId='1']/yPosition/text()")).get(0));
-                vrtV.setupOnBoardRequest(username,1,x,y);
+            case "setWorkerOnBoard" :
+                String sWorkerGender = Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0);
+                int x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[@WorkerGender=\"male\"]/xPosition/text()")).get(0));
+                int y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[@WorkerGender=\"male\"]/yPosition/text()")).get(0));
+                vrtV.setupOnBoardRequest(username,sWorkerGender,x,y);
                 break;
             case "move" :
-                int xm,ym;
-                int mWorkerId = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0));
-                xm = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
-                ym = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
-                vrtV.moveRequest(username,mWorkerId,xm,ym);
+                String mWorkerGender = Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0);
+                int xm = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
+                int ym = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
+                vrtV.moveRequest(username,mWorkerGender,xm,ym);
                 break;
             case "build":
-                int xb,yb;
-                int bWorkerId = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0));
-                xb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
-                yb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
-                vrtV.buildRequest(username,bWorkerId,xb,yb);
+                String bWorkerGender = Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0);
+                int xb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
+                int yb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
+                vrtV.buildRequest(username,bWorkerGender,xb,yb);
                 break;
             case "endOfTurn":
                 vrtV.endOfTurn(username);

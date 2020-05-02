@@ -47,22 +47,23 @@ public class VirtualView implements ViewActionListener{
                 if(!user.equals(username))
                     new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
         }else{
-            new MsgOutWriter().loginRejectedAnswer(username,errors);
+            new MsgOutWriter().rejectedAnswer(username,"login",errors);
         }
 
         new MsgSender(socket).sendMsg("toSendAnswer");
     }
 
     public void startGameRequest(String username){
-        String challengerUsername = controllerListener.onStartGame();
-        System.out.println("OK");
+        if(username.equals(starter)){
+            controllerListener.onStartGame();
 
-        new MsgOutWriter().startGameAcceptedAnswer(username);
+            new MsgOutWriter().startGameAcceptedAnswer(username);
 
-        for (String user : clients.keySet())
-            if(!user.equals(username))
-                new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
-        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
+            for (String user : clients.keySet())
+                if(!user.equals(username))
+                    new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
+            new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
+        }
     }
 
     public void createGodsRequest(String username, ArrayList<Integer> ids){
@@ -71,47 +72,92 @@ public class VirtualView implements ViewActionListener{
         if(errors.isEmpty()){
             new MsgOutWriter().createGodsAcceptedAnswer(username,ids);
             for (String user : clients.keySet())
-                new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
+                if(!user.equals(username))
+                    new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
         }else{
-            new MsgOutWriter().createGodsRejectedAnswer(username,errors);
-            new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
+            new MsgOutWriter().rejectedAnswer(username,"createGods",errors);
         }
+        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
     }
 
     public void choseGodRequest(String username, int godId){
-       ArrayList<Error> errors = controllerListener.onPlayerChooseGod(username, godId );
+       ArrayList<Error> errors = controllerListener.onPlayerChooseGod(username, godId);
 
-        //TODO if !empty send errors back to client
+        if(errors.isEmpty()){
+            new MsgOutWriter().choseGodAcceptedAnswer(username,godId);
+            for (String user : clients.keySet())
+                if(!user.equals(username))
+                    new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
+        }else{
+            new MsgOutWriter().rejectedAnswer(username,"choseGod",errors);
+        }
+        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
+
     }
 
     public void chooseStartingPlayerRequest(String username, String playerChosen){
         ArrayList<Error> errors = controllerListener.onChallengerChooseStartingPlayer(username, playerChosen);
 
-        //TODO if !empty send errors back to client
+        if(errors.isEmpty()){
+            new MsgOutWriter().choseStartingPlayerAcceptedAnswer(username,playerChosen);
+            for (String user : clients.keySet())
+                if(!user.equals(username))
+                    new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
+        }else{
+            new MsgOutWriter().rejectedAnswer(username,"choseStartingPlayer",errors);
+        }
+        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
     }
 
-    public void setupOnBoardRequest(String username, int workerId, int x, int y){
+    public void setupOnBoardRequest(String username, String workerGender, int x, int y){
+        ArrayList<Error> errors = controllerListener.onPlayerSetWorker(username,workerGender,x,y);
 
-
+        if(errors.isEmpty()){
+            new MsgOutWriter().setupOnBoardAcceptedAnswer(username,workerGender,x,y);
+            for (String user : clients.keySet())
+                if(!user.equals(username))
+                    new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
+        }else{
+            new MsgOutWriter().rejectedAnswer(username,"setWorkerOnBoard",errors);
+        }
+        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
     }
 
-    public void moveRequest(String username, int workerId, int x, int y){
-
+    public void moveRequest(String username, String workerGender, int x, int y){
+        controllerListener.onWorkerMove(username,workerGender,x,y);
     }
 
-    public void buildRequest(String username, int workerId, int x, int y){
-
+    public void buildRequest(String username, String workerGender, int x, int y){
+        controllerListener.onWorkerMove(username,workerGender,x,y);
     }
 
     public void endOfTurn(String username){
-
+        controllerListener.onPlayerEndTurn(username);
     }
 
-    public void onEndRequest(String username){
-        clients.remove(username);
-    }
+    public void onEndRequest(String username){ clients.remove(username); }
 
     // Answer Methods
+
+    @Override
+    public void onMoveAcceptedRequest() {
+
+    }
+
+    @Override
+    public void onMoveRejectedRequest() {
+
+    }
+
+    @Override
+    public void onBuildAcceptedRequest() {
+
+    }
+
+    @Override
+    public void onBuildRejectedRequest() {
+
+    }
 
     // Communication Methods
 }

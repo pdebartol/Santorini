@@ -3,6 +3,12 @@ package it.polimi.ingsw.view.client;
 import java.io.*;
 import java.net.Socket;
 
+
+/**
+ * This class manages a TCP socket connection (client side).
+ * @author marcoDige
+ */
+
 public class EchoClient {
 
     //attributes

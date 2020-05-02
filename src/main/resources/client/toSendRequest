@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Requests>
 
-    <Mode>login</Mode>
-    <Username>Marco</Username>
+    <Mode></Mode>
+    <Username></Username>
 
     <Request Mode = "login">
-        <Color>W</Color>
+        <Color></Color>
     </Request>
 
     <Request Mode = "choseStartingPlayer">
@@ -24,22 +24,17 @@
         <God></God>
     </Request>
 
-    <Request Mode="SetWorkersOnBoard">
-        <Positions>
-            <Position WorkerId = "0">
-                <xPosition></xPosition>
-                <yPosition></yPosition>
-            </Position>
-            <Position WorkerId = "1">
-                <xPosition></xPosition>
-                <yPosition></yPosition>
-            </Position>
-        </Positions>
+    <Request Mode="SetWorkerOnBoard">
+        <Position>
+            <WorkerGender></WorkerGender>
+            <xPosition></xPosition>
+            <yPosition></yPosition>
+        </Position>
     </Request>
 
     <Request Mode = "move">
         <Position>
-            <WorkerId></WorkerId>
+            <WorkerGender></WorkerGender>
             <xPosition></xPosition>
             <yPosition></yPosition>
         </Position>
@@ -47,7 +42,7 @@
 
     <Request Mode ="build">
         <Position>
-            <WorkerId></WorkerId>
+            <WorkerGender></WorkerGender>
             <xPosition></xPosition>
             <yPosition></yPosition>
         </Position>

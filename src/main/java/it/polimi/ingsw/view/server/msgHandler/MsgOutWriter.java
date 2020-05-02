@@ -81,15 +81,17 @@ public class MsgOutWriter {
         }
     }
     
-    private void appendTag(Node father, String tagName, String textContent){
+    private Node appendTag(Node father, String tagName, String textContent){
         Element tag = document.createElement(tagName);
         tag.setTextContent(textContent);
         father.appendChild(tag);
+        return document.getElementsByTagName(tagName).item(0);
     }
     
-    private void appendTag(Node father, String tagName){
+    private Node appendTag(Node father, String tagName){
         Element tag = document.createElement(tagName);
         father.appendChild(tag);
+        return document.getElementsByTagName(tagName).item(0);
     }
 
     private Node initializeTagList(String tagName){
@@ -124,28 +126,35 @@ public class MsgOutWriter {
 
     //action methods
 
-    public void loginAcceptedAnswer(String user, Color c){
-        setStandardAnswerValues(user,"login","accepted");
-        applyModification();
-
-        
-        setStandardUpdateValues(user,"newPlayer");
-        Node updateTag = initializeTagList("Update");
-        
-        appendTag(updateTag,"Username",user);
-        appendTag(updateTag,"Color",Color.labelOfEnum(c));
-        applyModification();
-    }
-
-    public void loginRejectedAnswer(String user, List<Error> errors){
-        setStandardAnswerValues(user,"login","rejected");
+    public void rejectedAnswer(String user, String mod, List<Error> errors){
+        setStandardAnswerValues(user,mod,"rejected");
 
         setErrorList(errors);
         applyModification();
     }
 
+    public void loginAcceptedAnswer(String user, Color c){
+        setStandardAnswerValues(user,"login","accepted");
+        Node aUpdateTag = initializeTagList("Update");
+
+        appendTag(aUpdateTag,"Username",user);
+        appendTag(aUpdateTag,"Color",Color.labelOfEnum(c));
+        applyModification();
+
+        
+        setStandardUpdateValues(user,"newPlayer");
+        Node uUpdateTag = initializeTagList("Update");
+        
+        appendTag(uUpdateTag,"Username",user);
+        appendTag(uUpdateTag,"Color",Color.labelOfEnum(c));
+        applyModification();
+    }
+
     public void startGameAcceptedAnswer(String user){
         setStandardAnswerValues(user,"startGame","accepted");
+
+        initializeTagList("Update");
+        initializeTagList("Errors");
         applyModification();
 
         setStandardUpdateValues(user,"startGame");
@@ -156,20 +165,71 @@ public class MsgOutWriter {
     }
 
     public void createGodsAcceptedAnswer(String user, ArrayList<Integer> ids){
-        setStandardUpdateValues(user,"createGods");
-
-        Node updateTag = initializeTagList("Update");
+        setStandardAnswerValues(user,"createGods","accepted");
+        Node aUpdateTag = initializeTagList("Update");
 
         for(int id : ids){
-            appendTag(updateTag, String.valueOf(id));
+            appendTag(aUpdateTag, String.valueOf(id));
+        }
+        applyModification();
+
+        setStandardUpdateValues(user,"createGods");
+        Node uUpdateTag = initializeTagList("Update");
+
+        for(int id : ids){
+            appendTag(uUpdateTag, String.valueOf(id));
         }
         applyModification();
     }
 
-    public void createGodsRejectedAnswer(String user, List<Error> errors){
-        setStandardAnswerValues(user,"createGods","rejected");
+    public void choseGodAcceptedAnswer(String user, int godId){
+        setStandardAnswerValues(user,"choseGod","accepted");
+        Node aUpdateTag = initializeTagList("Update");
 
-        setErrorList(errors);
+        appendTag(aUpdateTag,"godId",String.valueOf(godId));
+        applyModification();
+
+
+        setStandardUpdateValues(user,"choseGod");
+        Node uUpdateTag = initializeTagList("Update");
+
+        appendTag(uUpdateTag,"godId",String.valueOf(godId));
+        applyModification();
+
+    }
+
+    public void choseStartingPlayerAcceptedAnswer(String user, String playerChosen){
+        setStandardAnswerValues(user,"choseStartingPlayer","accepted");
+        Node aUpdateTag = initializeTagList("Update");
+
+        appendTag(aUpdateTag,"StartingPlayer",playerChosen);
+        applyModification();
+
+
+        setStandardUpdateValues(user,"choseStartingPlayer");
+        Node uUpdateTag = initializeTagList("Update");
+
+        appendTag(uUpdateTag,"StartingPlayer",playerChosen);
         applyModification();
     }
+
+    public void setupOnBoardAcceptedAnswer(String user, String workerGender, int x, int y){
+        setStandardAnswerValues(user,"setWorkerOnBoard","accepted");
+        Node aUpdateTag = initializeTagList("Update");
+
+        appendTag(aUpdateTag,"WorkerGender",workerGender);
+        appendTag(aUpdateTag,"xPosition",String.valueOf(x));
+        appendTag(aUpdateTag,"yPosition",String.valueOf(y));
+        applyModification();
+
+
+        setStandardUpdateValues(user,"setWorkerOnBoard");
+        Node uUpdateTag = initializeTagList("Update");
+
+        appendTag(aUpdateTag,"WorkerGender",workerGender);
+        appendTag(aUpdateTag,"xPosition",String.valueOf(x));
+        appendTag(aUpdateTag,"yPosition",String.valueOf(y));
+        applyModification();
+    }
+
 }

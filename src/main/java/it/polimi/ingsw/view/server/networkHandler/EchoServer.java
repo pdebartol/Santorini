@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * This class manages a multi-client TCP socket connection.
+ * This class manages a multi-client TCP socket connection (server side).
  * @author marcoDige
  */
 

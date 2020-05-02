@@ -183,7 +183,8 @@ public class Player implements PropertyChangeListener {
             //TODO: notify possible win to view
             //TODO: notify changes to view
         }else
-            sendErrorMsg(errors);
+            //TODO: notify errors
+            System.out.println("Errors");
 
         return errors;
     }
@@ -211,7 +212,8 @@ public class Player implements PropertyChangeListener {
             power.updateBuild(w, x, y, l);
             //TODO: notify changes to view
         }else
-            sendErrorMsg(errors);
+            //TODO: notify errors
+            System.out.println("Errors");
 
         return errors;
     }
@@ -229,51 +231,6 @@ public class Player implements PropertyChangeListener {
         Power power = god.getPower();
         return power.endOfTurn(workers);
         //TODO: notify view that player can't finish his turn
-    }
-
-    /**
-     * This method sends to the view the errors found during the check if the move or build is invalid.
-     * @param errors array of errors
-     */
-
-    public void sendErrorMsg(List<Error> errors){
-        for(Error e: errors)
-            switch (e){
-                case ISNT_WORKER_CHOSEN:
-                    //TODO: notify to view this error
-                case NOT_FREE:
-                    //TODO: notify to view this error
-                case NOT_ADJACENT:
-                    //TODO: notify to view this error
-                case INVALID_LEVEL_MOVE:
-                    //TODO: notify to view this error
-                case INVALID_LEVEL_BUILD:
-                    //TODO: notify to view this error
-                case IS_DOME:
-                    //TODO: notify to view this error
-                case MOVE_AFTER_BUILD:
-                    //TODO: notify to view this error
-                case BUILD_BEFORE_MOVE:
-                    //TODO: notify to view this error
-                case BUILDS_EXCEEDED:
-                    //TODO: notify to view this error
-                case MOVES_EXCEEDED:
-                    //TODO: notify to view this error
-                case BLOCK_MOVE_UP:
-                    //TODO: notify to view this error
-                case CANT_DOME_UNDERFOOT:
-                    //TODO: notify to view this error
-                case SAME_DIRECTION_NOT_FREE:
-                    //TODO: notify to view this error
-                case EXTRA_BUILD_NOT_PERIMETER:
-                    //TODO: notify to view this error
-                case EXTRA_MOVE_NOT_BACK:
-                    //TODO: notify to view this error
-                case EXTRA_BUILD_ONLY_SAME_SPACE:
-                    //TODO: notify to view this error
-                case CANT_MOVE_UP:
-                    //TODO: notify to view this error
-            }
     }
 
     /**
