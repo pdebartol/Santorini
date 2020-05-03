@@ -1,51 +1,25 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<Requests>
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><Requests>
 
-    <Mode></Mode>
-    <Username></Username>
+    <Mode>build</Mode>
+    <Username>piero</Username>
 
-    <Request Mode = "login">
-        <Color></Color>
-    </Request>
+    <Request Mode="login"><Color>W</Color></Request>
 
-    <Request Mode = "choseStartingPlayer">
-        <PlayerChosen></PlayerChosen>
-    </Request>
+    <Request Mode="choseStartingPlayer"><PlayerChosen>marco</PlayerChosen></Request>
 
-    <Request Mode = "createGods">
-        <Gods>
-            <God n = "0">3</God>
-            <God n = "1">4</God>
-            <God n = "2">5</God>
-        </Gods>
-    </Request>
+    <Request Mode="createGods">
+    <Gods>
+    <God n="0">7</God>
+    <God n="1">14</God>
+    <God n="2">16</God>
+    </Gods></Request>
 
-    <Request Mode = "choseGod">
-        <God></God>
-    </Request>
+    <Request Mode="choseGod"><God>8</God></Request>
 
-    <Request Mode="SetWorkerOnBoard">
-        <Position>
-            <WorkerGender></WorkerGender>
-            <xPosition></xPosition>
-            <yPosition></yPosition>
-        </Position>
-    </Request>
+    <Request Mode="SetWorkerOnBoard"><Position><WorkerGender>M</WorkerGender><xPosition>1</xPosition><yPosition>4</yPosition></Position></Request>
+    
+    <Request Mode="move"><Position><WorkerGender>M</WorkerGender><xPosition>3</xPosition><yPosition>4</yPosition></Position></Request>
 
-    <Request Mode = "move">
-        <Position>
-            <WorkerGender></WorkerGender>
-            <xPosition></xPosition>
-            <yPosition></yPosition>
-        </Position>
-    </Request>
-
-    <Request Mode ="build">
-        <Position>
-            <WorkerGender></WorkerGender>
-            <xPosition></xPosition>
-            <yPosition></yPosition>
-        </Position>
-    </Request>
+    <Request Mode="build"><Position><WorkerGender>M</WorkerGender><xPosition>0</xPosition><yPosition>4</yPosition></Position></Request>
 
 </Requests>
