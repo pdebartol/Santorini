@@ -1,7 +1,7 @@
-package it.polimi.ingsw.view.server.networkHandler;
+package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.view.server.VirtualView;
-import it.polimi.ingsw.view.server.msgHandler.MsgInParser;
+import it.polimi.ingsw.msgUtilities.server.MsgInParser;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,7 +38,7 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
 
-        File requestFile = new File("src/main/resources/server/msgIn");
+        File requestFile = new File("src/main/resources/xml/server/msgIn");
         System.out.println("Client " + client + " has connected!");
 
         try {

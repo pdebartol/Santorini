@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.view.server.msgHandler.MsgOutWriter;
+import it.polimi.ingsw.msgUtilities.server.MsgOutWriter;
 
 /**
  * This class implements method that model uses to notify changes after a move/build or endOfTurn command.

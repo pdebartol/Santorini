@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.client;
+package it.polimi.ingsw.network.client;
 
 import java.io.*;
 import java.net.Socket;
@@ -40,7 +40,7 @@ public class EchoClient {
 
     private void start(){
 
-        File inFile = new File("src/main/resources/client/msgIn");
+        File inFile = new File("src/main/resources/xml/client/msgIn");
         initializeClientConnection();
         new MsgSender(server).sendMsg();
 

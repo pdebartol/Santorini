@@ -3,8 +3,8 @@ package it.polimi.ingsw.view.server;
 import it.polimi.ingsw.controller.ControllerActionListener;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
-import it.polimi.ingsw.view.server.msgHandler.MsgOutWriter;
-import it.polimi.ingsw.view.server.networkHandler.MsgSender;
+import it.polimi.ingsw.msgUtilities.server.MsgOutWriter;
+import it.polimi.ingsw.network.server.MsgSender;
 
 import java.net.Socket;
 import java.util.*;

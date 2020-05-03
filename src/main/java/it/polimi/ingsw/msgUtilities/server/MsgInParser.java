@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.server.msgHandler;
+package it.polimi.ingsw.msgUtilities.server;
 
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.view.server.VirtualView;
@@ -133,7 +133,7 @@ public class MsgInParser {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder.parse("src/main/resources/server/msgIn");
+        return builder.parse("src/main/resources/xml/server/msgIn");
     }
 
     /**

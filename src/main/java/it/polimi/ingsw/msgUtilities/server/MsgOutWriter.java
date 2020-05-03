@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.server.msgHandler;
+package it.polimi.ingsw.msgUtilities.server;
 
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
@@ -102,7 +102,7 @@ public class MsgOutWriter {
 
     private void setDocument(String fileName){
         try {
-            filePath = "src/main/resources/server/" + fileName;
+            filePath = "src/main/resources/xml/server/" + fileName;
             this.document = this.getDocument(filePath);
         }
         catch (Exception e){

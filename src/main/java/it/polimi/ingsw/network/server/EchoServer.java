@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.server.networkHandler;
+package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.MatchController;
 import it.polimi.ingsw.view.server.VirtualView;
