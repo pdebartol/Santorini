@@ -24,7 +24,7 @@ public class MatchController implements ControllerActionListener {
      * The current match's board.
      */
 
-    private Board gameBoard;
+    private final Board gameBoard;
 
     /**
      * selectedGods contains the gods selected by the challenger, indexed by their ids.
@@ -316,8 +316,6 @@ public class MatchController implements ControllerActionListener {
         }
         return Collections.unmodifiableList(errors);
     }
-
-
 
     public State getGameState() {
         return gameBoard.getGameState();

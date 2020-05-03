@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.server;
 import it.polimi.ingsw.controller.ControllerActionListener;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
+import it.polimi.ingsw.model.enums.State;
 import it.polimi.ingsw.msgUtilities.server.MsgOutWriter;
 import it.polimi.ingsw.network.server.MsgSender;
 
@@ -17,14 +18,25 @@ public class VirtualView implements ViewActionListener{
     private final Map<String,Socket> clients;
     private String starter;
 
+    boolean matchStarted;
+
     //constructors
 
     public VirtualView(ControllerActionListener l){
         this.controllerListener = l;
         this.clients = new HashMap<>();
+        matchStarted = false;
     }
 
     //methods
+
+    public int getLobbySize(){
+        return clients.size();
+    }
+
+    public boolean getMatchStarted(){
+        return matchStarted;
+    }
 
     public void removeClientBySocket(Socket socket){
         Set<String> usernames = clients.keySet();
@@ -63,6 +75,8 @@ public class VirtualView implements ViewActionListener{
                 if(!user.equals(username))
                     new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
             new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
+
+            matchStarted = true;
         }
     }
 

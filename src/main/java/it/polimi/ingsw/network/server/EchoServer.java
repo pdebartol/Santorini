@@ -6,6 +6,8 @@ import it.polimi.ingsw.view.server.VirtualView;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,13 +22,15 @@ public class EchoServer {
 
     private final int port;
     private ServerSocket server;
-    private final VirtualView virtualView;
+
+    private final List<VirtualView> lobbies;
 
     //constructors
 
     public EchoServer(int port){
         this.port = port;
-        virtualView = new VirtualView(new MatchController());
+        lobbies = new ArrayList<>();
+        lobbies.add(new VirtualView(new MatchController()));
     }
 
     //methods
@@ -34,6 +38,7 @@ public class EchoServer {
     public static void main(String[] args)
     {
         int p;
+
         if(args.length == 1) p = Integer.parseInt(args[0]);
         else p = 1234;
 
@@ -44,6 +49,7 @@ public class EchoServer {
     /**
      * This method allows server to start to accept a connection from a client and create a thread which manages a
      * specific client connection (the connection is multi-client).
+     * It allows to create a new lobby if existing lobbies are full or the matches into them have already started.
      */
 
     public void start(){
@@ -54,7 +60,21 @@ public class EchoServer {
         while (true) {
             try {
                 Socket client = server.accept();
-                executor.submit(new ClientHandler(client,virtualView));
+                boolean matchFind = false;
+                for (VirtualView v : lobbies){
+                    if(v.getLobbySize() < 3 && !v.getMatchStarted()){
+                        executor.submit(new ClientHandler(client,v));
+                        matchFind = true;
+                        break;
+                    }
+                }
+
+                if(!matchFind){
+                    VirtualView v = new VirtualView(new MatchController());
+                    lobbies.add(v);
+                    executor.submit(new ClientHandler(client,v));
+                }
+
             } catch(IOException e) {
                 break;
             }

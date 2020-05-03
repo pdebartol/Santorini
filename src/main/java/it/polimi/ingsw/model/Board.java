@@ -62,6 +62,8 @@ public class Board {
         return nBuild;
     }
 
+    public State getGameState(){return gameState;}
+
     /**
      * This method gives access a certain Square position.
      * @param x the x position of Square onto board
@@ -73,6 +75,8 @@ public class Board {
         if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) throw new IllegalArgumentException("Null worker as argument!");
         return table[x][y];
     }
+
+    public void setGameState(String state){gameState = State.valueOfLabel(state);}
 
     /**
      * This method reset nMoves and nBuild to 0.
@@ -114,10 +118,4 @@ public class Board {
         if(xDist == 0 && yDist == 0) return false; // Same square
         return xDist >= -1 && xDist <= 1 && yDist >= -1 && yDist <= 1;
     }
-
-    public State getGameState() {
-        return gameState;
-    }
-
-    public void setGameState(String state){gameState = State.valueOfLabel(state);}
 }
