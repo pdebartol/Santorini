@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +33,7 @@ class MatchControllerTest {
 
     @Test
     void sameUsernameLogin(){
-        ArrayList<Error> errors;
+        List<Error> errors;
         errors = controller.onNewPlayer("piero", Color.AZURE);
         assertEquals(0, errors.size());
 
@@ -49,7 +50,7 @@ class MatchControllerTest {
 
     @Test
     void sameColorLogin(){
-        ArrayList<Error> errors;
+        List<Error> errors;
         errors = controller.onNewPlayer("piero", Color.AZURE);
         assertEquals(0, errors.size());
 
@@ -65,7 +66,7 @@ class MatchControllerTest {
 
     @Test
     void fourPlayerLogin(){
-        ArrayList<Error> errors;
+        List<Error> errors;
         errors = controller.onNewPlayer("piero", Color.AZURE);
         assertEquals(0, errors.size());
 
@@ -105,7 +106,7 @@ class MatchControllerTest {
         String challenger = controller.onStartGame();
         assertEquals(State.GODS_SETUP,controller.getGameState());
         assertFalse(challenger.isEmpty());
-        ArrayList<Error> errors  = controller.onChallengerChooseGods(challenger,new ArrayList<>( Arrays.asList(1,2,3)));
+        List<Error> errors  = controller.onChallengerChooseGods(challenger,new ArrayList<>( Arrays.asList(1,2,3)));
         assertTrue(errors.isEmpty());
         assertEquals("Apollo",controller.selectedGods.get(1).getName());
         assertEquals("Artemis",controller.selectedGods.get(2).getName());
@@ -132,7 +133,7 @@ class MatchControllerTest {
         String challenger = controller.onStartGame();
         controller.onChallengerChooseGods(challenger,new ArrayList<>( Arrays.asList(1,2,3)));
         assertEquals(State.CHOOSE_GOD,controller.getGameState());
-        ArrayList<Error> errors = controller.onPlayerChooseGod(challenger,2);
+        List<Error> errors = controller.onPlayerChooseGod(challenger,2);
         assertTrue(errors.contains(Error.INGAME_NOT_YOUR_TURN));
         assertEquals(1,errors.size());
         assertEquals(State.CHOOSE_GOD,controller.getGameState());
@@ -142,7 +143,7 @@ class MatchControllerTest {
 
     @Test
     void chooseGodInYourTurn(){
-        ArrayList<Error> errors;
+        List<Error> errors;
         threePlayersLogin();
         String challenger = controller.onStartGame();
         controller.onChallengerChooseGods(challenger,new ArrayList<>( Arrays.asList(1,2,3)));
@@ -170,7 +171,7 @@ class MatchControllerTest {
 
     @Test
     void chooseStartingPlayer(){
-        ArrayList <Error> errors;
+        List <Error> errors;
         threePlayersLogin();
 
         String challenger = threePlayersChooseGods();
@@ -227,7 +228,7 @@ class MatchControllerTest {
         String challenger = threePlayersChooseGods();
         controller.onChallengerChooseStartingPlayer(challenger, "marco");
 
-        ArrayList<Error> errors = controller.onPlayerSetWorker("piero","female",3,2);
+        List<Error> errors = controller.onPlayerSetWorker("piero","female",3,2);
         assertTrue(errors.contains(Error.INGAME_NOT_YOUR_TURN));
         assertEquals(1,errors.size());
 
@@ -262,9 +263,9 @@ class MatchControllerTest {
     void StandardMoveAndBuild(){
         threePlayersLogin();
         setupWorkers();
-        ArrayList<Error> errors  = controller.onWorkerMove("marco","male",3,3 );
+        List<Error> errors  = controller.onWorkerMove("marco","male",3,1 );
         assertTrue(errors.isEmpty());
-        errors = controller.onWorkerBuild("marco","male",3,4,1);
+        errors = controller.onWorkerBuild("marco","male",3,2,1);
         assertTrue(errors.isEmpty());
 
     }
@@ -273,7 +274,7 @@ class MatchControllerTest {
     void notInYourTurnMoveAndBuild(){
         threePlayersLogin();
         setupWorkers();
-        ArrayList<Error> errors  = controller.onWorkerMove("piero","male",3,3 );
+        List<Error> errors  = controller.onWorkerMove("piero","male",3,3 );
         assertTrue(errors.contains(Error.INGAME_NOT_YOUR_TURN));
         errors = controller.onWorkerBuild("piero","male",3,4,1);
         assertTrue(errors.contains(Error.INGAME_NOT_YOUR_TURN));
@@ -283,7 +284,7 @@ class MatchControllerTest {
     void  chooseInactiveWorker(){
         threePlayersLogin();
         setupWorkers();
-        ArrayList<Error> errors  = controller.onWorkerMove("marco","male",3,1 );
+        List<Error> errors  = controller.onWorkerMove("marco","male",3,1 );
         assertTrue(errors.isEmpty());
         errors = controller.onWorkerBuild("marco","female",3,2,1);
         assertTrue(errors.contains(Error.INGAME_WRONG_WORKER));
@@ -295,7 +296,7 @@ class MatchControllerTest {
         setupWorkers();
 
         // Marco's turn
-        ArrayList<Error> errors  = controller.onWorkerMove("marco","male",3,1 );
+        List<Error> errors  = controller.onWorkerMove("marco","male",3,1 );
         assertTrue(errors.isEmpty());
         errors = controller.onWorkerBuild("marco","male",3,2,1);
         assertTrue(errors.isEmpty());
@@ -323,7 +324,7 @@ class MatchControllerTest {
 
     // support method for the login
     void threePlayersLogin(){
-        ArrayList<Error> errors;
+        List<Error> errors;
         errors = controller.onNewPlayer("piero", Color.AZURE);
         assertEquals(0, errors.size());
 
@@ -353,7 +354,7 @@ class MatchControllerTest {
 
     //support method for the god setup
     String threePlayersChooseGods(){
-        ArrayList<Error> errors;
+        List<Error> errors;
         String challenger = controller.onStartGame();
         controller.onChallengerChooseGods(challenger,new ArrayList<>( Arrays.asList(4,8,3)));
 
@@ -411,7 +412,7 @@ class MatchControllerTest {
         String challenger = threePlayersChooseGods();
         controller.onChallengerChooseStartingPlayer(challenger, "marco");
 
-        ArrayList<Error> errors = controller.onPlayerSetWorker("piero","female",3,2);
+        List<Error> errors = controller.onPlayerSetWorker("piero","female",3,2);
         assertTrue(errors.contains(Error.INGAME_NOT_YOUR_TURN));
         assertEquals(1,errors.size());
 

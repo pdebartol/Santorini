@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enums.Error;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * PlayerController handles the players in the current match.
@@ -35,8 +37,8 @@ public class PlayerController {
         currentPlayer.setActive(true);
     }
 
-    public ArrayList<Error> addPlayer(Player player){
-        ArrayList<Error> errors = new ArrayList<>();
+    public List<Error> addPlayer(Player player){
+        List<Error> errors = new ArrayList<>();
         for(Player p: players){
             if(player.getUsername().equals(p.getUsername())) errors.add(Error.LOGIN_USERNAME_NOT_AVAILABLE);
             if(player.getWorkers().get(0).getColor().equals(p.getWorkers().get(0).getColor())) errors.add(Error.LOGIN_COLOR_NOT_AVAILABLE);
@@ -46,7 +48,7 @@ public class PlayerController {
         if(errors.isEmpty())
             players.add(player);
 
-        return errors;
+        return Collections.unmodifiableList(errors);
     }
 
     public int getNumberOfPlayers(){

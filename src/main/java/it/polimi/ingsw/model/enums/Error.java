@@ -33,6 +33,7 @@ public enum Error {
     SETUP_WORKER_ON_OCCUPIED_SQUARE("SetupWorkerOnOccupiedSquare"),
     SETUP_WORKER_ALREADY_SET("SetupWorkerAlreadySet"),
     INGAME_NOT_YOUR_TURN("InGameNotYourTurn"),
+    INGAME_CANNOT_END_TURN("InGameCannotEndTurn"),
     INGAME_WRONG_WORKER("InGameWrongWorker");
 
 

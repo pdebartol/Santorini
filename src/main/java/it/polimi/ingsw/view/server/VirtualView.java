@@ -35,7 +35,7 @@ public class VirtualView implements ViewActionListener{
     //Request Methods
 
     public synchronized void loginRequest(String username, Color color, Socket socket){
-        ArrayList<Error> errors = controllerListener.onNewPlayer(username, color);
+        List<Error> errors = controllerListener.onNewPlayer(username, color);
 
         if(errors.isEmpty()){
             if(clients.isEmpty()) starter = username;
@@ -67,7 +67,7 @@ public class VirtualView implements ViewActionListener{
     }
 
     public void createGodsRequest(String username, ArrayList<Integer> ids){
-        ArrayList<Error> errors = controllerListener.onChallengerChooseGods(username, ids);
+        List<Error> errors = controllerListener.onChallengerChooseGods(username, ids);
 
         if(errors.isEmpty()){
             new MsgOutWriter().createGodsAcceptedAnswer(username,ids);
@@ -81,7 +81,7 @@ public class VirtualView implements ViewActionListener{
     }
 
     public void choseGodRequest(String username, int godId){
-       ArrayList<Error> errors = controllerListener.onPlayerChooseGod(username, godId);
+       List<Error> errors = controllerListener.onPlayerChooseGod(username, godId);
 
         if(errors.isEmpty()){
             new MsgOutWriter().choseGodAcceptedAnswer(username,godId);
@@ -96,7 +96,7 @@ public class VirtualView implements ViewActionListener{
     }
 
     public void chooseStartingPlayerRequest(String username, String playerChosen){
-        ArrayList<Error> errors = controllerListener.onChallengerChooseStartingPlayer(username, playerChosen);
+        List<Error> errors = controllerListener.onChallengerChooseStartingPlayer(username, playerChosen);
 
         if(errors.isEmpty()){
             new MsgOutWriter().choseStartingPlayerAcceptedAnswer(username,playerChosen);
@@ -110,7 +110,7 @@ public class VirtualView implements ViewActionListener{
     }
 
     public void setupOnBoardRequest(String username, String workerGender, int x, int y){
-        ArrayList<Error> errors = controllerListener.onPlayerSetWorker(username,workerGender,x,y);
+        List<Error> errors = controllerListener.onPlayerSetWorker(username,workerGender,x,y);
 
         if(errors.isEmpty()){
             new MsgOutWriter().setupOnBoardAcceptedAnswer(username,workerGender,x,y);
