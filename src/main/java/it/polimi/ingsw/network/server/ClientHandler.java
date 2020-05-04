@@ -64,7 +64,12 @@ public class ClientHandler implements Runnable{
             client.close();
         } catch(IOException e) {
             System.err.println("Client " + client + " has disconnected!");
-            //TODO: Manage client disconnection
+            try {
+                client.close();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            virtualView.clientDown();
         }
     }
 

@@ -1,4 +1,11 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
-<MsgIn>
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><Answer>
 
-</MsgIn>
+    <Mode>login</Mode>
+    <Outcome>accepted</Outcome>
+    <Username>piero</Username>
+
+    <Update><Username>piero</Username><Color>W</Color></Update>
+
+    <Errors/>
+
+</Answer>

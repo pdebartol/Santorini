@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><Requests>
 
-    <Mode>build</Mode>
+    <Mode>login</Mode>
     <Username>piero</Username>
 
     <Request Mode="login"><Color>W</Color></Request>

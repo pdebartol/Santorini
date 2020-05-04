@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
  * @author marcoDige
  */
 
-public class EchoServer {
+public class EchoServer implements ClientDisconnectionListener {
 
     //attributes
 
@@ -30,7 +30,7 @@ public class EchoServer {
     public EchoServer(int port){
         this.port = port;
         lobbies = new ArrayList<>();
-        lobbies.add(new VirtualView(new MatchController()));
+        lobbies.add(new VirtualView(new MatchController(),this));
     }
 
     //methods
@@ -70,7 +70,7 @@ public class EchoServer {
                 }
 
                 if(!matchFind){
-                    VirtualView v = new VirtualView(new MatchController());
+                    VirtualView v = new VirtualView(new MatchController(),this);
                     lobbies.add(v);
                     executor.submit(new ClientHandler(client,v));
                 }
@@ -99,4 +99,8 @@ public class EchoServer {
         System.out.println("Server socket ready on port: " + port);
     }
 
+    @Override
+    public void onClientDown(VirtualView v) {
+        lobbies.remove(v);
+    }
 }

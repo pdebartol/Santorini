@@ -3,8 +3,8 @@ package it.polimi.ingsw.view.server;
 import it.polimi.ingsw.controller.ControllerActionListener;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
-import it.polimi.ingsw.model.enums.State;
 import it.polimi.ingsw.msgUtilities.server.MsgOutWriter;
+import it.polimi.ingsw.network.server.ClientDisconnectionListener;
 import it.polimi.ingsw.network.server.MsgSender;
 
 import java.io.IOException;
@@ -17,16 +17,18 @@ public class VirtualView implements ViewActionListener{
 
     private final ControllerActionListener controllerListener;
     private final Map<String,Socket> clients;
+    private final ClientDisconnectionListener clientDisconnectionListener;
     private String starter;
 
     boolean matchStarted;
 
     //constructors
 
-    public VirtualView(ControllerActionListener l){
+    public VirtualView(ControllerActionListener l, ClientDisconnectionListener cdl){
         this.controllerListener = l;
         this.clients = new HashMap<>();
         matchStarted = false;
+        this.clientDisconnectionListener = cdl;
     }
 
     //methods
@@ -37,12 +39,6 @@ public class VirtualView implements ViewActionListener{
 
     public synchronized boolean getMatchStarted(){
         return matchStarted;
-    }
-
-    public void removeClientBySocket(Socket socket){
-        Set<String> usernames = clients.keySet();
-        for (String u : usernames)
-            if(socket.equals(clients.get(u))) clients.remove(u);
     }
 
     //Request Methods
@@ -183,5 +179,22 @@ public class VirtualView implements ViewActionListener{
 
     }
 
-    // Communication Methods
+    // To do communication Methods
+
+    // Client disconnection methods
+
+    public void clientDown(){
+
+        for(Socket c : clients.values())
+            if(c.isConnected()) {
+                try {
+                    //TODO : send to this client a and finish match msg
+                    c.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        clientDisconnectionListener.onClientDown(this);
+    }
 }
