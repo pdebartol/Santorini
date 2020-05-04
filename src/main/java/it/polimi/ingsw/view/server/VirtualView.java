@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.enums.State;
 import it.polimi.ingsw.msgUtilities.server.MsgOutWriter;
 import it.polimi.ingsw.network.server.MsgSender;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
 
@@ -30,11 +31,11 @@ public class VirtualView implements ViewActionListener{
 
     //methods
 
-    public int getLobbySize(){
+    public synchronized int getLobbySize(){
         return clients.size();
     }
 
-    public boolean getMatchStarted(){
+    public synchronized boolean getMatchStarted(){
         return matchStarted;
     }
 
@@ -46,23 +47,32 @@ public class VirtualView implements ViewActionListener{
 
     //Request Methods
 
-    public synchronized void loginRequest(String username, Color color, Socket socket){
-        List<Error> errors = controllerListener.onNewPlayer(username, color);
+    public synchronized void loginRequest(String username, Color color, Socket socket) {
+        if(getLobbySize() < 3 && !getMatchStarted()) {
+            List<Error> errors = controllerListener.onNewPlayer(username, color);
 
-        if(errors.isEmpty()){
-            if(clients.isEmpty()) starter = username;
+            if (errors.isEmpty()) {
+                if (clients.isEmpty()) starter = username;
 
-            clients.put(username,socket);
+                clients.put(username, socket);
 
-            new MsgOutWriter().loginAcceptedAnswer(username,color);
-            for (String user : clients.keySet())
-                if(!user.equals(username))
-                    new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
+                new MsgOutWriter().loginAcceptedAnswer(username, color);
+                for (String user : clients.keySet())
+                    if (!user.equals(username))
+                        new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
+            } else {
+                new MsgOutWriter().rejectedAnswer(username, "login", errors);
+            }
+
+            new MsgSender(socket).sendMsg("toSendAnswer");
         }else{
-            new MsgOutWriter().rejectedAnswer(username,"login",errors);
+            try {
+                //TODO : notify that lobby is full or match has started and he have to connect another time.
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-        new MsgSender(socket).sendMsg("toSendAnswer");
     }
 
     public void startGameRequest(String username){
