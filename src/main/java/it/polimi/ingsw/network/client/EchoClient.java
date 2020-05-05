@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.client;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
 
 
 /**
@@ -26,23 +27,10 @@ public class EchoClient {
 
     //methods
 
-    public static void main(String[] args){
-        EchoClient echoClient;
-        if (args.length == 2)
-            echoClient = new EchoClient(args[0], Integer.parseInt(args[1]));
-        else
-            echoClient = new EchoClient("localhost", 1234);
-
-        echoClient.start();
-    }
-
-
-
-    private void start(){
+    public void start(){
 
         File inFile = new File("src/main/resources/xml/client/msgIn");
         initializeClientConnection();
-        new MsgSender(server).sendMsg();
 
         try {
             InputStream in = server.getInputStream();

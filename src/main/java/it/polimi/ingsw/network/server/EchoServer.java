@@ -35,17 +35,6 @@ public class EchoServer implements ClientDisconnectionListener {
 
     //methods
 
-    public static void main(String[] args)
-    {
-        int p;
-
-        if(args.length == 1) p = Integer.parseInt(args[0]);
-        else p = 1234;
-
-        EchoServer echoServer = new EchoServer(p);
-        echoServer.start();
-    }
-
     /**
      * This method allows server to start to accept a connection from a client and create a thread which manages a
      * specific client connection (the connection is multi-client).

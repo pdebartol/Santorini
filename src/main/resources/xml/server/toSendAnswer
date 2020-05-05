@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><Answer>
 
-    <Mode>login</Mode>
-    <Outcome>accepted</Outcome>
-    <Username>piero</Username>
+    <Mode></Mode>
+    <Outcome></Outcome>
+    <Username></Username>
 
-    <Update><Username>piero</Username><Color>W</Color></Update>
+    <Update></Update>
 
     <Errors/>
 

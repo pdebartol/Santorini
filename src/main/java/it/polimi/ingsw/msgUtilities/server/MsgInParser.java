@@ -49,7 +49,7 @@ public class MsgInParser {
                 break;
             case "choseStartingPlayer" :
                 String playerChosen = Objects.requireNonNull(evaluateXPath(standardPath +"/PlayerChosen/text()")).get(0);
-                vrtV.chooseStartingPlayerRequest(username,playerChosen);
+                vrtV.choseStartingPlayerRequest(username,playerChosen);
                 break;
             case "createGods" :
                 ArrayList<Integer> ids = new ArrayList<>();
@@ -116,7 +116,7 @@ public class MsgInParser {
         String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
         if(mode.equals("end")){
             String username = Objects.requireNonNull(evaluateXPath("/Requests/Username/text()")).get(0);
-            vrtV.onEndRequest(username);
+            vrtV.endRequest(username);
             return true;
         }
         return false;
