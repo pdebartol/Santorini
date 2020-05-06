@@ -53,7 +53,7 @@ public class Main {
             case "gui":
                 Application.launch(Gui.class);
                 break;
-            default: throw new IllegalArgumentException("Input non valido!!!");
+            default: throw new IllegalArgumentException("Invalid Input!!!");
         }
 
     }
