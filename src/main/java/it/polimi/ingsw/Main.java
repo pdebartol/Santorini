@@ -38,10 +38,11 @@ public class Main {
             echoClient = new EchoClient("localhost", 1234);
 
         echoClient.start();
+        interfaceSelection();
 
     }
 
-    public void interfaceSelection(){
+    public static void interfaceSelection(){
         Scanner input = new Scanner(System.in);
         System.out.print("Select \"cli\" or \"gui\": ");
 
