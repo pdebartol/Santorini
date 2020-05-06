@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.client.cli;
+package it.polimi.ingsw.view.client.cli;
 
 /**
  * This class represents escape codes that can set style and color of the text

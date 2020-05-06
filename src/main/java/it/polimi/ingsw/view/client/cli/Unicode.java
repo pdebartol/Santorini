@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.client.cli;
+package it.polimi.ingsw.view.client.cli;
 
 public enum Unicode {
     WORKER_ICON("\u3020"),

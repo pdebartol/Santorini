@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.client.cli;
+package it.polimi.ingsw.view.client.cli;
 
 public enum Box {
     VERTICAL_DIM (34),

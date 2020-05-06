@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.client.cli;
+package it.polimi.ingsw.view.client.cli;
 
 /**
  * this class represents escape codes that allow control over the terminal interface
