@@ -2,6 +2,11 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.network.client.EchoClient;
 import it.polimi.ingsw.network.server.EchoServer;
+import it.polimi.ingsw.view.client.cli.Cli;
+import it.polimi.ingsw.view.client.gui.Gui;
+import javafx.application.Application;
+
+import java.util.Scanner;
 
 public class Main {
 
@@ -33,5 +38,23 @@ public class Main {
             echoClient = new EchoClient("localhost", 1234);
 
         echoClient.start();
+
     }
+
+    public void interfaceSelection(){
+        Scanner input = new Scanner(System.in);
+        System.out.print("Select \"cli\" or \"gui\": ");
+
+        switch (input.nextLine()){
+            case "cli":
+                Cli cli = new Cli();
+                break;
+            case "gui":
+                Application.launch(Gui.class);
+                break;
+            default: throw new IllegalArgumentException("Input non valido!!!");
+        }
+
+    }
+
 }
