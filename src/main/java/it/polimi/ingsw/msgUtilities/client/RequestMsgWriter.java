@@ -7,8 +7,8 @@ import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class RequestMsgWriter {
 
@@ -30,7 +30,7 @@ public class RequestMsgWriter {
 
     public RequestMsgWriter(){
         try {
-            this.document = this.getDocument(Objects.requireNonNull(this.getClass().getClassLoader().getResource("xml/client/toSendRequest")).getFile());
+            this.document = this.getDocument(this.getClass().getResourceAsStream("/xml/client/toSendRequest"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,12 +46,12 @@ public class RequestMsgWriter {
      * @throws Exception error during xml parsing
      */
 
-    private Document getDocument(String path) throws Exception
+    private Document getDocument(InputStream stream) throws Exception
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder.parse(path);
+        return builder.parse(stream);
     }
 
 
@@ -92,6 +92,10 @@ public class RequestMsgWriter {
 
 
     //action methods
+
+    public Document test(){
+        return document;
+    }
 
     public Document loginRequest(String user, Color c){
         setStandardRequestValues(user,"login");

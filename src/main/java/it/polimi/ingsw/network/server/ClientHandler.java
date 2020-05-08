@@ -65,7 +65,7 @@ public class ClientHandler implements Runnable{
             in.close();
             System.out.println("Connection with " + client + " closed!");
             client.close();
-        } catch(IOException  e) {
+        } catch(IOException | SAXException | ParserConfigurationException  e) {
             System.err.println("Client " + client + " has disconnected!");
             try {
                 client.close();
@@ -76,19 +76,16 @@ public class ClientHandler implements Runnable{
         }
     }
 
-    private void receiveXML(InputStream in){
+    private void receiveXML(InputStream in) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory docBuilderFact = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
         XMLInputStream xmlIn = new XMLInputStream(in);
 
 
-        try {
-            docBuilder = docBuilderFact.newDocumentBuilder();
-            xmlIn.receive();
-            request = docBuilder.parse(xmlIn);
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
-        }
+
+        docBuilder = docBuilderFact.newDocumentBuilder();
+        xmlIn.receive();
+        request = docBuilder.parse(xmlIn);
     }
 
     /**

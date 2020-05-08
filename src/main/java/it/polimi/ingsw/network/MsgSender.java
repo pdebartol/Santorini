@@ -43,10 +43,9 @@ public class MsgSender {
 
             StreamResult streamResult = new StreamResult(xmlOut);
             DOMSource domSource = new DOMSource(msgOut);
-            Transformer tf;
 
             try {
-                tf = TransformerFactory.newInstance().newTransformer();
+                Transformer tf = TransformerFactory.newInstance().newTransformer();
                 tf.transform(domSource, streamResult);
             } catch (TransformerException ex) {
                 ex.printStackTrace();

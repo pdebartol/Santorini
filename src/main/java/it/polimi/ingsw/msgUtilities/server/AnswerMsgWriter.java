@@ -12,6 +12,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.w3c.dom.Element;
@@ -27,7 +28,7 @@ public class AnswerMsgWriter {
 
     public AnswerMsgWriter(){
         try {
-            this.document = this.getDocument("src/main/resources/xml/server/toSendAnswer");
+            this.document = this.getDocument(this.getClass().getResourceAsStream("/xml/server/toSendAnswer"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,12 +83,12 @@ public class AnswerMsgWriter {
      * @throws Exception error during xml parsing
      */
 
-    private Document getDocument(String path) throws Exception
+    private Document getDocument(InputStream stream) throws Exception
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder.parse(path);
+        return builder.parse(stream);
     }
 
     //action methods
@@ -111,9 +112,6 @@ public class AnswerMsgWriter {
 
     public Document startGameAcceptedAnswer(String user){
         setStandardAnswerValues(user,"startGame","accepted");
-
-        initializeTagList("Update");
-        initializeTagList("Errors");
         return document;
     }
 

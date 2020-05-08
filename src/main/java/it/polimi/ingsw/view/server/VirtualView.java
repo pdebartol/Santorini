@@ -133,9 +133,9 @@ public class VirtualView{
 
         Document updateMsg = new UpdateMsgWriter().loginUpdate(username, color);
         for (String user : clients.keySet())
-            if (!user.equals(username))
+            if (!user.equals(username)) {
                 new MsgSender(clients.get(user), updateMsg).sendMsg();
-
+            }
         new MsgSender(socket, new AnswerMsgWriter().loginAcceptedAnswer(username, color)).sendMsg();
     }
 

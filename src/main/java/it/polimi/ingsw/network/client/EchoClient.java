@@ -42,7 +42,7 @@ public class EchoClient {
     public void start(){
 
         initializeClientConnection();
-        new MsgSender(server,new RequestMsgWriter().loginRequest("Marco", Color.WHITE));
+        new MsgSender(server, new RequestMsgWriter().loginRequest("Marco", Color.WHITE)).sendMsg();
 
         try {
             InputStream in = server.getInputStream();
@@ -50,7 +50,6 @@ public class EchoClient {
             while(true) {
 
                 receiveXML(in);
-                processMsg();
 
                 if(isEndMode()){
                     break;
@@ -62,8 +61,13 @@ public class EchoClient {
             in.close();
             System.out.println("Connection closed!");
             server.close();
-        }catch (IOException e){
+        }catch (IOException | SAXException | ParserConfigurationException e){
             System.err.println("Connection down!");
+            try {
+                server.close();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
             //TODO Manage server disconnection
         }
     }
@@ -78,19 +82,15 @@ public class EchoClient {
         System.out.println("Connection established!");
     }
 
-    private void receiveXML(InputStream in){
+    private void receiveXML(InputStream in) throws IOException, SAXException, ParserConfigurationException {
         DocumentBuilderFactory docBuilderFact = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
         XMLInputStream xmlIn = new XMLInputStream(in);
 
 
-        try {
-            docBuilder = docBuilderFact.newDocumentBuilder();
-            xmlIn.receive();
-            msgIn = docBuilder.parse(xmlIn);
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
-        }
+        docBuilder = docBuilderFact.newDocumentBuilder();
+        xmlIn.receive();
+        msgIn = docBuilder.parse(xmlIn);
     }
 
     private boolean isEndMode(){
@@ -98,6 +98,6 @@ public class EchoClient {
     }
 
     private void processMsg(){
-        System.out.println(msgIn.getXmlEncoding());
+        System.out.println(msgIn.getElementsByTagName("Outcome").item(0).getTextContent());
     }
 }

@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><UpdateMsg>
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<UpdateMsg>
 
     <Mode></Mode>
     <Author></Author>
 
-    <Update><Username></Username><Color></Color></Update>
+    <Update>
+        <Username></Username>
+        <Color></Color>
+    </Update>
 
 </UpdateMsg>

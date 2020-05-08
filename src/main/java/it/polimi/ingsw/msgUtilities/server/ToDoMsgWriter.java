@@ -6,6 +6,7 @@ import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.InputStream;
 
 public class ToDoMsgWriter {
 
@@ -17,7 +18,7 @@ public class ToDoMsgWriter {
 
     public ToDoMsgWriter(){
         try {
-            this.document = this.getDocument("src/main/resources/xml/server/toDoMsg");
+            this.document = this.getDocument(this.getClass().getResourceAsStream("/xml/server/toDoMsg"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,11 +54,11 @@ public class ToDoMsgWriter {
      * @throws Exception error during xml parsing
      */
 
-    private Document getDocument(String path) throws Exception
+    private Document getDocument(InputStream stream) throws Exception
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder.parse(path);
+        return builder.parse(stream);
     }
 }
