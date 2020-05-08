@@ -3,9 +3,11 @@ package it.polimi.ingsw.view.server;
 import it.polimi.ingsw.controller.ControllerActionListener;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
-import it.polimi.ingsw.msgUtilities.server.MsgOutWriter;
+import it.polimi.ingsw.msgUtilities.server.AnswerMsgWriter;
+import it.polimi.ingsw.msgUtilities.server.UpdateMsgWriter;
+import it.polimi.ingsw.network.MsgSender;
 import it.polimi.ingsw.network.server.ClientDisconnectionListener;
-import it.polimi.ingsw.network.server.MsgSender;
+import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -76,7 +78,7 @@ public class VirtualView{
         if(errors.isEmpty())
             onCreateGodsAcceptedRequest(username,ids);
         else
-            onCreateGodsRejectedRequest(username,errors);
+            onRejectedRequest(username,errors,"createGods");
 
     }
 
@@ -86,7 +88,7 @@ public class VirtualView{
         if(errors.isEmpty())
             onChoseGodAcceptedRequest(username,godId);
         else
-            onChoseGodRejectedRequest(username,errors);
+            onRejectedRequest(username,errors,"choseGod");
 
     }
 
@@ -96,7 +98,7 @@ public class VirtualView{
         if(errors.isEmpty())
             onChoseStartingPlayerAcceptedRequest(username,playerChosen);
         else
-            onChoseStartingPlayerRejectedRequest(username,errors);
+            onRejectedRequest(username,errors,"choseStartingPlayer");
 
     }
 
@@ -106,7 +108,7 @@ public class VirtualView{
         if(errors.isEmpty())
             onSetupOnBoardAcceptedRequest(username,workerGender,x,y);
         else
-            onSetupOnBoardRejectedRequest(username,errors);
+            onRejectedRequest(username,errors,"setupOnBoard");
     }
 
     public void moveRequest(String username, String workerGender, int x, int y){
@@ -129,87 +131,65 @@ public class VirtualView{
         if (clients.isEmpty()) starter = username;
         clients.put(username, socket);
 
-        new MsgOutWriter().loginAcceptedAnswer(username, color);
+        Document updateMsg = new UpdateMsgWriter().loginUpdate(username, color);
         for (String user : clients.keySet())
             if (!user.equals(username))
-                new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
+                new MsgSender(clients.get(user), updateMsg).sendMsg();
 
-        new MsgSender(socket).sendMsg("toSendAnswer");
+        new MsgSender(socket, new AnswerMsgWriter().loginAcceptedAnswer(username, color)).sendMsg();
     }
 
     public void onLoginRejectedRequest(String username,List<Error> errors, Socket socket){
-        new MsgOutWriter().rejectedAnswer(username, "login", errors);
-        new MsgSender(socket).sendMsg("toSendAnswer");
+        new MsgSender(socket, new AnswerMsgWriter().rejectedAnswer(username, "login", errors)).sendMsg();
     }
 
     public void onStartGameAcceptedRequest(String username){
-        new MsgOutWriter().startGameAcceptedAnswer(username);
-
+        Document updateMsg = new UpdateMsgWriter().startGameUpdate(username);
         for (String user : clients.keySet())
             if(!user.equals(username))
-                new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
-        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
+                new MsgSender(clients.get(user), updateMsg).sendMsg();
+        new MsgSender(clients.get(username), new AnswerMsgWriter().startGameAcceptedAnswer(username)).sendMsg();
 
         matchStarted = true;
     }
 
-    public void onCreateGodsAcceptedRequest(String username, ArrayList<Integer> ids){
-        new MsgOutWriter().createGodsAcceptedAnswer(username,ids);
-        for (String user : clients.keySet())
-            if(!user.equals(username))
-                new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
-        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
+    public void onRejectedRequest(String username, List<Error> errors, String mode){
+        new MsgSender(clients.get(username), new AnswerMsgWriter().rejectedAnswer(username,mode,errors)).sendMsg();
     }
 
-    public void onCreateGodsRejectedRequest(String username, List<Error> errors){
-        new MsgOutWriter().rejectedAnswer(username,"createGods",errors);
-        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
+    public void onCreateGodsAcceptedRequest(String username, ArrayList<Integer> ids){
+        Document updateMsg = new UpdateMsgWriter().createGodsUpdate(username,ids);
+        for (String user : clients.keySet())
+            if(!user.equals(username))
+                new MsgSender(clients.get(user), updateMsg).sendMsg();
+        new MsgSender(clients.get(username), new AnswerMsgWriter().createGodsAcceptedAnswer(username,ids)).sendMsg();
     }
 
     public void onChoseGodAcceptedRequest(String username, int godId){
-        new MsgOutWriter().choseGodAcceptedAnswer(username,godId);
+        Document updateMsg = new UpdateMsgWriter().choseGodUpdate(username,godId);
         for (String user : clients.keySet())
             if(!user.equals(username))
-                new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
-        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
-    }
-
-    public void onChoseGodRejectedRequest(String username, List<Error> errors){
-        new MsgOutWriter().rejectedAnswer(username,"choseGod",errors);
-        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
+                new MsgSender(clients.get(user), updateMsg).sendMsg();
+        new MsgSender(clients.get(username), new AnswerMsgWriter().choseGodAcceptedAnswer(username,godId)).sendMsg();
     }
 
     public void onChoseStartingPlayerAcceptedRequest(String username, String playerChosen){
-        new MsgOutWriter().choseStartingPlayerAcceptedAnswer(username,playerChosen);
+        Document updateMsg = new UpdateMsgWriter().choseStartingPlayerUpdate(username,playerChosen);
         for (String user : clients.keySet())
             if(!user.equals(username))
-                new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
-        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
-    }
-
-    public void onChoseStartingPlayerRejectedRequest(String username, List<Error> errors){
-        new MsgOutWriter().rejectedAnswer(username,"choseStartingPlayer",errors);
-        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
+                new MsgSender(clients.get(user), updateMsg).sendMsg();
+        new MsgSender(clients.get(username), new AnswerMsgWriter().choseStartingPlayerAcceptedAnswer(username,playerChosen)).sendMsg();
     }
 
     public void onSetupOnBoardAcceptedRequest(String username, String workerGender, int x, int y){
-        new MsgOutWriter().setupOnBoardAcceptedAnswer(username,workerGender,x,y);
+        Document updateMsg = new UpdateMsgWriter().setupOnBoardUpdate(username,workerGender,x,y);
         for (String user : clients.keySet())
             if(!user.equals(username))
-                new MsgSender(clients.get(user)).sendMsg("updateMsgOut");
-        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
-    }
-
-    public void onSetupOnBoardRejectedRequest(String username, List<Error> errors){
-        new MsgOutWriter().rejectedAnswer(username,"setWorkerOnBoard",errors);
-        new MsgSender(clients.get(username)).sendMsg("toSendAnswer");
+                new MsgSender(clients.get(user), updateMsg).sendMsg();
+        new MsgSender(clients.get(username), new AnswerMsgWriter().setupOnBoardAcceptedAnswer(username,workerGender,x,y)).sendMsg();
     }
 
     public void onMoveAcceptedRequest() {
-
-    }
-
-    public void onMoveRejectedRequest() {
 
     }
 
@@ -217,15 +197,7 @@ public class VirtualView{
 
     }
 
-    public void onBuildRejectedRequest() {
-
-    }
-
     public void onEndOfTurnAcceptedRequest(){
-
-    }
-
-    public void onEndOfTurnRejectedRequest(){
 
     }
 

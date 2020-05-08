@@ -7,20 +7,14 @@ import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class MsgOutWriter {
+public class RequestMsgWriter {
 
     //attributes
 
     private Document document;
-    private String filePath;
 
     private static  final int LOGIN_INDEX = 0;
     private static final int CHOOSE_STARTER_INDEX = 1;
@@ -32,19 +26,19 @@ public class MsgOutWriter {
 
 
 
+    //constructor
+
+    public RequestMsgWriter(){
+        try {
+            this.document = this.getDocument(Objects.requireNonNull(this.getClass().getClassLoader().getResource("xml/client/toSendRequest")).getFile());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //methods
 
     //support methods
-
-    private void setDocument(String fileName){
-        try {
-            filePath = "src/main/resources/client/" + fileName;
-            this.document = this.getDocument(filePath);
-        }
-        catch (Exception e){
-            System.out.println("Error during XML parsing.");
-        }
-    }
 
     /**
      * This method creates the document object and parses file's path
@@ -62,7 +56,6 @@ public class MsgOutWriter {
 
 
     private void setStandardRequestValues(String user,String mod){
-        setDocument("toSendRequest");
         Node mode = document.getElementsByTagName("Mode").item(0);
         Node username = document.getElementsByTagName("Username").item(0);
 
@@ -70,16 +63,8 @@ public class MsgOutWriter {
         username.setTextContent(user);
     }
 
-    private void resetChildList(Node list){
-        while(list.hasChildNodes()){
-            Node child = list.getFirstChild();
-            list.removeChild(child);
-        }
-    }
-
     private Node initializeTagList(String tagName, int modeIndex){
         Node tag = document.getElementsByTagName(tagName).item(modeIndex);
-        resetChildList(tag);
         return tag;
     }
 
@@ -105,83 +90,81 @@ public class MsgOutWriter {
         appendTag(position,"yPosition",yPosition);
     }
 
-    private void applyModification() {
-        try {
-
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-
-            DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(new File(filePath));
-            transformer.transform(source, result);
-
-        } catch (TransformerException e) {
-            e.printStackTrace();
-        }
-    }
 
     //action methods
 
-    public void loginRequest(String user, Color c){
+    public Document loginRequest(String user, Color c){
         setStandardRequestValues(user,"login");
-        Node aUpdateTag = initializeTagList("Request",LOGIN_INDEX);
-        appendTag(aUpdateTag,"Color",Color.labelOfEnum(c));
-        applyModification();
+        Node updateTag = initializeTagList("Request",LOGIN_INDEX);
+        appendTag(updateTag,"Color",Color.labelOfEnum(c));
+        return document;
     }
 
-    public void startGameRequest(String user){
+    public Document startGameRequest(String user){
         setStandardRequestValues(user,"startGame");
-        applyModification();
+        return document;
     }
 
-    public void chooseStartingPlayerRequest(String user, String chosenPlayer){
+    public Document chooseStartingPlayerRequest(String user, String chosenPlayer){
         setStandardRequestValues(user,"choseStartingPlayer");
-        Node aUpdateTag = initializeTagList("Request", CHOOSE_STARTER_INDEX);
-        appendTag(aUpdateTag,"PlayerChosen",chosenPlayer);
-        applyModification();
+        Node updateTag = initializeTagList("Request", CHOOSE_STARTER_INDEX);
+        appendTag(updateTag,"PlayerChosen",chosenPlayer);
+        return document;
     }
 
-    public void createGodsRequest(String user, ArrayList<Integer> godIds){
+    public Document createGodsRequest(String user, ArrayList<Integer> godIds){
         setStandardRequestValues(user,"createGods");
-        Node aUpdateTag = initializeTagList("Request", CREATE_GODS_INDEX);
-        Node gods = appendTag(aUpdateTag,"Gods","");
+        Node updateTag = initializeTagList("Request", CREATE_GODS_INDEX);
+        Node gods = appendTag(updateTag,"Gods","");
         for (int i=0;i < godIds.size(); i++){
             appendTagWithAttribute(gods,"God",godIds.get(i).toString(),"n",String.valueOf(i));
         }
-        applyModification();
+        return document;
     }
 
-    public void chooseGodRequest(String user, Integer godId){
+    public Document chooseGodRequest(String user, Integer godId){
         setStandardRequestValues(user,"choseGod");
-        Node aUpdateTag = initializeTagList("Request", CHOOSE_GOD_INDEX);
-        appendTag(aUpdateTag,"God",godId.toString());
-        applyModification();
+        Node updateTag = initializeTagList("Request", CHOOSE_GOD_INDEX);
+        appendTag(updateTag,"God",godId.toString());
+        return document;
     }
 
-    public void setWorkerOnBoardRequest(String user, String workerGender, Integer xPosition, Integer yPosition){
+    public Document setWorkerOnBoardRequest(String user, String workerGender, Integer xPosition, Integer yPosition){
         setStandardRequestValues(user,"SetWorkerOnBoard");
-        Node aUpdateTag = initializeTagList("Request", SET_WORKER_INDEX);
-        Node position = appendTag(aUpdateTag,"Position","");
+        Node updateTag = initializeTagList("Request", SET_WORKER_INDEX);
+        Node position = appendTag(updateTag,"Position","");
 
         appendWorkerPosition(0, workerGender,xPosition.toString(),yPosition.toString());
-        applyModification();
+        return document;
     }
 
-    public void moveRequest(String user, String workerGender, Integer xPosition, Integer yPosition){
+    public Document moveRequest(String user, String workerGender, Integer xPosition, Integer yPosition){
         setStandardRequestValues(user,"move");
-        Node aUpdateTag = initializeTagList("Request", MOVE_INDEX);
-        appendTag(aUpdateTag,"Position","");
+        Node updateTag = initializeTagList("Request", MOVE_INDEX);
+        appendTag(updateTag,"Position","");
 
         appendWorkerPosition(1, workerGender,xPosition.toString(),yPosition.toString());
-        applyModification();
+        return document;
     }
 
-    public void buildRequest(String user, String workerGender, Integer xPosition, Integer yPosition){
+    public Document buildRequest(String user, String workerGender, Integer xPosition, Integer yPosition){
         setStandardRequestValues(user,"build");
-        Node aUpdateTag = initializeTagList("Request", BUILD_INDEX);
-        Node position = appendTag(aUpdateTag,"Position","");
+        Node updateTag = initializeTagList("Request", BUILD_INDEX);
+        Node position = appendTag(updateTag,"Position","");
 
         appendWorkerPosition(2, workerGender,xPosition.toString(),yPosition.toString());
-        applyModification();
+        return document;
+    }
+
+    public Document endOfTurnRequest(String user){
+        setStandardRequestValues(user,"endOfTurn");
+
+        return document;
+    }
+
+    public Document endRequest(String user){
+        setStandardRequestValues(user,"end");
+
+        return document;
     }
 }

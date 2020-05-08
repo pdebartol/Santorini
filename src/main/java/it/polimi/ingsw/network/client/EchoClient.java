@@ -1,8 +1,17 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.msgUtilities.client.RequestMsgWriter;
+import it.polimi.ingsw.network.MsgSender;
+import it.polimi.ingsw.network.XMLInputStream;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.net.Socket;
-import java.util.Arrays;
 
 
 /**
@@ -18,37 +27,38 @@ public class EchoClient {
     private final int port;
     private Socket server;
 
+    private Document msgIn;
+
     //constructor
 
     public EchoClient(String hostname, int port){
         this.hostName = hostname;
         this.port = port;
+        this.msgIn= null;
     }
 
     //methods
 
     public void start(){
 
-        File inFile = new File("src/main/resources/xml/client/msgIn");
         initializeClientConnection();
+        new MsgSender(server,new RequestMsgWriter().loginRequest("Marco", Color.WHITE));
 
         try {
             InputStream in = server.getInputStream();
-            FileOutputStream fileToWrite = new FileOutputStream(inFile, false);
 
             while(true) {
-                byte[] buffer = new byte[2000];
-                int r = in.read(buffer);
-                fileToWrite.write(buffer,0,r);
+
+                receiveXML(in);
+                processMsg();
+
                 if(isEndMode()){
                     break;
                 }else{
                     processMsg();
-                    fileToWrite.flush();
                 }
             }
 
-            fileToWrite.close();
             in.close();
             System.out.println("Connection closed!");
             server.close();
@@ -68,11 +78,26 @@ public class EchoClient {
         System.out.println("Connection established!");
     }
 
+    private void receiveXML(InputStream in){
+        DocumentBuilderFactory docBuilderFact = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder;
+        XMLInputStream xmlIn = new XMLInputStream(in);
+
+
+        try {
+            docBuilder = docBuilderFact.newDocumentBuilder();
+            xmlIn.receive();
+            msgIn = docBuilder.parse(xmlIn);
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean isEndMode(){
         return false;
     }
 
     private void processMsg(){
-
+        System.out.println(msgIn.getXmlEncoding());
     }
 }

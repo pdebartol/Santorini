@@ -4,9 +4,6 @@ import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.view.server.VirtualView;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.*;
 import java.net.Socket;
 import java.util.*;
@@ -16,15 +13,15 @@ import java.util.*;
  * @author marcoDige
  */
 
-public class MsgInParser {
+public class RequestParser {
 
     //attributes
 
     private Document document;
 
-    public MsgInParser(){
+    public RequestParser(Document document){
         try{
-            this.document = this.getDocument();
+            this.document = document;
         }
         catch (Exception e){
             System.out.println("Error during XML parsing.");
@@ -120,20 +117,6 @@ public class MsgInParser {
             return true;
         }
         return false;
-    }
-
-    /**
-     * This method creates the document object and parses 'msgIn' file
-     * @return the parsed xml file
-     * @throws Exception error during xml parsing
-     */
-
-    private Document getDocument() throws Exception
-    {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder.parse("src/main/resources/xml/server/msgIn");
     }
 
     /**

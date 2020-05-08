@@ -1,10 +1,14 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.XMLInputStream;
 import it.polimi.ingsw.view.server.VirtualView;
-import it.polimi.ingsw.msgUtilities.server.MsgInParser;
+import it.polimi.ingsw.msgUtilities.server.RequestParser;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -21,48 +25,47 @@ public class ClientHandler implements Runnable{
     private final Socket client;
     private final VirtualView virtualView;
 
+    private Document request;
+
     //constructors
 
     public ClientHandler(Socket socket, VirtualView vrtV) {
         this.client = socket;
         this.virtualView = vrtV;
+        this.request = null;
     }
 
     //methods
 
     /**
-     * This method allows to take a file from connection with client, to start the Request process and send Answer to client
+     * This method allows to receive an XML from connection with client, to start the Request process and send Answer to client
      * The communication go down when client send a "end" mode file.
      */
 
     @Override
     public void run() {
 
-        File requestFile = new File("src/main/resources/xml/server/msgIn");
         System.out.println("Client " + client + " has connected!");
 
         try {
             InputStream in = client.getInputStream();
-            FileOutputStream fileToWrite = new FileOutputStream(requestFile, false);
 
             while(true) {
-                byte[] buffer = new byte[2000];
-                int r = in.read(buffer);
-                fileToWrite.write(buffer,0,r);
+
+                receiveXML(in);
+
                 if(isEndMode()){
                     break;
                 }else{
                     if(!isLoginRequest())
                         processRequest();
-                    fileToWrite.flush();
                 }
             }
 
-            fileToWrite.close();
             in.close();
             System.out.println("Connection with " + client + " closed!");
             client.close();
-        } catch(IOException e) {
+        } catch(IOException  e) {
             System.err.println("Client " + client + " has disconnected!");
             try {
                 client.close();
@@ -73,6 +76,21 @@ public class ClientHandler implements Runnable{
         }
     }
 
+    private void receiveXML(InputStream in){
+        DocumentBuilderFactory docBuilderFact = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder;
+        XMLInputStream xmlIn = new XMLInputStream(in);
+
+
+        try {
+            docBuilder = docBuilderFact.newDocumentBuilder();
+            xmlIn.receive();
+            request = docBuilder.parse(xmlIn);
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * This method verify if the request mode is "end".
      * @return true -> "end" request mode
@@ -80,7 +98,7 @@ public class ClientHandler implements Runnable{
      */
 
     private boolean isEndMode(){
-        return new MsgInParser().parseEndRequest(virtualView);
+        return new RequestParser(request).parseEndRequest(virtualView);
     }
 
     /**
@@ -88,7 +106,7 @@ public class ClientHandler implements Runnable{
      */
 
     private void processRequest(){
-        new MsgInParser().parseRequest(virtualView);
+        new RequestParser(request).parseRequest(virtualView);
     }
 
     /**
@@ -97,5 +115,5 @@ public class ClientHandler implements Runnable{
      *         false -> not "login" request mode
      */
 
-    private boolean isLoginRequest() {return new MsgInParser().parseLoginRequest(virtualView,client);}
+    private boolean isLoginRequest() {return new RequestParser(request).parseLoginRequest(virtualView,client);}
 }
