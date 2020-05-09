@@ -93,10 +93,6 @@ public class RequestMsgWriter {
 
     //action methods
 
-    public Document test(){
-        return document;
-    }
-
     public Document loginRequest(String user, Color c){
         setStandardRequestValues(user,"login");
         Node updateTag = initializeTagList("Request",LOGIN_INDEX);

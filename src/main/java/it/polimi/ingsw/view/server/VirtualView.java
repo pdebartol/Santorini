@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
 
-public class VirtualView{
+public class VirtualView implements ViewActionListener{
 
     //attributes
 
@@ -21,16 +21,18 @@ public class VirtualView{
     private final Map<String,Socket> clients;
     private final ClientDisconnectionListener clientDisconnectionListener;
     private String starter;
+    private final int lobbyNumber;
 
     boolean matchStarted;
 
     //constructors
 
-    public VirtualView(ControllerActionListener l, ClientDisconnectionListener cdl){
+    public VirtualView(ControllerActionListener l, ClientDisconnectionListener cdl,int lobbyNumber){
         this.controllerListener = l;
         this.clients = new HashMap<>();
         matchStarted = false;
         this.clientDisconnectionListener = cdl;
+        this.lobbyNumber = lobbyNumber;
     }
 
     //methods
@@ -131,6 +133,8 @@ public class VirtualView{
         if (clients.isEmpty()) starter = username;
         clients.put(username, socket);
 
+        System.out.print(username + " logged in lobby number " + lobbyNumber + "\n");
+
         Document updateMsg = new UpdateMsgWriter().loginUpdate(username, color);
         for (String user : clients.keySet())
             if (!user.equals(username)) {
@@ -152,6 +156,8 @@ public class VirtualView{
 
         matchStarted = true;
     }
+
+    @Override
 
     public void onRejectedRequest(String username, List<Error> errors, String mode){
         new MsgSender(clients.get(username), new AnswerMsgWriter().rejectedAnswer(username,mode,errors)).sendMsg();
@@ -189,13 +195,19 @@ public class VirtualView{
         new MsgSender(clients.get(username), new AnswerMsgWriter().setupOnBoardAcceptedAnswer(username,workerGender,x,y)).sendMsg();
     }
 
+    @Override
+
     public void onMoveAcceptedRequest() {
 
     }
 
+    @Override
+
     public void onBuildAcceptedRequest() {
 
     }
+
+    @Override
 
     public void onEndOfTurnAcceptedRequest(){
 
@@ -205,18 +217,20 @@ public class VirtualView{
 
     // Client disconnection methods
 
-    public void clientDown(){
+    public void clientDown(Socket disconnectedClient){
 
-        for(Socket c : clients.values())
-            if(c.isConnected()) {
-                try {
-                    //TODO : send to this client a and finish match msg
-                    c.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        if(clients.containsValue(disconnectedClient)){
+            for(Socket c : clients.values())
+                if(c.isConnected()) {
+                    try {
+                        //TODO : send to this client a and finish match msg
+                        c.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-        clientDisconnectionListener.onClientDown(this);
+            clientDisconnectionListener.onClientDown(this);
+        }
     }
 }

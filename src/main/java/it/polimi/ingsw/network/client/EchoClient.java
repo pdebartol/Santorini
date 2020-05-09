@@ -39,10 +39,11 @@ public class EchoClient {
 
     //methods
 
-    public void start(){
+    public void start(String username, String color){
 
         initializeClientConnection();
-        new MsgSender(server, new RequestMsgWriter().loginRequest("Marco", Color.WHITE)).sendMsg();
+
+        new MsgSender(server, new RequestMsgWriter().loginRequest(username, Color.valueOfLabel(color))).sendMsg();
 
         try {
             InputStream in = server.getInputStream();
@@ -59,10 +60,10 @@ public class EchoClient {
             }
 
             in.close();
-            System.out.println("Connection closed!");
+            System.out.println("Connection closed!\n");
             server.close();
         }catch (IOException | SAXException | ParserConfigurationException e){
-            System.err.println("Connection down!");
+            System.err.println("Connection down!\n");
             try {
                 server.close();
             } catch (IOException ioException) {
@@ -76,10 +77,10 @@ public class EchoClient {
         try{
             server = new Socket(hostName, port);
         }catch (IOException e){
-            System.err.println("Don't know about host " + hostName);
+            System.err.println("Don't know about host " + hostName + "\n");
             return;
         }
-        System.out.println("Connection established!");
+        System.out.println("Connection established! \n");
     }
 
     private void receiveXML(InputStream in) throws IOException, SAXException, ParserConfigurationException {
@@ -98,6 +99,9 @@ public class EchoClient {
     }
 
     private void processMsg(){
-        System.out.println(msgIn.getElementsByTagName("Outcome").item(0).getTextContent());
+        if(msgIn.getElementsByTagName("Outcome").item(0) != null)
+            System.out.println(msgIn.getElementsByTagName("Outcome").item(0).getTextContent());
+        else
+            System.out.println(msgIn.getElementsByTagName("Author").item(0).getTextContent());
     }
 }

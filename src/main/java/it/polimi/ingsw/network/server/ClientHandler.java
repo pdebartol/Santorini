@@ -24,15 +24,17 @@ public class ClientHandler implements Runnable{
 
     private final Socket client;
     private final VirtualView virtualView;
+    private final int lobbyNumber;
 
     private Document request;
 
     //constructors
 
-    public ClientHandler(Socket socket, VirtualView vrtV) {
+    public ClientHandler(Socket socket, VirtualView vrtV, int lobbyNumber) {
         this.client = socket;
         this.virtualView = vrtV;
         this.request = null;
+        this.lobbyNumber = lobbyNumber;
     }
 
     //methods
@@ -45,7 +47,7 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
 
-        System.out.println("Client " + client + " has connected!");
+        System.out.println("Client " + client + " has connected in lobby number " + lobbyNumber + "!");
 
         try {
             InputStream in = client.getInputStream();
@@ -72,7 +74,7 @@ public class ClientHandler implements Runnable{
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            virtualView.clientDown();
+            virtualView.clientDown(client);
         }
     }
 

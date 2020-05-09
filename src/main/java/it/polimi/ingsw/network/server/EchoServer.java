@@ -30,7 +30,7 @@ public class EchoServer implements ClientDisconnectionListener {
     public EchoServer(int port){
         this.port = port;
         lobbies = new ArrayList<>();
-        lobbies.add(new VirtualView(new MatchController(),this));
+        lobbies.add(new VirtualView(new MatchController(),this, 1));
     }
 
     //methods
@@ -52,16 +52,17 @@ public class EchoServer implements ClientDisconnectionListener {
                 boolean matchFind = false;
                 for (VirtualView v : lobbies){
                     if(v.getLobbySize() < 3 && !v.getMatchStarted()){
-                        executor.submit(new ClientHandler(client,v));
+                        executor.submit(new ClientHandler(client,v,lobbies.indexOf(v) + 1));
                         matchFind = true;
                         break;
                     }
                 }
 
                 if(!matchFind){
-                    VirtualView v = new VirtualView(new MatchController(),this);
+                    System.out.println("\nLobby number " + lobbies.size() + " full, Server creates a new lobby...");
+                    VirtualView v = new VirtualView(new MatchController(),this, lobbies.size() + 1);
                     lobbies.add(v);
-                    executor.submit(new ClientHandler(client,v));
+                    executor.submit(new ClientHandler(client,v,lobbies.indexOf(v) + 1));
                 }
 
             } catch(IOException e) {
