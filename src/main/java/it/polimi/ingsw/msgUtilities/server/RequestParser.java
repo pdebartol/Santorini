@@ -8,7 +8,7 @@ import javax.xml.xpath.*;
 import java.net.Socket;
 import java.util.*;
 
-/** This class is responsible for parsing the msgIn XML and call VirtualView methods to starting
+/** This class is responsible for parsing the msgIn XML and call VirtualView methods to start
  * the request processing.
  * @author marcoDige
  */
@@ -20,12 +20,7 @@ public class RequestParser {
     private Document document;
 
     public RequestParser(Document document){
-        try{
-            this.document = document;
-        }
-        catch (Exception e){
-            System.out.println("Error during XML parsing.");
-        }
+        this.document = document;
     }
 
     //method
