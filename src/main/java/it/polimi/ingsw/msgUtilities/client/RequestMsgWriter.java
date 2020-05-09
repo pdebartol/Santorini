@@ -90,6 +90,14 @@ public class RequestMsgWriter {
         appendTag(position,"yPosition",yPosition);
     }
 
+    private void appendWorkerPositionAndLevel(int index, String workerGender, String xPosition, String yPosition,int level){
+        Node position = document.getElementsByTagName("Position").item(index);
+        appendTag(position, "WorkerGender", workerGender);
+        appendTag(position,"xPosition",xPosition);
+        appendTag(position,"yPosition",yPosition);
+        appendTag(position,"Level",String.valueOf(level));
+
+    }
 
     //action methods
 
@@ -142,7 +150,6 @@ public class RequestMsgWriter {
         setStandardRequestValues(user,"move");
         Node updateTag = initializeTagList("Request", MOVE_INDEX);
         appendTag(updateTag,"Position","");
-
         appendWorkerPosition(1, workerGender,xPosition.toString(),yPosition.toString());
         return document;
     }
@@ -152,8 +159,7 @@ public class RequestMsgWriter {
         Node updateTag = initializeTagList("Request", BUILD_INDEX);
         Node position = appendTag(updateTag,"Position","");
 
-        appendWorkerPosition(2, workerGender,xPosition.toString(),yPosition.toString());
-        appendTag(position,"Level",String.valueOf(level));
+        appendWorkerPositionAndLevel(2, workerGender,xPosition.toString(),yPosition.toString(),level);
         return document;
     }
 

@@ -5,48 +5,28 @@
     <Username></Username>
 
     <Request Mode="login">
-        <Color></Color>
     </Request>
 
     <Request Mode="choseStartingPlayer">
-        <PlayerChosen></PlayerChosen>
     </Request>
 
     <Request Mode="createGods">
-        <Gods>
-            <God n="0"></God>
-            <God n="1"></God>
-            <God n="2"></God>
-        </Gods>
+
     </Request>
 
     <Request Mode="choseGod">
-        <God></God>
     </Request>
 
     <Request Mode="SetWorkerOnBoard">
-        <Position>
-            <WorkerGender></WorkerGender>
-            <xPosition></xPosition>
-            <yPosition></yPosition>
-        </Position>
+
     </Request>
 
     <Request Mode="move">
-        <Position>
-            <WorkerGender></WorkerGender>
-            <xPosition></xPosition>
-            <yPosition></yPosition>
-        </Position>
+
     </Request>
 
     <Request Mode="build">
-        <Position>
-            <WorkerGender></WorkerGender>
-            <xPosition></xPosition>
-            <yPosition></yPosition>
-            <Level></Level>
-        </Position>
+
     </Request>
 
 </Requests>
