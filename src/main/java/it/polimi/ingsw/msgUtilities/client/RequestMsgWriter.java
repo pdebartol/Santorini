@@ -147,12 +147,13 @@ public class RequestMsgWriter {
         return document;
     }
 
-    public Document buildRequest(String user, String workerGender, Integer xPosition, Integer yPosition){
+    public Document buildRequest(String user, String workerGender, Integer xPosition, Integer yPosition, int level){
         setStandardRequestValues(user,"build");
         Node updateTag = initializeTagList("Request", BUILD_INDEX);
         Node position = appendTag(updateTag,"Position","");
 
         appendWorkerPosition(2, workerGender,xPosition.toString(),yPosition.toString());
+        appendTag(position,"Level",String.valueOf(level));
         return document;
     }
 

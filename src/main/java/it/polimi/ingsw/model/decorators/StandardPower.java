@@ -157,13 +157,15 @@ public class StandardPower implements Power {
 
     @Override
     public void updateMove(Worker w, int x, int y) {
-
         if (x < 0 || x >= Board.SIZE || y < 0 || y >= Board.SIZE) throw new IllegalArgumentException("Invalid coordinates!");
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
+
 
         Square s = board.getSquare(x,y);
 
         if(s.equals(w.getCurrentSquare())) throw new IllegalStateException("Can't move on the same Square!");
+
+        board.getMsgContainer().updateMove(w.getCurrentSquare().getXPosition(),w.getCurrentSquare().getYPosition(),x,y);
 
         w.updateWorkerPosition(s);
         w.getLastSquareMove().removeWorker();
@@ -185,6 +187,8 @@ public class StandardPower implements Power {
         if(w == null) throw new IllegalArgumentException("Null worker as argument!");
 
         Square s = board.getSquare(x,y);
+
+        board.getMsgContainer().updateBuild(w.getCurrentSquare().getXPosition(),w.getCurrentSquare().getYPosition(),x,y,l);
 
         s.buildLevel(l);
         w.setLastSquareBuild(s);

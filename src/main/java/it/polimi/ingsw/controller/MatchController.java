@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
 import it.polimi.ingsw.model.enums.State;
+import it.polimi.ingsw.view.server.ViewActionListener;
 
 import java.util.*;
 
@@ -32,12 +33,19 @@ public class MatchController implements ControllerActionListener {
 
     HashMap<Integer,God> selectedGods;
 
+    ViewActionListener viewActionListener;
+
     public MatchController(){
         playerController = new PlayerController();
         gameBoard = new Board();
         selectedGods = new HashMap<>();
     }
 
+    @Override
+
+    public void setViewActionListener(ViewActionListener viewActionListener) {
+        this.viewActionListener = viewActionListener;
+    }
 
     /**
      * This method is triggered when a new player logs in.
@@ -216,7 +224,8 @@ public class MatchController implements ControllerActionListener {
         Player currentPlayer = playerController.getCurrentPlayer();
         if(!currentPlayer.getUsername().equals(playerUsername)){
             errors.add(Error.INGAME_NOT_YOUR_TURN);
-            return Collections.unmodifiableList(errors);
+            viewActionListener.onRejectedRequest(playerUsername,errors,"move");
+            return errors;
         }
         Worker selectedWorker = currentPlayer.getWorkerByGender(workerGender);
         Worker activeWorker = currentPlayer.getActiveWorker();
@@ -224,20 +233,32 @@ public class MatchController implements ControllerActionListener {
         if(activeWorker != null){
             if(!selectedWorker.getGender().equals(activeWorker.getGender())){
                 errors.add(Error.INGAME_WRONG_WORKER);
-                return Collections.unmodifiableList(errors);
+                viewActionListener.onRejectedRequest(playerUsername,errors,"move");
+                return errors;
             }
 
-            return currentPlayer.move(selectedWorker,x,y);
+            gameBoard.setMsgContainer(playerUsername,"move");
+
+            errors.addAll(currentPlayer.move(selectedWorker,x,y));
+
+            if(errors.isEmpty()){
+                viewActionListener.onMoveAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
+            }else
+                viewActionListener.onRejectedRequest(playerUsername,errors,"move");
+            return errors;
         }
-        else{
+        else {
             selectedWorker.isMovingOn();
-            List<Error> temp_errors =  currentPlayer.move(selectedWorker,x,y);
-            if(!temp_errors.isEmpty()){
+            List<Error> temp_errors = currentPlayer.move(selectedWorker, x, y);
+            if (!temp_errors.isEmpty()) {
                 selectedWorker.isMovingOff();
-            }
+                viewActionListener.onRejectedRequest(playerUsername, errors, "move");
+            }else
+                viewActionListener.onMoveAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
             return temp_errors;
         }
     }
+
 
     /**
      * This method is triggered when the player builds something.
@@ -261,22 +282,35 @@ public class MatchController implements ControllerActionListener {
 
         if(!currentPlayer.getUsername().equals(playerUsername)){
             errors.add(Error.INGAME_NOT_YOUR_TURN);
-            return Collections.unmodifiableList(errors);
+            viewActionListener.onRejectedRequest(playerUsername,errors,"build");
+            return errors;
         }
 
         if(activeWorker != null){
             if(!selectedWorker.getGender().equals(activeWorker.getGender())){
                 errors.add(Error.INGAME_WRONG_WORKER);
-                return Collections.unmodifiableList(errors);
+                viewActionListener.onRejectedRequest(playerUsername,errors,"build");
+                return errors;
             }
-            return currentPlayer.build(selectedWorker,x,y,level);
+
+            gameBoard.setMsgContainer(playerUsername,"build");
+
+            errors.addAll(currentPlayer.build(selectedWorker,x,y,level));
+
+            if(errors.isEmpty()){
+                viewActionListener.onBuildAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
+            }else
+                viewActionListener.onRejectedRequest(playerUsername,errors,"build");
+            return errors;
         }
         else{
             selectedWorker.isMovingOn();
             List<Error> temp_errors =  currentPlayer.build(selectedWorker,x,y,level);
             if(!temp_errors.isEmpty()){
                 selectedWorker.isMovingOff();
-            }
+                viewActionListener.onRejectedRequest(playerUsername,errors,"build");
+            }else
+                viewActionListener.onBuildAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
             return temp_errors;
         }
     }

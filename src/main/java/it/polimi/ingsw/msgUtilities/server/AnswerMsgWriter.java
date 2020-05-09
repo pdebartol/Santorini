@@ -49,7 +49,7 @@ public class AnswerMsgWriter {
         }
     }
 
-    private void setStandardAnswerValues(String user,String mod,String out){
+    public void setStandardAnswerValues(String user,String mod,String out){
         Node mode = document.getElementsByTagName("Mode").item(0);
         Node username = document.getElementsByTagName("Username").item(0);
         Node outcome = document.getElementsByTagName("Outcome").item(0);
@@ -149,6 +149,29 @@ public class AnswerMsgWriter {
         appendTag(updateTag,"WorkerGender",workerGender);
         appendTag(updateTag,"xPosition",String.valueOf(x));
         appendTag(updateTag,"yPosition",String.valueOf(y));
+        return document;
+    }
+
+    public Document moveAcceptedRequest(int startX, int startY, int x, int y){
+        Node updateTag = initializeTagList("Update");
+
+        Node position = appendTag(updateTag,"Position");
+        appendTag(position,"startXPosition",String.valueOf(startX));
+        appendTag(position,"startYPosition",String.valueOf(startY));
+        appendTag(position,"xPosition",String.valueOf(x));
+        appendTag(position,"yPosition",String.valueOf(y));
+        return document;
+    }
+
+    public Document buildAcceptedRequest(int startX, int startY, int x, int y, int level){
+        Node updateTag = initializeTagList("Update");
+
+        Node height = appendTag(updateTag,"Height");
+        appendTag(height,"startXPosition",String.valueOf(startX));
+        appendTag(height,"startYPosition",String.valueOf(startY));
+        appendTag(height,"xPosition",String.valueOf(x));
+        appendTag(height,"yPosition",String.valueOf(y));
+        appendTag(height,"Level",String.valueOf(level));
         return document;
     }
 

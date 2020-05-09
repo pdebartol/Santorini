@@ -41,6 +41,8 @@ public class Board {
 
     private State gameState;
 
+    private ModelMsgContainer msgContainer;
+
     //constructors
 
     public Board() {
@@ -77,6 +79,14 @@ public class Board {
     }
 
     public void setGameState(String state){gameState = State.valueOfLabel(state);}
+
+    public void setMsgContainer(String username, String mode){
+        msgContainer = new ModelMsgContainer(username,mode);
+    }
+
+    public ModelMsgContainer getMsgContainer(){
+        return msgContainer;
+    }
 
     /**
      * This method reset nMoves and nBuild to 0.

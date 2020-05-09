@@ -31,7 +31,7 @@
             <yPosition></yPosition>
         </Position>
     </Request>
-    
+
     <Request Mode="move">
         <Position>
             <WorkerGender></WorkerGender>
@@ -45,6 +45,7 @@
             <WorkerGender></WorkerGender>
             <xPosition></xPosition>
             <yPosition></yPosition>
+            <Level></Level>
         </Position>
     </Request>
 

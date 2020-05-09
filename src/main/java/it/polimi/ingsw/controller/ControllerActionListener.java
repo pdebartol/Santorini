@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
+import it.polimi.ingsw.view.server.ViewActionListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,4 +26,6 @@ public interface ControllerActionListener {
      List<Error> onWorkerMove(String playerUsername, String workerGender, int x, int y);
      List<Error> onWorkerBuild(String playerUsername, String workerGender, int x, int y, int level);
      List<Error> onPlayerEndTurn(String playerUsername);
+
+     void setViewActionListener(ViewActionListener viewActionListener);
 }

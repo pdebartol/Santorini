@@ -71,7 +71,8 @@ public class RequestParser {
                 String bWorkerGender = Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0);
                 int xb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
                 int yb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
-                vrtV.buildRequest(username,bWorkerGender,xb,yb);
+                int level = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/Level/text()")).get(0));
+                vrtV.buildRequest(username,bWorkerGender,xb,yb,level);
                 break;
             case "endOfTurn":
                 vrtV.endOfTurn(username);

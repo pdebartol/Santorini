@@ -30,9 +30,10 @@ public class VirtualView implements ViewActionListener{
     public VirtualView(ControllerActionListener l, ClientDisconnectionListener cdl,int lobbyNumber){
         this.controllerListener = l;
         this.clients = new HashMap<>();
-        matchStarted = false;
+        this.matchStarted = false;
         this.clientDisconnectionListener = cdl;
         this.lobbyNumber = lobbyNumber;
+        this.controllerListener.setViewActionListener(this);
     }
 
     //methods
@@ -117,8 +118,8 @@ public class VirtualView implements ViewActionListener{
         controllerListener.onWorkerMove(username,workerGender,x,y);
     }
 
-    public void buildRequest(String username, String workerGender, int x, int y){
-        controllerListener.onWorkerMove(username,workerGender,x,y);
+    public void buildRequest(String username, String workerGender, int x, int y, int level){
+        controllerListener.onWorkerBuild(username,workerGender,x,y,level);
     }
 
     public void endOfTurn(String username){
@@ -197,14 +198,20 @@ public class VirtualView implements ViewActionListener{
 
     @Override
 
-    public void onMoveAcceptedRequest() {
-
+    public void onMoveAcceptedRequest(String username, Document answerMsg, Document updateMsg) {
+        for (String user : clients.keySet())
+            if(!user.equals(username))
+                new MsgSender(clients.get(user), updateMsg).sendMsg();
+        new MsgSender(clients.get(username), answerMsg).sendMsg();
     }
 
     @Override
 
-    public void onBuildAcceptedRequest() {
-
+    public void onBuildAcceptedRequest(String username, Document answerMsg, Document updateMsg) {
+        for (String user : clients.keySet())
+            if(!user.equals(username))
+                new MsgSender(clients.get(user), updateMsg).sendMsg();
+        new MsgSender(clients.get(username), answerMsg).sendMsg();
     }
 
     @Override

@@ -183,8 +183,7 @@ public class Player implements PropertyChangeListener {
             //TODO: notify possible win to view
             //TODO: notify changes to view
         }else
-            //TODO: notify errors
-            System.out.println("Errors");
+            System.out.println("Request rejected!");
 
         return errors;
     }
@@ -210,10 +209,8 @@ public class Player implements PropertyChangeListener {
         List<Error> errors = Collections.unmodifiableList(errorList);
         if(errors.isEmpty()){
             power.updateBuild(w, x, y, l);
-            //TODO: notify changes to view
         }else
-            //TODO: notify errors
-            System.out.println("Errors");
+            System.out.println("Request Rejected");
 
         return errors;
     }
@@ -230,7 +227,6 @@ public class Player implements PropertyChangeListener {
 
         Power power = god.getPower();
         return power.endOfTurn(workers);
-        //TODO: notify view that player can't finish his turn
     }
 
     /**
