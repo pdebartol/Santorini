@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -46,6 +48,16 @@ public class AnswerMsgWriter {
             String sError = Error.labelOfEnum(error);
             Element tag = document.createElement(sError);
             errorsTag.appendChild(tag);
+        }
+    }
+
+    private void setComponentsList(Set<String> users){
+        Node componentsTag = initializeTagList("Components");
+
+        for(String u : users){
+            Element tag = document.createElement("Component");
+            tag.setTextContent(u);
+            componentsTag.appendChild(tag);
         }
     }
 
@@ -100,12 +112,16 @@ public class AnswerMsgWriter {
         return document;
     }
 
-    public Document loginAcceptedAnswer(String user, Color c){
+    public Document loginAcceptedAnswer(String user, Color c, Set<String> users){
         setStandardAnswerValues(user,"login","accepted");
         Node updateTag = initializeTagList("Update");
 
         appendTag(updateTag,"Username",user);
         appendTag(updateTag,"Color",Color.labelOfEnum(c));
+        Element tag = document.createElement("Components");
+        updateTag.appendChild(tag);
+        setComponentsList(users);
+
         return document;
 
     }
@@ -152,7 +168,7 @@ public class AnswerMsgWriter {
         return document;
     }
 
-    public Document moveAcceptedRequest(int startX, int startY, int x, int y){
+    public Document moveUpdate(int startX, int startY, int x, int y){
         Node updateTag = initializeTagList("Update");
 
         Node position = appendTag(updateTag,"Position");
@@ -163,7 +179,7 @@ public class AnswerMsgWriter {
         return document;
     }
 
-    public Document buildAcceptedRequest(int startX, int startY, int x, int y, int level){
+    public Document buildUpdate(int startX, int startY, int x, int y, int level){
         Node updateTag = initializeTagList("Update");
 
         Node height = appendTag(updateTag,"Height");
@@ -172,6 +188,21 @@ public class AnswerMsgWriter {
         appendTag(height,"xPosition",String.valueOf(x));
         appendTag(height,"yPosition",String.valueOf(y));
         appendTag(height,"Level",String.valueOf(level));
+        return document;
+    }
+
+    public Document nextStepTurnIndication(String nextStep){
+        document.getElementsByTagName("TurnNextStep").item(0).setTextContent(nextStep);
+        return document;
+    }
+
+    public Document endOfTurnRemoveAndBuildUpdate(int startX, int startY,int level){
+        Node updateTag = initializeTagList("Update");
+
+        Node removeAndBuild = appendTag(updateTag,"RemoveAndBuild");
+        appendTag(removeAndBuild,"startXPosition",String.valueOf(startX));
+        appendTag(removeAndBuild,"startYPosition",String.valueOf(startY));
+        appendTag(removeAndBuild,"Level",String.valueOf(level));
         return document;
     }
 

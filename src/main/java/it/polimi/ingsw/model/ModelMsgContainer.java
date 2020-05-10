@@ -33,12 +33,21 @@ public class ModelMsgContainer {
     }
 
     public void updateMove(int startX, int startY, int x, int y){
-        answerMsg = answerMsgWriter.moveAcceptedRequest(startX,startY,x,y);
+        answerMsg = answerMsgWriter.moveUpdate(startX,startY,x,y);
         updateMsg = updateMsgWriter.moveUpdate(startX,startY,x,y);
     }
 
     public void updateBuild(int startX, int startY, int x, int y, int level){
-        answerMsg = answerMsgWriter.buildAcceptedRequest(startX,startY,x,y,level);
+        answerMsg = answerMsgWriter.buildUpdate(startX,startY,x,y,level);
         updateMsg = updateMsgWriter.buildUpdate(startX,startY,x,y,level);
+    }
+
+    public void nextStepIndication(String nextStep){
+        answerMsg = answerMsgWriter.nextStepTurnIndication(nextStep);
+    }
+
+    public void endOfTurnRemoveAndBuildUpdate(int startX,int startY,int level){
+        answerMsg = answerMsgWriter.endOfTurnRemoveAndBuildUpdate(startX,startY,level);
+        updateMsg = updateMsgWriter.endOfTurnRemoveAndBuildUpdate(startX,startY,level);
     }
 }

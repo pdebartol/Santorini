@@ -52,6 +52,8 @@ public class Board {
             for(int y = 0; y < SIZE; y++)
                 this.table[x][y] = new Square(x, y);
         }
+
+        msgContainer = new ModelMsgContainer("","");
     }
 
     //methods

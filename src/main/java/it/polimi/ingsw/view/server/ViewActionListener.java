@@ -11,6 +11,6 @@ import java.util.List;
 public interface ViewActionListener {
     public void onMoveAcceptedRequest(String username, Document answerMsg, Document updateMsg);
     public void onBuildAcceptedRequest(String username, Document answerMsg, Document updateMsg);
-    public void onEndOfTurnAcceptedRequest();
+    public void onEndOfTurnAcceptedRequest(String username, Document answerMsg, Document updateMsg);
     public void onRejectedRequest(String username, List<Error> errors, String mode);
 }

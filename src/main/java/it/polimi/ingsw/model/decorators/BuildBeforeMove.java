@@ -60,4 +60,20 @@ public class BuildBeforeMove extends PowerDecorator {
         return errors;
     }
 
+    /**
+     * This method overrides updateBuild (PowerDecorator) and allows to modify nexStepIndication into xml request answer.
+     * @param w is the worker that builds
+     * @param x is the x square coordinate where the worker builds
+     * @param y is the y square coordinate where the worker builds
+     * @param l is the level the worker builds
+     */
+
+    @Override
+    public void updateBuild(Worker w, int x, int y, int l){
+        decoratedPower.updateBuild(w,x,y,l);
+        if(getBoard().getNBuild() == 1 && getBoard().getNMoves() == 0)
+            //Write nexStepIndication in xml build request answer
+            getBoard().getMsgContainer().nextStepIndication("move");
+    }
+
 }

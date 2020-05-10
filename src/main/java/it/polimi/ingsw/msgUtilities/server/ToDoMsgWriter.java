@@ -7,6 +7,7 @@ import org.w3c.dom.Node;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
+import java.util.List;
 
 public class ToDoMsgWriter {
 
@@ -60,5 +61,11 @@ public class ToDoMsgWriter {
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
         return builder.parse(stream);
+    }
+
+    public Document toDoAction(String action){
+        Node actionTag = initializeTagList("Action");
+        actionTag.setTextContent(action);
+        return document;
     }
 }

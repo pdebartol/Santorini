@@ -52,6 +52,9 @@ public class EndRemoveNeighbour extends PowerDecorator {
                     if (s.getLevel() < w.getCurrentSquare().getLevel() && !s.isFree() && s.getWorker().getColor() != w.getColor()) {
                         s.getWorker().removeFromGame();
                         s.buildLevel(s.getLevel() + 1);
+
+                        //Write remove update in endOfTurn request answer
+                        getBoard().getMsgContainer().endOfTurnRemoveAndBuildUpdate(x,y,s.getLevel());
                     }
                 }
             }

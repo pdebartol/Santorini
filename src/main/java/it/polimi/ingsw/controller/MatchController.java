@@ -224,8 +224,9 @@ public class MatchController implements ControllerActionListener {
         Player currentPlayer = playerController.getCurrentPlayer();
         if(!currentPlayer.getUsername().equals(playerUsername)){
             errors.add(Error.INGAME_NOT_YOUR_TURN);
+            //Notify view that request has been rejected
             viewActionListener.onRejectedRequest(playerUsername,errors,"move");
-            return errors;
+            return Collections.unmodifiableList(errors);
         }
         Worker selectedWorker = currentPlayer.getWorkerByGender(workerGender);
         Worker activeWorker = currentPlayer.getActiveWorker();
@@ -233,8 +234,9 @@ public class MatchController implements ControllerActionListener {
         if(activeWorker != null){
             if(!selectedWorker.getGender().equals(activeWorker.getGender())){
                 errors.add(Error.INGAME_WRONG_WORKER);
+                //Notify view that request has been rejected
                 viewActionListener.onRejectedRequest(playerUsername,errors,"move");
-                return errors;
+                return Collections.unmodifiableList(errors);
             }
 
             gameBoard.setMsgContainer(playerUsername,"move");
@@ -242,18 +244,22 @@ public class MatchController implements ControllerActionListener {
             errors.addAll(currentPlayer.move(selectedWorker,x,y));
 
             if(errors.isEmpty()){
+                //Notify view that currentPlayer move request has been accepted
                 viewActionListener.onMoveAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
             }else
+                //Notify view that request has been rejected
                 viewActionListener.onRejectedRequest(playerUsername,errors,"move");
-            return errors;
+            return Collections.unmodifiableList(errors);
         }
         else {
             selectedWorker.isMovingOn();
             List<Error> temp_errors = currentPlayer.move(selectedWorker, x, y);
             if (!temp_errors.isEmpty()) {
                 selectedWorker.isMovingOff();
+                //Notify view that request has been rejected
                 viewActionListener.onRejectedRequest(playerUsername, errors, "move");
             }else
+                //Notify view that currentPlayer move request has been accepted
                 viewActionListener.onMoveAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
             return temp_errors;
         }
@@ -282,15 +288,17 @@ public class MatchController implements ControllerActionListener {
 
         if(!currentPlayer.getUsername().equals(playerUsername)){
             errors.add(Error.INGAME_NOT_YOUR_TURN);
+            //Notify view that request has been rejected
             viewActionListener.onRejectedRequest(playerUsername,errors,"build");
-            return errors;
+            return Collections.unmodifiableList(errors);
         }
 
         if(activeWorker != null){
             if(!selectedWorker.getGender().equals(activeWorker.getGender())){
                 errors.add(Error.INGAME_WRONG_WORKER);
+                //Notify view that request has been rejected
                 viewActionListener.onRejectedRequest(playerUsername,errors,"build");
-                return errors;
+                return Collections.unmodifiableList(errors);
             }
 
             gameBoard.setMsgContainer(playerUsername,"build");
@@ -298,18 +306,22 @@ public class MatchController implements ControllerActionListener {
             errors.addAll(currentPlayer.build(selectedWorker,x,y,level));
 
             if(errors.isEmpty()){
+                //Notify view that currentPlayer build request has been accepted
                 viewActionListener.onBuildAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
             }else
+                //Notify view that request has been rejected
                 viewActionListener.onRejectedRequest(playerUsername,errors,"build");
-            return errors;
+            return Collections.unmodifiableList(errors);
         }
         else{
             selectedWorker.isMovingOn();
             List<Error> temp_errors =  currentPlayer.build(selectedWorker,x,y,level);
             if(!temp_errors.isEmpty()){
                 selectedWorker.isMovingOff();
+                //Notify view that request has been rejected
                 viewActionListener.onRejectedRequest(playerUsername,errors,"build");
             }else
+                //Notify view that currentPlayer build request has been accepted
                 viewActionListener.onBuildAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
             return temp_errors;
         }
@@ -333,20 +345,30 @@ public class MatchController implements ControllerActionListener {
 
         if(!currentPlayer.getUsername().equals(playerUsername)){
             errors.add(Error.INGAME_NOT_YOUR_TURN);
+            //Notify view that request has been rejected
+            viewActionListener.onRejectedRequest(playerUsername,errors,"endOfTurn");
             return Collections.unmodifiableList(errors);
         }
 
+        gameBoard.setMsgContainer(playerUsername,"endOfTurn");
+
         // player can end his turn
         if(playerController.getCurrentPlayer().endTurn()){
+            //Notify view that currentPlayer finished his turn
+            viewActionListener.onEndOfTurnAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
+
             // next player has lost
             if(!playerController.getNextPlayer().canMove()){
                 //TODO notify view that next player has lost
             }
+
             playerController.nextTurn();
         }
         //player cannot end his turn
         else{
             errors.add(Error.INGAME_CANNOT_END_TURN);
+            //Notify view that request has been rejected
+            viewActionListener.onRejectedRequest(playerUsername,errors,"endOfTurn");
         }
         return Collections.unmodifiableList(errors);
     }

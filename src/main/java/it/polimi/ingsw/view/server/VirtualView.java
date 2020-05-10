@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.ControllerActionListener;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
 import it.polimi.ingsw.msgUtilities.server.AnswerMsgWriter;
+import it.polimi.ingsw.msgUtilities.server.ToDoMsgWriter;
 import it.polimi.ingsw.msgUtilities.server.UpdateMsgWriter;
 import it.polimi.ingsw.network.MsgSender;
 import it.polimi.ingsw.network.server.ClientDisconnectionListener;
@@ -59,7 +60,7 @@ public class VirtualView implements ViewActionListener{
 
         }else{
             try {
-                //TODO : notify that lobby is full or match has started and he have to connect another time.
+                new MsgSender(socket, new UpdateMsgWriter().extraUpdate("lobbyNoLongerAvailable"));
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -141,7 +142,7 @@ public class VirtualView implements ViewActionListener{
             if (!user.equals(username)) {
                 new MsgSender(clients.get(user), updateMsg).sendMsg();
             }
-        new MsgSender(socket, new AnswerMsgWriter().loginAcceptedAnswer(username, color)).sendMsg();
+        new MsgSender(socket, new AnswerMsgWriter().loginAcceptedAnswer(username, color, clients.keySet())).sendMsg();
     }
 
     public void onLoginRejectedRequest(String username,List<Error> errors, Socket socket){
@@ -216,11 +217,22 @@ public class VirtualView implements ViewActionListener{
 
     @Override
 
-    public void onEndOfTurnAcceptedRequest(){
-
+    public void onEndOfTurnAcceptedRequest(String username, Document answerMsg, Document updateMsg){
+        for (String user : clients.keySet())
+            if(!user.equals(username))
+                new MsgSender(clients.get(user), updateMsg).sendMsg();
+        new MsgSender(clients.get(username), answerMsg).sendMsg();
     }
 
     // To do communication Methods
+
+    public void toDoLogin(Socket socket){
+        new MsgSender(socket, new ToDoMsgWriter().toDoAction("login"));
+    }
+
+    // Win/Lose cases methods
+
+
 
     // Client disconnection methods
 
@@ -230,7 +242,7 @@ public class VirtualView implements ViewActionListener{
             for(Socket c : clients.values())
                 if(c.isConnected()) {
                     try {
-                        //TODO : send to this client a and finish match msg
+                        new MsgSender(c, new UpdateMsgWriter().extraUpdate("disconnection"));
                         c.close();
                     } catch (IOException e) {
                         e.printStackTrace();

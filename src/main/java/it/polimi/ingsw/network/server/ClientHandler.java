@@ -49,6 +49,8 @@ public class ClientHandler implements Runnable{
 
         System.out.println("Client " + client + " has connected in lobby number " + lobbyNumber + "!");
 
+        virtualView.toDoLogin(client);
+
         try {
             InputStream in = client.getInputStream();
 

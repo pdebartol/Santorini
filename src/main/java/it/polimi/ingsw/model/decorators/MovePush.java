@@ -56,6 +56,8 @@ public class MovePush extends PowerDecorator {
             int sameDirectionX = x + (x - w.getCurrentSquare().getXPosition());
             int sameDirectionY = y + (y - w.getCurrentSquare().getYPosition());
             decoratedPower.updateMove(w, x, y);
+
+            //Write this update into move request accepted answer
             getBoard().getMsgContainer().updateMove(x,y,sameDirectionX,sameDirectionY);
             opw.setWorkerOnBoard(getBoard().getSquare(sameDirectionX,sameDirectionY));
         } else
