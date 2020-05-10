@@ -358,11 +358,14 @@ public class MatchController implements ControllerActionListener {
             viewActionListener.onEndOfTurnAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
 
             // next player has lost
-            if(!playerController.getNextPlayer().canMove()){
+            if(!playerController.getNextPlayer().startTurn().equals("blocked")){
                 //TODO notify view that next player has lost
             }
 
             playerController.nextTurn();
+
+            //notify currentPlayer that his turn has started
+            viewActionListener.toDoTurn(currentPlayer.getUsername(),currentPlayer.startTurn());
         }
         //player cannot end his turn
         else{

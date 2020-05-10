@@ -15,4 +15,8 @@ public interface ViewActionListener {
     public void onBuildAcceptedRequest(String username, Document answerMsg, Document updateMsg);
     public void onEndOfTurnAcceptedRequest(String username, Document answerMsg, Document updateMsg);
     public void onRejectedRequest(String username, List<Error> errors, String mode);
+
+    public void toDoTurn(String username, String firstOperation);
+    public void toDoSetupWorkerOnBoard(String username);
+    public void toDoChoseGod(String username, List<Integer> ids);
 }

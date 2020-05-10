@@ -77,4 +77,12 @@ public class ToDoMsgWriter {
         appendTag(infoTag,"InActionPlayer",inActionPlayer);
         return document;
     }
+
+    public Document toDoTurn(String possibleOperation){
+        toDoAction("yourTurn");
+        Node infoTag = initializeTagList("Info");
+
+        appendTag(infoTag,"possibleOperation",possibleOperation);
+        return document;
+    }
 }
