@@ -241,12 +241,7 @@ public class VirtualView implements ViewActionListener{
         if(clients.containsValue(disconnectedClient)){
             for(Socket c : clients.values())
                 if(c.isConnected()) {
-                    try {
-                        new MsgSender(c, new UpdateMsgWriter().extraUpdate("disconnection"));
-                        c.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    new MsgSender(c, new UpdateMsgWriter().extraUpdate("disconnection"));
                 }
 
             clientDisconnectionListener.onClientDown(this);

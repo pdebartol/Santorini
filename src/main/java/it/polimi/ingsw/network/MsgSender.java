@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 /**
- * This class implements sending a file to a client through a socket connection.
+ * This class implements sending an XML message to a client through a socket connection.
  * @author marcoDige
  */
 
@@ -29,8 +29,8 @@ public class MsgSender {
     }
 
     /**
-     * This method allows to send a Request to the server through socket. It read toSendRequest in a buffer and write content into
-     * OutputStream.
+     * This method sends an XML through connection with client. it takes advantage of the XMLOutputStream class
+     * and its methods.
      */
 
     public void sendMsg() {

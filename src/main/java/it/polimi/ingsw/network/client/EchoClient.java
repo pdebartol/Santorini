@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.msgUtilities.client.MsgInParser;
 import it.polimi.ingsw.msgUtilities.client.RequestMsgWriter;
 import it.polimi.ingsw.network.MsgSender;
 import it.polimi.ingsw.network.XMLInputStream;
@@ -39,11 +40,14 @@ public class EchoClient {
 
     //methods
 
+    /**
+     * This method allows to receive an XML from connection with server and to start the message process.
+     * The communication go down when server send a "disconnection" message.
+     */
+
     public void start(String username, String color){
 
         initializeClientConnection();
-
-        new MsgSender(server, new RequestMsgWriter().loginRequest(username, Color.valueOfLabel(color))).sendMsg();
 
         try {
             InputStream in = server.getInputStream();
@@ -52,7 +56,7 @@ public class EchoClient {
 
                 receiveXML(in);
 
-                if(isEndMode()){
+                if(isDisconnectionMessage()){
                     break;
                 }else{
                     processMsg();
@@ -62,6 +66,7 @@ public class EchoClient {
             in.close();
             System.out.println("Connection closed!\n");
             server.close();
+
         }catch (IOException | SAXException | ParserConfigurationException e){
             System.err.println("Connection down!\n");
             try {
@@ -73,6 +78,10 @@ public class EchoClient {
         }
     }
 
+    /**
+     * This method initializes a Socket connection on hostName-port.
+     */
+
     public void initializeClientConnection(){
         try{
             server = new Socket(hostName, port);
@@ -82,6 +91,15 @@ public class EchoClient {
         }
         System.out.println("Connection established! \n");
     }
+
+    /**
+     * This method allows to extract the incoming XML on the network, it takes advantage of the XMLInputStream class
+     * and its methods.
+     * @param in Input stream from connection
+     * @throws ParserConfigurationException if a DocumentBuilder cannot be created which satisfies the configuration requested.
+     * @throws IOException If any IO errors occur.
+     * @throws SAXException If any parse errors occur.
+     */
 
     private void receiveXML(InputStream in) throws IOException, SAXException, ParserConfigurationException {
         DocumentBuilderFactory docBuilderFact = DocumentBuilderFactory.newInstance();
@@ -94,14 +112,21 @@ public class EchoClient {
         msgIn = docBuilder.parse(xmlIn);
     }
 
-    private boolean isEndMode(){
-        return false;
+    /**
+     * This method verify if the message mode is "disconnection".
+     * @return true -> "disconnection" message mode
+     *         false -> not "disconnection" message mode
+     */
+
+    private boolean isDisconnectionMessage(){
+        return new MsgInParser(msgIn).parseDisconnectionMessage();
     }
 
+    /**
+     * This method start a server message processing in client. It uses a MsgInParser to start this process.
+     */
+
     private void processMsg(){
-        if(msgIn.getElementsByTagName("Outcome").item(0) != null)
-            System.out.println(msgIn.getElementsByTagName("Outcome").item(0).getTextContent());
-        else
-            System.out.println(msgIn.getElementsByTagName("Author").item(0).getTextContent());
+        new MsgInParser(msgIn).parseIncomingMessage();
     }
 }

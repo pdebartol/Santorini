@@ -41,7 +41,7 @@ public class ClientHandler implements Runnable{
 
     /**
      * This method allows to receive an XML from connection with client, to start the Request process and send Answer to client
-     * The communication go down when client send a "end" mode file.
+     * The communication go down when client send a "end" mode.
      */
 
     @Override
@@ -49,8 +49,10 @@ public class ClientHandler implements Runnable{
 
         System.out.println("Client " + client + " has connected in lobby number " + lobbyNumber + "!");
 
+        //Server notifies this client that it have to login in the lobby
         virtualView.toDoLogin(client);
 
+        //Server wait for a request from client
         try {
             InputStream in = client.getInputStream();
 
@@ -70,6 +72,7 @@ public class ClientHandler implements Runnable{
             System.out.println("Connection with " + client + " closed!");
             client.close();
         } catch(IOException | SAXException | ParserConfigurationException  e) {
+            //Management of client disconnection
             System.err.println("Client " + client + " has disconnected!");
             try {
                 client.close();
@@ -79,6 +82,15 @@ public class ClientHandler implements Runnable{
             virtualView.clientDown(client);
         }
     }
+
+    /**
+     * This method allows to extract the incoming XML on the network, it takes advantage of the XMLInputStream class
+     * and its methods.
+     * @param in Input stream from connection
+     * @throws ParserConfigurationException if a DocumentBuilder cannot be created which satisfies the configuration requested.
+     * @throws IOException If any IO errors occur.
+     * @throws SAXException If any parse errors occur.
+     */
 
     private void receiveXML(InputStream in) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory docBuilderFact = DocumentBuilderFactory.newInstance();

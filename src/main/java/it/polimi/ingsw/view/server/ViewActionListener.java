@@ -1,12 +1,14 @@
 package it.polimi.ingsw.view.server;
 
 import it.polimi.ingsw.model.enums.Error;
-import it.polimi.ingsw.msgUtilities.server.AnswerMsgWriter;
-import it.polimi.ingsw.network.MsgSender;
 import org.w3c.dom.Document;
-
-import java.net.Socket;
 import java.util.List;
+
+/**
+ * This interface defines the controller's actions on which the virtual view send a message to client.
+ * (it is a part of Observer pattern).
+ * @author marcoDige
+ */
 
 public interface ViewActionListener {
     public void onMoveAcceptedRequest(String username, Document answerMsg, Document updateMsg);

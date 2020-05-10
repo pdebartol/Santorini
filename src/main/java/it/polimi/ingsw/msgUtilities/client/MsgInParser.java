@@ -29,6 +29,17 @@ public class MsgInParser {
      * This method reads the server's answer and notifies the view with the data
      */
 
+    public boolean parseDisconnectionMessage(){
+        String answerType = document.getFirstChild().getNodeName();
+        if(answerType.equals("UpdateMsg")){
+            String mode = Objects.requireNonNull(evaluateXPath("/UpdateMsg/Mode/text()")).get(0);
+            if(mode.equals("disconnection")){
+                //TODO notify view
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void parseIncomingMessage(){
         String answerType = document.getFirstChild().getNodeName();
@@ -55,8 +66,6 @@ public class MsgInParser {
         String username = Objects.requireNonNull(evaluateXPath("/UpdateMsg/Author/text()")).get(0);
 
         switch (mode){
-            case "disconnection":
-                //TODO notify view
             case "login" :
                 String color =  Objects.requireNonNull(evaluateXPath("/UpdateMsg/Update/Color/text()")).get(0);
                 String user =  Objects.requireNonNull(evaluateXPath("/UpdateMsg/Update/Username/text()")).get(0);

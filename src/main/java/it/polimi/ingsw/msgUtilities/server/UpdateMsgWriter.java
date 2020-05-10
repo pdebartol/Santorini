@@ -161,7 +161,7 @@ public class UpdateMsgWriter {
     }
 
     public Document extraUpdate(String mode){
-        setStandardUpdateValues("",mode);
+        setStandardUpdateValues("null",mode);
         return document;
     }
 }

@@ -38,14 +38,16 @@ public class EchoServer implements ClientDisconnectionListener {
     /**
      * This method allows server to start to accept a connection from a client and create a thread which manages a
      * specific client connection (the connection is multi-client).
-     * It allows to create a new lobby if existing lobbies are full or the matches into them have already started.
+     * It allows to create a new lobby if existing lobbies are full or the match into them have already started.
      */
 
     public void start(){
-        ExecutorService executor = Executors.newCachedThreadPool();
 
+        ExecutorService executor = Executors.newCachedThreadPool();
         initializeServer();
 
+        //The server listens for a new connection and searches for a lobby where the new client can enter (if there isn't
+        //server provides to create a new lobby and enters the client into this)
         while (true) {
             try {
                 Socket client = server.accept();
@@ -88,6 +90,11 @@ public class EchoServer implements ClientDisconnectionListener {
 
         System.out.println("Server socket ready on port: " + port);
     }
+
+    /**
+     * This method is called when a client connection go down, it provides to remove the lobby where this client was
+     * @param v is the virtual view represents a lobby/match
+     */
 
     @Override
     public void onClientDown(VirtualView v) {
