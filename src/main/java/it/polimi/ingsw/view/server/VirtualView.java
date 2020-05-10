@@ -21,7 +21,8 @@ public class VirtualView implements ViewActionListener{
     private final ControllerActionListener controllerListener;
     private final Map<String,Socket> clients;
     private final ClientDisconnectionListener clientDisconnectionListener;
-    private String starter;
+    private String creator;
+    private String challenger;
     private final int lobbyNumber;
 
     boolean matchStarted;
@@ -68,9 +69,9 @@ public class VirtualView implements ViewActionListener{
         }
     }
 
-    public void startGameRequest(String username){
-        if(username.equals(starter)){
-            controllerListener.onStartGame();
+    public synchronized void startGameRequest(String username){
+        if(username.equals(creator)){
+            challenger = controllerListener.onStartGame();
 
             onStartGameAcceptedRequest(username);
         }
@@ -132,7 +133,7 @@ public class VirtualView implements ViewActionListener{
     // Answer Methods
 
     public void onLoginAcceptedRequest(String username,Color color, Socket socket){
-        if (clients.isEmpty()) starter = username;
+        if (clients.isEmpty()) creator = username;
         clients.put(username, socket);
 
         System.out.print(username + " logged in lobby number " + lobbyNumber + "\n");
@@ -143,6 +144,8 @@ public class VirtualView implements ViewActionListener{
                 new MsgSender(clients.get(user), updateMsg).sendMsg();
             }
         new MsgSender(socket, new AnswerMsgWriter().loginAcceptedAnswer(username, color, clients.keySet())).sendMsg();
+
+        if (clients.size() >= 2) toDoStartMatch();
     }
 
     public void onLoginRejectedRequest(String username,List<Error> errors, Socket socket){
@@ -157,6 +160,8 @@ public class VirtualView implements ViewActionListener{
         new MsgSender(clients.get(username), new AnswerMsgWriter().startGameAcceptedAnswer(username)).sendMsg();
 
         matchStarted = true;
+
+        toDoCreateGods();
     }
 
     @Override
@@ -179,6 +184,8 @@ public class VirtualView implements ViewActionListener{
             if(!user.equals(username))
                 new MsgSender(clients.get(user), updateMsg).sendMsg();
         new MsgSender(clients.get(username), new AnswerMsgWriter().choseGodAcceptedAnswer(username,godId)).sendMsg();
+
+        if(username.equals(challenger)) toDoChoseStartingPlayer();
     }
 
     public void onChoseStartingPlayerAcceptedRequest(String username, String playerChosen){
@@ -228,6 +235,39 @@ public class VirtualView implements ViewActionListener{
 
     public void toDoLogin(Socket socket){
         new MsgSender(socket, new ToDoMsgWriter().toDoAction("login"));
+    }
+    
+    public void toDoStartMatch(){
+        new MsgSender(clients.get(creator), new ToDoMsgWriter().toDoAction("canStartMatch"));
+        for (String user : clients.keySet())
+            if(!user.equals(creator))
+                new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(creator,"startMatch")).sendMsg();
+    }
+
+    public void toDoCreateGods(){
+        new MsgSender(clients.get(challenger), new ToDoMsgWriter().toDoAction("createGods"));
+        for (String user : clients.keySet())
+            if(!user.equals(challenger))
+                new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(challenger,"createGods")).sendMsg();
+    }
+
+    public void toDoChoseGod(String username, List<Integer> ids){
+
+    }
+
+    public void toDoChoseStartingPlayer(){
+        new MsgSender(clients.get(challenger), new ToDoMsgWriter().toDoAction("choseStartingPlayer"));
+        for (String user : clients.keySet())
+            if(!user.equals(challenger))
+                new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(challenger,"choseStartingPlayer")).sendMsg();
+    }
+
+    public void toDoSetupWorkerOnBoard(String username){
+
+    }
+
+    public void toDoTurn(String username, String firstOperation){
+
     }
 
     // Win/Lose cases methods

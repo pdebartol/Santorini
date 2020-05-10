@@ -68,4 +68,13 @@ public class ToDoMsgWriter {
         actionTag.setTextContent(action);
         return document;
     }
+
+    public Document toDoWaitMsg(String inActionPlayer,String waitFor){
+        toDoAction("wait");
+        Node infoTag = initializeTagList("Info");
+
+        appendTag(infoTag,"WaitFor",waitFor);
+        appendTag(infoTag,"InActionPlayer",inActionPlayer);
+        return document;
+    }
 }
