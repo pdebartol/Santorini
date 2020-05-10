@@ -1,12 +1,10 @@
 package it.polimi.ingsw.msgUtilities.client;
 
-import it.polimi.ingsw.view.server.VirtualView;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import javax.xml.xpath.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /** This class is responsible for parsing the msgIn XML (client-side) and call View methods to start
  * the request processing.
@@ -21,6 +19,7 @@ public class MsgInParser {
 
     public MsgInParser(Document document){
         this.document = document;
+
     }
 
 
@@ -30,8 +29,9 @@ public class MsgInParser {
      * This method reads the server's answer and notifies the view with the data
      */
 
+
     public void parseIncomingMessage(){
-        String answerType = Objects.requireNonNull(evaluateXPath("/text()")).get(0);
+        String answerType = document.getFirstChild().getNodeName();
 
         switch(answerType){
             case "UpdateMsg":
@@ -51,23 +51,81 @@ public class MsgInParser {
     }
 
     private void parseUpdate(){
+        String mode = Objects.requireNonNull(evaluateXPath("/UpdateMsg/Mode/text()")).get(0);
+        String username = Objects.requireNonNull(evaluateXPath("/UpdateMsg/Author/text()")).get(0);
 
+        switch (mode){
+            case "disconnection":
+                //TODO notify view
+            case "login" :
+                String color =  Objects.requireNonNull(evaluateXPath("/UpdateMsg/Update/Color/text()")).get(0);
+                String user =  Objects.requireNonNull(evaluateXPath("/UpdateMsg/Update/Username/text()")).get(0);
+                //TODO notify view
+                break;
+            case "startGame" :
+                //TODO notify view
+                break;
+            case "createGods" :
+                ArrayList<Integer> ids = new ArrayList<>();
+                for(int i = 0; i < 3; ++i){
+                    int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/Gods/God[@n=" + i + "]/text()")).get(0));
+                    if(id != 0) ids.add(id);
+                }
+                //TODO notify view
+                break;
+            case "choseGod" :
+                int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/God/text()")).get(0));
+                //TODO notify view
+                break;
+            case "choseStartingPlayer":
+                String starter = Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/StartingPlayer/text()")).get(0);
+                //TODO notify view
+                break;
+            case "setWorkerOnBoard":
+                String WorkerGender = Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/WorkerGender/text()")).get(0);
+                int x = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/xPosition/text()")).get(0));
+                int y = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/yPosition/text()")).get(0));
+                //TODO notify view
+                break;
+            case "move":
+                NodeList positionsNode = document.getElementsByTagName("Position");
+                List<HashMap<String,String>> positions = getActionData(positionsNode);
+                //TODO notify view
+            case "build":
+                NodeList heightsNode = document.getElementsByTagName("Height");
+                List<HashMap<String,String>> heights = getActionData(heightsNode);
+                //TODO notify view
+            case "endOfTurn":
+                NodeList removeAndBuildNode = document.getElementsByTagName("RemoveAndBuild");
+                List<HashMap<String,String>> removeAndBuild = getActionData(removeAndBuildNode);
+                //TODO notify view
+
+
+        }
     }
 
     private void parseAnswer(){
         String mode = Objects.requireNonNull(evaluateXPath("/Answer/Mode/text()")).get(0);
         String username = Objects.requireNonNull(evaluateXPath("/Answer/Username/text()")).get(0);
         String outcome = Objects.requireNonNull(evaluateXPath("/Answer/Outcome/text()")).get(0);
+        String nextStep =  Objects.requireNonNull(evaluateXPath("/Answer/TurnNextStep/text()")).get(0);
 
         switch (mode){
             case "login" :
                 if(outcome.equals("accepted")){
                     String color =  Objects.requireNonNull(evaluateXPath("/Answer/Update/Color/text()")).get(0);
                     String user =  Objects.requireNonNull(evaluateXPath("/Answer/Update/Username/text()")).get(0);
+                    ArrayList<String> users = new ArrayList<>();
+                    users.add(user);
+                    NodeList components = document.getElementsByTagName("Component");
+                    for (int j = 0; j < components.getLength(); j++) {
+                            Node component = components.item(j);
+                            users.add(component.getTextContent());
+                        }
                     //TODO notify view
                 }
                 else{
-                    //TODO get error list
+                    List<String> errors = getErrorList();
                     //TODO notify view
                 }
                 break;
@@ -76,7 +134,7 @@ public class MsgInParser {
                     //TODO notify view
                 }
                 else{
-                    //TODO get error list
+                    List<String> errors = getErrorList();
                     //TODO notify view
                 }
                 break;
@@ -90,7 +148,7 @@ public class MsgInParser {
                     //TODO notify view
                 }
                 else{
-                    //TODO get error list
+                    List<String> errors = getErrorList();
                     //TODO notify view
                 }
                 break;
@@ -100,7 +158,7 @@ public class MsgInParser {
                     //TODO notify view
                 }
                 else{
-                    //TODO get error list
+                    List<String> errors = getErrorList();
                     //TODO notify view
                 }
                 break;
@@ -111,7 +169,7 @@ public class MsgInParser {
 
                 }
                 else{
-                    //TODO get error list
+                    List<String> errors = getErrorList();
                     //TODO notify view
                 }
                 break;
@@ -123,10 +181,45 @@ public class MsgInParser {
                     //TODO notify view
                 }
                 else{
-                    //TODO get error list
+                    List<String> errors = getErrorList();
                     //TODO notify view
                 }
                 break;
+            case "move":
+                if(outcome.equals("accepted")){
+                    NodeList positionsNode = document.getElementsByTagName("Position");
+                    List<HashMap<String,String>> positions = getActionData(positionsNode);
+                    System.out.println(positions);
+                    //TODO notify view
+                }
+                else{
+                    List<String> errors = getErrorList();
+                }
+                break;
+            case "build":
+                if(outcome.equals("accepted")){
+                    NodeList heightsNode = document.getElementsByTagName("Height");
+                    List<HashMap<String,String>> heights = getActionData(heightsNode);
+                    //TODO notify view
+                }
+                else{
+                    List<String> errors = getErrorList();
+
+                }
+                break;
+
+            case "endOfTurn":
+                if(outcome.equals("accepted")){
+                    NodeList removeAndBuildNode = document.getElementsByTagName("RemoveAndBuild");
+                    List<HashMap<String,String>> removeBuild = getActionData(removeAndBuildNode);
+                    //TODO notify view
+                }
+                else{
+                    List<String> errors = getErrorList();
+
+                }
+
+
         }
 
     }
@@ -135,6 +228,31 @@ public class MsgInParser {
 
     }
 
+
+    private List<String> getErrorList(){
+        NodeList errorsNode = document.getElementsByTagName("Errors");
+        List<String>  errors = new ArrayList<>();
+        for (int j = 0; j < errorsNode.getLength(); j++) {
+            Node error = errorsNode.item(j);
+            errors.add(error.getNodeName());
+        }
+        return Collections.unmodifiableList(errors);
+    }
+
+    private List<HashMap<String,String>> getActionData(NodeList primaryNode){
+        List<HashMap<String,String>> result = new ArrayList<>();
+        for (int j = 0; j < primaryNode.getLength(); j++) {
+            Node dataNode = primaryNode.item(j);
+            NodeList dataNode_child = dataNode.getChildNodes();
+            HashMap<String,String> data = new HashMap<>();
+            for(int i = 0; i < dataNode_child.getLength();i++){
+                Node child = dataNode_child.item(i);
+                data.put(child.getNodeName(), child.getTextContent());
+            }
+            result.add(data);
+        }
+        return result;
+    }
 
     /**
      * This methods uses XPath expressions to find nodes in xml documents

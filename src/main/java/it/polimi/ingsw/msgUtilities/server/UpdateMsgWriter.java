@@ -87,7 +87,6 @@ public class UpdateMsgWriter {
         setStandardUpdateValues(user,"startGame");
 
         initializeTagList("Update");
-        initializeTagList("Errors");
         return document;
     }
 
