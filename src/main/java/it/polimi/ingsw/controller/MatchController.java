@@ -364,8 +364,9 @@ public class MatchController implements ControllerActionListener {
 
             playerController.nextTurn();
 
+            Player nextCurrentPlayer = playerController.getCurrentPlayer();
             //notify currentPlayer that his turn has started
-            viewActionListener.toDoTurn(currentPlayer.getUsername(),currentPlayer.startTurn());
+            viewActionListener.toDoTurn(nextCurrentPlayer.getUsername(),nextCurrentPlayer.startTurn());
         }
         //player cannot end his turn
         else{
