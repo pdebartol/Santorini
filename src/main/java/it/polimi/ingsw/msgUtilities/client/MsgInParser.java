@@ -76,14 +76,14 @@ public class MsgInParser {
                 break;
             case "createGods" :
                 ArrayList<Integer> ids = new ArrayList<>();
-                for(int i = 0; i < 3; ++i){
+                for(int i = 1; i <= 3; ++i){
                     int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/Gods/God[@n=" + i + "]/text()")).get(0));
                     if(id != 0) ids.add(id);
                 }
                 //TODO notify view
                 break;
             case "choseGod" :
-                int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/God/text()")).get(0));
+                int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/godId/text()")).get(0));
                 //TODO notify view
                 break;
             case "choseStartingPlayer":
@@ -117,8 +117,7 @@ public class MsgInParser {
         String mode = Objects.requireNonNull(evaluateXPath("/Answer/Mode/text()")).get(0);
         String username = Objects.requireNonNull(evaluateXPath("/Answer/Username/text()")).get(0);
         String outcome = Objects.requireNonNull(evaluateXPath("/Answer/Outcome/text()")).get(0);
-        String nextStep =  Objects.requireNonNull(evaluateXPath("/Answer/TurnNextStep/text()")).get(0);
-
+        String nextStep;
         switch (mode){
             case "login" :
                 if(outcome.equals("accepted")){
@@ -131,6 +130,9 @@ public class MsgInParser {
                             Node component = components.item(j);
                             users.add(component.getTextContent());
                         }
+
+                    System.out.print(users);
+                    System.out.print(color);
                     //TODO notify view
                 }
                 else{
@@ -150,7 +152,7 @@ public class MsgInParser {
             case "createGods" :
                 if(outcome.equals("accepted")){
                     ArrayList<Integer> ids = new ArrayList<>();
-                    for(int i = 0; i < 3; ++i){
+                    for(int i = 1; i <= 3; ++i){
                         int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/Gods/God[@n=" + i + "]/text()")).get(0));
                         if(id != 0) ids.add(id);
                     }
@@ -163,7 +165,7 @@ public class MsgInParser {
                 break;
             case "choseGod" :
                 if(outcome.equals("accepted")){
-                    int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/God/text()")).get(0));
+                    int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/godId/text()")).get(0));
                     //TODO notify view
                 }
                 else{
@@ -196,6 +198,7 @@ public class MsgInParser {
                 break;
             case "move":
                 if(outcome.equals("accepted")){
+                    nextStep =  Objects.requireNonNull(evaluateXPath("/Answer/TurnNextStep/text()")).get(0);
                     NodeList positionsNode = document.getElementsByTagName("Position");
                     List<HashMap<String,String>> positions = getActionData(positionsNode);
                     System.out.println(positions);
@@ -203,10 +206,12 @@ public class MsgInParser {
                 }
                 else{
                     List<String> errors = getErrorList();
+                    System.out.print(errors);
                 }
                 break;
             case "build":
                 if(outcome.equals("accepted")){
+                    nextStep =  Objects.requireNonNull(evaluateXPath("/Answer/TurnNextStep/text()")).get(0);
                     NodeList heightsNode = document.getElementsByTagName("Height");
                     List<HashMap<String,String>> heights = getActionData(heightsNode);
                     //TODO notify view
@@ -219,6 +224,7 @@ public class MsgInParser {
 
             case "endOfTurn":
                 if(outcome.equals("accepted")){
+                    nextStep =  Objects.requireNonNull(evaluateXPath("/Answer/TurnNextStep/text()")).get(0);
                     NodeList removeAndBuildNode = document.getElementsByTagName("RemoveAndBuild");
                     List<HashMap<String,String>> removeBuild = getActionData(removeAndBuildNode);
                     //TODO notify view
@@ -240,9 +246,11 @@ public class MsgInParser {
 
     private List<String> getErrorList(){
         NodeList errorsNode = document.getElementsByTagName("Errors");
+        Node errorNode = errorsNode.item(0);
         List<String>  errors = new ArrayList<>();
-        for (int j = 0; j < errorsNode.getLength(); j++) {
-            Node error = errorsNode.item(j);
+        NodeList allErrors = errorNode.getChildNodes();
+        for (int j = 0; j < allErrors.getLength(); j++) {
+            Node error = allErrors.item(j);
             errors.add(error.getNodeName());
         }
         return Collections.unmodifiableList(errors);
