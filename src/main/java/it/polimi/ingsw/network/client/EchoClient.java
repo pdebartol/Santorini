@@ -1,9 +1,6 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.msgUtilities.client.MsgInParser;
-import it.polimi.ingsw.msgUtilities.client.RequestMsgWriter;
-import it.polimi.ingsw.network.MsgSender;
 import it.polimi.ingsw.network.XMLInputStream;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -11,7 +8,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 
 

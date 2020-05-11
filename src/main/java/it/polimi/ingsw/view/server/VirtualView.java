@@ -24,7 +24,7 @@ public class VirtualView implements ViewInterface {
     private final ClientDisconnectionListener clientDisconnectionListener;
     private String creator;
     private String challenger;
-    private List<Color> availableColor;
+    private final List<Color> availableColor;
     private final int lobbyNumber;
 
     boolean matchStarted;
@@ -331,19 +331,66 @@ public class VirtualView implements ViewInterface {
 
     // Win/Lose cases methods
 
+    @Override
+    public void directlyWinCase(String winnerUsername){
+        new MsgSender(clients.get(winnerUsername), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youWinDirectly"));
+        for (String user : clients.keySet())
+            if(!user.equals(winnerUsername)){
+                new MsgSender(clients.get(user), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youLoseForDirectWin")).sendMsg();
+            }
+        matchFinished();
+    }
+
+    @Override
+    public void match2PlayerLose(String winnerUsername){
+        new MsgSender(clients.get(winnerUsername), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youWinForAnotherLose"));
+        for (String user : clients.keySet())
+            if(!user.equals(winnerUsername)){
+                new MsgSender(clients.get(user), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youLoseForBlocked")).sendMsg();
+            }
+        matchFinished();
+    }
+
+    @Override
+    public void match3PlayerLose(String loserUsername){
+        new MsgSender(clients.get(loserUsername), new UpdateMsgWriter().extraUpdate("youLoseForBlocked")).sendMsg();
+        for (String user : clients.keySet())
+            if(!user.equals(loserUsername)){
+                new MsgSender(clients.get(user), new UpdateMsgWriter().loseUpdate(loserUsername,"loser")).sendMsg();
+            }
+        
+        try {
+            clients.get(loserUsername).close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        clients.remove(loserUsername);
+    }
 
 
-    // Client disconnection methods
+    // Disconnection methods
 
     public void clientDown(Socket disconnectedClient){
-
         if(clients.containsValue(disconnectedClient)){
             for(Socket c : clients.values())
                 if(c.isConnected()) {
                     new MsgSender(c, new UpdateMsgWriter().extraUpdate("disconnection"));
                 }
-
             clientDisconnectionListener.onClientDown(this);
         }
+    }
+
+    public void matchFinished(){
+        for(Socket c : clients.values())
+            if(c.isConnected()) {
+                try {
+                    c.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        System.out.println("Disconnection lobby number " + lobbyNumber + " for match finished");
+        clientDisconnectionListener.onMatchFinish(this);
     }
 }

@@ -39,6 +39,7 @@ public class MatchController implements ControllerInterface {
         playerController = new PlayerController();
         gameBoard = new Board();
         selectedGods = new HashMap<>();
+        viewInterface = null;
     }
 
     @Override
@@ -240,16 +241,22 @@ public class MatchController implements ControllerInterface {
                 return Collections.unmodifiableList(errors);
             }
 
-            return currentPlayer.move(selectedWorker,x,y);
+            errors.addAll(currentPlayer.move(selectedWorker,x,y));
         }
         else{
             selectedWorker.isMovingOn();
-            List<Error> temp_errors =  currentPlayer.move(selectedWorker,x,y);
-            if(!temp_errors.isEmpty()){
+            errors.addAll(currentPlayer.move(selectedWorker,x,y));
+            if(!errors.isEmpty()){
                 selectedWorker.isMovingOff();
             }
-            return temp_errors;
         }
+
+        //Check if currentPlayer has won, if is it, it send a message to indicate that the match is finished and currentPlayer has won
+        if(errors.isEmpty() && viewInterface != null){
+            if(currentPlayer.checkWin(activeWorker)) viewInterface.directlyWinCase(currentPlayer.getUsername());
+        }
+
+        return errors;
     }
 
 
@@ -326,10 +333,11 @@ public class MatchController implements ControllerInterface {
             // next player has lost
             if(playerController.getNextPlayer().startTurn().equals("blocked")){
                 if(playerController.getNumberOfPlayers() == 3){
-                    //TODO notify that the NEXT player is out of the game
+                    if (viewInterface != null) viewInterface.match3PlayerLose(playerController.getNextPlayer().getUsername());
                 }
                 else{
-                    //TODO notify there is a winner
+                    // notify that match is finished and next player lose -> there are only 2 players so currentPlayer is the winner
+                    if (viewInterface != null) viewInterface.match2PlayerLose(currentPlayer.getUsername());
                 }
                 playerController.removeNextPlayer();
             }

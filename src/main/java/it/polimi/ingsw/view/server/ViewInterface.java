@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.server;
 
 import it.polimi.ingsw.model.enums.Error;
+import it.polimi.ingsw.msgUtilities.server.UpdateMsgWriter;
+import it.polimi.ingsw.network.MsgSender;
 import org.w3c.dom.Document;
 import java.util.List;
 
@@ -20,4 +22,8 @@ public interface ViewInterface {
     void toDoTurn(String username, String firstOperation);
     void toDoSetupWorkerOnBoard(String username, String gender);
     void toDoChoseGod(String username, List<Integer> ids);
+
+    public void directlyWinCase(String winnerUsername);
+    public void match2PlayerLose(String loserUsername);
+    public void match3PlayerLose(String loserUsername);
 }

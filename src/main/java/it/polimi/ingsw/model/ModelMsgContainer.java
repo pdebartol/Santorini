@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.msgUtilities.server.AnswerMsgWriter;
 import it.polimi.ingsw.msgUtilities.server.UpdateMsgWriter;
 import org.w3c.dom.Document;

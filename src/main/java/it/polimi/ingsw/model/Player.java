@@ -114,6 +114,19 @@ public class Player implements PropertyChangeListener {
     }
 
     /**
+     * This method holds all the logic behind the Win check after move.
+     * @param w is the worker on which the check is
+     * @return true or false to indicate if the player has won
+     */
+
+    public boolean checkWin(Worker w){
+        if(w == null) throw new IllegalArgumentException("Null worker as argument!");
+        Power power = god.getPower();
+
+        return power.checkWin(w);
+    }
+
+    /**
      * This method checks if the worker passed can move in at least one square.
      * @param w is the player's worker on which method checks if it can move
      * @return true or false to indicate if worker passed can move in at least one square compatible with rules or not
@@ -213,8 +226,6 @@ public class Player implements PropertyChangeListener {
         List<Error> errors = Collections.unmodifiableList(errorList);
         if(errors.isEmpty()){
             power.updateMove(w,x,y);
-            //TODO: notify possible win to view
-            //TODO: notify changes to view
         }else
             System.out.println("Request Rejected!");
 

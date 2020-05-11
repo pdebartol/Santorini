@@ -100,4 +100,9 @@ public class EchoServer implements ClientDisconnectionListener {
     public void onClientDown(VirtualView v) {
         lobbies.remove(v);
     }
+
+    @Override
+    public void onMatchFinish(VirtualView v){
+        lobbies.remove(v);
+    }
 }

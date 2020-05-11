@@ -1,12 +1,14 @@
 package it.polimi.ingsw.msgUtilities.server;
 
-import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.view.server.VirtualView;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+
 import javax.xml.xpath.*;
 import java.net.Socket;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /** This class is responsible for parsing the msgIn XML and call VirtualView methods to start
  * the request processing.
@@ -17,7 +19,7 @@ public class RequestParser {
 
     //attributes
 
-    private Document document;
+    private final Document document;
 
     public RequestParser(Document document){
         this.document = document;
@@ -90,7 +92,6 @@ public class RequestParser {
     public boolean parseLoginRequest(VirtualView vrtV, Socket socket){
         String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
         if(mode.equals("login")){
-            String standardPath = "/Requests/Request[@Mode=\"" + mode + "\"]";
             String username = Objects.requireNonNull(evaluateXPath("/Requests/Username/text()")).get(0);
             vrtV.loginRequest(username,socket);
             return true;

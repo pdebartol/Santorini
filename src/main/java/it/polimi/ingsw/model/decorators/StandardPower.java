@@ -138,6 +138,7 @@ public class StandardPower implements Power {
 
     /**
      * This method implements checkWin (Power interface) with the standard game rules.
+     * @param w is the worker on which the check is
      * @return true or false to indicate if the player has won
      */
 

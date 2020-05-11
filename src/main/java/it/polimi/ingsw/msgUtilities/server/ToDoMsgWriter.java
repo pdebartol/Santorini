@@ -52,8 +52,7 @@ public class ToDoMsgWriter {
     }
 
     private Node initializeTagList(String tagName){
-        Node tag = document.getElementsByTagName(tagName).item(0);
-        return tag;
+        return document.getElementsByTagName(tagName).item(0);
     }
 
     /**

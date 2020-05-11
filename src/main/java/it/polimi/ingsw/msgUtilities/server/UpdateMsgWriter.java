@@ -61,8 +61,7 @@ public class UpdateMsgWriter {
     }
 
     private Node initializeTagList(String tagName){
-        Node tag = document.getElementsByTagName(tagName).item(0);
-        return tag;
+        return document.getElementsByTagName(tagName).item(0);
     }
 
     /**
@@ -170,6 +169,16 @@ public class UpdateMsgWriter {
 
     public Document extraUpdate(String mode){
         setStandardUpdateValues("null",mode);
+        return document;
+    }
+
+    public Document winLoseUpdate(String winner,String mode){
+        setStandardUpdateValues(winner,mode);
+        return document;
+    }
+
+    public Document loseUpdate(String loser, String mode){
+        setStandardUpdateValues(loser,mode);
         return document;
     }
 }

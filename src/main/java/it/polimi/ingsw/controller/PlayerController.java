@@ -15,7 +15,7 @@ import java.util.List;
 
 public class PlayerController {
 
-    private ArrayList<Player> players;
+    private final ArrayList<Player> players;
     private Player currentPlayer;
     private String challengerUsername;
     private int starterIndex;

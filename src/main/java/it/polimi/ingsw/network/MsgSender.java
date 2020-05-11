@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.network.XMLOutputStream;
 import org.w3c.dom.Document;
 
 import javax.xml.transform.Transformer;
