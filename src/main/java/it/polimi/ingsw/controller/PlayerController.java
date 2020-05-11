@@ -105,4 +105,8 @@ public class PlayerController {
     public void setStarterIndex(int starterIndex) {
         this.starterIndex = starterIndex;
     }
+
+    public void removeNextPlayer(){
+        players.remove(this.getNextPlayer());
+    }
 }
