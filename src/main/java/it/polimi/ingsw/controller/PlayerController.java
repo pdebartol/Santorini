@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.enums.Error;
 
 import java.util.ArrayList;
@@ -107,6 +108,11 @@ public class PlayerController {
     }
 
     public void removeNextPlayer(){
-        players.remove(this.getNextPlayer());
+        Player playerToRemove = this.getNextPlayer();
+        players.remove(playerToRemove);
+        for(Worker w:playerToRemove.getWorkers()){
+            w.removeFromGame();
+        }
+
     }
 }
