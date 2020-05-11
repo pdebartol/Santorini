@@ -1,8 +1,9 @@
 package it.polimi.ingsw.view.server;
 
-import it.polimi.ingsw.controller.ControllerActionListener;
+import it.polimi.ingsw.controller.ControllerInterface;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Error;
+import it.polimi.ingsw.model.enums.State;
 import it.polimi.ingsw.msgUtilities.server.AnswerMsgWriter;
 import it.polimi.ingsw.msgUtilities.server.ToDoMsgWriter;
 import it.polimi.ingsw.msgUtilities.server.UpdateMsgWriter;
@@ -14,11 +15,11 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
 
-public class VirtualView implements ViewActionListener{
+public class VirtualView implements ViewInterface {
 
     //attributes
 
-    private final ControllerActionListener controllerListener;
+    private final ControllerInterface controllerListener;
     private final Map<String,Socket> clients;
     private final ClientDisconnectionListener clientDisconnectionListener;
     private String creator;
@@ -29,13 +30,13 @@ public class VirtualView implements ViewActionListener{
 
     //constructors
 
-    public VirtualView(ControllerActionListener l, ClientDisconnectionListener cdl,int lobbyNumber){
+    public VirtualView(ControllerInterface l, ClientDisconnectionListener cdl, int lobbyNumber){
         this.controllerListener = l;
         this.clients = new HashMap<>();
         this.matchStarted = false;
         this.clientDisconnectionListener = cdl;
         this.lobbyNumber = lobbyNumber;
-        this.controllerListener.setViewActionListener(this);
+        this.controllerListener.setViewInterface(this);
     }
 
     //methods
@@ -139,12 +140,14 @@ public class VirtualView implements ViewActionListener{
         System.out.print(username + " logged in lobby number " + lobbyNumber + "\n");
 
         Document updateMsg = new UpdateMsgWriter().loginUpdate(username, color);
-        for (String user : clients.keySet())
+        for (String user : clients.keySet()) {
             if (!user.equals(username)) {
                 new MsgSender(clients.get(user), updateMsg).sendMsg();
             }
+        }
         new MsgSender(socket, new AnswerMsgWriter().loginAcceptedAnswer(username, color, clients.keySet())).sendMsg();
 
+        //Send to the first client connected a to do message to starting match
         if (clients.size() >= 2) toDoStartMatch();
     }
 
@@ -161,6 +164,7 @@ public class VirtualView implements ViewActionListener{
 
         matchStarted = true;
 
+        //Send to the challenger a to do message to create gods
         toDoCreateGods();
     }
 
@@ -176,6 +180,9 @@ public class VirtualView implements ViewActionListener{
             if(!user.equals(username))
                 new MsgSender(clients.get(user), updateMsg).sendMsg();
         new MsgSender(clients.get(username), new AnswerMsgWriter().createGodsAcceptedAnswer(username,ids)).sendMsg();
+
+        //Next step in game flow
+        controllerListener.sendNextToDoChoseGod();
     }
 
     public void onChoseGodAcceptedRequest(String username, int godId){
@@ -185,7 +192,11 @@ public class VirtualView implements ViewActionListener{
                 new MsgSender(clients.get(user), updateMsg).sendMsg();
         new MsgSender(clients.get(username), new AnswerMsgWriter().choseGodAcceptedAnswer(username,godId)).sendMsg();
 
-        if(username.equals(challenger)) toDoChoseStartingPlayer();
+        //Next step in game flow
+        if(controllerListener.getGameState().equals(State.CHOOSE_GOD))
+            controllerListener.sendNextToDoChoseGod();
+        else
+            controllerListener.sendNextToDoChoseStartingPlayer();
     }
 
     public void onChoseStartingPlayerAcceptedRequest(String username, String playerChosen){
@@ -194,6 +205,9 @@ public class VirtualView implements ViewActionListener{
             if(!user.equals(username))
                 new MsgSender(clients.get(user), updateMsg).sendMsg();
         new MsgSender(clients.get(username), new AnswerMsgWriter().choseStartingPlayerAcceptedAnswer(username,playerChosen)).sendMsg();
+
+        //Next step in game flow
+        controllerListener.sendNextToDoSetupWorkerOnBoard("Male");
     }
 
     public void onSetupOnBoardAcceptedRequest(String username, String workerGender, int x, int y){
@@ -202,6 +216,13 @@ public class VirtualView implements ViewActionListener{
             if(!user.equals(username))
                 new MsgSender(clients.get(user), updateMsg).sendMsg();
         new MsgSender(clients.get(username), new AnswerMsgWriter().setupOnBoardAcceptedAnswer(username,workerGender,x,y)).sendMsg();
+
+        //Next step in game flow
+        if(controllerListener.getGameState().equals(State.SET_WORKERS)) {
+            if (workerGender.equals("female")) controllerListener.sendNextToDoSetupWorkerOnBoard("Male");
+            else controllerListener.sendNextToDoSetupWorkerOnBoard("Female");
+        }else
+            controllerListener.sendNextToDoTurn();
     }
 
     @Override
@@ -229,6 +250,9 @@ public class VirtualView implements ViewActionListener{
             if(!user.equals(username))
                 new MsgSender(clients.get(user), updateMsg).sendMsg();
         new MsgSender(clients.get(username), answerMsg).sendMsg();
+
+        //Next step in game flow
+        controllerListener.sendNextToDoTurn();
     }
 
     // To do communication Methods
@@ -254,7 +278,10 @@ public class VirtualView implements ViewActionListener{
     @Override
 
     public void toDoChoseGod(String username, List<Integer> ids){
-
+        new MsgSender(clients.get(username), new ToDoMsgWriter().toDoChoseGod(ids));
+        for (String user : clients.keySet())
+            if(!user.equals(username))
+                new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(username,"choseGod")).sendMsg();
     }
 
     public void toDoChoseStartingPlayer(){
@@ -266,8 +293,11 @@ public class VirtualView implements ViewActionListener{
 
     @Override
 
-    public void toDoSetupWorkerOnBoard(String username){
-
+    public void toDoSetupWorkerOnBoard(String username, String gender){
+        new MsgSender(clients.get(username), new ToDoMsgWriter().toDoAction("setup" + gender + "WorkerOnBoard"));
+        for (String user : clients.keySet())
+            if(!user.equals(username))
+                new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(username,"setup" + gender + "WorkerOnBoard")).sendMsg();
     }
 
     @Override

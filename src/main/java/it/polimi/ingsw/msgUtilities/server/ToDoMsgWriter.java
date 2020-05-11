@@ -30,6 +30,13 @@ public class ToDoMsgWriter {
 
     //support methods
 
+    private Node appendTagWithAttribute(Node father, String tagName, String textContent, String attributeName, String attributeValue){
+        Element tag = document.createElement(tagName);
+        tag.setAttribute(attributeName,attributeValue);
+        tag.setTextContent(textContent);
+        father.appendChild(tag);
+        return document.getElementsByTagName(tagName).item(0);
+    }
 
     private Node appendTag(Node father, String tagName, String textContent){
         Element tag = document.createElement(tagName);
@@ -83,6 +90,17 @@ public class ToDoMsgWriter {
         Node infoTag = initializeTagList("Info");
 
         appendTag(infoTag,"possibleOperation",possibleOperation);
+        return document;
+    }
+
+    public Document toDoChoseGod(List<Integer> ids){
+        toDoAction("choseGod");
+        Node infoTag = initializeTagList("Info");
+
+        Node godsTag = appendTag(infoTag,"Gods");
+        for(int i = 1; i <= ids.size(); ++i){
+            appendTagWithAttribute(godsTag,"God",String.valueOf(ids.get(i-1)),"n",String.valueOf(i));
+        }
         return document;
     }
 }
