@@ -31,12 +31,12 @@ public class Main {
 
     public static void clientMode(String[] args){
         EchoClient echoClient;
-        if (args.length == 5)
+        if (args.length == 3)
             echoClient = new EchoClient(args[1], Integer.parseInt(args[2]));
         else
             echoClient = new EchoClient("localhost", 1234);
 
-        echoClient.start(args[3],args[4]);
+        echoClient.start();
 
     }
 

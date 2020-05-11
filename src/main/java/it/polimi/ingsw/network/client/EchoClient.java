@@ -45,7 +45,7 @@ public class EchoClient {
      * The communication go down when server send a "disconnection" message.
      */
 
-    public void start(String username, String color){
+    public void start(){
 
         initializeClientConnection();
 

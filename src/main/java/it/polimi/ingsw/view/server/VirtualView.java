@@ -24,6 +24,7 @@ public class VirtualView implements ViewInterface {
     private final ClientDisconnectionListener clientDisconnectionListener;
     private String creator;
     private String challenger;
+    private List<Color> availableColor;
     private final int lobbyNumber;
 
     boolean matchStarted;
@@ -37,6 +38,7 @@ public class VirtualView implements ViewInterface {
         this.clientDisconnectionListener = cdl;
         this.lobbyNumber = lobbyNumber;
         this.controllerListener.setViewInterface(this);
+        this.availableColor = Color.getColorList();
     }
 
     //methods
@@ -51,12 +53,15 @@ public class VirtualView implements ViewInterface {
 
     //Request Methods
 
-    public synchronized void loginRequest(String username, Color color, Socket socket) {
+    public synchronized void loginRequest(String username, Socket socket) {
         if(getLobbySize() < 3 && !getMatchStarted()) {
+            Color color = availableColor.get((int) (Math.random() * 10) % (availableColor.size() -1));
             List<Error> errors = controllerListener.onNewPlayer(username, color);
 
-            if (errors.isEmpty())
-                onLoginAcceptedRequest(username,color,socket);
+            if (errors.isEmpty()) {
+                onLoginAcceptedRequest(username, color, socket);
+                availableColor.remove(color);
+            }
             else
                 onLoginRejectedRequest(username,errors,socket);
 

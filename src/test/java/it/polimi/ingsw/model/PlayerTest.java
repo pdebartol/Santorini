@@ -82,7 +82,7 @@ class PlayerTest {
 
     @Test
     void canMoveWorkerException(){
-        assertThrows(IllegalArgumentException.class, () -> p1.canMoveWorker(null));
+        assertThrows(IllegalArgumentException.class, () -> p1.canMoveWorker(null,false));
     }
 
     /**
@@ -121,7 +121,7 @@ class PlayerTest {
 
     @Test
     void canBuildWorkerException(){
-        assertThrows(IllegalArgumentException.class, () -> p1.canBuildWorker(null));
+        assertThrows(IllegalArgumentException.class, () -> p1.canBuildWorker(null,false));
     }
 
     /**
@@ -136,7 +136,7 @@ class PlayerTest {
 
         //first check
         p1.move(p1.getWorkers().get(0),0,1); //The player have to move worker before build with him
-        assertTrue(p1.canBuildWorker(p1.getWorkers().get(0)));
+        assertTrue(p1.canBuildWorker(p1.getWorkers().get(0),false));
 
         //only 1 square for p1 to build (the rest of squares is occupied or a complete tower)
         b.getSquare(1,0).buildLevel(3);
@@ -145,7 +145,7 @@ class PlayerTest {
         b.getSquare(0,0).buildLevel(4);
         b.getSquare(2,1).buildLevel(3);
         b.getSquare(2,1).buildLevel(4);
-        assertTrue(p1.canBuildWorker(p1.getWorkers().get(0)));
+        assertTrue(p1.canBuildWorker(p1.getWorkers().get(0),false));
     }
 
     /**
@@ -156,7 +156,7 @@ class PlayerTest {
     @Test
     void cantBuildWorkerCheck(){
         //check that player can build with a worker he didn't chose
-        assertFalse(p1.canBuildWorker(p1.getWorkers().get(0)));
+        assertFalse(p1.canBuildWorker(p1.getWorkers().get(0),false));
 
         //chose worker for the turn
         p1.getWorkers().get(0).isMovingOn();
@@ -172,7 +172,7 @@ class PlayerTest {
         b.getSquare(2,1).buildLevel(4);
         b.getSquare(1,2).buildLevel(3);
         b.getSquare(1,2).buildLevel(4);
-        assertFalse(p1.canBuildWorker(p1.getWorkers().get(0)));
+        assertFalse(p1.canBuildWorker(p1.getWorkers().get(0),false));
     }
 
     @Test

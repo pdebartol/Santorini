@@ -324,7 +324,7 @@ public class MatchController implements ControllerInterface {
         if(playerController.getCurrentPlayer().endTurn()){
 
             // next player has lost
-            if(!playerController.getNextPlayer().startTurn().equals("blocked")){
+            if(playerController.getNextPlayer().startTurn().equals("blocked")){
                 if(playerController.getNumberOfPlayers() == 3){
                     //TODO notify that the NEXT player is out of the game
                 }

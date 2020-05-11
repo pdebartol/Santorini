@@ -106,8 +106,9 @@ public class Player implements PropertyChangeListener {
             possibleOperation = "move";
         if(canBuild())
             possibleOperation = possibleOperation + "/build";
-        if(possibleOperation.equals(""))
+        if(possibleOperation.equals("")) {
             return "blocked";
+        }
 
         return possibleOperation;
     }
@@ -118,7 +119,7 @@ public class Player implements PropertyChangeListener {
      * @return true or false to indicate if worker passed can move in at least one square compatible with rules or not
      */
 
-    public boolean canMoveWorker(Worker w){
+    public boolean canMoveWorker(Worker w, boolean startTurn){
         if (w == null) throw new IllegalArgumentException("Null worker as argument!");
 
         for(int i = -1; i <= 1 ; i++)
@@ -127,8 +128,11 @@ public class Player implements PropertyChangeListener {
                     int y = w.getCurrentSquare().getYPosition() + j;
                     if (x >= 0 && x < Board.SIZE && y >= 0 && y < Board.SIZE) {
                         ArrayList<Error> errors = god.getPower().checkMove(w, x, y);
-                        if (errors.isEmpty() || (errors.size() == 1 && errors.contains(Error.ISNT_WORKER_CHOSEN)))
+                        if (errors.isEmpty())
                             return true;
+                        else
+                            if(startTurn && (errors.size() == 1 && errors.contains(Error.ISNT_WORKER_CHOSEN)))
+                                return true;
                     }
             }
         return false;
@@ -142,7 +146,7 @@ public class Player implements PropertyChangeListener {
 
     public boolean canMove(){
         for (Worker worker : workers) {
-            if(canMoveWorker(worker)) return true;
+            if(canMoveWorker(worker,true)) return true;
         }
 
         return false;
@@ -156,7 +160,7 @@ public class Player implements PropertyChangeListener {
 
     public boolean canBuild(){
         for (Worker worker : workers) {
-            if(canBuildWorker(worker)) return true;
+            if(canBuildWorker(worker,true)) return true;
         }
 
         return false;
@@ -169,24 +173,23 @@ public class Player implements PropertyChangeListener {
      * with rules or not
      */
 
-    public boolean canBuildWorker(Worker w){
+    public boolean canBuildWorker(Worker w, boolean startTurn){
         if (w == null) throw new IllegalArgumentException("Null worker as argument!");
 
         for(int i = -1; i <= 1 ; i++)
             for(int j = -1; j <= 1; j++){
                 int x = w.getCurrentSquare().getXPosition() + i;
                 int y = w.getCurrentSquare().getYPosition() + j;
-                if (x >= 0 && x < Board.SIZE && y >= 0 && y <= Board.SIZE)
+                if (x >= 0 && x < Board.SIZE && y >= 0 && y < Board.SIZE)
                     for (int k = 1; k < Board.SIZE; k++) {
                         ArrayList<Error> errors = god.getPower().checkBuild(w, x, y, k);
-                        if (errors.contains(Error.ISNT_WORKER_CHOSEN))
-                            return false;
                         if (errors.isEmpty())
                             return true;
+                        else
+                            if (startTurn && (errors.size() == 1 && errors.contains(Error.ISNT_WORKER_CHOSEN)))
+                                return true;
                     }
             }
-
-        //TODO: notify to view player can't build
         return false;
     }
 

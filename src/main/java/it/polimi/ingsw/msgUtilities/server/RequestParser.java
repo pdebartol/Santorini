@@ -92,8 +92,7 @@ public class RequestParser {
         if(mode.equals("login")){
             String standardPath = "/Requests/Request[@Mode=\"" + mode + "\"]";
             String username = Objects.requireNonNull(evaluateXPath("/Requests/Username/text()")).get(0);
-            String color = Objects.requireNonNull(evaluateXPath(standardPath + "/Color/text()")).get(0);
-            vrtV.loginRequest(username, Color.valueOfLabel(color),socket);
+            vrtV.loginRequest(username,socket);
             return true;
         }
         return false;
