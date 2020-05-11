@@ -168,7 +168,14 @@ public class VirtualView implements ViewInterface {
         new MsgSender(socket, new AnswerMsgWriter().loginAcceptedAnswer(username, color, clients.keySet())).sendMsg();
 
         //Send to the first client connected a to do message to starting match
-        if (clients.size() >= 2) toDoStartMatch();
+        switch (clients.size()){
+            case 2 :
+                toDoStartMatch();
+                break;
+            case 3 :
+                startGameRequest(creator);
+                break;
+        }
     }
 
     public void onLoginRejectedRequest(String username,List<Error> errors, Socket socket){
@@ -358,7 +365,7 @@ public class VirtualView implements ViewInterface {
             if(!user.equals(loserUsername)){
                 new MsgSender(clients.get(user), new UpdateMsgWriter().loseUpdate(loserUsername,"loser")).sendMsg();
             }
-        
+
         try {
             clients.get(loserUsername).close();
         } catch (IOException e) {
