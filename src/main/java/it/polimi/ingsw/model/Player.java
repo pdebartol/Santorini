@@ -96,6 +96,23 @@ public class Player implements PropertyChangeListener {
     }
 
     /**
+     * This method allows to know the operation that this player can do when he start his turn
+     * @return a string which indicates the operation that this player can do when he start his turn
+     */
+
+    public String startTurn(){
+        String possibleOperation = "";
+        if(canMove())
+            possibleOperation = "move";
+        if(canBuild())
+            possibleOperation = possibleOperation + "/build";
+        if(possibleOperation.equals(""))
+            return "blocked";
+
+        return possibleOperation;
+    }
+
+    /**
      * This method checks if the worker passed can move in at least one square.
      * @param w is the player's worker on which method checks if it can move
      * @return true or false to indicate if worker passed can move in at least one square compatible with rules or not
@@ -128,7 +145,20 @@ public class Player implements PropertyChangeListener {
             if(canMoveWorker(worker)) return true;
         }
 
-        //TODO: notify to view this player can't move
+        return false;
+    }
+
+    /**
+     * This method checks if the player is blocked (if the player can't build, he loses)
+     * @return true or false to indicate if at least one worker which player use can build in at least one square
+     * compatible with rules or not
+     */
+
+    public boolean canBuild(){
+        for (Worker worker : workers) {
+            if(canBuildWorker(worker)) return true;
+        }
+
         return false;
     }
 
@@ -183,7 +213,7 @@ public class Player implements PropertyChangeListener {
             //TODO: notify possible win to view
             //TODO: notify changes to view
         }else
-            System.out.println("Request rejected!");
+            System.out.println("Request Rejected!");
 
         return errors;
     }
@@ -210,7 +240,7 @@ public class Player implements PropertyChangeListener {
         if(errors.isEmpty()){
             power.updateBuild(w, x, y, l);
         }else
-            System.out.println("Request Rejected");
+            System.out.println("Request Rejected!");
 
         return errors;
     }

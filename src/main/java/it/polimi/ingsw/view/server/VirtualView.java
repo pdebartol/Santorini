@@ -251,6 +251,8 @@ public class VirtualView implements ViewActionListener{
                 new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(challenger,"createGods")).sendMsg();
     }
 
+    @Override
+
     public void toDoChoseGod(String username, List<Integer> ids){
 
     }
@@ -262,12 +264,19 @@ public class VirtualView implements ViewActionListener{
                 new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(challenger,"choseStartingPlayer")).sendMsg();
     }
 
+    @Override
+
     public void toDoSetupWorkerOnBoard(String username){
 
     }
 
-    public void toDoTurn(String username, String firstOperation){
+    @Override
 
+    public void toDoTurn(String username, String firstOperation){
+        new MsgSender(clients.get(username), new ToDoMsgWriter().toDoTurn(firstOperation));
+        for (String user : clients.keySet())
+            if(!user.equals(username))
+                new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(username,"hisTurn")).sendMsg();
     }
 
     // Win/Lose cases methods

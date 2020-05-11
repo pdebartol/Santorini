@@ -4,9 +4,6 @@
     <Mode></Mode>
     <Author></Author>
 
-    <Update>
-        <Username></Username>
-        <Color></Color>
-    </Update>
+    <Update></Update>
 
 </UpdateMsg>
