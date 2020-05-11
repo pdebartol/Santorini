@@ -30,6 +30,10 @@ public interface ControllerInterface {
 
      void setViewInterface(ViewInterface viewInterface);
 
+     void sendAnswerMoveAccepted(String playerUsername);
+     void sendAnswerBuildAccepted(String playerUsername);
+     void sendAnswerEndOfTurnAccepted(String playerUsername);
+
      void sendNextToDoChoseGod();
      void sendNextToDoChoseStartingPlayer();
      void sendNextToDoSetupWorkerOnBoard(String gender);

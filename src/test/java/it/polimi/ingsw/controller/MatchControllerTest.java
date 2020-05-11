@@ -259,8 +259,6 @@ class MatchControllerTest {
 
         assertEquals(State.IN_GAME, controller.getGameState());
     }
-
-    /*
     
     @Test
     void StandardMoveAndBuild(){
@@ -273,7 +271,6 @@ class MatchControllerTest {
 
     }
 
-    /*
     @Test
     void notInYourTurnMoveAndBuild(){
         threePlayersLogin();
@@ -283,9 +280,7 @@ class MatchControllerTest {
         errors = controller.onWorkerBuild("piero","male",3,4,1);
         assertTrue(errors.contains(Error.INGAME_NOT_YOUR_TURN));
     }
-    */
 
-    /*
     @Test
     void  chooseInactiveWorker(){
         threePlayersLogin();
@@ -295,9 +290,7 @@ class MatchControllerTest {
         errors = controller.onWorkerBuild("marco","female",3,2,1);
         assertTrue(errors.contains(Error.INGAME_WRONG_WORKER));
     }
-    */
 
-    /*
     @Test
     void simulatedTurn(){
         threePlayersLogin();
@@ -329,7 +322,6 @@ class MatchControllerTest {
 
         assertEquals("marco",controller.playerController.getCurrentPlayer().getUsername());
     }
-    */
 
     // support method for the login
     void threePlayersLogin(){

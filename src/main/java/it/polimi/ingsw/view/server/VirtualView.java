@@ -118,15 +118,30 @@ public class VirtualView implements ViewInterface {
     }
 
     public void moveRequest(String username, String workerGender, int x, int y){
-        controllerListener.onWorkerMove(username,workerGender,x,y);
+        List<Error> errors = controllerListener.onWorkerMove(username,workerGender,x,y);
+
+        if(errors.isEmpty())
+            controllerListener.sendAnswerMoveAccepted(username);
+        else
+            onRejectedRequest(username,errors,"move");
     }
 
     public void buildRequest(String username, String workerGender, int x, int y, int level){
-        controllerListener.onWorkerBuild(username,workerGender,x,y,level);
+        List<Error> errors = controllerListener.onWorkerBuild(username,workerGender,x,y,level);
+
+        if(errors.isEmpty())
+            controllerListener.sendAnswerBuildAccepted(username);
+        else
+            onRejectedRequest(username,errors,"build");
     }
 
     public void endOfTurn(String username){
-        controllerListener.onPlayerEndTurn(username);
+        List<Error> errors = controllerListener.onPlayerEndTurn(username);
+
+        if(errors.isEmpty())
+            controllerListener.sendAnswerEndOfTurnAccepted(username);
+        else
+            onRejectedRequest(username,errors,"endOfTurn");
     }
 
     public void endRequest(String username){ clients.remove(username); }

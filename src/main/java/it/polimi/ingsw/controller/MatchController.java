@@ -227,43 +227,27 @@ public class MatchController implements ControllerInterface {
         Player currentPlayer = playerController.getCurrentPlayer();
         if(!currentPlayer.getUsername().equals(playerUsername)){
             errors.add(Error.INGAME_NOT_YOUR_TURN);
-            //Notify view that request has been rejected
-            viewInterface.onRejectedRequest(playerUsername,errors,"move");
             return Collections.unmodifiableList(errors);
         }
         Worker selectedWorker = currentPlayer.getWorkerByGender(workerGender);
         Worker activeWorker = currentPlayer.getActiveWorker();
 
+        gameBoard.setMsgContainer(playerUsername,"move");
+
         if(activeWorker != null){
             if(!selectedWorker.getGender().equals(activeWorker.getGender())){
                 errors.add(Error.INGAME_WRONG_WORKER);
-                //Notify view that request has been rejected
-                viewInterface.onRejectedRequest(playerUsername,errors,"move");
                 return Collections.unmodifiableList(errors);
             }
 
-            gameBoard.setMsgContainer(playerUsername,"move");
-
-            errors.addAll(currentPlayer.move(selectedWorker,x,y));
-
-            if(errors.isEmpty()){
-                //Notify view that currentPlayer move request has been accepted
-                viewInterface.onMoveAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
-            }else
-                //Notify view that request has been rejected
-                viewInterface.onRejectedRequest(playerUsername,errors,"move");
-            return Collections.unmodifiableList(errors);
+            return currentPlayer.move(selectedWorker,x,y);
         }
-        else {
+        else{
             selectedWorker.isMovingOn();
-            List<Error> temp_errors = currentPlayer.move(selectedWorker, x, y);
-            if (!temp_errors.isEmpty()) {
+            List<Error> temp_errors =  currentPlayer.move(selectedWorker,x,y);
+            if(!temp_errors.isEmpty()){
                 selectedWorker.isMovingOff();
-                //Notify view that request has been rejected
-                viewInterface.onRejectedRequest(playerUsername, errors, "move");
-            }else
-                //Notify view that currentPlayer move request has been accepted
-                viewInterface.onMoveAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
+            }
             return temp_errors;
         }
     }
@@ -289,43 +273,26 @@ public class MatchController implements ControllerInterface {
         Worker selectedWorker = currentPlayer.getWorkerByGender(workerGender);
         Worker activeWorker = currentPlayer.getActiveWorker();
 
+        gameBoard.setMsgContainer(playerUsername,"build");
+
         if(!currentPlayer.getUsername().equals(playerUsername)){
             errors.add(Error.INGAME_NOT_YOUR_TURN);
-            //Notify view that request has been rejected
-            viewInterface.onRejectedRequest(playerUsername,errors,"build");
             return Collections.unmodifiableList(errors);
         }
 
         if(activeWorker != null){
             if(!selectedWorker.getGender().equals(activeWorker.getGender())){
                 errors.add(Error.INGAME_WRONG_WORKER);
-                //Notify view that request has been rejected
-                viewInterface.onRejectedRequest(playerUsername,errors,"build");
                 return Collections.unmodifiableList(errors);
             }
-
-            gameBoard.setMsgContainer(playerUsername,"build");
-
-            errors.addAll(currentPlayer.build(selectedWorker,x,y,level));
-
-            if(errors.isEmpty()){
-                //Notify view that currentPlayer build request has been accepted
-                viewInterface.onBuildAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
-            }else
-                //Notify view that request has been rejected
-                viewInterface.onRejectedRequest(playerUsername,errors,"build");
-            return Collections.unmodifiableList(errors);
+            return currentPlayer.build(selectedWorker,x,y,level);
         }
         else{
             selectedWorker.isMovingOn();
             List<Error> temp_errors =  currentPlayer.build(selectedWorker,x,y,level);
             if(!temp_errors.isEmpty()){
                 selectedWorker.isMovingOff();
-                //Notify view that request has been rejected
-                viewInterface.onRejectedRequest(playerUsername,errors,"build");
-            }else
-                //Notify view that currentPlayer build request has been accepted
-                viewInterface.onBuildAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
+            }
             return temp_errors;
         }
     }
@@ -348,8 +315,6 @@ public class MatchController implements ControllerInterface {
 
         if(!currentPlayer.getUsername().equals(playerUsername)){
             errors.add(Error.INGAME_NOT_YOUR_TURN);
-            //Notify view that request has been rejected
-            viewInterface.onRejectedRequest(playerUsername,errors,"endOfTurn");
             return Collections.unmodifiableList(errors);
         }
 
@@ -357,8 +322,6 @@ public class MatchController implements ControllerInterface {
 
         // player can end his turn
         if(playerController.getCurrentPlayer().endTurn()){
-            //Notify view that currentPlayer finished his turn
-            viewInterface.onEndOfTurnAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
 
             // next player has lost
             if(!playerController.getNextPlayer().startTurn().equals("blocked")){
@@ -372,20 +335,36 @@ public class MatchController implements ControllerInterface {
             }
 
             playerController.nextTurn();
-
         }
         //player cannot end his turn
-        else{
+        else
             errors.add(Error.INGAME_CANNOT_END_TURN);
-            //Notify view that request has been rejected
-            viewInterface.onRejectedRequest(playerUsername,errors,"endOfTurn");
-        }
         return Collections.unmodifiableList(errors);
     }
+
+    //Message management methods
 
     @Override
     public State getGameState() {
         return gameBoard.getGameState();
+    }
+
+    @Override
+    public void sendAnswerMoveAccepted(String playerUsername){
+        //Notify view that currentPlayer move request has been accepted
+        viewInterface.onMoveAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
+    }
+
+    @Override
+    public void sendAnswerBuildAccepted(String playerUsername){
+        //Notify view that currentPlayer build request has been accepted
+        viewInterface.onBuildAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
+    }
+
+    @Override
+    public void sendAnswerEndOfTurnAccepted(String playerUsername){
+        //Notify view that currentPlayer finished his turn
+        viewInterface.onEndOfTurnAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
     }
 
     @Override
