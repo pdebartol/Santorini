@@ -108,6 +108,10 @@ public class MsgInParser {
                 NodeList removeAndBuildNode = document.getElementsByTagName("RemoveAndBuild");
                 List<HashMap<String,String>> removeAndBuild = getActionData(removeAndBuildNode);
                 //TODO notify view
+            case "win":
+                //TODO notify view
+            case "lose":
+                //TODO notify view
 
 
         }
@@ -251,6 +255,13 @@ public class MsgInParser {
                 String possibleOperation = Objects.requireNonNull(evaluateXPath("/ToDo/Info/possibleOperation/text()")).get(0);
                 //TODO notify view with info
                 break;
+            case "choseGod":
+                NodeList gods = document.getElementsByTagName("God");
+                ArrayList<String> godIds = new ArrayList<>();
+                for(int i=0;i< gods.getLength(); i++){
+                    godIds.add(gods.item(i).getNodeValue());
+                }
+
         }
 
     }
