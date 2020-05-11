@@ -131,6 +131,7 @@ public class MatchController implements ControllerActionListener {
         if(!playerController.getCurrentPlayer().getUsername().equals(playerUsername)) errors.add(Error.INGAME_NOT_YOUR_TURN);
         if(errors.isEmpty()){
             playerController.getCurrentPlayer().setGod(selectedGods.get(godId));
+            selectedGods.remove(godId);
             // if it is not the challenger end the turn
             if(!playerController.getChallengerUsername().equals(playerUsername)){
                 playerController.nextTurn();
@@ -359,7 +360,13 @@ public class MatchController implements ControllerActionListener {
 
             // next player has lost
             if(!playerController.getNextPlayer().startTurn().equals("blocked")){
-                //TODO notify view that next player has lost
+                if(playerController.getNumberOfPlayers() == 3){
+                    //TODO notify that the NEXT player is out of the game
+                }
+                else{
+                    //TODO notify there is a winner
+                }
+                playerController.removeNextPlayer();
             }
 
             playerController.nextTurn();
