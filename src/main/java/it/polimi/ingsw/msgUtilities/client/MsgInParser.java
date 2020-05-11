@@ -108,10 +108,15 @@ public class MsgInParser {
                 NodeList removeAndBuildNode = document.getElementsByTagName("RemoveAndBuild");
                 List<HashMap<String,String>> removeAndBuild = getActionData(removeAndBuildNode);
                 //TODO notify view
-            case "win":
+            case "youWinDirectly":
                 //TODO notify view
-            case "lose":
+            case "youLoseForDirectWin":
                 //TODO notify view
+            case  "youWinForAnotherLose":
+                //TODO notify view
+            case "youLoseForBlocked":
+                //TODO notify view
+
 
 
         }
