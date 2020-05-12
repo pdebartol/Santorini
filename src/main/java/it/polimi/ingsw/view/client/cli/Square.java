@@ -14,6 +14,12 @@ public class Square{
     private boolean dome;
 
     /**
+     * This attribute is used to check if the player has selected this square when a worker is on it
+     */
+
+    private boolean workerSelected = false;
+
+    /**
      * When the constructor is invoked the square is initialized at level zero without any worker on it
      */
 
@@ -53,6 +59,8 @@ public class Square{
      */
 
     public void drawSquare(){
+
+        //change color of single square based on level of square
 
         if(dome)
             System.out.print(Color.LEVEL_DOME_BLUE_BACKGROUND.escape());

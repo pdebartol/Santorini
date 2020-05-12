@@ -9,9 +9,11 @@ public class Worker {
 
     private final String icon = Unicode.WORKER_ICON.escape();
     private final Color color;
+    private final String gender;
 
-    public Worker(Color color) {
+    public Worker(Color color, String gender) {
         this.color = color;
+        this.gender = gender;
     }
 
     public String getIcon() {
