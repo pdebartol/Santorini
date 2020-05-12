@@ -353,7 +353,7 @@ public class VirtualView implements ViewInterface {
         new MsgSender(clients.get(winnerUsername), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youWinForAnotherLose"));
         for (String user : clients.keySet())
             if(!user.equals(winnerUsername)){
-                new MsgSender(clients.get(user), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youLoseForBlocked")).sendMsg();
+                new MsgSender(clients.get(user), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"")).sendMsg();
             }
         matchFinished();
     }

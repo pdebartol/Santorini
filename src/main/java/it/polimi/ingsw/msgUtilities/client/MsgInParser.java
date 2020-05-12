@@ -251,6 +251,16 @@ public class MsgInParser {
     private void parseToDo(){
         String action = Objects.requireNonNull(evaluateXPath("/ToDo/Action/text()")).get(0);
         switch(action){
+            case "login":
+                //TODO notify view
+            case "canStartMatch":
+                //TODO notify view
+            case "choseStartingPlayer":
+                //TODO notify view
+            case "setupmaleWorkerOnBoard":
+                //TODO notify view
+            case "setupfemaleWorkerOnBoard":
+                //TODO notify view
             case "wait":
                 String waitFor = Objects.requireNonNull(evaluateXPath("/ToDo/Info/WaitFor/text()")).get(0);
                 String InActionPlayer = Objects.requireNonNull(evaluateXPath("/ToDo/Info/InActionPlayer/text()")).get(0);
