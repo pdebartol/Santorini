@@ -149,7 +149,7 @@ public class VirtualView implements ViewInterface {
             onRejectedRequest(username,errors,"endOfTurn");
     }
 
-    public void endRequest(String username){ clients.remove(username); }
+    public void endRequest(String username){clients.remove(username);}
 
     // Answer Methods
 

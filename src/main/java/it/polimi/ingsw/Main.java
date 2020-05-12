@@ -1,11 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.network.client.EchoClient;
 import it.polimi.ingsw.network.server.EchoServer;
-import it.polimi.ingsw.view.client.cli.Cli;
-import javafx.application.Application;
-
-import java.util.Scanner;
+import it.polimi.ingsw.view.client.TestLoginClass;
 
 public class Main {
 
@@ -30,13 +26,10 @@ public class Main {
     }
 
     public static void clientMode(String[] args){
-        EchoClient echoClient;
-        if (args.length == 3)
-            echoClient = new EchoClient(args[1], Integer.parseInt(args[2]));
-        else
-            echoClient = new EchoClient("localhost", 1234);
+        //Only for testing
+        new TestLoginClass().start();
 
-        echoClient.start();
+        //TODO : start the user choice interface
 
     }
 

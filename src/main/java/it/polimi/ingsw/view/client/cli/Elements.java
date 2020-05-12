@@ -10,10 +10,8 @@ import java.util.Scanner;
 
 public class Elements {
 
-    private Player player;
-    private ArrayList<Player> otherPlayer;
-    private God myDivinity;
-    private ArrayList<God> otherDivinities;
+    private Player player = null;
+    private ArrayList<Player> otherPlayer = null;
     private Board board;
 
     public Elements() {
@@ -28,16 +26,12 @@ public class Elements {
         return otherPlayer;
     }
 
-    public God getMyDivinity() {
-        return myDivinity;
-    }
-
-    public ArrayList<God> getOtherDivinities() {
-        return otherDivinities;
-    }
-
     public Board getBoard() {
         return board;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     /**
@@ -218,13 +212,13 @@ public class Elements {
     public void printDivinities(int i){
 
         if (i == 1) {
-            printInTextBox(myDivinity.getName() + "\n\u001b[1C" + myDivinity.getDescription() + "enter for continue");
+            printInTextBox(player.getGod().getName() + "\n\u001b[1C" + player.getGod().getDescription() + "enter for continue");
             Input();
         }
         else{
-            for (int j = 0; j < otherDivinities.size() ; j++) {
-                printInTextBox(otherDivinities.get(j).getName() + "\n\u001b[1C" + otherDivinities.get(j).getDescription()
-                + "\n\u001b[1C" + (j + 1) + " of " + otherDivinities.size() + " enter for continue");
+            for (int j = 0; j < otherPlayer.size() ; j++) {
+                printInTextBox(otherPlayer.get(j).getGod().getName() + "\n\u001b[1C" + otherPlayer.get(j).getGod().getDescription()
+                + "\n\u001b[1C" + (j + 1) + " of " + otherPlayer.size() + " enter for continue");
                 Input();
             }
         }

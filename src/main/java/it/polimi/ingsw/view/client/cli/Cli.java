@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.client.cli;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -108,43 +109,210 @@ public class Cli {
     private void login(){
 
         int players;
-        String username;
-        String color;
+        boolean check = false;
+        String username = null;
+        String color = null;
+        boolean challenger = true;
 
         do {
-            elements.printInTextBox("Insert your username:");
+            if(!check)
+                elements.printInTextBox("Username already taken! Please, insert another username:");
+            else
+                elements.printInTextBox("Insert your username:");
+            check = true;
             username = elements.Input();
         }while (!checkUsername());
 
         elements.eraseThings("text");
 
+        /*
         do {
             elements.printInTextBox("Insert the color of your worker:");
             color = elements.Input();
         }while (!checkColor());
+         */
 
-        //TODO create player
+        //TODO get color chosen randomly by server
+
+        elements.printInTextBox("Server randomly assigned to you the color: " + color + ". Press Enter to continue");
+        elements.Input();
+
+        elements.setPlayer(new Player(username, color));
 
         elements.eraseThings("text");
         players = numberOfPlayers();
 
-        if (players == 1) {
-            elements.printInTextBox("You are the first player!");
-            firstPlayer();
+
+
+    }
+
+    private void challenger(){
+
+        ArrayList<God> gods = new ArrayList<>();
+        ArrayList<God> chosenGods = new ArrayList<>();
+        ArrayList<Player> players = new ArrayList<>();
+        boolean check = false;
+        int i = 0;
+
+        //TODO get god from server and put them in the ArrayList
+        //TODO get other players' username and put them in the ArrayList (included the active player)
+
+        elements.printInTextBox("You are the challenger! Now you have to chose the divinities for all players, to chose one" +
+                "enter \"this\" when Name of God and his description is displayed. Now press enter to continue:");
+        elements.Input();
+
+        elements.eraseThings("text");
+
+        elements.printInTextBox("\"this\" to select God, \"next\" to go to next God's card, \"prev\" to go to previously God's card" +
+                "\"show command\" to show commands avaiable. Press enter to continue:");
+        elements.Input();
+
+        while (chosenGods.size() < 3) {
+
+            switch (elements.Input()) {
+
+                case "next":
+                    elements.printInTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
+                            gods.get(i).getDescription());
+                    i++;
+                    if (i > gods.size()) i = 0;
+                    break;
+
+                case "prev":
+                    i--;
+                    if (i < 0) i = gods.size();
+                    elements.printInTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
+                            gods.get(i).getDescription());
+                    break;
+
+                case "this":
+                    elements.eraseThings("text");
+                    elements.printInTextBox("Confirm selection of " + gods.get(i) + "? Type \"y\" for yes or anything else for no");
+                    if (elements.Input() == "y")
+                        chosenGods.add(gods.get(i));
+                    else {
+                        elements.eraseThings("text");
+                        elements.printInTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
+                                gods.get(i).getDescription());
+                    }
+                    break;
+
+                case "show commands":
+                    elements.printInTextBox("\"this\" to select God, \"next\" to go to next God's card, \"prev\" to go to previously God's card" +
+                            "\"show command\" to show commands avaiable. Press enter to continue:");
+                    elements.Input();
+                    elements.printInTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() +  "\n" +
+                            gods.get(i).getDescription());
+                    break;
+            }
         }
-        else{
-            elements.printInTextBox("You are not the first player! There are already " + players + " players");
-            notFirstPlayer();
+
+        elements.eraseThings("text");
+
+        elements.printInTextBox("Now other players are choosing their god, wait until they end!");
+
+        //TODO set the last god left as the god of the challenger
+
+        elements.eraseThings("text");
+        elements.printInTextBox("Now you have to chose the order of players by choosing the first one:");
+
+        while (check) {
+
+            i = 0;
+
+            switch (elements.Input()) {
+
+                case "next":
+                    elements.eraseThings("text");
+                    elements.printInTextBox(players.get(i).getUsername());
+                    i++;
+                    if (i > gods.size()) i = 0;
+                    break;
+
+                case "prev":
+                    i--;
+                    if (i < 0) i = gods.size();
+                    elements.eraseThings("text");
+                    elements.printInTextBox(players.get(i).getUsername());
+                    break;
+
+                case "this":
+                    elements.eraseThings("text");
+                    elements.printInTextBox("Confirm selection of " + players.get(i).getUsername() + "? Type \"y\" for yes or anything else for no");
+                    if (elements.Input().equals("y")) {
+                        //TODO send the selected player to server
+                        check = true;
+                        elements.eraseThings("text");
+                    }
+                    else {
+                        elements.eraseThings("text");
+                        elements.printInTextBox(players.get(i).getUsername());
+                    }
+                    break;
+
+                case "show commands":
+                    elements.eraseThings("text");
+                    elements.printInTextBox("\"this\" to select Player, \"next\" to go to next Player's username, \"prev\" to go to previously Player's username" +
+                            "\"show command\" to show commands available. Press enter to continue:");
+                    elements.Input();
+                    elements.printInTextBox(players.get(i).getUsername());
+                    break;
+            }
         }
 
 
     }
 
-    private void firstPlayer(){
+    private void notChallenger(){
 
-    }
+        int i = 0;
+        ArrayList<God> gods = new ArrayList<>();
 
-    private void notFirstPlayer(){
+        //TODO get remaining gods from server that have been previously chosen by challenger
+
+        while (elements.getPlayer().getGod() != null) {
+
+            switch (elements.Input()) {
+
+                case "next":
+                    elements.eraseThings("text");
+                    elements.printInTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
+                            gods.get(i).getDescription());
+                    i++;
+                    if (i > gods.size()) i = 0;
+                    break;
+
+                case "prev":
+                    i--;
+                    if (i < 0) i = gods.size();
+                    elements.eraseThings("text");
+                    elements.printInTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
+                            gods.get(i).getDescription());
+                    break;
+
+                case "this":
+                    elements.eraseThings("text");
+                    elements.printInTextBox("Confirm selection of " + gods.get(i) + "? Type \"y\" for yes or anything else for no");
+                    if (elements.Input() == "y")
+                        elements.getPlayer().setGod(new God(gods.get(i).getName(), gods.get(i).getDescription()));
+                    else {
+                        elements.eraseThings("text");
+                        elements.printInTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
+                                gods.get(i).getDescription());
+                    }
+                    break;
+
+                case "show commands":
+                    elements.eraseThings("text");
+                    elements.printInTextBox("\"this\" to select God, \"next\" to go to next God's card, \"prev\" to go to previously God's card" +
+                            "\"show command\" to show commands avaiable. Press enter to continue:");
+                    elements.Input();
+                    elements.eraseThings("text");
+                    elements.printInTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() +  "\n" +
+                            gods.get(i).getDescription());
+                    break;
+            }
+        }
 
     }
 
@@ -155,16 +323,41 @@ public class Cli {
     private void move(){
 
         int[] numbers;
+        int[] workerPosition;
+
+        workerPosition = selectWorker();
 
         elements.printInTextBox("Select the square where you want to move your worker: (type #,#)");
 
         numbers = Arrays.stream(elements.Input().split(",")).mapToInt(Integer::parseInt).toArray();
 
-        //TODO check if input is valid
+        //TODO check if input is valid (check via server?)
 
-        //TODO update board
+        //update board after server update
+        //TODO change worker representation
+
+        elements.getBoard().getSquare(numbers[0], numbers[1]).setWorker(new Worker(elements.getBoard().getSquare(workerPosition[0], workerPosition[1]).getWorker().getColor()));
+        elements.getBoard().getSquare(workerPosition[0], workerPosition[1]).setWorker(null);
 
         elements.eraseThings("text");
+
+    }
+
+    private int[] selectWorker(){
+
+        int[] numbers;
+
+        do {
+            elements.eraseThings("text");
+            elements.printInTextBox("Select the worker: (type #,#)");
+
+            numbers = Arrays.stream(elements.Input().split(",")).mapToInt(Integer::parseInt).toArray();
+
+        }while(elements.getBoard().getSquare(numbers[0], numbers[1]).getWorker() == null);
+
+        //TODO change color of square of selected worker
+
+        return numbers;
 
     }
 
@@ -208,8 +401,6 @@ public class Cli {
         return players;
     }
 
-    private void selectWorker(){
-        //TODO send the position of selected workerd or send the entire move or build process (worker selection plus move)?
-    }
+
 
 }

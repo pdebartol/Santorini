@@ -113,6 +113,13 @@ public class PlayerController {
         for(Worker w:playerToRemove.getWorkers()){
             w.removeFromGame();
         }
+    }
 
+    public void removeCurrentPlayer(){
+        Player playerToRemove = this.getCurrentPlayer();
+        players.remove(playerToRemove);
+        for(Worker w:playerToRemove.getWorkers()){
+            w.removeFromGame();
+        }
     }
 }
