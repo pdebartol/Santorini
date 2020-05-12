@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.msgUtilities.client.MsgInParser;
+import it.polimi.ingsw.network.MsgSender;
 import it.polimi.ingsw.network.XMLInputStream;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -33,7 +34,7 @@ public class EchoClient {
     public EchoClient(String hostname, int port){
         this.hostName = hostname;
         this.port = port;
-        this.msgIn= null;
+        this.msgIn = null;
     }
 
     //methods
@@ -126,5 +127,9 @@ public class EchoClient {
 
     private void processMsg(){
         new MsgInParser(msgIn).parseIncomingMessage();
+    }
+
+    public void sendMsg(Document msg){
+        new MsgSender(server,msg);
     }
 }

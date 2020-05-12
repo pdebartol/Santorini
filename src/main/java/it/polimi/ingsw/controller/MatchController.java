@@ -256,6 +256,22 @@ public class MatchController implements ControllerInterface {
             if(currentPlayer.checkWin(activeWorker)) viewInterface.directlyWinCase(currentPlayer.getUsername());
         }
 
+        //if the player have to build and he can't, he lose
+        if(currentPlayer.possibleOperation().equals("blocked"))
+            if(errors.isEmpty() && viewInterface != null){
+                if(playerController.getNumberOfPlayers() == 3){
+                    if (viewInterface != null) viewInterface.match3PlayerLose(currentPlayer.getUsername());
+                }
+                else{
+                    // notify that match is finished and currentPlayer lose -> there are only 2 players so nextPlayer is the winner
+                    if (viewInterface != null) viewInterface.match2PlayerLose(playerController.getNextPlayer().getUsername());
+                }
+                playerController.removeCurrentPlayer();
+                playerController.nextTurn();
+
+                if (viewInterface != null) sendNextToDoTurn();
+            }
+
         return errors;
     }
 
@@ -331,12 +347,12 @@ public class MatchController implements ControllerInterface {
         if(playerController.getCurrentPlayer().endTurn()){
 
             // next player has lost
-            if(playerController.getNextPlayer().startTurn().equals("blocked")){
+            if(playerController.getNextPlayer().possibleOperation().equals("blocked")){
                 if(playerController.getNumberOfPlayers() == 3){
                     if (viewInterface != null) viewInterface.match3PlayerLose(playerController.getNextPlayer().getUsername());
                 }
                 else{
-                    // notify that match is finished and next player lose -> there are only 2 players so currentPlayer is the winner
+                    // notify that match is finished and next player loses -> there are only 2 players so currentPlayer is the winner
                     if (viewInterface != null) viewInterface.match2PlayerLose(currentPlayer.getUsername());
                 }
                 playerController.removeNextPlayer();
@@ -389,13 +405,12 @@ public class MatchController implements ControllerInterface {
 
     @Override
     public void sendNextToDoSetupWorkerOnBoard(String gender){
-        //Send to currentPlayer a
         viewInterface.toDoSetupWorkerOnBoard(playerController.getCurrentPlayer().getUsername(),gender);
     }
 
     @Override
     public void sendNextToDoTurn(){
         //notify currentPlayer that his turn has started
-        viewInterface.toDoTurn(playerController.getCurrentPlayer().getUsername(),playerController.getCurrentPlayer().startTurn());
+        viewInterface.toDoTurn(playerController.getCurrentPlayer().getUsername(),playerController.getCurrentPlayer().possibleOperation());
     }
 }

@@ -96,11 +96,11 @@ public class Player implements PropertyChangeListener {
     }
 
     /**
-     * This method allows to know the operation that this player can do when he start his turn
-     * @return a string which indicates the operation that this player can do when he start his turn
+     * This method allows to know the operation that this player can do in a specific moment
+     * @return a string which indicates the operation that this player can do
      */
 
-    public String startTurn(){
+    public String possibleOperation(){
         String possibleOperation = "";
         if(canMove())
             possibleOperation = "move";

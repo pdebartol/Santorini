@@ -100,7 +100,7 @@ public class RequestMsgWriter {
 
     //action methods
 
-    public Document loginRequest(String user, Color c){
+    public Document loginRequest(String user){
         setStandardRequestValues(user,"login");
         return document;
     }
