@@ -142,7 +142,21 @@ public class Cli {
         elements.eraseThings("text");
         players = numberOfPlayers();
 
+        //TODO start game method if this is the first player
 
+        /*
+        if(isFirstPlayer){
+
+            while(true) {
+                elements.eraseThings("text");
+                elements.printInTextBox("You are the first player! There is another Player waiting, do you want to start now? Enter \"y\" if you want or simply wait for the third player! ");
+                if (elements.Input() == "y")
+                    startGame();
+                else
+            }
+
+        }
+         */
 
     }
 
