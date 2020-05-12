@@ -11,6 +11,7 @@ public class Player {
 
     private final String username;
     private final String color;
+    private God god;
     private ArrayList<Worker> workers;
 
     public Player(String username, String color) {
@@ -26,8 +27,16 @@ public class Player {
         return color;
     }
 
+    public God getGod() {
+        return god;
+    }
+
     public ArrayList<Worker> getWorkers() {
         return workers;
+    }
+
+    public void setGod(God god) {
+        this.god = god;
     }
 
     public void setWorkers(ArrayList<Worker> workers) {
