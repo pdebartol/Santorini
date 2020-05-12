@@ -10,10 +10,10 @@ import java.util.Scanner;
 
 public class Elements {
 
-    private Player player;
-    private ArrayList<Player> otherPlayer;
-    private God myDivinity;
-    private ArrayList<God> otherDivinities;
+    private Player player = null;
+    private ArrayList<Player> otherPlayer = null;
+    private God myDivinity = null;
+    private ArrayList<God> otherDivinities = null;
     private Board board;
 
     public Elements() {
@@ -38,6 +38,14 @@ public class Elements {
 
     public Board getBoard() {
         return board;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setMyDivinity(God myDivinity) {
+        this.myDivinity = myDivinity;
     }
 
     /**

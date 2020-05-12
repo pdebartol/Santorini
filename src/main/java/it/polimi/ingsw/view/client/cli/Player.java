@@ -10,10 +10,10 @@ import java.util.ArrayList;
 public class Player {
 
     private final String username;
-    private final Color color;
+    private final String color;
     private ArrayList<Worker> workers;
 
-    public Player(String username, Color color) {
+    public Player(String username, String color) {
         this.username = username;
         this.color = color;
     }
@@ -22,8 +22,16 @@ public class Player {
         return username;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return color;
+    }
+
+    public ArrayList<Worker> getWorkers() {
+        return workers;
+    }
+
+    public void setWorkers(ArrayList<Worker> workers) {
+        this.workers = workers;
     }
 
 }
