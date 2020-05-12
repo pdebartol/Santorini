@@ -33,27 +33,27 @@ public class MsgSender {
      */
 
     public void sendMsg() {
-
-        try {
-
-            OutputStream out = socket.getOutputStream();
-
-            XMLOutputStream xmlOut = new XMLOutputStream(out);
-
-            StreamResult streamResult = new StreamResult(xmlOut);
-            DOMSource domSource = new DOMSource(msgOut);
-
+        if(!socket.isClosed())
             try {
-                Transformer tf = TransformerFactory.newInstance().newTransformer();
-                tf.transform(domSource, streamResult);
-            } catch (TransformerException ex) {
-                ex.printStackTrace();
+
+                OutputStream out = socket.getOutputStream();
+
+                XMLOutputStream xmlOut = new XMLOutputStream(out);
+
+                StreamResult streamResult = new StreamResult(xmlOut);
+                DOMSource domSource = new DOMSource(msgOut);
+
+                try {
+                    Transformer tf = TransformerFactory.newInstance().newTransformer();
+                    tf.transform(domSource, streamResult);
+                } catch (TransformerException ex) {
+                    ex.printStackTrace();
+                }
+
+                xmlOut.send();
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            xmlOut.send();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.msgUtilities.client;
 
+import it.polimi.ingsw.view.client.TestLoginClass;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -16,10 +17,12 @@ public class MsgInParser {
     //attributes
 
     private Document document;
+    //TEST
+    private TestLoginClass test;
 
-    public MsgInParser(Document document){
+    public MsgInParser(Document document, TestLoginClass test){
         this.document = document;
-
+        this.test = test;
     }
 
 
@@ -34,6 +37,8 @@ public class MsgInParser {
         if(answerType.equals("UpdateMsg")){
             String mode = Objects.requireNonNull(evaluateXPath("/UpdateMsg/Mode/text()")).get(0);
             if(mode.equals("disconnection")){
+                //TEST
+                test.disconnection(true);
                 //TODO notify view
                 return true;
             }
@@ -66,12 +71,18 @@ public class MsgInParser {
         String username = Objects.requireNonNull(evaluateXPath("/UpdateMsg/Author/text()")).get(0);
 
         switch (mode){
-            case "login" :
+            case "newPlayer" :
                 String color =  Objects.requireNonNull(evaluateXPath("/UpdateMsg/Update/Color/text()")).get(0);
                 String user =  Objects.requireNonNull(evaluateXPath("/UpdateMsg/Update/Username/text()")).get(0);
+                //TEST
+                test.newUser(user);
                 //TODO notify view
                 break;
+            case "lobbyNoLongerAvailable" :
+                test.lobbyNoLongerAvailable();
+                break;
             case "startGame" :
+                test.matchStarted();
                 //TODO notify view
                 break;
             case "createGods" :
@@ -100,20 +111,26 @@ public class MsgInParser {
                 NodeList positionsNode = document.getElementsByTagName("Position");
                 List<HashMap<String,String>> positions = getActionData(positionsNode);
                 //TODO notify view
+                break;
             case "build":
                 NodeList heightsNode = document.getElementsByTagName("Height");
                 List<HashMap<String,String>> heights = getActionData(heightsNode);
                 //TODO notify view
+                break;
             case "endOfTurn":
                 NodeList removeAndBuildNode = document.getElementsByTagName("RemoveAndBuild");
                 List<HashMap<String,String>> removeAndBuild = getActionData(removeAndBuildNode);
                 //TODO notify view
+                break;
             case "youWinDirectly":
                 //TODO notify view
+                break;
             case "youLoseForDirectWin":
                 //TODO notify view
+                break;
             case  "youWinForAnotherLose":
                 //TODO notify view
+                break;
             case "youLoseForBlocked":
                 //TODO notify view
 
@@ -133,24 +150,28 @@ public class MsgInParser {
                     String color =  Objects.requireNonNull(evaluateXPath("/Answer/Update/Color/text()")).get(0);
                     String user =  Objects.requireNonNull(evaluateXPath("/Answer/Update/Username/text()")).get(0);
                     ArrayList<String> users = new ArrayList<>();
-                    users.add(user);
                     NodeList components = document.getElementsByTagName("Component");
                     for (int j = 0; j < components.getLength(); j++) {
                             Node component = components.item(j);
-                            users.add(component.getTextContent());
+                            if(!component.getTextContent().equals(user))
+                                users.add(component.getTextContent());
                         }
 
-                    System.out.print(users);
-                    System.out.print(color);
+                    //TEST
+                    test.logged(users,user);
                     //TODO notify view
                 }
                 else{
                     List<String> errors = getErrorList();
+                    //TEST
+                    test.login(true);
                     //TODO notify view
                 }
                 break;
             case "startGame" :
                 if(outcome.equals("accepted")){
+                    //TEST
+                    test.matchStarted();
                     //TODO notify view
                 }
                 else{
@@ -252,18 +273,28 @@ public class MsgInParser {
         String action = Objects.requireNonNull(evaluateXPath("/ToDo/Action/text()")).get(0);
         switch(action){
             case "login":
+                //TEST
+                test.login(false);
                 //TODO notify view
+                break;
             case "canStartMatch":
+                //TEST
+                test.startMatch();
                 //TODO notify view
+                break;
             case "choseStartingPlayer":
                 //TODO notify view
-            case "setupmaleWorkerOnBoard":
+                break;
+            case "setupMaleWorkerOnBoard":
                 //TODO notify view
-            case "setupfemaleWorkerOnBoard":
+                break;
+            case "setupFemaleWorkerOnBoard":
                 //TODO notify view
+                break;
             case "wait":
                 String waitFor = Objects.requireNonNull(evaluateXPath("/ToDo/Info/WaitFor/text()")).get(0);
-                String InActionPlayer = Objects.requireNonNull(evaluateXPath("/ToDo/Info/InActionPlayer/text()")).get(0);
+                String inActionPlayer = Objects.requireNonNull(evaluateXPath("/ToDo/Info/InActionPlayer/text()")).get(0);
+                if (waitFor.equals("startMatch")) test.waitStartingMatch(inActionPlayer);
                 //TODO notify view with info
                 break;
             case "yourTurn":

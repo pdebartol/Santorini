@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.msgUtilities.client.MsgInParser;
 import it.polimi.ingsw.network.MsgSender;
 import it.polimi.ingsw.network.XMLInputStream;
+import it.polimi.ingsw.view.client.TestLoginClass;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -26,14 +27,17 @@ public class EchoClient {
     private final String hostName;
     private final int port;
     private Socket server;
+    //TEST
+    private TestLoginClass test;
 
     private Document msgIn;
 
     //constructor
 
-    public EchoClient(String hostname, int port){
+    public EchoClient(String hostname, int port, TestLoginClass test){
         this.hostName = hostname;
         this.port = port;
+        this.test = test;
         this.msgIn = null;
     }
 
@@ -73,7 +77,7 @@ public class EchoClient {
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            //TODO Manage server disconnection
+            test.disconnection(false);
         }
     }
 
@@ -86,7 +90,7 @@ public class EchoClient {
             server = new Socket(hostName, port);
         }catch (IOException e){
             System.err.println("Don't know about host " + hostName + "\n");
-            return;
+            System.exit(0);
         }
         System.out.println("Connection established! \n");
     }
@@ -118,7 +122,7 @@ public class EchoClient {
      */
 
     private boolean isDisconnectionMessage(){
-        return new MsgInParser(msgIn).parseDisconnectionMessage();
+        return new MsgInParser(msgIn,test).parseDisconnectionMessage();
     }
 
     /**
@@ -126,10 +130,10 @@ public class EchoClient {
      */
 
     private void processMsg(){
-        new MsgInParser(msgIn).parseIncomingMessage();
+        new MsgInParser(msgIn,test).parseIncomingMessage();
     }
 
     public void sendMsg(Document msg){
-        new MsgSender(server,msg);
+        new MsgSender(server,msg).sendMsg();
     }
 }

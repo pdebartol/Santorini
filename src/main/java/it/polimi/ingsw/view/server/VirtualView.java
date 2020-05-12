@@ -26,6 +26,7 @@ public class VirtualView implements ViewInterface {
     private String challenger;
     private final List<Color> availableColor;
     private final int lobbyNumber;
+    private boolean on;
 
     boolean matchStarted;
 
@@ -39,6 +40,7 @@ public class VirtualView implements ViewInterface {
         this.lobbyNumber = lobbyNumber;
         this.controllerListener.setViewInterface(this);
         this.availableColor = Color.getColorList();
+        this.on = true;
     }
 
     //methods
@@ -51,11 +53,19 @@ public class VirtualView implements ViewInterface {
         return matchStarted;
     }
 
+    public boolean isOn() {
+        return on;
+    }
+
     //Request Methods
 
     public synchronized void loginRequest(String username, Socket socket) {
         if(getLobbySize() < 3 && !getMatchStarted()) {
-            Color color = availableColor.get((int) (Math.random() * 10) % (availableColor.size() -1));
+            Color color;
+            if(availableColor.size() > 1) color = availableColor.get((int) (Math.random() * 10) % (availableColor.size() - 1));
+            else {
+                color = availableColor.get(0);
+            }
             List<Error> errors = controllerListener.onNewPlayer(username, color);
 
             if (errors.isEmpty()) {
@@ -67,7 +77,7 @@ public class VirtualView implements ViewInterface {
 
         }else{
             try {
-                new MsgSender(socket, new UpdateMsgWriter().extraUpdate("lobbyNoLongerAvailable"));
+                new MsgSender(socket, new UpdateMsgWriter().extraUpdate("lobbyNoLongerAvailable")).sendMsg();
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -285,18 +295,19 @@ public class VirtualView implements ViewInterface {
     // To do communication Methods
 
     public void toDoLogin(Socket socket){
-        new MsgSender(socket, new ToDoMsgWriter().toDoAction("login"));
+        System.out.println(socket + " have to log in");
+        new MsgSender(socket, new ToDoMsgWriter().toDoAction("login")).sendMsg();
     }
     
     public void toDoStartMatch(){
-        new MsgSender(clients.get(creator), new ToDoMsgWriter().toDoAction("canStartMatch"));
+        new MsgSender(clients.get(creator), new ToDoMsgWriter().toDoAction("canStartMatch")).sendMsg();
         for (String user : clients.keySet())
             if(!user.equals(creator))
                 new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(creator,"startMatch")).sendMsg();
     }
 
     public void toDoCreateGods(){
-        new MsgSender(clients.get(challenger), new ToDoMsgWriter().toDoAction("createGods"));
+        new MsgSender(clients.get(challenger), new ToDoMsgWriter().toDoAction("createGods")).sendMsg();
         for (String user : clients.keySet())
             if(!user.equals(challenger))
                 new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(challenger,"createGods")).sendMsg();
@@ -305,14 +316,14 @@ public class VirtualView implements ViewInterface {
     @Override
 
     public void toDoChoseGod(String username, List<Integer> ids){
-        new MsgSender(clients.get(username), new ToDoMsgWriter().toDoChoseGod(ids));
+        new MsgSender(clients.get(username), new ToDoMsgWriter().toDoChoseGod(ids)).sendMsg();
         for (String user : clients.keySet())
             if(!user.equals(username))
                 new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(username,"choseGod")).sendMsg();
     }
 
     public void toDoChoseStartingPlayer(){
-        new MsgSender(clients.get(challenger), new ToDoMsgWriter().toDoAction("choseStartingPlayer"));
+        new MsgSender(clients.get(challenger), new ToDoMsgWriter().toDoAction("choseStartingPlayer")).sendMsg();
         for (String user : clients.keySet())
             if(!user.equals(challenger))
                 new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(challenger,"choseStartingPlayer")).sendMsg();
@@ -321,7 +332,7 @@ public class VirtualView implements ViewInterface {
     @Override
 
     public void toDoSetupWorkerOnBoard(String username, String gender){
-        new MsgSender(clients.get(username), new ToDoMsgWriter().toDoAction("setup" + gender + "WorkerOnBoard"));
+        new MsgSender(clients.get(username), new ToDoMsgWriter().toDoAction("setup" + gender + "WorkerOnBoard")).sendMsg();
         for (String user : clients.keySet())
             if(!user.equals(username))
                 new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(username,"setup" + gender + "WorkerOnBoard")).sendMsg();
@@ -330,7 +341,7 @@ public class VirtualView implements ViewInterface {
     @Override
 
     public void toDoTurn(String username, String firstOperation){
-        new MsgSender(clients.get(username), new ToDoMsgWriter().toDoTurn(firstOperation));
+        new MsgSender(clients.get(username), new ToDoMsgWriter().toDoTurn(firstOperation)).sendMsg();
         for (String user : clients.keySet())
             if(!user.equals(username))
                 new MsgSender(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(username,"hisTurn")).sendMsg();
@@ -340,7 +351,7 @@ public class VirtualView implements ViewInterface {
 
     @Override
     public void directlyWinCase(String winnerUsername){
-        new MsgSender(clients.get(winnerUsername), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youWinDirectly"));
+        new MsgSender(clients.get(winnerUsername), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youWinDirectly")).sendMsg();
         for (String user : clients.keySet())
             if(!user.equals(winnerUsername)){
                 new MsgSender(clients.get(user), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youLoseForDirectWin")).sendMsg();
@@ -350,7 +361,7 @@ public class VirtualView implements ViewInterface {
 
     @Override
     public void match2PlayerLose(String winnerUsername){
-        new MsgSender(clients.get(winnerUsername), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youWinForAnotherLose"));
+        new MsgSender(clients.get(winnerUsername), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youWinForAnotherLose")).sendMsg();
         for (String user : clients.keySet())
             if(!user.equals(winnerUsername)){
                 new MsgSender(clients.get(user), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"")).sendMsg();
@@ -381,16 +392,17 @@ public class VirtualView implements ViewInterface {
     public void clientDown(Socket disconnectedClient){
         if(clients.containsValue(disconnectedClient)){
             for(Socket c : clients.values())
-                if(c.isConnected()) {
-                    new MsgSender(c, new UpdateMsgWriter().extraUpdate("disconnection"));
+                if(!c.isClosed()) {
+                    new MsgSender(c, new UpdateMsgWriter().extraUpdate("disconnection")).sendMsg();
                 }
             clientDisconnectionListener.onClientDown(this);
         }
+        on = false;
     }
 
     public void matchFinished(){
         for(Socket c : clients.values())
-            if(c.isConnected()) {
+            if(!c.isClosed()) {
                 try {
                     c.close();
                 } catch (IOException e) {
@@ -399,5 +411,6 @@ public class VirtualView implements ViewInterface {
             }
         System.out.println("Disconnection lobby number " + lobbyNumber + " for match finished");
         clientDisconnectionListener.onMatchFinish(this);
+        on = false;
     }
 }

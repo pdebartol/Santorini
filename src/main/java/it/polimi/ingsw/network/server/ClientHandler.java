@@ -63,8 +63,7 @@ public class ClientHandler implements Runnable{
                 if(isEndMode()){
                     break;
                 }else{
-                    if(!isLoginRequest())
-                        processRequest();
+                    processRequest();
                 }
             }
 
@@ -79,7 +78,8 @@ public class ClientHandler implements Runnable{
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            virtualView.clientDown(client);
+            if(virtualView.isOn())
+                virtualView.clientDown(client);
         }
     }
 
@@ -119,7 +119,8 @@ public class ClientHandler implements Runnable{
      */
 
     private void processRequest(){
-        new RequestParser(request).parseRequest(virtualView);
+        if(!isLoginRequest())
+            new RequestParser(request).parseRequest(virtualView);
     }
 
     /**

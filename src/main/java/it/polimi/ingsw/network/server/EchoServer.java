@@ -61,7 +61,7 @@ public class EchoServer implements ClientDisconnectionListener {
                 }
 
                 if(!matchFind){
-                    System.out.println("\nLobby number " + lobbies.size() + " full, Server creates a new lobby...");
+                    System.out.println("Server creates a new lobby...");
                     VirtualView v = new VirtualView(new MatchController(),this, lobbies.size() + 1);
                     lobbies.add(v);
                     executor.submit(new ClientHandler(client,v,lobbies.indexOf(v) + 1));
@@ -98,11 +98,13 @@ public class EchoServer implements ClientDisconnectionListener {
 
     @Override
     public void onClientDown(VirtualView v) {
+        System.out.println("Lobby number " + (lobbies.indexOf(v) + 1) + " deleted!");
         lobbies.remove(v);
     }
 
     @Override
     public void onMatchFinish(VirtualView v){
+        System.out.println("Lobby number " + (lobbies.indexOf(v) + 1) + " deleted!");
         lobbies.remove(v);
     }
 }
