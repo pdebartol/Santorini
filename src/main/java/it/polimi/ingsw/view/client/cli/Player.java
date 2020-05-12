@@ -11,7 +11,7 @@ public class Player {
 
     private final String username;
     private final String color;
-    private God god;
+    private God god = null;
     private ArrayList<Worker> workers;
 
     public Player(String username, String color) {

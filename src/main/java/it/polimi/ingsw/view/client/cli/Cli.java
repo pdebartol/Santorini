@@ -270,7 +270,7 @@ public class Cli {
 
         //TODO get remaining gods from server that have been previously chosen by challenger
 
-        while (elements.getMyDivinity() != null) {
+        while (elements.getPlayer().getGod() != null) {
 
             switch (elements.Input()) {
 
@@ -294,7 +294,7 @@ public class Cli {
                     elements.eraseThings("text");
                     elements.printInTextBox("Confirm selection of " + gods.get(i) + "? Type \"y\" for yes or anything else for no");
                     if (elements.Input() == "y")
-                        elements.setMyDivinity(new God(gods.get(i).getName(), gods.get(i).getDescription()));
+                        elements.getPlayer().setGod(new God(gods.get(i).getName(), gods.get(i).getDescription()));
                     else {
                         elements.eraseThings("text");
                         elements.printInTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
@@ -323,16 +323,41 @@ public class Cli {
     private void move(){
 
         int[] numbers;
+        int[] workerPosition;
+
+        workerPosition = selectWorker();
 
         elements.printInTextBox("Select the square where you want to move your worker: (type #,#)");
 
         numbers = Arrays.stream(elements.Input().split(",")).mapToInt(Integer::parseInt).toArray();
 
-        //TODO check if input is valid
+        //TODO check if input is valid (check via server?)
 
-        //TODO update board
+        //update board after server update
+        //TODO change worker representation
+
+        elements.getBoard().getSquare(numbers[0], numbers[1]).setWorker(new Worker(elements.getBoard().getSquare(workerPosition[0], workerPosition[1]).getWorker().getColor()));
+        elements.getBoard().getSquare(workerPosition[0], workerPosition[1]).setWorker(null);
 
         elements.eraseThings("text");
+
+    }
+
+    private int[] selectWorker(){
+
+        int[] numbers;
+
+        do {
+            elements.eraseThings("text");
+            elements.printInTextBox("Select the worker: (type #,#)");
+
+            numbers = Arrays.stream(elements.Input().split(",")).mapToInt(Integer::parseInt).toArray();
+
+        }while(elements.getBoard().getSquare(numbers[0], numbers[1]).getWorker() == null);
+
+        //TODO change color of square of selected worker
+
+        return numbers;
 
     }
 
@@ -376,8 +401,6 @@ public class Cli {
         return players;
     }
 
-    private void selectWorker(){
-        //TODO send the position of selected workerd or send the entire move or build process (worker selection plus move)?
-    }
+
 
 }
