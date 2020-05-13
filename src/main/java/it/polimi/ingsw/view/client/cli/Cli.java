@@ -109,8 +109,14 @@ public class Cli {
     private void login(){
 
         int players;
+
+        //boolean value used to check condition in cycle
+
         boolean check = false;
         String username = null;
+
+        //TODO change type to Color from String
+
         String color = null;
         boolean challenger = true;
 
@@ -348,9 +354,9 @@ public class Cli {
         //TODO check if input is valid (check via server?)
 
         //update board after server update
-        //TODO change worker representation
+        //TODO add Apollo case management
 
-        elements.getBoard().getSquare(numbers[0], numbers[1]).setWorker(new Worker(elements.getBoard().getSquare(workerPosition[0], workerPosition[1]).getWorker().getColor()));
+        elements.getBoard().getSquare(numbers[0], numbers[1]).setWorker(elements.getBoard().getSquare(workerPosition[0], workerPosition[1]).getWorker());
         elements.getBoard().getSquare(workerPosition[0], workerPosition[1]).setWorker(null);
 
         elements.eraseThings("text");
@@ -386,6 +392,8 @@ public class Cli {
         elements.printInTextBox("Select the square where you want your worker to build: (type #,#)");
 
         numbers = Arrays.stream(elements.Input().split(",")).mapToInt(Integer::parseInt).toArray();
+
+        //TODO not necessary to provide the level wanted because it always increment by one, but is this game logic in view?
 
         //TODO check if input is valid
 

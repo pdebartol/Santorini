@@ -35,12 +35,13 @@ public class Elements {
     }
 
     /**
-     * The printTemplate method print the background visual elements
+     * The printTemplate method print the background visual elements, the frame of game
      */
 
     public void printTemplate(){
 
         //draw the top line
+
         System.out.print(Escapes.CURSOR_HOME_0x0.escape());
         System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_RIGHT.escape());
         for (int i = 1; i < Box.HORIZONTAL_DIM.escape() - 1 ; i++) {
@@ -135,6 +136,8 @@ public class Elements {
         char[] information = text.toCharArray();
 
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.TEXT_BOX_START.escape() + 1, 2);
+
+        //this cycle allow to avoid that text exceed the frame length
 
         for (int i = 2, j = 0; j < information.length; i++, j++) {
             System.out.print(information[j]);
