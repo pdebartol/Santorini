@@ -12,6 +12,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This class manages a single client TCP socket connection.
@@ -23,8 +25,8 @@ public class ClientHandler implements Runnable{
     //attributes
 
     private final Socket client;
-    private final VirtualView virtualView;
-    private final int lobbyNumber;
+    private VirtualView virtualView;
+    private int lobbyNumber;
 
     private Document request;
 
@@ -39,6 +41,12 @@ public class ClientHandler implements Runnable{
 
     //methods
 
+    public void changeLobby(VirtualView vrtV, int lobbyNumber){
+        this.virtualView = vrtV;
+        this.lobbyNumber = lobbyNumber;
+        run();
+    }
+
     /**
      * This method allows to receive an XML from connection with client, to start the Request process and send Answer to client
      * The communication go down when client send a "end" mode.
@@ -49,24 +57,30 @@ public class ClientHandler implements Runnable{
 
         System.out.println("Client " + client + " has connected in lobby number " + lobbyNumber + "!");
 
+        virtualView.addInWaitList(client);
+
         //Server notifies this client that it have to login in the lobby
         virtualView.toDoLogin(client);
+
+        ExecutorService executor = Executors.newCachedThreadPool();
 
         //Server wait for a request from client
         try {
             InputStream in = client.getInputStream();
 
-            while(true) {
+            while(!Thread.interrupted()) {
 
                 receiveXML(in);
 
                 if(isEndMode()){
                     break;
                 }else{
-                    processRequest();
+                    //create a thread to execute the request
+                    executor.submit(this::processRequest);
                 }
             }
 
+            executor.shutdown();
             in.close();
             System.out.println("Connection with " + client + " closed!");
             client.close();

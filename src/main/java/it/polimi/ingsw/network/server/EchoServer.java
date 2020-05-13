@@ -16,12 +16,13 @@ import java.util.concurrent.Executors;
  * @author marcoDige
  */
 
-public class EchoServer implements ClientDisconnectionListener {
+public class EchoServer implements ClientDisconnectionListener{
 
     //attributes
 
     private final int port;
     private ServerSocket server;
+    private ExecutorService executor;
 
     private final List<VirtualView> lobbies;
 
@@ -43,7 +44,7 @@ public class EchoServer implements ClientDisconnectionListener {
 
     public void start(){
 
-        ExecutorService executor = Executors.newCachedThreadPool();
+        executor = Executors.newCachedThreadPool();
         initializeServer();
 
         //The server listens for a new connection and searches for a lobby where the new client can enter (if there isn't
@@ -51,21 +52,8 @@ public class EchoServer implements ClientDisconnectionListener {
         while (true) {
             try {
                 Socket client = server.accept();
-                boolean matchFind = false;
-                for (VirtualView v : lobbies){
-                    if(v.getLobbySize() < 3 && !v.getMatchStarted()){
-                        executor.submit(new ClientHandler(client,v,lobbies.indexOf(v) + 1));
-                        matchFind = true;
-                        break;
-                    }
-                }
 
-                if(!matchFind){
-                    System.out.println("Server creates a new lobby...");
-                    VirtualView v = new VirtualView(new MatchController(),this, lobbies.size() + 1);
-                    lobbies.add(v);
-                    executor.submit(new ClientHandler(client,v,lobbies.indexOf(v) + 1));
-                }
+                findAMatch(client);
 
             } catch(IOException e) {
                 break;
@@ -89,6 +77,24 @@ public class EchoServer implements ClientDisconnectionListener {
         }
 
         System.out.println("Server socket ready on port: " + port);
+    }
+
+    public void findAMatch(Socket client){
+        boolean matchFind = false;
+        for (VirtualView v : lobbies){
+            if(v.getLobbySize() < 3 && !v.getMatchStarted()){
+                executor.submit(new ClientHandler(client,v,lobbies.indexOf(v) + 1));
+                matchFind = true;
+                break;
+            }
+        }
+
+        if(!matchFind){
+            System.out.println("Server creates a new lobby...");
+            VirtualView v = new VirtualView(new MatchController(),this, lobbies.size() + 1);
+            lobbies.add(v);
+            executor.submit(new ClientHandler(client,v,lobbies.indexOf(v) + 1));
+        }
     }
 
     /**

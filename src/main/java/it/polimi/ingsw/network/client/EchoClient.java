@@ -13,6 +13,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 
 /**
@@ -28,7 +31,7 @@ public class EchoClient {
     private final int port;
     private Socket server;
     //TEST
-    private TestLoginClass test;
+    private final TestLoginClass test;
 
     private Document msgIn;
 
@@ -51,6 +54,8 @@ public class EchoClient {
     public void start(){
 
         initializeClientConnection();
+        ExecutorService executor = Executors.newCachedThreadPool();
+        Future processMsgThread = null;
 
         try {
             InputStream in = server.getInputStream();
@@ -60,16 +65,16 @@ public class EchoClient {
                 receiveXML(in);
 
                 if(isDisconnectionMessage()){
+                    abortMsgProcessing(processMsgThread);
                     break;
                 }else{
-                    processMsg();
+                    processMsgThread = executor.submit(this::processMsg);
                 }
             }
 
             in.close();
             System.out.println("Connection closed!\n");
             server.close();
-
         }catch (IOException | SAXException | ParserConfigurationException e){
             System.err.println("Connection down!\n");
             try {
@@ -77,7 +82,10 @@ public class EchoClient {
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
+            abortMsgProcessing(processMsgThread);
             test.disconnection(false);
+        }finally {
+            executor.shutdown();
         }
     }
 
@@ -115,6 +123,10 @@ public class EchoClient {
         msgIn = docBuilder.parse(xmlIn);
     }
 
+    private void abortMsgProcessing(Future thread){
+        if (thread != null) thread.cancel(true);
+    }
+
     /**
      * This method verify if the message mode is "disconnection".
      * @return true -> "disconnection" message mode
@@ -129,7 +141,7 @@ public class EchoClient {
      * This method start a server message processing in client. It uses a MsgInParser to start this process.
      */
 
-    private void processMsg(){
+    private synchronized void processMsg(){
         new MsgInParser(msgIn,test).parseIncomingMessage();
     }
 

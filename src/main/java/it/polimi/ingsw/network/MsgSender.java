@@ -32,8 +32,8 @@ public class MsgSender {
      * and its methods.
      */
 
-    public void sendMsg() {
-        if(!socket.isClosed())
+    public boolean sendMsg() {
+        if (!socket.isClosed())
             try {
 
                 OutputStream out = socket.getOutputStream();
@@ -52,8 +52,11 @@ public class MsgSender {
 
                 xmlOut.send();
 
+                return true;
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        return false;
     }
 }

@@ -3,9 +3,11 @@ package it.polimi.ingsw.view.client;
 import it.polimi.ingsw.msgUtilities.client.RequestMsgWriter;
 import it.polimi.ingsw.network.client.EchoClient;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 //TEST
 public class TestLoginClass {
@@ -22,6 +24,19 @@ public class TestLoginClass {
         start();
     }
 
+    public String input(){
+        BufferedReader scan = new BufferedReader(new InputStreamReader(System.in));
+        String input = "";
+        try{
+            while(!scan.ready())
+                Thread.sleep(200);
+            input = scan.readLine();
+        } catch (InterruptedException | IOException e) {
+            Thread.currentThread().interrupt();
+        };
+        return input;
+    }
+
     public void start() {
         otherUsernames = new ArrayList<>();
         echoClient = new EchoClient(ipAddress,port,this);
@@ -30,26 +45,23 @@ public class TestLoginClass {
 
     public void ipAddressInput(){
         System.out.println("Ip address : ");
-        ipAddress = new Scanner(System.in).nextLine();
+        ipAddress = input();
     }
 
     public void portInput(){
         System.out.println("Port : ");
-        port = Integer.parseInt(new Scanner(System.in).nextLine());
+        port = Integer.parseInt(input());
     }
 
     public void lobbyNoLongerAvailable(){
-        System.out.println("Too long, in the meantime, the match has begun!");
-        System.out.println("Do you want to look for another game (s) or do you want to go out (any key) ?");
-        if(new Scanner(System.in).nextLine().equals("s")) start();
-        else System.exit(0);
+        System.out.println("Too long, in the meantime the match has begun! You have been entered in another lobby!");
     }
 
     public void disconnection(boolean clientDisc){
         if (clientDisc) System.out.println("The match finished because a client has disconnected! \n");
         else System.out.println("The server has disconnected\n");
         System.out.println("Do you want to look for another game (s) or do you want to go out (any key) ?");
-        if(new Scanner(System.in).nextLine().equals("s")) start();
+        if(input().equals("s")) start();
         else System.exit(0);
     }
 
@@ -57,7 +69,7 @@ public class TestLoginClass {
         if(!rejectedBefore) System.out.println("You have to log in!\n");
         else System.out.println("Your name already exists, enter a new one!\n");
         System.out.println("Username :");
-        echoClient.sendMsg(new RequestMsgWriter().loginRequest(new Scanner(System.in).nextLine()));
+        echoClient.sendMsg(new RequestMsgWriter().loginRequest(input()));
     }
 
     public void logged(List<String> usernames, String yourUsername){
@@ -79,7 +91,7 @@ public class TestLoginClass {
 
     public void startMatch(){
         System.out.println("There is a new player with you now, do you want to start now a 2 player game (2) or you want to wait a third player (3)?");
-        if (Integer.parseInt(new Scanner(System.in).nextLine()) == 2) echoClient.sendMsg(new RequestMsgWriter().startGameRequest(myUsername));
+        if (Integer.parseInt(input()) == 2) echoClient.sendMsg(new RequestMsgWriter().startGameRequest(myUsername));
         else System.out.println("Waiting for the third player...\n");
     }
 
