@@ -180,15 +180,7 @@ public class VirtualView implements ViewInterface {
         sendMsg(socket, new AnswerMsgWriter().loginAcceptedAnswer(username, color, clients.keySet()));
 
         //Send to the first client connected a to do message to starting match
-        switch (clients.size()){
-            case 2 :
-                toDoStartMatch();
-                break;
-            case 3 :
-                lobbyNoLongerAvailable();
-                startGameRequest(creator);
-                break;
-        }
+        if(clients.size() == 2) toDoStartMatch();
     }
 
     public void onLoginRejectedRequest(String username,List<Error> errors, Socket socket){
@@ -204,6 +196,7 @@ public class VirtualView implements ViewInterface {
         sendMsg(clients.get(username), new AnswerMsgWriter().startGameAcceptedAnswer(username));
 
         matchStarted = true;
+        System.out.println("Match in lobby " + lobbyNumber + " started!");
         lobbyNoLongerAvailable();
 
         //Send to the challenger a to do message to create gods
@@ -424,8 +417,7 @@ public class VirtualView implements ViewInterface {
 
     public void lobbyNoLongerAvailable(){
         for(Socket socket : waitList) {
-            sendMsg(socket, new UpdateMsgWriter().extraUpdate("lobbyNoLongerAvailable"));
-            sendMsg(socket, new UpdateMsgWriter().extraUpdate("disconnection"));
+            sendMsg(socket, new UpdateMsgWriter().extraUpdate("disconnectionForLobbyNoLongerAvailable"));
         }
         waitList.clear();
     }

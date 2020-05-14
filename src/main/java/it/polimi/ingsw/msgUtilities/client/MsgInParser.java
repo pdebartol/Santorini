@@ -42,6 +42,12 @@ public class MsgInParser {
                 //TODO notify view
                 return true;
             }
+            if(mode.equals("disconnectionForLobbyNoLongerAvailable")){
+                test.lobbyNoLongerAvailable();
+                test.disconnectionForLobby();
+                //TODO notify view
+                return true;
+            }
         }
         return false;
     }
@@ -78,11 +84,8 @@ public class MsgInParser {
                 test.newUser(user);
                 //TODO notify view
                 break;
-            case "lobbyNoLongerAvailable" :
-                test.lobbyNoLongerAvailable();
-                break;
             case "startGame" :
-                test.matchStarted();
+                synchronized(this){test.matchStarted();}
                 //TODO notify view
                 break;
             case "createGods" :

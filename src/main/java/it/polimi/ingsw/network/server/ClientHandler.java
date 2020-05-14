@@ -57,18 +57,19 @@ public class ClientHandler implements Runnable{
 
         System.out.println("Client " + client + " has connected in lobby number " + lobbyNumber + "!");
 
+        if(!client.getInetAddress().getHostAddress().equals("127.0.0.1")) new Thread(this::pingClient).start();
+
         virtualView.addInWaitList(client);
 
         //Server notifies this client that it have to login in the lobby
         virtualView.toDoLogin(client);
 
-        ExecutorService executor = Executors.newCachedThreadPool();
 
         //Server wait for a request from client
         try {
             InputStream in = client.getInputStream();
 
-            while(!Thread.interrupted()) {
+            while(true) {
 
                 receiveXML(in);
 
@@ -76,24 +77,16 @@ public class ClientHandler implements Runnable{
                     break;
                 }else{
                     //create a thread to execute the request
-                    executor.submit(this::processRequest);
+                    processRequest();
                 }
             }
 
-            executor.shutdown();
             in.close();
             System.out.println("Connection with " + client + " closed!");
             client.close();
         } catch(IOException | SAXException | ParserConfigurationException  e) {
             //Management of client disconnection
-            System.err.println("Client " + client + " has disconnected!");
-            try {
-                client.close();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-            if(virtualView.isOn())
-                virtualView.clientDown(client);
+            clientDisconnection();
         }
     }
 
@@ -144,4 +137,32 @@ public class ClientHandler implements Runnable{
      */
 
     private boolean isLoginRequest() {return new RequestParser(request).parseLoginRequest(virtualView,client);}
+
+    private void clientDisconnection(){
+        System.err.println("Client " + client + " has disconnected!");
+        try {
+            client.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        if(virtualView.isOn())
+            virtualView.clientDown(client);
+    }
+
+    private void pingClient() {
+        boolean reachable = true;
+        do{
+            try {
+                Thread.sleep(5000);
+                reachable = client.getInetAddress().isReachable(500);
+            } catch (IOException e) {
+                clientDisconnection();
+            } catch (InterruptedException iE){
+                iE.getStackTrace();
+            }
+        }while(reachable);
+
+        clientDisconnection();
+        Thread.currentThread().interrupt();
+    }
 }

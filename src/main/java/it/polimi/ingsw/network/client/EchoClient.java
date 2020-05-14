@@ -30,6 +30,7 @@ public class EchoClient {
     private final String hostName;
     private final int port;
     private Socket server;
+    Future processMsgThread;
     //TEST
     private final TestLoginClass test;
 
@@ -42,6 +43,7 @@ public class EchoClient {
         this.port = port;
         this.test = test;
         this.msgIn = null;
+        this.processMsgThread = null;
     }
 
     //methods
@@ -54,8 +56,10 @@ public class EchoClient {
     public void start(){
 
         initializeClientConnection();
+
+        if(!server.getInetAddress().getHostAddress().equals("127.0.0.1")) new Thread(this::pingServer).start();
+
         ExecutorService executor = Executors.newCachedThreadPool();
-        Future processMsgThread = null;
 
         try {
             InputStream in = server.getInputStream();
@@ -76,14 +80,7 @@ public class EchoClient {
             System.out.println("Connection closed!\n");
             server.close();
         }catch (IOException | SAXException | ParserConfigurationException e){
-            System.err.println("Connection down!\n");
-            try {
-                server.close();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-            abortMsgProcessing(processMsgThread);
-            test.disconnection(false);
+            disconnection(false);
         }finally {
             executor.shutdown();
         }
@@ -141,11 +138,39 @@ public class EchoClient {
      * This method start a server message processing in client. It uses a MsgInParser to start this process.
      */
 
-    private synchronized void processMsg(){
+    private void processMsg(){
         new MsgInParser(msgIn,test).parseIncomingMessage();
     }
 
     public void sendMsg(Document msg){
         new MsgSender(server,msg).sendMsg();
+    }
+
+    public void pingServer(){
+        boolean reachable = true;
+        do{
+            try {
+                Thread.sleep(5000);
+                reachable = server.getInetAddress().isReachable(500);
+            } catch (IOException e) {
+                disconnection(true);
+            } catch (InterruptedException iE){
+                iE.getStackTrace();
+            }
+        }while(reachable);
+
+        disconnection(true);
+        Thread.currentThread().interrupt();
+    }
+
+    private void disconnection(boolean clientDisc){
+        System.err.println("Connection down!\n");
+        try {
+            server.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        abortMsgProcessing(processMsgThread);
+        test.disconnection(clientDisc);
     }
 }

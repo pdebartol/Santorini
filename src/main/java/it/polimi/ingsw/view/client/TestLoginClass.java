@@ -2,10 +2,9 @@ package it.polimi.ingsw.view.client;
 
 import it.polimi.ingsw.msgUtilities.client.RequestMsgWriter;
 import it.polimi.ingsw.network.client.EchoClient;
+import it.polimi.ingsw.view.client.cli.InputCli;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,19 +23,6 @@ public class TestLoginClass {
         start();
     }
 
-    public String input(){
-        BufferedReader scan = new BufferedReader(new InputStreamReader(System.in));
-        String input = "";
-        try{
-            while(!scan.ready())
-                Thread.sleep(200);
-            input = scan.readLine();
-        } catch (InterruptedException | IOException e) {
-            Thread.currentThread().interrupt();
-        };
-        return input;
-    }
-
     public void start() {
         otherUsernames = new ArrayList<>();
         echoClient = new EchoClient(ipAddress,port,this);
@@ -45,12 +31,24 @@ public class TestLoginClass {
 
     public void ipAddressInput(){
         System.out.println("Ip address : ");
-        ipAddress = input();
+        String ip = InputCli.readLine();
+        while(!InputValidator.validateIP(ip)){
+            System.out.println("Not valid IP! ");
+            System.out.println("IP address : ");
+            ip = InputCli.readLine();
+        }
+        ipAddress = ip;
     }
 
     public void portInput(){
         System.out.println("Port : ");
-        port = Integer.parseInt(input());
+        String p = InputCli.readLine();
+        while(!InputValidator.validatePORT(p)){
+            System.out.println("Not valid port number!");
+            System.out.println("Port : ");
+            p = InputCli.readLine();
+        }
+        port = Integer.parseInt(p);
     }
 
     public void lobbyNoLongerAvailable(){
@@ -61,7 +59,14 @@ public class TestLoginClass {
         if (clientDisc) System.out.println("The match finished because a client has disconnected! \n");
         else System.out.println("The server has disconnected\n");
         System.out.println("Do you want to look for another game (s) or do you want to go out (any key) ?");
-        if(input().equals("s")) start();
+        if(InputCli.readLine().equals("s")) start();
+        else System.exit(0);
+    }
+
+    public void disconnectionForLobby(){
+        System.out.println("Disconnection...\n");
+        System.out.println("Do you want to look for another game (s) or do you want to go out (any key) ?");
+        if(InputCli.readLine().equals("s")) start();
         else System.exit(0);
     }
 
@@ -69,7 +74,12 @@ public class TestLoginClass {
         if(!rejectedBefore) System.out.println("You have to log in!\n");
         else System.out.println("Your name already exists, enter a new one!\n");
         System.out.println("Username :");
-        echoClient.sendMsg(new RequestMsgWriter().loginRequest(input()));
+        String username = InputCli.readLine();
+        while (!InputValidator.validateUSERNAME(username)){
+            System.out.println("Username :");
+            username = InputCli.readLine();
+        }
+        echoClient.sendMsg(new RequestMsgWriter().loginRequest(username));
     }
 
     public void logged(List<String> usernames, String yourUsername){
@@ -90,9 +100,15 @@ public class TestLoginClass {
     }
 
     public void startMatch(){
-        System.out.println("There is a new player with you now, do you want to start now a 2 player game (2) or you want to wait a third player (3)?");
-        if (Integer.parseInt(input()) == 2) echoClient.sendMsg(new RequestMsgWriter().startGameRequest(myUsername));
-        else System.out.println("Waiting for the third player...\n");
+        System.out.println("There is a new player with you now, from now you can start the game whenever " +
+                "you want (the match will start in 2 or 3 player mode depending on the players in the game at the " +
+                "time of the start, writing \"start\"");
+        try {
+            if (InputCli.in.readLine().equals("start")) echoClient.sendMsg(new RequestMsgWriter().startGameRequest(myUsername));
+            else System.out.println("Waiting for the third player...\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void waitStartingMatch(String creator){
