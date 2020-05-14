@@ -153,12 +153,9 @@ public class ClientHandler implements Runnable{
         boolean reachable = true;
         do{
             try {
-                Thread.sleep(5000);
-                reachable = client.getInetAddress().isReachable(500);
+                reachable = client.getInetAddress().isReachable(8000);
             } catch (IOException e) {
                 clientDisconnection();
-            } catch (InterruptedException iE){
-                iE.getStackTrace();
             }
         }while(reachable);
 

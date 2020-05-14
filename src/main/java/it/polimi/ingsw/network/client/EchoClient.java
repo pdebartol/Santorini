@@ -57,8 +57,6 @@ public class EchoClient {
 
         initializeClientConnection();
 
-        if(!server.getInetAddress().getHostAddress().equals("127.0.0.1")) new Thread(this::pingServer).start();
-
         ExecutorService executor = Executors.newCachedThreadPool();
 
         try {
@@ -80,7 +78,7 @@ public class EchoClient {
             System.out.println("Connection closed!\n");
             server.close();
         }catch (IOException | SAXException | ParserConfigurationException e){
-            disconnection(false);
+            disconnection();
         }finally {
             executor.shutdown();
         }
@@ -146,24 +144,7 @@ public class EchoClient {
         new MsgSender(server,msg).sendMsg();
     }
 
-    public void pingServer(){
-        boolean reachable = true;
-        do{
-            try {
-                Thread.sleep(5000);
-                reachable = server.getInetAddress().isReachable(500);
-            } catch (IOException e) {
-                disconnection(true);
-            } catch (InterruptedException iE){
-                iE.getStackTrace();
-            }
-        }while(reachable);
-
-        disconnection(true);
-        Thread.currentThread().interrupt();
-    }
-
-    private void disconnection(boolean clientDisc){
+    private void disconnection(){
         System.err.println("Connection down!\n");
         try {
             server.close();
@@ -171,6 +152,6 @@ public class EchoClient {
             ioException.printStackTrace();
         }
         abortMsgProcessing(processMsgThread);
-        test.disconnection(clientDisc);
+        test.disconnection(false);
     }
 }
