@@ -1,5 +1,6 @@
 package it.polimi.ingsw.msgUtilities.client;
 
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.view.client.TestLoginClass;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -81,7 +82,7 @@ public class MsgInParser {
                 String color =  Objects.requireNonNull(evaluateXPath("/UpdateMsg/Update/Color/text()")).get(0);
                 String user =  Objects.requireNonNull(evaluateXPath("/UpdateMsg/Update/Username/text()")).get(0);
                 //TEST
-                test.newUser(user);
+                test.newUser(user,Color.valueOfLabel(color));
                 //TODO notify view
                 break;
             case "startGame" :
@@ -152,12 +153,12 @@ public class MsgInParser {
                 if(outcome.equals("accepted")){
                     String color =  Objects.requireNonNull(evaluateXPath("/Answer/Update/Color/text()")).get(0);
                     String user =  Objects.requireNonNull(evaluateXPath("/Answer/Update/Username/text()")).get(0);
-                    ArrayList<String> users = new ArrayList<>();
+                    Map<String, Color> users = new HashMap<>();
                     NodeList components = document.getElementsByTagName("Component");
                     for (int j = 0; j < components.getLength(); j++) {
                             Node component = components.item(j);
-                            if(!component.getTextContent().equals(user))
-                                users.add(component.getTextContent());
+                            if(!component.getChildNodes().item(0).getTextContent().equals(user))
+                                users.put(component.getChildNodes().item(0).getTextContent(),Color.valueOfLabel(component.getChildNodes().item(1).getTextContent()));
                         }
 
                     //TEST

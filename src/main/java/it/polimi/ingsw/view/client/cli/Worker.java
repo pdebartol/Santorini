@@ -8,11 +8,11 @@ package it.polimi.ingsw.view.client.cli;
 public class Worker {
 
     private final String icon = Unicode.WORKER_ICON.escape();
-    private final Color color;
+    private final ColorCode colorCode;
     private final String gender;
 
-    public Worker(Color color, String gender) {
-        this.color = color;
+    public Worker(ColorCode colorCode, String gender) {
+        this.colorCode = colorCode;
         this.gender = gender;
     }
 
@@ -20,8 +20,8 @@ public class Worker {
         return icon;
     }
 
-    public Color getColor() {
-        return color;
+    public ColorCode getColorCode() {
+        return colorCode;
     }
 
 }

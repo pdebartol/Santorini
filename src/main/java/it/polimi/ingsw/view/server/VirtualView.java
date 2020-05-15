@@ -21,6 +21,7 @@ public class VirtualView implements ViewInterface {
 
     private final ControllerInterface controllerListener;
     private final Map<String,Socket> clients;
+    private final Map<String,Color> players;
     private final List<Socket> waitList;
     private final ClientDisconnectionListener clientDisconnectionListener;
     private String creator;
@@ -36,6 +37,7 @@ public class VirtualView implements ViewInterface {
     public VirtualView(ControllerInterface l, ClientDisconnectionListener cdl, int lobbyNumber){
         this.controllerListener = l;
         this.clients = new HashMap<>();
+        this.players = new HashMap<>();
         this.waitList = new ArrayList<>();
         this.matchStarted = false;
         this.clientDisconnectionListener = cdl;
@@ -168,8 +170,9 @@ public class VirtualView implements ViewInterface {
 
         if (clients.isEmpty()) creator = username;
         clients.put(username, socket);
+        players.put(username, color);
 
-        System.out.print(username + " logged in lobby number " + lobbyNumber + "\n");
+        System.out.print(username + " logged in lobby number " + lobbyNumber + " with color " + Color.labelOfEnum(color) + "\n");
 
         Document updateMsg = new UpdateMsgWriter().loginUpdate(username, color);
         for (String user : clients.keySet()) {
@@ -177,7 +180,7 @@ public class VirtualView implements ViewInterface {
                 sendMsg(clients.get(user), updateMsg);
             }
         }
-        sendMsg(socket, new AnswerMsgWriter().loginAcceptedAnswer(username, color, clients.keySet()));
+        sendMsg(socket, new AnswerMsgWriter().loginAcceptedAnswer(username, color, players));
 
         //Send to the first client connected a to do message to starting match
         if(clients.size() == 2 || clients.size() == 3) toDoStartMatch();

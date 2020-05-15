@@ -136,7 +136,7 @@ public class EchoClient {
      * This method start a server message processing in client. It uses a MsgInParser to start this process.
      */
 
-    private void processMsg(){
+    private synchronized void processMsg(){
         new MsgInParser(msgIn,test).parseIncomingMessage();
     }
 

@@ -5,7 +5,7 @@ package it.polimi.ingsw.view.client.cli;
  * @author aledimaio
  */
 
-public enum Color {
+public enum ColorCode {
 
     ANSI_BLACK("\u001B[30m"),
     ANSI_RED("\u001B[31m"),
@@ -24,7 +24,7 @@ public enum Color {
 
     private String escape;
 
-    Color(String escape){
+    ColorCode(String escape){
         this.escape = escape;
     }
 

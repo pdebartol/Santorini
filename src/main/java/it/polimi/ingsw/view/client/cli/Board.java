@@ -46,7 +46,7 @@ public class Board {
                 System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() + i - 2);
             }
             //print 1,2,3,4,5 horizontal board reference
-            System.out.print(Color.ANSI_RESET.escape());
+            System.out.print(ColorCode.ANSI_RESET.escape());
             System.out.print(j);
         }
 

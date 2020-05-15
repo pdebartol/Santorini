@@ -1,12 +1,15 @@
 package it.polimi.ingsw.view.client;
 
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.msgUtilities.client.RequestMsgWriter;
 import it.polimi.ingsw.network.client.EchoClient;
 import it.polimi.ingsw.view.client.cli.InputCli;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 
 //TEST
@@ -16,7 +19,7 @@ public class TestLoginClass {
     String ipAddress;
     int port;
     String myUsername;
-    List<String> otherUsernames;
+    Map<String,Color> otherUsernames;
 
     public TestLoginClass(){
         ipAddressInput();
@@ -25,7 +28,7 @@ public class TestLoginClass {
     }
 
     public void start() {
-        otherUsernames = new ArrayList<>();
+        otherUsernames = new HashMap<>();
         echoClient = new EchoClient(ipAddress,port,this);
         echoClient.start();
     }
@@ -83,21 +86,22 @@ public class TestLoginClass {
         echoClient.sendMsg(new RequestMsgWriter().loginRequest(username));
     }
 
-    public void logged(List<String> usernames, String yourUsername){
+    public void logged(Map<String, Color> usernames, String yourUsername){
         myUsername = yourUsername;
-        otherUsernames.addAll(usernames);
+        otherUsernames.putAll(usernames);
         System.out.println("Hi " + yourUsername + ", you're in!\n");
         if(otherUsernames.isEmpty()) System.out.println("Wow, you're the first component of this game. You have to wait other players to start the match.");
         else {
             System.out.println("The other players in this game are :");
-            for (String user : otherUsernames)
-                System.out.println(user);
+            for (String user : otherUsernames.keySet()) {
+                System.out.println(user + " " + Color.labelOfEnum(usernames.get(user)));
+            }
         }
     }
 
-    public void newUser(String username){
-        otherUsernames.add(username);
-        System.out.println("A new user logged in, his username is : " + username + "\n");
+    public void newUser(String username,Color color){
+        otherUsernames.put(username, color);
+        System.out.println("A new user logged in, his username is : " + username + ", his color is : " + Color.labelOfEnum(color) + "\n");
     }
 
     public void startMatch(){

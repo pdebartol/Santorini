@@ -63,33 +63,33 @@ public class Square{
         //change color of single square based on level of square
 
         if(dome)
-            System.out.print(Color.LEVEL_DOME_BLUE_BACKGROUND.escape());
+            System.out.print(ColorCode.LEVEL_DOME_BLUE_BACKGROUND.escape());
         else {
             switch (level) {
                 case 0:
-                    System.out.print(Color.LEVEL_0_GREEN_BACKGROUND.escape());
+                    System.out.print(ColorCode.LEVEL_0_GREEN_BACKGROUND.escape());
                     break;
                 case 1:
-                    System.out.print(Color.LEVEL_1_SAND_BACKGROUND.escape());
+                    System.out.print(ColorCode.LEVEL_1_SAND_BACKGROUND.escape());
                     break;
                 case 2:
-                    System.out.print(Color.LEVEL_2_GRAY_BACKGROUND.escape());
+                    System.out.print(ColorCode.LEVEL_2_GRAY_BACKGROUND.escape());
                     break;
                 case 3:
-                    System.out.print(Color.LEVEL_3_WHITE_BACKGROUND.escape());
+                    System.out.print(ColorCode.LEVEL_3_WHITE_BACKGROUND.escape());
                     break;
             }
         }
 
         if (worker != null) {
-            System.out.println(Escapes.SAVE_CURSOR_POSITION.escape() + worker.getColor().escape() + worker.getIcon() + "   "
+            System.out.println(Escapes.SAVE_CURSOR_POSITION.escape() + worker.getColorCode().escape() + worker.getIcon() + "   "
                     + Escapes.RESTORE_CURSOR_POSITION.escape());
             for (int i = 1; i < Box.SQUARE_DIMENSION.escape() - 1 ; i++) {
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + "    "
                         + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
-            System.out.print("   " + Color.ANSI_BLACK.escape() + level + Color.ANSI_RESET.escape());
+            System.out.print("   " + ColorCode.ANSI_BLACK.escape() + level + ColorCode.ANSI_RESET.escape());
         }
         else {
             for (int i = 0; i < Box.SQUARE_DIMENSION.escape() - 1 ; i++) {
@@ -97,7 +97,7 @@ public class Square{
                         + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
-            System.out.print("   " + Color.ANSI_BLACK.escape() + level + Color.ANSI_RESET.escape());
+            System.out.print("   " + ColorCode.ANSI_BLACK.escape() + level + ColorCode.ANSI_RESET.escape());
         }
     }
 

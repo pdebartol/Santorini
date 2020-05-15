@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.w3c.dom.Element;
@@ -51,13 +52,18 @@ public class AnswerMsgWriter {
         }
     }
 
-    private void setComponentsList(Set<String> users){
+    private void setComponentsList(Map<String,Color> users){
         Node componentsTag = initializeTagList("Components");
 
-        for(String u : users){
-            Element tag = document.createElement("Component");
-            tag.setTextContent(u);
-            componentsTag.appendChild(tag);
+        for(String u : users.keySet()){
+            Element componentTag = document.createElement("Component");
+            Element usernameTag = document.createElement("Username");
+            Element colorTag = document.createElement("Color");
+            usernameTag.setTextContent(u);
+            colorTag.setTextContent(Color.labelOfEnum(users.get(u)));
+            componentsTag.appendChild(componentTag);
+            componentTag.appendChild(usernameTag);
+            componentTag.appendChild(colorTag);
         }
     }
 
@@ -120,7 +126,7 @@ public class AnswerMsgWriter {
         return document;
     }
 
-    public Document loginAcceptedAnswer(String user, Color c, Set<String> users){
+    public Document loginAcceptedAnswer(String user, Color c, Map<String,Color> users){
         setStandardAnswerValues(user,"login","accepted");
         Node updateTag = initializeTagList("Update");
 

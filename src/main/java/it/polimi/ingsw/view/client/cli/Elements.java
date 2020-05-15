@@ -158,7 +158,7 @@ public class Elements {
     public void printSantorini(){
 
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.ASCIIART_START_UP.escape(), Box.ASCIIART_START_LEFT.escape() + 1);
-        System.out.print(Color.ANSI_BLUE.escape() +
+        System.out.print(ColorCode.ANSI_BLUE.escape() +
                 "  _____  ____  ____   ______   ___   ____   ____  ____   ____ \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
                 " / ___/ /    ||    \\ |      | /   \\ |    \\ |    ||    \\ |    |\n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
                 "(   \\_ |  o  ||  _  ||      ||     ||  D  ) |  | |  _  | |  | \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
@@ -166,7 +166,7 @@ public class Elements {
                 " /  \\ ||  _  ||  |  |  |  |  |     ||    \\  |  | |  |  | |  | \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
                 " \\    ||  |  ||  |  |  |  |  |     ||  .  \\ |  | |  |  | |  | \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
                 "  \\___||__|__||__|__|  |__|   \\___/ |__|\\_||____||__|__||____|\n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
-                "                                                              \n" + Color.ANSI_RESET.escape());
+                "                                                              \n" + ColorCode.ANSI_RESET.escape());
 
     }
 
@@ -177,7 +177,7 @@ public class Elements {
     public void printLoser(){
 
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.ASCIIART_START_UP.escape(), Box.ASCIIART_START_LEFT.escape() + 1);
-        System.out.print(Color.ANSI_RED.escape() +
+        System.out.print(ColorCode.ANSI_RED.escape() +
                 " (        )   (         (     \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
                 " )\\ )  ( /(   )\\ )      )\\ )  \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
                 "(()/(  )\\()) (()/( (   (()/(  \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
@@ -186,7 +186,7 @@ public class Elements {
                 "| |    / _ \\ / __|| __|| _ \\  \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
                 "| |__ | (_) |\\__ \\| _| |   /  \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
                 "|____| \\___/ |___/|___||_|_\\  \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
-                "                              \n" + Color.ANSI_RESET.escape());
+                "                              \n" + ColorCode.ANSI_RESET.escape());
 
     }
 
@@ -197,13 +197,13 @@ public class Elements {
     public void printYouWon(){
 
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.ASCIIART_START_UP.escape(), Box.ASCIIART_START_LEFT.escape() + 1);
-        System.out.print(Color.ANSI_CYAN.escape() +
+        System.out.print(ColorCode.ANSI_CYAN.escape() +
                 " __  __   ______   __  __       __     __   ______   __   __    \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
                 "/\\ \\_\\ \\ /\\  __ \\ /\\ \\/\\ \\     /\\ \\  _ \\ \\ /\\  __ \\ /\\ \"-.\\ \\   \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
                 "\\ \\____ \\\\ \\ \\/\\ \\\\ \\ \\_\\ \\    \\ \\ \\/ \".\\ \\\\ \\ \\/\\ \\\\ \\ \\-.  \\  \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
                 " \\/\\_____\\\\ \\_____\\\\ \\_____\\    \\ \\__/\".~\\_\\\\ \\_____\\\\ \\_\\\\\"\\_\\ \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
                 "  \\/_____/ \\/_____/ \\/_____/     \\/_/   \\/_/ \\/_____/ \\/_/ \\/_/ \n" + "\u001b[" + Box.ASCIIART_START_LEFT.escape() + "C" +
-                "                                                                \n" + Color.ANSI_RESET.escape());
+                "                                                                \n" + ColorCode.ANSI_RESET.escape());
 
     }
 
