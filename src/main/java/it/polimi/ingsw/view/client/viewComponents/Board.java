@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.client.viewComponents;
 
 public class Board {
 
-    private static final int DIMENSION = 5;
+    public static final int DIMENSION = 5;
     private Square[][] table;
 
     public Board(){

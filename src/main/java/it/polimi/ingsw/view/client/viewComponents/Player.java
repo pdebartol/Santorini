@@ -7,6 +7,7 @@ public class Player {
     private final String username;
     private final ArrayList<Worker> workers;
     private boolean loser;
+    private God god;
 
     public Player(String username, Color color) {
         this.username = username;
@@ -14,6 +15,13 @@ public class Player {
         this.workers.add(new Worker(color, "male"));
         this.workers.add(new Worker(color, "female"));
         this.loser = false;
+        this.god = null;
+    }
+
+
+
+    public void setGod(God god) {
+        this.god = god;
     }
 
     public String getUsername() {
@@ -30,6 +38,8 @@ public class Player {
     public boolean getLoser(){
         return loser;
     }
+
+    public God getGod(){return god;}
 
     public void lose(){
         loser = true;

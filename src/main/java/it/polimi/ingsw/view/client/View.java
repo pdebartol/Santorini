@@ -71,6 +71,8 @@ public abstract class View {
 
     public abstract void showMatchStarted();
 
+    public abstract void showBoard();
+
     //show disconnection methods
 
     public abstract void showAnotherClientDisconnection();
@@ -81,8 +83,8 @@ public abstract class View {
 
     //sendRequest method
 
-    public void sendLoginRequest(){
-        clientHandler.sendMsg(new RequestMsgWriter().loginRequest(myPlayer.getUsername()));
+    public void sendLoginRequest(String username){
+        clientHandler.sendMsg(new RequestMsgWriter().loginRequest(username));
     }
 
     public void sendStartGameRequest(){

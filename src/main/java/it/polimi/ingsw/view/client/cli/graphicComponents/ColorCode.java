@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.client.cli;
+package it.polimi.ingsw.view.client.cli.graphicComponents;
 
 /**
  * This class represents escape codes that can set style and color of the text
@@ -15,6 +15,9 @@ public enum ColorCode {
     ANSI_MAGENTA("\u001B[35m"),
     ANSI_CYAN("\u001B[36m"),
     ANSI_WHITE("\u001B[37m"),
+    WHITE("\u001B[48;5;255m"),
+    GREY("\u001B[48;5;246m"),
+    AZURE("\u001B[48;5;75m"),
     ANSI_RESET("\u001b[0m"),
     LEVEL_0_GREEN_BACKGROUND("\u001b[48;5;112m"),
     LEVEL_1_SAND_BACKGROUND("\u001b[48;5;112m"),

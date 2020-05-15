@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.client.cli;
+package it.polimi.ingsw.view.client.cli.graphicComponents;
 
 /**
  * this class represents escape codes that allow control over the terminal interface
@@ -18,7 +18,7 @@ public enum Escapes {
     CLEAR_SCREEN_FROM_HERE_TO_BEGINNING("\u001b[1J"),
     CLEAR_SCREEN_FROM_HERE_TO_END("\u001b[0J");
 
-    private String escape;
+    private final String escape;
 
     Escapes (String escape){
         this.escape = escape;
