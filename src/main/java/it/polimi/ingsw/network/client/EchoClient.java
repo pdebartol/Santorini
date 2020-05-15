@@ -78,7 +78,7 @@ public class EchoClient {
             System.out.println("Connection closed!\n");
             server.close();
         }catch (IOException | SAXException | ParserConfigurationException e){
-            disconnection();
+            if (!server.isClosed()) disconnection();
         }finally {
             executor.shutdown();
         }
@@ -144,7 +144,7 @@ public class EchoClient {
         new MsgSender(server,msg).sendMsg();
     }
 
-    private void disconnection(){
+    public void disconnection(){
         System.err.println("Connection down!\n");
         try {
             server.close();
@@ -153,5 +153,14 @@ public class EchoClient {
         }
         abortMsgProcessing(processMsgThread);
         test.disconnection(false);
+    }
+
+    public void disconnectionForTimeout(){
+        System.err.println("Disconnection for timeout over!\n");
+        try {
+            server.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
 }

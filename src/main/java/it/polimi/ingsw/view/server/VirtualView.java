@@ -180,7 +180,7 @@ public class VirtualView implements ViewInterface {
         sendMsg(socket, new AnswerMsgWriter().loginAcceptedAnswer(username, color, clients.keySet()));
 
         //Send to the first client connected a to do message to starting match
-        if(clients.size() == 2) toDoStartMatch();
+        if(clients.size() == 2 || clients.size() == 3) toDoStartMatch();
     }
 
     public void onLoginRejectedRequest(String username,List<Error> errors, Socket socket){

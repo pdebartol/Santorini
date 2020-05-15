@@ -85,7 +85,7 @@ public class MsgInParser {
                 //TODO notify view
                 break;
             case "startGame" :
-                synchronized(this){test.matchStarted();}
+                test.matchStarted();
                 //TODO notify view
                 break;
             case "createGods" :

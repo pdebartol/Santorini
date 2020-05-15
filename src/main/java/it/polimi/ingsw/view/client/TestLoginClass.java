@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.client.cli.InputCli;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 
 //TEST
 public class TestLoginClass {
@@ -100,12 +101,18 @@ public class TestLoginClass {
     }
 
     public void startMatch(){
-        System.out.println("There is a new player with you now, from now you can start the game whenever " +
-                "you want (the match will start in 2 or 3 player mode depending on the players in the game at the " +
-                "time of the start, writing \"start\"");
+        if (otherUsernames.size() == 1) System.out.println("There is a new player with you now, from now you can start the game in 2 player mode or wait for another player. " +
+                "To start the match write \"start\"!");
+        else
+            System.out.println("There is a third player, you can start the match writing \"start\" or wait a minute!");
         try {
-            if (InputCli.in.readLine().equals("start")) echoClient.sendMsg(new RequestMsgWriter().startGameRequest(myUsername));
-            else System.out.println("Waiting for the third player...\n");
+            if(otherUsernames.size() == 1) {
+                if (InputCli.in.readLine().equals("start"))
+                    echoClient.sendMsg(new RequestMsgWriter().startGameRequest(myUsername));
+                else System.out.println("Waiting for the third player...\n");
+            }else
+                if (inputWithTimeout(1,TimeUnit.MINUTES,true).equals("start"))
+                    echoClient.sendMsg(new RequestMsgWriter().startGameRequest(myUsername));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,5 +124,22 @@ public class TestLoginClass {
 
     public void matchStarted(){
         System.out.println("The game has started\n");
+    }
+
+    public String inputWithTimeout(int timeout, TimeUnit unit, boolean startGame){
+        String input = "";
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        Future<String> result = executor.submit(InputCli::readLine);
+        try {
+            input = result.get(timeout, unit);
+        } catch (InterruptedException | TimeoutException | ExecutionException e) {
+            if (startGame)
+                echoClient.sendMsg(new RequestMsgWriter().startGameRequest(myUsername));
+            else
+                echoClient.disconnectionForTimeout();
+        }
+        return input;
     }
 }
