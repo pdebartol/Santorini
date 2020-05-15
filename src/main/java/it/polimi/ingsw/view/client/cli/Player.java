@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.client.cli;
 
+import it.polimi.ingsw.view.client.viewComponents.God;
+
 import java.util.ArrayList;
 
 /**

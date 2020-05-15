@@ -7,7 +7,7 @@ package it.polimi.ingsw.view.client.cli;
 
 public class Board {
 
-    private final int DIMENSION = 5;
+    private static final int DIMENSION = 5;
     private Square[][] table;
 
     public Board(){
@@ -18,10 +18,6 @@ public class Board {
                 this.table[x][y] = new Square(x, y);
         }
 
-    }
-
-    public int getDIMENSION() {
-        return DIMENSION;
     }
 
     public Square getSquare(int x, int y){

@@ -19,7 +19,5 @@ public class InputValidator {
         return Pattern.matches(PORT_REGEXP,input);
     }
 
-    public static boolean validateUSERNAME(String input){
-        return Pattern.matches(USERNAME_REGEXP,input);
-    }
+    public static boolean validateUSERNAME(String input){return Pattern.matches(USERNAME_REGEXP,input);}
 }

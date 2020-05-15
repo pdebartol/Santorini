@@ -1,9 +1,4 @@
-package it.polimi.ingsw.view.client.cli;
-
-/**
- * This class represents a single God
- * @author aledimaio
- */
+package it.polimi.ingsw.view.client.viewComponents;
 
 public class God {
 

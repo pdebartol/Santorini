@@ -2,11 +2,6 @@ package it.polimi.ingsw.view.client.viewComponents;
 
 import it.polimi.ingsw.model.enums.Color;
 
-/**
- * This class represents a single worker
- * @author aledimaio
- */
-
 public class Worker {
 
     private final Color color;
