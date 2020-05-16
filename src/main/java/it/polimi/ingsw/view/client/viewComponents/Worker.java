@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.client.viewComponents;
 
 import it.polimi.ingsw.model.enums.Color;
 
+//TODO : javadoc
+
 public class Worker {
 
     private final Color color;

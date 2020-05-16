@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.msgUtilities.client.MsgInParser;
 import it.polimi.ingsw.network.MsgSender;
 import it.polimi.ingsw.network.XMLInputStream;
-import it.polimi.ingsw.view.client.TestLoginClass;
+import it.polimi.ingsw.view.client.View;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -31,17 +31,16 @@ public class EchoClient {
     private final int port;
     private Socket server;
     Future processMsgThread;
-    //TEST
-    private final TestLoginClass test;
+    private final View view;
 
     private Document msgIn;
 
     //constructor
 
-    public EchoClient(String hostname, int port, TestLoginClass test){
+    public EchoClient(String hostname, int port, View view){
         this.hostName = hostname;
         this.port = port;
-        this.test = test;
+        this.view = view;
         this.msgIn = null;
         this.processMsgThread = null;
     }
@@ -78,7 +77,7 @@ public class EchoClient {
             System.out.println("Connection closed!\n");
             server.close();
         }catch (IOException | SAXException | ParserConfigurationException e){
-            if (!server.isClosed()) disconnection();
+            if (!server.isClosed()) serverDisconnection();
         }finally {
             executor.shutdown();
         }
@@ -118,6 +117,8 @@ public class EchoClient {
         msgIn = docBuilder.parse(xmlIn);
     }
 
+    //TODO : javadoc
+
     private void abortMsgProcessing(Future thread){
         if (thread != null) thread.cancel(true);
     }
@@ -129,7 +130,7 @@ public class EchoClient {
      */
 
     private boolean isDisconnectionMessage(){
-        return new MsgInParser(msgIn,test).parseDisconnectionMessage();
+        return new MsgInParser(msgIn,view).parseDisconnectionMessage();
     }
 
     /**
@@ -137,30 +138,47 @@ public class EchoClient {
      */
 
     private synchronized void processMsg(){
-        new MsgInParser(msgIn,test).parseIncomingMessage();
+        new MsgInParser(msgIn,view).parseIncomingMessage();
     }
+
+    //TODO : javadoc
 
     public void sendMsg(Document msg){
         new MsgSender(server,msg).sendMsg();
     }
 
-    public void disconnection(){
-        System.err.println("Connection down!\n");
+    //TODO : javadoc
+
+    public void serverDisconnection(){
         try {
             server.close();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
         abortMsgProcessing(processMsgThread);
-        test.disconnection(false);
+        view.showServerDisconnection();
     }
 
-    public void disconnectionForTimeout(){
-        System.err.println("Disconnection for timeout over!\n");
+    //TODO : javadoc
+
+    public void anotherClientDisconnection(){
         try {
             server.close();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
+        abortMsgProcessing(processMsgThread);
+        view.showAnotherClientDisconnection();
+    }
+
+    //TODO : javadoc
+
+    public void disconnectionForTimeout(){
+        try {
+            server.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        view.disconnectionForInputExpiredTimeout();
     }
 }

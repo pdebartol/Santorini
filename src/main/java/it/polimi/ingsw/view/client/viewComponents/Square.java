@@ -37,15 +37,21 @@ public class Square {
 
     public boolean getDome(){return dome;}
 
+    //TODO : javadoc
+
     public void placeWorker(Worker worker) {
         this.worker = worker;
     }
+
+    //TODO : javadoc
 
     public Worker removeWorker(){
         Worker workerRemoved = this.worker;
         this.worker = null;
         return workerRemoved;
     }
+
+    //TODO : javadoc
 
     public void setLevel(int level) {
         this.level = level;

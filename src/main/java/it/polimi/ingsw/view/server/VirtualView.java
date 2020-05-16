@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
 
+//TODO : javadoc
+
 public class VirtualView implements ViewInterface {
 
     //attributes
@@ -49,6 +51,8 @@ public class VirtualView implements ViewInterface {
 
     //methods
 
+    //TODO : javadoc
+
     public synchronized void addInWaitList(Socket socket){
         this.waitList.add(socket);
     }
@@ -65,11 +69,15 @@ public class VirtualView implements ViewInterface {
         return on;
     }
 
+    //TODO : javadoc
+
     public void sendMsg(Socket socket, Document msg){
         if(!new MsgSender(socket,msg).sendMsg()) clientDown(socket);
     }
 
     //Request Methods
+
+    //TODO : javadoc
 
     public synchronized void loginRequest(String username, Socket socket) {
         Color color;
@@ -87,6 +95,8 @@ public class VirtualView implements ViewInterface {
             onLoginRejectedRequest(username, errors, socket);
     }
 
+    //TODO : javadoc
+
     public synchronized void startGameRequest(String username){
         if(username.equals(creator)){
             challenger = controllerListener.onStartGame();
@@ -94,6 +104,8 @@ public class VirtualView implements ViewInterface {
             onStartGameAcceptedRequest(username);
         }
     }
+
+    //TODO : javadoc
 
     public void createGodsRequest(String username, ArrayList<Integer> ids){
         List<Error> errors = controllerListener.onChallengerChooseGods(username, ids);
@@ -105,6 +117,8 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    //TODO : javadoc
+
     public void choseGodRequest(String username, int godId){
        List<Error> errors = controllerListener.onPlayerChooseGod(username, godId);
 
@@ -114,6 +128,8 @@ public class VirtualView implements ViewInterface {
             onRejectedRequest(username,errors,"choseGod");
 
     }
+
+    //TODO : javadoc
 
     public void choseStartingPlayerRequest(String username, String playerChosen){
         List<Error> errors = controllerListener.onChallengerChooseStartingPlayer(username, playerChosen);
@@ -125,6 +141,8 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    //TODO : javadoc
+
     public void setupOnBoardRequest(String username, String workerGender, int x, int y){
         List<Error> errors = controllerListener.onPlayerSetWorker(username,workerGender,x,y);
 
@@ -133,6 +151,8 @@ public class VirtualView implements ViewInterface {
         else
             onRejectedRequest(username,errors,"setupOnBoard");
     }
+
+    //TODO : javadoc
 
     public void moveRequest(String username, String workerGender, int x, int y){
         List<Error> errors = controllerListener.onWorkerMove(username,workerGender,x,y);
@@ -143,6 +163,8 @@ public class VirtualView implements ViewInterface {
             onRejectedRequest(username,errors,"move");
     }
 
+    //TODO : javadoc
+
     public void buildRequest(String username, String workerGender, int x, int y, int level){
         List<Error> errors = controllerListener.onWorkerBuild(username,workerGender,x,y,level);
 
@@ -151,6 +173,8 @@ public class VirtualView implements ViewInterface {
         else
             onRejectedRequest(username,errors,"build");
     }
+
+    //TODO : javadoc
 
     public void endOfTurn(String username){
         List<Error> errors = controllerListener.onPlayerEndTurn(username);
@@ -161,9 +185,15 @@ public class VirtualView implements ViewInterface {
             onRejectedRequest(username,errors,"endOfTurn");
     }
 
+    //TODO : javadoc
+
     public void endRequest(String username){clients.remove(username);}
 
+    //TODO : javadoc
+
     // Answer Methods
+
+    //TODO : javadoc
 
     public void onLoginAcceptedRequest(String username,Color color, Socket socket){
         waitList.remove(socket);
@@ -186,9 +216,13 @@ public class VirtualView implements ViewInterface {
         if(clients.size() == 2 || clients.size() == 3) toDoStartMatch();
     }
 
+    //TODO : javadoc
+
     public void onLoginRejectedRequest(String username,List<Error> errors, Socket socket){
         sendMsg(socket, new AnswerMsgWriter().rejectedAnswer(username, "login", errors));
     }
+
+    //TODO : javadoc
 
     public void onStartGameAcceptedRequest(String username){
         Document updateMsg = new UpdateMsgWriter().startGameUpdate(username);
@@ -208,9 +242,13 @@ public class VirtualView implements ViewInterface {
 
     @Override
 
+    //TODO : javadoc
+
     public void onRejectedRequest(String username, List<Error> errors, String mode){
         sendMsg(clients.get(username), new AnswerMsgWriter().rejectedAnswer(username,mode,errors));
     }
+
+    //TODO : javadoc
 
     public void onCreateGodsAcceptedRequest(String username, ArrayList<Integer> ids){
         Document updateMsg = new UpdateMsgWriter().createGodsUpdate(username,ids);
@@ -223,6 +261,8 @@ public class VirtualView implements ViewInterface {
         //Next step in game flow
         controllerListener.sendNextToDoChoseGod();
     }
+
+    //TODO : javadoc
 
     public void onChoseGodAcceptedRequest(String username, int godId){
         Document updateMsg = new UpdateMsgWriter().choseGodUpdate(username,godId);
@@ -239,6 +279,8 @@ public class VirtualView implements ViewInterface {
             controllerListener.sendNextToDoChoseStartingPlayer();
     }
 
+    //TODO : javadoc
+
     public void onChoseStartingPlayerAcceptedRequest(String username, String playerChosen){
         Document updateMsg = new UpdateMsgWriter().choseStartingPlayerUpdate(username,playerChosen);
         for (String user : clients.keySet())
@@ -250,6 +292,8 @@ public class VirtualView implements ViewInterface {
         //Next step in game flow
         controllerListener.sendNextToDoSetupWorkerOnBoard("Male");
     }
+
+    //TODO : javadoc
 
     public void onSetupOnBoardAcceptedRequest(String username, String workerGender, int x, int y){
         Document updateMsg = new UpdateMsgWriter().setupOnBoardUpdate(username,workerGender,x,y);
@@ -266,6 +310,8 @@ public class VirtualView implements ViewInterface {
             controllerListener.sendNextToDoTurn();
     }
 
+    //TODO : javadoc
+
     @Override
 
     public void onMoveAcceptedRequest(String username, Document answerMsg, Document updateMsg) {
@@ -275,6 +321,8 @@ public class VirtualView implements ViewInterface {
         sendMsg(clients.get(username), answerMsg);
     }
 
+    //TODO : javadoc
+
     @Override
 
     public void onBuildAcceptedRequest(String username, Document answerMsg, Document updateMsg) {
@@ -283,6 +331,8 @@ public class VirtualView implements ViewInterface {
                 sendMsg(clients.get(user), updateMsg);
         sendMsg(clients.get(username), answerMsg);
     }
+
+    //TODO : javadoc
 
     @Override
 
@@ -296,12 +346,16 @@ public class VirtualView implements ViewInterface {
         controllerListener.sendNextToDoTurn();
     }
 
+    //TODO : javadoc
+
     // To do communication Methods
 
     public void toDoLogin(Socket socket){
         System.out.println(socket + " have to log in");
         sendMsg(socket, new ToDoMsgWriter().toDoAction("login"));
     }
+
+    //TODO : javadoc
     
     public void toDoStartMatch(){
         sendMsg(clients.get(creator), new ToDoMsgWriter().toDoAction("canStartMatch"));
@@ -310,12 +364,16 @@ public class VirtualView implements ViewInterface {
                 sendMsg(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(creator,"startMatch"));
     }
 
+    //TODO : javadoc
+
     public void toDoCreateGods(){
         sendMsg(clients.get(challenger), new ToDoMsgWriter().toDoAction("createGods"));
         for (String user : clients.keySet())
             if(!user.equals(challenger))
                 sendMsg(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(challenger,"createGods"));
     }
+
+    //TODO : javadoc
 
     @Override
 
@@ -326,12 +384,16 @@ public class VirtualView implements ViewInterface {
                 sendMsg(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(username,"choseGod"));
     }
 
+    //TODO : javadoc
+
     public void toDoChoseStartingPlayer(){
         sendMsg(clients.get(challenger), new ToDoMsgWriter().toDoAction("choseStartingPlayer"));
         for (String user : clients.keySet())
             if(!user.equals(challenger))
                 sendMsg(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(challenger,"choseStartingPlayer"));
     }
+
+    //TODO : javadoc
 
     @Override
 
@@ -341,6 +403,8 @@ public class VirtualView implements ViewInterface {
             if(!user.equals(username))
                 sendMsg(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(username,"setup" + gender + "WorkerOnBoard"));
     }
+
+    //TODO : javadoc
 
     @Override
 
@@ -353,6 +417,8 @@ public class VirtualView implements ViewInterface {
 
     // Win/Lose cases methods
 
+    //TODO : javadoc
+
     @Override
     public void directlyWinCase(String winnerUsername){
         sendMsg(clients.get(winnerUsername), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youWinDirectly"));
@@ -363,6 +429,8 @@ public class VirtualView implements ViewInterface {
         matchFinished();
     }
 
+    //TODO : javadoc
+
     @Override
     public void match2PlayerLose(String winnerUsername){
         sendMsg(clients.get(winnerUsername), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youWinForAnotherLose"));
@@ -372,6 +440,8 @@ public class VirtualView implements ViewInterface {
             }
         matchFinished();
     }
+
+    //TODO : javadoc
 
     @Override
     public void match3PlayerLose(String loserUsername){
@@ -393,6 +463,8 @@ public class VirtualView implements ViewInterface {
 
     // Disconnection methods
 
+    //TODO : javadoc
+
     public void clientDown(Socket disconnectedClient){
         if(clients.containsValue(disconnectedClient)){
             for(Socket c : clients.values())
@@ -403,6 +475,8 @@ public class VirtualView implements ViewInterface {
         }
         on = false;
     }
+
+    //TODO : javadoc
 
     public void matchFinished(){
         for(Socket c : clients.values())
@@ -417,6 +491,8 @@ public class VirtualView implements ViewInterface {
         clientDisconnectionListener.onMatchFinish(this);
         on = false;
     }
+
+    //TODO : javadoc
 
     public void lobbyNoLongerAvailable(){
         for(Socket socket : waitList) {

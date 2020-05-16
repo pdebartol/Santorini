@@ -1,18 +1,23 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.network.server.EchoServer;
-import it.polimi.ingsw.view.client.TestLoginClass;
+import it.polimi.ingsw.view.client.cli.Cli;
+import it.polimi.ingsw.view.client.gui.Gui;
+
+//TODO : javadoc
 
 public class Main {
 
     public static void main(String[] args){
-        if(args[0].equals("client")){
+        if(args[0].equals("-client")){
             clientMode(args);
         }else
-            if(args[0].equals("server")){
+            if(args[0].equals("-server")){
                 serverMode(args);
             }
     }
+
+    //TODO : javadoc
 
     public static void serverMode(String[] args)
     {
@@ -25,11 +30,14 @@ public class Main {
         echoServer.start();
     }
 
-    public static void clientMode(String[] args){
-        //Only for testing
-        new TestLoginClass().start();
+    //TODO : javadoc
 
-        //TODO : start the user choice interface
+    public static void clientMode(String[] args){
+
+        if(args.length == 2 && args[1].equals("-cli"))
+            new Cli();
+        else
+            new Gui();
 
     }
 

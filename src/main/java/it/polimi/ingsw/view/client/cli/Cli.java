@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.client.cli;
 
 import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.msgUtilities.client.RequestMsgWriter;
+import it.polimi.ingsw.view.client.InputValidator;
 import it.polimi.ingsw.view.client.View;
 import it.polimi.ingsw.view.client.cli.graphicComponents.Box;
 import it.polimi.ingsw.view.client.cli.graphicComponents.ColorCode;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.*;
 
 /**
  * This class represents the game flow
@@ -35,67 +38,113 @@ public class Cli extends View {
     public void cliSetup(){
         System.out.print(Escapes.CLEAR_ENTIRE_SCREEN.escape());
         printTemplate();
+        gameSetup();
     }
     
-    //Override methods
+    //View Override methods
+
+    // TODO : javadoc
 
     @Override
     public void setMyIp() {
+        printInTextBox("Insert the server IP address!");
+        String ip = input();
+        while(!InputValidator.validateIP(ip)){
+            printInTextBox("Invalid IP address! Please, try again.");
+            ip = input();
+        }
 
+        myIp = ip;
     }
+
+    // TODO : javadoc
 
     @Override
     public void setMyPort() {
+        printInTextBox("Insert the server port!");
+        String port = input();
+        while(!InputValidator.validatePORT(port)){
+            printInTextBox("Invalid port! Please, try again.");
+            port = input();
+        }
 
+        myPort = Integer.parseInt(port);
     }
+
+    //TODO : javadoc
 
     @Override
     public void setUsername(boolean rejectedBefore) {
 
     }
 
+    //TODO : javadoc
+
     @Override
     public void startMatch() {
 
     }
+
+    //TODO : javadoc
 
     @Override
     public void showLoginDone() {
 
     }
 
+    //TODO : javadoc
+
     @Override
     public void showNewUserLogged(String username, Color color) {
 
     }
+
+    //TODO : javadoc
 
     @Override
     public void showWaitMessage(String waitFor, String author) {
 
     }
 
+    //TODO : javadoc
+
     @Override
     public void showMatchStarted() {
 
     }
+
+    //TODO : javadoc
 
     @Override
     public void showBoard() {
 
     }
 
+    //TODO : javadoc
+
     @Override
     public void showAnotherClientDisconnection() {
 
     }
+
+    //TODO : javadoc
 
     @Override
     public void showDisconnectionForLobbyNoLongerAvailable() {
 
     }
 
+    //TODO : javadoc
+
     @Override
     public void showServerDisconnection() {
+
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void disconnectionForInputExpiredTimeout() {
 
     }
 
@@ -141,7 +190,6 @@ public class Cli extends View {
         //draw the right line
 
         System.out.println(Escapes.CURSOR_HOME_0x0.escape());
-        //System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), 0, 1);
         for (int i = 1; i < Box.VERTICAL_DIM.escape() ; i++) {
             System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.HORIZONTAL_DIM.escape() - 1);
             if(i == Box.TEXT_BOX_START.escape() - 1 || i == Box.INPUT_BOX_START.escape() - 1)
@@ -193,65 +241,6 @@ public class Cli extends View {
     }
 
     /**
-     * This method is used to get input from keyboard without any control
-     * @return the string from input
-     */
-
-    public String Input(){
-
-        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
-        System.out.print(">");
-        Scanner input = new Scanner(System.in);
-        return input.nextLine();
-
-    }
-
-    /**
-     * This method prints text in text frame
-     * @param text represents the text that will be printed
-     */
-
-    public void printInTextBox(String text){
-
-        char[] information = text.toCharArray();
-
-        eraseThings("text");
-        printTemplate();
-
-        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.TEXT_BOX_START.escape() + 1, 2);
-
-        //this cycle allow to avoid that text exceed the frame length
-
-        for (int i = 2, j = 0; j < information.length; i++, j++) {
-            System.out.print(information[j]);
-            if (i == Box.HORIZONTAL_DIM.escape() - 2){
-                System.out.print("-\n");
-                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1);
-                i = 1;
-            }
-        }
-
-
-    }
-
-    public void printInPlayerBox(String text){
-
-        char[] information = text.toCharArray();
-
-        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), 1, Box.PLAYERS_BOX_START.escape() + 1);
-
-        for (int i = 2, j = 0; j < information.length; i++, j++) {
-            System.out.print(information[j]);
-            if (i == Box.HORIZONTAL_DIM.escape() - 2){
-                System.out.print("-\n");
-                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
-                i = 1;
-            }
-        }
-
-    }
-
-    /**
      * This method prints "Santorini" in the game frame
      */
 
@@ -294,7 +283,7 @@ public class Cli extends View {
      * This method prints "You win" in the game frame
      */
 
-    public void printYouWon(){
+    public void printWinner(){
 
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.ASCII_ART_START_UP.escape(), Box.ASCII_ART_START_LEFT.escape() + 1);
         System.out.print(ColorCode.ANSI_CYAN.escape() +
@@ -304,27 +293,6 @@ public class Cli extends View {
                 " \\/\\_____\\\\ \\_____\\\\ \\_____\\    \\ \\__/\".~\\_\\\\ \\_____\\\\ \\_\\\\\"\\_\\ \n" + "\u001b[" + Box.ASCII_ART_START_LEFT.escape() + "C" +
                 "  \\/_____/ \\/_____/ \\/_____/     \\/_/   \\/_/ \\/_____/ \\/_/ \\/_/ \n" + "\u001b[" + Box.ASCII_ART_START_LEFT.escape() + "C" +
                 "                                                                \n" + ColorCode.ANSI_RESET.escape());
-
-    }
-
-    /**
-     * This method prints Gods on screen
-     * @param i indicates if will be prints the God of player or Gods of other players
-     */
-
-    public void printDivinities(int i){
-
-        if (i == 1) {
-            printInTextBox(myPlayer.getGod().getName() + "\n\u001b[1C" + myPlayer.getGod().getDescription() + "enter for continue");
-            Input();
-        }
-        else{
-            for (int j = 0; j < players.size() ; j++) {
-                printInTextBox(players.get(j).getGod().getName() + "\n\u001b[1C" + players.get(j).getGod().getDescription()
-                        + "\n\u001b[1C" + (j + 1) + " of " + players.size() + " enter for continue");
-                Input();
-            }
-        }
 
     }
 
@@ -442,12 +410,106 @@ public class Cli extends View {
     
     
     //Text methods
-    
-    
+
+    /**
+     * This method is used to get input from keyboard without any control
+     * @return the string from input
+     */
+
+    public String input(){
+
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
+        System.out.print(">");
+        return InputCli.readLine();
+
+    }
+
+    //TODO : javadoc
+
+    public String inputWithTimeout(int timeout, TimeUnit unit) {
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
+        System.out.print(">");
+        String input = "";
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> result = executor.submit(InputCli::readLine);
+
+        try {
+            input = result.get(timeout, unit);
+        } catch (InterruptedException | TimeoutException | ExecutionException e) {
+            return "expiredTimeout";
+        }
+
+        return input;
+    }
+
+    /**
+     * This method prints text in text frame
+     * @param text represents the text that will be printed
+     */
+
+    public void printInTextBox(String text){
+
+        char[] information = text.toCharArray();
+
+        eraseThings("text");
+        printTemplate();
+
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.TEXT_BOX_START.escape() + 1, 2);
+
+        //this cycle allow to avoid that text exceed the frame length
+
+        for (int i = 2, j = 0; j < information.length; i++, j++) {
+            System.out.print(information[j]);
+            if (i == Box.HORIZONTAL_DIM.escape() - 2){
+                System.out.print("-\n");
+                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1);
+                i = 1;
+            }
+        }
+
+
+    }
+
+    public void printInPlayerBox(String text){
+
+        char[] information = text.toCharArray();
+
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), 1, Box.PLAYERS_BOX_START.escape() + 1);
+
+        for (int i = 2, j = 0; j < information.length; i++, j++) {
+            System.out.print(information[j]);
+            if (i == Box.HORIZONTAL_DIM.escape() - 2){
+                System.out.print("-\n");
+                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
+                i = 1;
+            }
+        }
+
+    }
     
     //Gods methods
-    
-    
+
+    /**
+     * This method prints Gods on screen
+     * @param i indicates if will be prints the God of player or Gods of other players
+     */
+
+    public void printDivinities(int i){
+
+        if (i == 1) {
+            printInTextBox(myPlayer.getGod().getName() + "\n\u001b[1C" + myPlayer.getGod().getDescription() + "enter for continue");
+            input();
+        }
+        else{
+            for (int j = 0; j < players.size() ; j++) {
+                printInTextBox(players.get(j).getGod().getName() + "\n\u001b[1C" + players.get(j).getGod().getDescription()
+                        + "\n\u001b[1C" + (j + 1) + " of " + players.size() + " enter for continue");
+                input();
+            }
+        }
+
+    }
     
     /**
      * This method represents the game setup
@@ -457,11 +519,14 @@ public class Cli extends View {
 
         printSantorini();
         printInTextBox("Press enter button to start");
-        Input();
-        eraseThings("all");
+        input();
 
-        login();
+        //Connection setup
+        setMyIp();
+        setMyPort();
 
+        //start connection
+        start();
     }
 
     /**
@@ -478,7 +543,7 @@ public class Cli extends View {
                 printBoard();
                 printInTextBox("Insert command (type \"show commands\" for help)");
 
-                switch (Input()) {
+                switch (input()) {
 
                     case "move":
                         eraseThings("text");
@@ -503,7 +568,7 @@ public class Cli extends View {
                     case "show commands":
                         eraseThings("text");
                         printInTextBox("move - build - show my divinity - show other divinities || Press enter to continue");
-                        Input();
+                        input();
                         break;
 
                     case "quit":
@@ -513,53 +578,10 @@ public class Cli extends View {
                     default:
                         eraseThings("text");
                         printInTextBox("Wrong command! Retype it! - Press enter to continue");
-                        Input();
+                        input();
 
                 }
             }
-
-    }
-
-    /**
-     * This method represents the login process
-     */
-
-    private void login(){
-
-        int players;
-
-        //boolean value used to check condition in cycle
-
-        boolean check = false;
-        String username = null;
-
-        //TODO change type to Color from String
-
-        String color = null;
-        boolean challenger = true;
-
-        do {
-            if(!check)
-                printInTextBox("Username already taken! Please, insert another username:");
-            else
-                printInTextBox("Insert your username:");
-            check = true;
-            username = Input();
-        }while (!checkUsername());
-
-        eraseThings("text");
-
-        //TODO get color chosen randomly by server
-
-        printInTextBox("Server randomly assigned to you the color: " + color + ". Press Enter to continue");
-        Input();
-
-        //setPlayer(new Player(username, color));
-
-        eraseThings("text");
-        players = numberOfPlayers();
-
-        //TODO start game method if this is the first player
 
     }
 
@@ -574,17 +596,17 @@ public class Cli extends View {
 
         printInTextBox("You are the challenger! Now you have to chose the divinities for all players, to chose one" +
                 "enter \"this\" when Name of God and his description is displayed. Now press enter to continue:");
-        Input();
+        input();
 
         eraseThings("text");
 
         printInTextBox("\"this\" to select God, \"next\" to go to next God's card, \"prev\" to go to previously God's card" +
                 "\"show command\" to show commands avaiable. Press enter to continue:");
-        Input();
+        input();
 
         while (chosenGods.size() < 3) {
 
-            switch (Input()) {
+            switch (input()) {
 
                 case "next":
                     printInTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
@@ -603,7 +625,7 @@ public class Cli extends View {
                 case "this":
                     eraseThings("text");
                     printInTextBox("Confirm selection of " + gods.get(i) + "? Type \"y\" for yes or anything else for no");
-                    if (Input() == "y")
+                    if (input() == "y")
                         chosenGods.add(gods.get(i));
                     else {
                         eraseThings("text");
@@ -615,7 +637,7 @@ public class Cli extends View {
                 case "show commands":
                     printInTextBox("\"this\" to select God, \"next\" to go to next God's card, \"prev\" to go to previously God's card" +
                             "\"show command\" to show commands avaiable. Press enter to continue:");
-                    Input();
+                    input();
                     printInTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() +  "\n" +
                             gods.get(i).getDescription());
                     break;
@@ -635,7 +657,7 @@ public class Cli extends View {
 
             i = 0;
 
-            switch (Input()) {
+            switch (input()) {
 
                 case "next":
                     eraseThings("text");
@@ -654,7 +676,7 @@ public class Cli extends View {
                 case "this":
                     eraseThings("text");
                     printInTextBox("Confirm selection of " + players.get(i).getUsername() + "? Type \"y\" for yes or anything else for no");
-                    if (Input().equals("y")) {
+                    if (input().equals("y")) {
                         //TODO send the selected player to server
                         check = true;
                         eraseThings("text");
@@ -669,7 +691,7 @@ public class Cli extends View {
                     eraseThings("text");
                     printInTextBox("\"this\" to select Player, \"next\" to go to next Player's username, \"prev\" to go to previously Player's username" +
                             "\"show command\" to show commands available. Press enter to continue:");
-                    Input();
+                    input();
                     printInTextBox(players.get(i).getUsername());
                     break;
             }
@@ -687,7 +709,7 @@ public class Cli extends View {
 
         while (myPlayer.getGod() != null) {
 
-            switch (Input()) {
+            switch (input()) {
 
                 case "next":
                     eraseThings("text");
@@ -708,7 +730,7 @@ public class Cli extends View {
                 case "this":
                     eraseThings("text");
                     printInTextBox("Confirm selection of " + gods.get(i) + "? Type \"y\" for yes or anything else for no");
-                    if (Input() == "y")
+                    if (input() == "y")
                         myPlayer.setGod(new God(gods.get(i).getName(), gods.get(i).getDescription()));
                     else {
                         eraseThings("text");
@@ -721,7 +743,7 @@ public class Cli extends View {
                     eraseThings("text");
                     printInTextBox("\"this\" to select God, \"next\" to go to next God's card, \"prev\" to go to previously God's card" +
                             "\"show command\" to show commands avaiable. Press enter to continue:");
-                    Input();
+                    input();
                     eraseThings("text");
                     printInTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() +  "\n" +
                             gods.get(i).getDescription());
@@ -744,7 +766,7 @@ public class Cli extends View {
 
         printInTextBox("Select the square where you want to move your worker: (type #,#)");
 
-        numbers = Arrays.stream(Input().split(",")).mapToInt(Integer::parseInt).toArray();
+        numbers = Arrays.stream(input().split(",")).mapToInt(Integer::parseInt).toArray();
 
         //TODO check if input is valid (check via server?)
 
@@ -766,7 +788,7 @@ public class Cli extends View {
             eraseThings("text");
             printInTextBox("Select the worker: (type #,#)");
 
-            numbers = Arrays.stream(Input().split(",")).mapToInt(Integer::parseInt).toArray();
+            numbers = Arrays.stream(input().split(",")).mapToInt(Integer::parseInt).toArray();
 
         }while(gameBoard.getSquareByCoordinates(numbers[0], numbers[1]).getWorker() == null);
 
@@ -786,7 +808,7 @@ public class Cli extends View {
 
         printInTextBox("Select the square where you want your worker to build: (type #,#)");
 
-        numbers = Arrays.stream(Input().split(",")).mapToInt(Integer::parseInt).toArray();
+        numbers = Arrays.stream(input().split(",")).mapToInt(Integer::parseInt).toArray();
 
         //TODO not necessary to provide the level wanted because it always increment by one, but is this game logic in view?
 
@@ -802,22 +824,5 @@ public class Cli extends View {
         //TODO check if turn is over
         return false;
     }
-
-    private boolean checkUsername(){
-        //TODO check if username is already taken
-        return true;
-    }
-
-    private boolean checkColor(){
-        //TODO check if color is already taken
-        return true;
-    }
-
-    private int numberOfPlayers(){
-        int players = 1;
-        return players;
-    }
-
-
 
 }

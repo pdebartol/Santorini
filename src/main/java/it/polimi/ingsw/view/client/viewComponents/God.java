@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.client.viewComponents;
 
+//TODO : javadoc
+
 public class God {
 
     private final String name;

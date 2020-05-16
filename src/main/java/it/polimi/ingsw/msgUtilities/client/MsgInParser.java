@@ -1,7 +1,7 @@
 package it.polimi.ingsw.msgUtilities.client;
 
 import it.polimi.ingsw.model.enums.Color;
-import it.polimi.ingsw.view.client.TestLoginClass;
+import it.polimi.ingsw.view.client.View;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -18,12 +18,11 @@ public class MsgInParser {
     //attributes
 
     private Document document;
-    //TEST
-    private TestLoginClass test;
+    private View view;
 
-    public MsgInParser(Document document, TestLoginClass test){
+    public MsgInParser(Document document, View view){
         this.document = document;
-        this.test = test;
+        this.view = view;
     }
 
 
@@ -38,15 +37,11 @@ public class MsgInParser {
         if(answerType.equals("UpdateMsg")){
             String mode = Objects.requireNonNull(evaluateXPath("/UpdateMsg/Mode/text()")).get(0);
             if(mode.equals("disconnection")){
-                //TEST
-                test.disconnection(true);
-                //TODO notify view
+                view.showAnotherClientDisconnection();
                 return true;
             }
             if(mode.equals("disconnectionForLobbyNoLongerAvailable")){
-                test.lobbyNoLongerAvailable();
-                test.disconnectionForLobby();
-                //TODO notify view
+                view.showDisconnectionForLobbyNoLongerAvailable();
                 return true;
             }
         }
@@ -81,13 +76,10 @@ public class MsgInParser {
             case "newPlayer" :
                 String color =  Objects.requireNonNull(evaluateXPath("/UpdateMsg/Update/Color/text()")).get(0);
                 String user =  Objects.requireNonNull(evaluateXPath("/UpdateMsg/Update/Username/text()")).get(0);
-                //TEST
-                test.newUser(user,Color.valueOfLabel(color));
-                //TODO notify view
+                view.showNewUserLogged(user,Color.valueOfLabel(color));
                 break;
             case "startGame" :
-                test.matchStarted();
-                //TODO notify view
+                view.showMatchStarted();
                 break;
             case "createGods" :
                 ArrayList<Integer> ids = new ArrayList<>();
@@ -161,22 +153,15 @@ public class MsgInParser {
                                 users.put(component.getChildNodes().item(0).getTextContent(),Color.valueOfLabel(component.getChildNodes().item(1).getTextContent()));
                         }
 
-                    //TEST
-                    test.logged(users,user);
-                    //TODO notify view
+                    view.updateLoginDone(users,user,Color.valueOfLabel(color));
                 }
                 else{
-                    List<String> errors = getErrorList();
-                    //TEST
-                    test.login(true);
-                    //TODO notify view
+                    view.setUsername(true);
                 }
                 break;
             case "startGame" :
                 if(outcome.equals("accepted")){
-                    //TEST
-                    test.matchStarted();
-                    //TODO notify view
+                    view.showMatchStarted();
                 }
                 else{
                     List<String> errors = getErrorList();
@@ -278,12 +263,12 @@ public class MsgInParser {
         switch(action){
             case "login":
                 //TEST
-                test.login(false);
+                view.setUsername(true);
                 //TODO notify view
                 break;
             case "canStartMatch":
                 //TEST
-                test.startMatch();
+                view.startMatch();
                 //TODO notify view
                 break;
             case "choseStartingPlayer":
@@ -298,7 +283,7 @@ public class MsgInParser {
             case "wait":
                 String waitFor = Objects.requireNonNull(evaluateXPath("/ToDo/Info/WaitFor/text()")).get(0);
                 String inActionPlayer = Objects.requireNonNull(evaluateXPath("/ToDo/Info/InActionPlayer/text()")).get(0);
-                if (waitFor.equals("startMatch")) test.waitStartingMatch(inActionPlayer);
+                if (waitFor.equals("startMatch")) view.showWaitMessage(waitFor,inActionPlayer);
                 //TODO notify view with info
                 break;
             case "yourTurn":

@@ -368,10 +368,14 @@ public class MatchController implements ControllerInterface {
 
     //Message management methods
 
+    //TODO : javadoc
+
     @Override
     public State getGameState() {
         return gameBoard.getGameState();
     }
+
+    //TODO : javadoc
 
     @Override
     public void sendAnswerMoveAccepted(String playerUsername){
@@ -379,11 +383,15 @@ public class MatchController implements ControllerInterface {
         viewInterface.onMoveAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
     }
 
+    //TODO : javadoc
+
     @Override
     public void sendAnswerBuildAccepted(String playerUsername){
         //Notify view that currentPlayer build request has been accepted
         viewInterface.onBuildAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
     }
+
+    //TODO : javadoc
 
     @Override
     public void sendAnswerEndOfTurnAccepted(String playerUsername){
@@ -391,11 +399,15 @@ public class MatchController implements ControllerInterface {
         viewInterface.onEndOfTurnAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
     }
 
+    //TODO : javadoc
+
     @Override
     public void sendNextToDoChoseGod(){
         //Send to currentPlayer a massage which indicates that currentPlayer have to chose a god
         viewInterface.toDoChoseGod(playerController.getCurrentPlayer().getUsername(),new ArrayList<>(selectedGods.keySet()));
     }
+
+    //TODO : javadoc
 
     @Override
     public void sendNextToDoChoseStartingPlayer(){
@@ -403,10 +415,14 @@ public class MatchController implements ControllerInterface {
         viewInterface.toDoChoseStartingPlayer();
     }
 
+    //TODO : javadoc
+
     @Override
     public void sendNextToDoSetupWorkerOnBoard(String gender){
         viewInterface.toDoSetupWorkerOnBoard(playerController.getCurrentPlayer().getUsername(),gender);
     }
+
+    //TODO : javadoc
 
     @Override
     public void sendNextToDoTurn(){

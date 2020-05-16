@@ -4,9 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+//TODO : javadoc
+
 public class InputCli {
 
+    //attributes
+
     public static final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+    //methods
+
+    //TODO : javadoc
 
     public static String readLine(){
         String input = "";

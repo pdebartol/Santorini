@@ -15,6 +15,8 @@ public class Board {
 
     }
 
+    //TODO : javadoc
+
     public Square getSquareByCoordinates(int x, int y){
         return table[x][y];
     }

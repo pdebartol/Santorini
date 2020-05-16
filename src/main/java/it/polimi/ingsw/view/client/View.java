@@ -7,6 +7,8 @@ import it.polimi.ingsw.view.client.viewComponents.*;
 import java.util.ArrayList;
 import java.util.Map;
 
+//TODO : javadoc
+
 public abstract class View {
 
     //attributes
@@ -18,33 +20,44 @@ public abstract class View {
     protected int myPort;
 
     //constructors
+
     public View(){
         myPlayer = null;
         players = new ArrayList<>();
         gameBoard = new Board();
-        setMyIp();
-        setMyPort();
     }
 
     //methods
 
+    //TODO : javadoc
+
     public void start(){
         //TODO : delete testLoginClass() and replace it with this
-        clientHandler = new EchoClient(myIp,myPort,new TestLoginClass());
+        clientHandler = new EchoClient(myIp,myPort,this);
         clientHandler.start();
     }
 
     //setup methods
 
+    //TODO : javadoc
+
     public abstract void setMyIp();
+
+    //TODO : javadoc
 
     public abstract void setMyPort();
 
+    //TODO : javadoc
+
     public abstract void setUsername(boolean rejectedBefore);
+
+    //TODO : javadoc
 
     public abstract void startMatch();
 
     //update method
+
+    //TODO : javadoc
 
     public void updateLoginDone(Map<String,Color> otherPlayers, String myUsername, Color myColor){
         myPlayer = new Player(myUsername,myColor);
@@ -55,6 +68,8 @@ public abstract class View {
         showLoginDone();
     }
 
+    //TODO : javadoc
+
     public void updateNewUserLogged(String username, Color color){
         players.add(new Player(username,color));
 
@@ -63,57 +78,95 @@ public abstract class View {
 
     //show methods
 
+    //TODO : javadoc
+
     public abstract void showLoginDone();
+
+    //TODO : javadoc
 
     public abstract void showNewUserLogged(String username, Color color);
 
+    //TODO : javadoc
+
     public abstract void showWaitMessage(String waitFor, String author);
 
+    //TODO : javadoc
+
     public abstract void showMatchStarted();
+
+    //TODO : javadoc
 
     public abstract void showBoard();
 
     //show disconnection methods
 
+    //TODO : javadoc
+
     public abstract void showAnotherClientDisconnection();
+
+    //TODO : javadoc
 
     public abstract void showDisconnectionForLobbyNoLongerAvailable();
 
+    //TODO : javadoc
+
     public abstract void showServerDisconnection();
 
+    //TODO : javadoc
+
+    public abstract void disconnectionForInputExpiredTimeout();
+
     //sendRequest method
+
+    //TODO : javadoc
 
     public void sendLoginRequest(String username){
         clientHandler.sendMsg(new RequestMsgWriter().loginRequest(username));
     }
 
+    //TODO : javadoc
+
     public void sendStartGameRequest(){
         clientHandler.sendMsg(new RequestMsgWriter().startGameRequest(myPlayer.getUsername()));
     }
+
+    //TODO : javadoc
 
     public void sendCreateGodsRequest(ArrayList<Integer> ids){
         clientHandler.sendMsg(new RequestMsgWriter().createGodsRequest(myPlayer.getUsername(),ids));
     }
 
+    //TODO : javadoc
+
     public void sendChooseGodRequest(int godId){
         clientHandler.sendMsg(new RequestMsgWriter().chooseGodRequest(myPlayer.getUsername(),godId));
     }
+
+    //TODO : javadoc
 
     public void sendChooseStartingPlayerRequest(String starter){
         clientHandler.sendMsg(new RequestMsgWriter().chooseStartingPlayerRequest(myPlayer.getUsername(),starter));
     }
 
+    //TODO : javadoc
+
     public void sendSetWorkerOnBoardRequest(String gender, int x, int y){
         clientHandler.sendMsg(new RequestMsgWriter().setWorkerOnBoardRequest(myPlayer.getUsername(),gender,x,y));
     }
+
+    //TODO : javadoc
 
     public void sendMoveRequest(String gender, int x, int y){
         clientHandler.sendMsg(new RequestMsgWriter().moveRequest(myPlayer.getUsername(),gender,x,y));
     }
 
+    //TODO : javadoc
+
     public void sendBuildRequest(String gender, int x, int y, int level){
         clientHandler.sendMsg(new RequestMsgWriter().buildRequest(myPlayer.getUsername(),gender,x,y,level));
     }
+
+    //TODO : javadoc
 
     public void sendEndOfTurnRequest(){
         clientHandler.sendMsg(new RequestMsgWriter().endOfTurnRequest(myPlayer.getUsername()));

@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.client.viewComponents;
 import it.polimi.ingsw.model.enums.Color;
 import java.util.ArrayList;
 
+//TODO : javadoc
+
 public class Player {
 
     private final String username;
@@ -40,6 +42,8 @@ public class Player {
     }
 
     public God getGod(){return god;}
+
+    //TODO : javadoc
 
     public void lose(){
         loser = true;
