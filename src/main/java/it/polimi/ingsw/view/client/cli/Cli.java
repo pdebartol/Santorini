@@ -105,6 +105,10 @@ public class Cli extends View {
      * The printTemplate method print the background visual elements, the frame of game
      */
 
+    public void main(String[] args) {
+        printTemplate();
+    }
+
     public void printTemplate(){
 
         //draw the top line
@@ -113,8 +117,8 @@ public class Cli extends View {
         System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_RIGHT.escape());
         for (int i = 1; i < Box.HORIZONTAL_DIM.escape() - 1 ; i++) {
             if(i == Box.TEXT_START.escape()) {
-                System.out.print("Game");
-                i += 4;
+                System.out.print("Game Board");
+                i += 10;
             }
             System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
         }
@@ -176,6 +180,19 @@ public class Cli extends View {
                 System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
         }
 
+        //draw the players vertical line
+
+        System.out.print(Escapes.CURSOR_HOME_0x0.escape());
+        System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
+        System.out.println(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_HORIZONTAL.escape());
+        System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.TEXT_START.escape());
+        System.out.println("Players");
+        for (int i = 0; i < (Box.VERTICAL_DIM.escape() - Box.TEXT_BOX_START.escape() - 1) ; i++) {
+            System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
+            System.out.println(Unicode.BOX_DRAWINGS_HEAVY_VERTICAL.escape());
+        }
+        System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
+        System.out.println(Unicode.BOX_DRAWINGS_HEAVY_UP_AND_HORIZONTAL.escape());
 
     }
 
@@ -218,6 +235,23 @@ public class Cli extends View {
             }
         }
 
+
+    }
+
+    public void printInPlayerBox(String text){
+
+        char[] information = text.toCharArray();
+
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), 1, Box.PLAYERS_BOX_START.escape() + 1);
+
+        for (int i = 2, j = 0; j < information.length; i++, j++) {
+            System.out.print(information[j]);
+            if (i == Box.HORIZONTAL_DIM.escape() - 2){
+                System.out.print("-\n");
+                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
+                i = 1;
+            }
+        }
 
     }
 
@@ -321,6 +355,14 @@ public class Cli extends View {
             case "text":
                 System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.TEXT_BOX_START.escape(), 0);
                 System.out.print(Escapes.CLEAR_SCREEN_FROM_HERE_TO_END.escape());
+                printTemplate();
+
+            case "playerBox":
+                System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape(), 0);
+                for (int i = 0; i < (Box.TEXT_BOX_START.escape() - 1); i++) {
+                    System.out.println(Escapes.CLEAR_LINE_FROM_CURSOR_TO_END.escape());
+                    System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
+                }
                 printTemplate();
 
         }
