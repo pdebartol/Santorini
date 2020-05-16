@@ -5,6 +5,7 @@ import it.polimi.ingsw.view.client.TestLoginClass;
 
 public class Main {
 
+    //test
     public static void main(String[] args){
         if(args[0].equals("client")){
             clientMode(args);
