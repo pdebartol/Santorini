@@ -378,7 +378,7 @@ public class Cli extends View {
 
         //This cycle prints 0,0 position in the left-bottom corner
 
-        for (int x = Board.DIMENSION - 1, i = 0 , j = 0; x > -1 ; x-- , i += Box.SQUARE_DIMENSION.escape(), j++) {
+        for (int x = Board.DIMENSION - 1, i = 0 , j = 0; x > -1 ; x-- , i += Box.SQUARE_HORIZONTAL_DIM.escape(), j++) {
             System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape(), Box.BOARD_START_LEFT.escape() + i - 1);
             for (int y = Board.DIMENSION - 1; y > - 1 ; y--) {
                 drawSquare(x,y);
@@ -418,22 +418,22 @@ public class Cli extends View {
         }
 
         if (square.getWorker() != null) {
-            System.out.println(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + icon + "   "
+            System.out.println(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + icon + Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape()
                     + Escapes.RESTORE_CURSOR_POSITION.escape());
             for (int i = 1; i < Box.SQUARE_DIMENSION.escape() - 1 ; i++) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + "    "
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape()
                         + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
-            System.out.print("   " + ColorCode.ANSI_BLACK.escape() + square.getLevel() + ColorCode.ANSI_RESET.escape());
+            System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + ColorCode.ANSI_BLACK.escape() + square.getLevel() + ColorCode.ANSI_RESET.escape());
         }
         else {
             for (int i = 0; i < Box.SQUARE_DIMENSION.escape() - 1 ; i++) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + "    "
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape()
                         + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
-            System.out.print("   " + ColorCode.ANSI_BLACK.escape() + square.getLevel() + ColorCode.ANSI_RESET.escape());
+            System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + ColorCode.ANSI_BLACK.escape() + square.getLevel() + ColorCode.ANSI_RESET.escape());
         }
     }
     

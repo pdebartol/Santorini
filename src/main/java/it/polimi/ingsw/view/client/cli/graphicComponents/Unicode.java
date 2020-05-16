@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.client.cli.graphicComponents;
 
 public enum Unicode {
     WORKER_ICON("\u3020"),
+    SQUARE_HORIZONTAL_DIM("        "),
+    SQUARE_HORIZONTAL_DIM_MIN1("       "),
     BOX_DRAWINGS_HEAVY_HORIZONTAL("━"),
     BOX_DRAWINGS_HEAVY_VERTICAL("┃"),
     BOX_DRAWINGS_HEAVY_DOWN_AND_RIGHT("┏"),
