@@ -2,10 +2,12 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.network.server.EchoServer;
 import it.polimi.ingsw.view.client.TestLoginClass;
+import it.polimi.ingsw.view.client.gui.Gui;
+import javafx.application.Application;
 
 public class Main {
 
-    //test
+    /**
     public static void main(String[] args){
         if(args[0].equals("client")){
             clientMode(args);
@@ -13,6 +15,9 @@ public class Main {
             if(args[0].equals("server")){
                 serverMode(args);
             }
+    }**/
+    public static void main(String[] args){
+            clientMode();
     }
 
     public static void serverMode(String[] args)
@@ -26,9 +31,9 @@ public class Main {
         echoServer.start();
     }
 
-    public static void clientMode(String[] args){
+    public static void clientMode(){
         //Only for testing
-        new TestLoginClass().start();
+        Application.launch(Gui.class);
 
         //TODO : start the user choice interface
 

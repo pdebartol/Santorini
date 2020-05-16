@@ -189,6 +189,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/java,macos,maven,windows,intellij
-/src/main/java/META-INF/
+/src/main/resources/META-INF/
 .idea/.gitignore
 .idea/artifacts/
