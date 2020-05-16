@@ -105,10 +105,6 @@ public class Cli extends View {
      * The printTemplate method print the background visual elements, the frame of game
      */
 
-    public void main(String[] args) {
-        printTemplate();
-    }
-
     public void printTemplate(){
 
         //draw the top line
@@ -184,7 +180,7 @@ public class Cli extends View {
 
         System.out.print(Escapes.CURSOR_HOME_0x0.escape());
         System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
-        System.out.println(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_HORIZONTAL.escape());
+        System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_HORIZONTAL.escape());
         System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.TEXT_START.escape());
         System.out.println("Players");
         for (int i = 0; i < (Box.VERTICAL_DIM.escape() - Box.TEXT_BOX_START.escape() - 1) ; i++) {
