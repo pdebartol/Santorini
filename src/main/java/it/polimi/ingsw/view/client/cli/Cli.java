@@ -228,7 +228,7 @@ public class Cli extends View {
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.CREDITS_START_FROM_UP.escape(), Box.CREDITS_START_LEFT.escape());
         System.out.println("Software engineering project of group AM10, credits to:");
         System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.CREDITS_START_LEFT.escape());
-        System.out.print("Piersilvio De Bartolomeis,"+ ColorCode.GREY.escape() +" Marco Di Gennaro,"+ ColorCode.ANSI_CYAN.escape() +"Alessandro Di Maio" + ColorCode.ANSI_RESET.escape());
+        System.out.print("Piersilvio De Bartolomeis,"+ ColorCode.ANSI_BLUE.escape() +" Marco Di Gennaro,"+ ColorCode.ANSI_CYAN.escape() +"Alessandro Di Maio" + ColorCode.ANSI_RESET.escape());
 
         printSantorini();
 
