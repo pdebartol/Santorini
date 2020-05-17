@@ -12,7 +12,9 @@ public enum Box {
     SQUARE_DIMENSION(4),
     SQUARE_HORIZONTAL_DIM(8),
     ASCII_ART_START_LEFT(11),
-    ASCII_ART_START_UP(11);
+    ASCII_ART_START_UP(11),
+    CREDITS_START_LEFT(10),
+    CREDITS_START_FROM_UP(25);
 
     private int escape;
 
