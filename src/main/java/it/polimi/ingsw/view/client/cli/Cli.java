@@ -443,8 +443,14 @@ public class Cli extends View {
         System.out.print(Escapes.CURSOR_HOME_0x0.escape());
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.PLAYER_BOX_START_LINE.escape(), Box.PLAYERS_BOX_START.escape());
         System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_RIGHT.escape());
-        for (int i = Box.PLAYERS_BOX_START.escape(); i < (Box.HORIZONTAL_DIM.escape() - 1) ; i++)
+        for (int i = Box.PLAYERS_BOX_START.escape(); i < (Box.HORIZONTAL_DIM.escape() - 1) ; i++){
+            if(i == Box.PLAYERS_BOX_START.escape()){
+                System.out.print("Players");
+                i += 7;
+            }
             System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
+        }
+
         System.out.print(Unicode.BOX_DRAWINGS_HEAVY_VERTICAL_AND_LEFT.escape());
 
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.PLAYER_BOX_START_LINE.escape() + 1, Box.PLAYERS_BOX_START.escape());
