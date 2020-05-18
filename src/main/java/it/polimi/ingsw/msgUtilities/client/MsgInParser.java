@@ -76,7 +76,7 @@ public class MsgInParser {
             case "newPlayer" :
                 String color =  Objects.requireNonNull(evaluateXPath("/UpdateMsg/Update/Color/text()")).get(0);
                 String user =  Objects.requireNonNull(evaluateXPath("/UpdateMsg/Update/Username/text()")).get(0);
-                view.showNewUserLogged(user,Color.valueOfLabel(color));
+                view.updateNewUserLogged(user,Color.valueOfLabel(color));
                 break;
             case "startGame" :
                 view.showMatchStarted();

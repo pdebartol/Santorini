@@ -98,6 +98,10 @@ public abstract class View {
 
     public abstract void showBoard();
 
+    //TODO : javadoc
+
+    public abstract void serverNotFound();
+
     //show disconnection methods
 
     //TODO : javadoc

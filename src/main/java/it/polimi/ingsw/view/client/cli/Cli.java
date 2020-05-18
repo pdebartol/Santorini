@@ -50,7 +50,7 @@ public class Cli extends View {
         printInStartTextBox("Insert the server IP address!");
         String ip = input();
         while(!InputValidator.validateIP(ip)){
-            printInStartTextBox("Invalid IP address! Please, try again.");
+            printInStartTextBox("Invalid IP address! Please, try again!");
             ip = input();
         }
 
@@ -75,42 +75,71 @@ public class Cli extends View {
 
     @Override
     public void setUsername(boolean rejectedBefore) {
-
+        printInStartTextBox("Insert your username (must be at least 3 characters long and no more than 15, valid characters: A-Z, a-z, 1-9, _)");
+        String username = input();
+        while(!InputValidator.validateUSERNAME(username)){
+            printInStartTextBox("Invalid username! It must be at least 3 characters long and no more than 15, valid characters: A-Z, a-z, 1-9, _, try again!");
+            username = input();
+        }
+        sendLoginRequest(username);
     }
 
     //TODO : javadoc
 
     @Override
     public void startMatch() {
+        String input;
+        if(players.size() == 1) {
+            appendInStartTextBox("You are currently 2 players in the game, enter \"s\" to start the game now or \"w\" to wait for a third player!");
+            do{
+                input = input();
+            }while(!input.equals("s") && !input.equals("w"));
 
+            if(input.equals("s")) sendStartGameRequest();
+        }else
+            appendInStartTextBox("You are currently 3 players in the game, press enter to start the game now! The match will automatically start in 3 minutes");
+            inputWithTimeout(3,TimeUnit.SECONDS);
+            sendStartGameRequest();
     }
 
     //TODO : javadoc
 
     @Override
     public void showLoginDone() {
-
+        StringBuilder message;
+        message = new StringBuilder("Hi " + Color.getColorCodeByColor(myPlayer.getWorkerByGender("male").getColor()).escape() + myPlayer.getUsername() + ColorCode.ANSI_RESET.escape() + ", you're in!");
+        if(players.size() == 0) message.append(" You're the creator of this match, so you can start the match you will decide " + "when to start the game. You can either start it when another player logs in or wait for a third player. " + "The moment the third player logs in you can start the game, which will still start automatically after 2 minutes " + "from the login of the third player.");
+        else
+            message.append(" You're currently ").append(players.size() + 1).append(" players in this game : You ");
+            for(Player player : players)
+                message.append(", ").append(Color.getColorCodeByColor(player.getWorkerByGender("male").getColor()).escape()).append(player.getUsername()).append(ColorCode.ANSI_RESET.escape());
+        printInStartTextBox(message.toString());
     }
 
     //TODO : javadoc
 
     @Override
     public void showNewUserLogged(String username, Color color) {
-
+        printInStartTextBox("There is a new player : " + Color.getColorCodeByColor(color).escape() + username + ColorCode.ANSI_RESET.escape());
     }
 
     //TODO : javadoc
 
     @Override
     public void showWaitMessage(String waitFor, String author) {
-
+        appendInStartTextBox("Waiting for creator's start game command...");
     }
 
     //TODO : javadoc
 
     @Override
     public void showMatchStarted() {
-
+        printInStartTextBox("the match has been started...");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     //TODO : javadoc
@@ -118,6 +147,23 @@ public class Cli extends View {
     @Override
     public void showBoard() {
 
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void serverNotFound() {
+        printInStartTextBox("Server not found!");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //New connection
+        setMyIp();
+        setMyPort();
+        start();
     }
 
     //TODO : javadoc
@@ -226,9 +272,9 @@ public class Cli extends View {
 
 
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.CREDITS_START_FROM_UP.escape(), Box.CREDITS_START_LEFT.escape());
-        System.out.println("Software engineering project of group AM10, credits to:");
+        System.out.println(ColorCode.ANSI_CYAN.escape() + "          Software engineering project, AM10 group, credits to:");
         System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.CREDITS_START_LEFT.escape());
-        System.out.print("Piersilvio De Bartolomeis,"+ ColorCode.ANSI_BLUE.escape() +" Marco Di Gennaro,"+ ColorCode.ANSI_CYAN.escape() +"Alessandro Di Maio" + ColorCode.ANSI_RESET.escape());
+        System.out.print( ColorCode.ANSI_CYAN.escape() + "    Piersilvio De Bartolomeis, Marco Di Gennaro, Alessandro Di Maio" + ColorCode.ANSI_RESET.escape());
 
         printSantorini();
 
@@ -523,6 +569,7 @@ public class Cli extends View {
         return input;
     }
 
+
     public void printInStartTextBox(String text){
 
         char[] information = text.toCharArray();
@@ -543,7 +590,28 @@ public class Cli extends View {
             }
         }
 
+    }
 
+
+    public void appendInStartTextBox(String text){
+        char[] information = text.toCharArray();
+
+
+        printStartTemplate();
+
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.TEXT_BOX_START.escape() + 1, 2);
+
+        //this cycle allow to avoid that text exceed the frame length
+
+        System.out.print("\n");
+        for (int i = 2, j = 0; j < information.length; i++, j++) {
+            System.out.print(information[j]);
+            if (i == Box.HORIZONTAL_DIM.escape() - 2){
+                System.out.print("-\n");
+                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1);
+                i = 1;
+            }
+        }
     }
 
     /**

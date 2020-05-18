@@ -91,10 +91,8 @@ public class EchoClient {
         try{
             server = new Socket(hostName, port);
         }catch (IOException e){
-            System.err.println("Don't know about host " + hostName + "\n");
-            System.exit(0);
+            view.serverNotFound();
         }
-        System.out.println("Connection established! \n");
     }
 
     /**
