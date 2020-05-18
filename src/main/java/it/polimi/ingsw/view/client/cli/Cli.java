@@ -25,10 +25,12 @@ import java.util.concurrent.*;
 public class Cli extends View {
 
     private final String icon = Unicode.WORKER_ICON.escape();
+    private String state;
 
     public Cli(){
         super();
         cliSetup();
+        state = "SETUP";
     }
 
     /**
@@ -139,16 +141,23 @@ public class Cli extends View {
 
     @Override
     public void showWaitMessage(String waitFor, String author) {
-        appendInStartTextBox("Waiting for creator's start game command...");
+        switch(waitFor){
+            case "startMatch" :
+                appendInStartTextBox("Waiting for " + author + "(creator)'s start game command...");
+                break;
+            case "createGods" :
+                appendInGameTextBox(author + "is the challenger, he is choosing " + (players.size() + 1) + " for this game...");
+        }
     }
 
     //TODO : javadoc
 
     @Override
     public void showMatchStarted() {
+        state = "MATCH";
         System.out.print(Escapes.CLEAR_ENTIRE_SCREEN.escape());
         printGameTemplate();
-        printInStartTextBox("the match has been started...");
+        printInGameTextBox("the match has been started...");
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -184,7 +193,8 @@ public class Cli extends View {
 
     @Override
     public void showAnotherClientDisconnection() {
-        printInStartTextBox("A client has disconnected from the game, the match has been deleted! Do you want to try to search a new game? (s/n)");
+        if(state.equals("SETUP")) printInStartTextBox("A client has disconnected from the game, the match has been deleted! Do you want to try to search a new game? (s/n)");
+        else printInGameTextBox("A client has disconnected from the game, the match has been deleted! Do you want to try to search a new game? (s/n)");
         String input;
         do{
             input = input();
@@ -218,7 +228,8 @@ public class Cli extends View {
 
     @Override
     public void showServerDisconnection() {
-        printInStartTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
+        if(state.equals("SETUP")) printInStartTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
+        else printInGameTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
         String input;
         do{
             input = input();
@@ -235,8 +246,11 @@ public class Cli extends View {
 
     @Override
     public void disconnectionForInputExpiredTimeout() {
-        printInStartTextBox("The timeout to do your action has expired, " +
+        if(state.equals("SETUP")) printInStartTextBox("The timeout to do your action has expired, " +
                 "you were kicked out of the game! Do you want to try to search a new game? (s/n)");
+        else
+            printInGameTextBox("The timeout to do your action has expired, " +
+                    "you were kicked out of the game! Do you want to try to search a new game? (s/n)");
         String input;
         do{
             input = input();
@@ -687,6 +701,7 @@ public class Cli extends View {
 
         System.out.print("\n");
         System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1);
+
         for (int i = 2, j = 0; j < information.length; i++, j++) {
             System.out.print(information[j]);
             if (i == Box.HORIZONTAL_DIM.escape() - 2){
@@ -723,6 +738,30 @@ public class Cli extends View {
         }
 
 
+    }
+
+    public void appendInGameTextBox(String text){
+
+        char[] information = text.toCharArray();
+
+        eraseThings("text");
+        printGameTemplate();
+
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.TEXT_BOX_START.escape() + 1, 2);
+
+        //this cycle allow to avoid that text exceed the frame length
+
+        System.out.print("\n");
+        System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1);
+
+        for (int i = 2, j = 0; j < information.length; i++, j++) {
+            System.out.print(information[j]);
+            if (i == Box.HORIZONTAL_DIM.escape() - 2){
+                System.out.print("-\n");
+                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1);
+                i = 1;
+            }
+        }
     }
 
     public void printInPlayerBox(String text){
