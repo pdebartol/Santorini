@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.client.EchoClient;
 import it.polimi.ingsw.view.client.viewComponents.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 //TODO : javadoc
@@ -18,6 +19,7 @@ public abstract class View {
     protected EchoClient clientHandler;
     protected String myIp;
     protected int myPort;
+    protected List<God> gods;
 
     //constructors
 
@@ -25,6 +27,7 @@ public abstract class View {
         myPlayer = null;
         players = new ArrayList<>();
         gameBoard = new Board();
+        gods = new GodsGenerator().getGods();
     }
 
     //methods
@@ -37,7 +40,13 @@ public abstract class View {
         clientHandler.start();
     }
 
-    //setup methods
+    public void newGame(){
+        myPlayer = null;
+        players = new ArrayList<>();
+        gameBoard = new Board();
+    }
+
+    //input methods
 
     //TODO : javadoc
 
@@ -54,6 +63,10 @@ public abstract class View {
     //TODO : javadoc
 
     public abstract void startMatch();
+
+    //TODO : javadoc
+
+    public abstract void selectGods();
 
     //update method
 
@@ -75,6 +88,21 @@ public abstract class View {
 
         showNewUserLogged(username,color);
     }
+
+    //disconnection methods
+
+    //TODO : javadoc
+
+    public void anotherClientDisconnection(){
+        clientHandler.anotherClientDisconnection();
+    }
+
+    //TODO : javadoc
+
+    public void disconnectionForLobbyNoLongerAvailable(){
+        clientHandler.disconnectionForTimeout();
+    }
+
 
     //show methods
 

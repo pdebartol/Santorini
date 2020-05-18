@@ -96,10 +96,19 @@ public class Cli extends View {
             }while(!input.equals("s") && !input.equals("w"));
 
             if(input.equals("s")) sendStartGameRequest();
-        }else
+            else printInStartTextBox("Wait for a third player...");
+        }else {
             appendInStartTextBox("You are currently 3 players in the game, press enter to start the game now! The match will automatically start in 3 minutes");
-            inputWithTimeout(3,TimeUnit.SECONDS);
+            inputWithTimeout(3, TimeUnit.MINUTES);
             sendStartGameRequest();
+        }
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void selectGods() {
+
     }
 
     //TODO : javadoc
@@ -107,12 +116,15 @@ public class Cli extends View {
     @Override
     public void showLoginDone() {
         StringBuilder message;
-        message = new StringBuilder("Hi " + Color.getColorCodeByColor(myPlayer.getWorkerByGender("male").getColor()).escape() + myPlayer.getUsername() + ColorCode.ANSI_RESET.escape() + ", you're in!");
-        if(players.size() == 0) message.append(" You're the creator of this match, so you can start the match you will decide " + "when to start the game. You can either start it when another player logs in or wait for a third player. " + "The moment the third player logs in you can start the game, which will still start automatically after 2 minutes " + "from the login of the third player.");
+        message = new StringBuilder("Hi " + myPlayer.getUsername() + ", you're in!");
+        if(players.size() == 0) message.append(" You're the creator of this match, so you will decide "
+                + "when to start the game. You can either start it when another player logs in or wait for a third player. "
+                + "The moment the third player logs in you can start the game, which will still start automatically after 2 minutes "
+                + "from the login of the third player.");
         else
-            message.append(" You're currently ").append(players.size() + 1).append(" players in this game : You ");
+            message.append(" You're currently ").append(players.size() + 1).append(" players in this game : You");
             for(Player player : players)
-                message.append(", ").append(Color.getColorCodeByColor(player.getWorkerByGender("male").getColor()).escape()).append(player.getUsername()).append(ColorCode.ANSI_RESET.escape());
+                message.append(", ").append(player.getUsername());
         printInStartTextBox(message.toString());
     }
 
@@ -120,7 +132,7 @@ public class Cli extends View {
 
     @Override
     public void showNewUserLogged(String username, Color color) {
-        printInStartTextBox("There is a new player : " + Color.getColorCodeByColor(color).escape() + username + ColorCode.ANSI_RESET.escape());
+        printInStartTextBox(username + " is a new player!");
     }
 
     //TODO : javadoc
@@ -134,6 +146,8 @@ public class Cli extends View {
 
     @Override
     public void showMatchStarted() {
+        System.out.print(Escapes.CLEAR_ENTIRE_SCREEN.escape());
+        printGameTemplate();
         printInStartTextBox("the match has been started...");
         try {
             Thread.sleep(2000);
@@ -170,28 +184,69 @@ public class Cli extends View {
 
     @Override
     public void showAnotherClientDisconnection() {
+        printInStartTextBox("A client has disconnected from the game, the match has been deleted! Do you want to try to search a new game? (s/n)");
+        String input;
+        do{
+            input = input();
+        }while(!input.equals("s") && !input.equals("n"));
 
+        if(input.equals("s")){
+            newGame();
+            start();
+        }
+        else System.exit(0);
     }
 
     //TODO : javadoc
 
     @Override
     public void showDisconnectionForLobbyNoLongerAvailable() {
+        printInStartTextBox("too long, the lobby you were entered into has already started! Do you want to try to search a new game? (s/n)");
+        String input;
+        do{
+            input = input();
+        }while(!input.equals("s") && !input.equals("n"));
 
+        if(input.equals("s")){
+            newGame();
+            start();
+        }
+        else System.exit(0);
     }
 
     //TODO : javadoc
 
     @Override
     public void showServerDisconnection() {
+        printInStartTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
+        String input;
+        do{
+            input = input();
+        }while(!input.equals("s") && !input.equals("n"));
 
+        if(input.equals("s")){
+            newGame();
+            gameSetup();
+        }
+        else System.exit(0);
     }
 
     //TODO : javadoc
 
     @Override
     public void disconnectionForInputExpiredTimeout() {
+        printInStartTextBox("The timeout to do your action has expired, " +
+                "you were kicked out of the game! Do you want to try to search a new game? (s/n)");
+        String input;
+        do{
+            input = input();
+        }while(!input.equals("s") && !input.equals("n"));
 
+        if(input.equals("s")){
+            newGame();
+            start();
+        }
+        else System.exit(0);
     }
 
     //Frame methods
@@ -604,6 +659,7 @@ public class Cli extends View {
         //this cycle allow to avoid that text exceed the frame length
 
         System.out.print("\n");
+        System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1);
         for (int i = 2, j = 0; j < information.length; i++, j++) {
             System.out.print(information[j]);
             if (i == Box.HORIZONTAL_DIM.escape() - 2){
@@ -692,6 +748,7 @@ public class Cli extends View {
             input();
         }
         else{
+            printInGameTextBox(myPlayer.getGod().getName() + "\n\u001b[1C" + myPlayer.getGod().getDescription() + "enter for continue");
             for (int j = 0; j < players.size() ; j++) {
                 printInGameTextBox(players.get(j).getGod().getName() + "\n\u001b[1C" + players.get(j).getGod().getDescription()
                         + "\n\u001b[1C" + (j + 1) + " of " + players.size() + " enter for continue");
@@ -917,7 +974,7 @@ public class Cli extends View {
                 case "this":
                     printInStartTextBox("Confirm selection of " + gods.get(i) + "? Type \"y\" for yes or anything else for no");
                     if (input() == "y")
-                        myPlayer.setGod(new God(gods.get(i).getName(), gods.get(i).getDescription()));
+                        myPlayer.setGod(new God(gods.get(i).getId(),gods.get(i).getName(), gods.get(i).getDescription()));
                     else {
                         printInStartTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
                                 gods.get(i).getDescription());

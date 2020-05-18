@@ -37,11 +37,11 @@ public class MsgInParser {
         if(answerType.equals("UpdateMsg")){
             String mode = Objects.requireNonNull(evaluateXPath("/UpdateMsg/Mode/text()")).get(0);
             if(mode.equals("disconnection")){
-                view.showAnotherClientDisconnection();
+                view.anotherClientDisconnection();
                 return true;
             }
             if(mode.equals("disconnectionForLobbyNoLongerAvailable")){
-                view.showDisconnectionForLobbyNoLongerAvailable();
+                view.disconnectionForLobbyNoLongerAvailable();
                 return true;
             }
         }

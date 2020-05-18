@@ -74,7 +74,6 @@ public class EchoClient {
             }
 
             in.close();
-            System.out.println("Connection closed!\n");
             server.close();
         }catch (IOException | SAXException | ParserConfigurationException e){
             if (!server.isClosed()) serverDisconnection();
