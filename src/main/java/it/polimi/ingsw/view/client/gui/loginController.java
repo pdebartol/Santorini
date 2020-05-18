@@ -21,7 +21,7 @@ public class loginController {
 
         //TODO connection management
 
-        //Gui.setRoot("gameScene");
+        Gui.setRoot("gameScene");
 
     }
 }
