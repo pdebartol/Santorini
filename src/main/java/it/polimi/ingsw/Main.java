@@ -1,8 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.network.server.EchoServer;
-import it.polimi.ingsw.view.client.TestLoginClass;
-import it.polimi.ingsw.view.client.gui.Gui;
+import it.polimi.ingsw.view.client.gui.GuiManager;
 import javafx.application.Application;
 
 public class Main {
@@ -33,7 +32,7 @@ public class Main {
 
     public static void clientMode(){
         //Only for testing
-        Application.launch(Gui.class);
+        GuiManager.startGui();
 
         //TODO : start the user choice interface
 
