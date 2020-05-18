@@ -444,7 +444,11 @@ public class Cli extends View {
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.PLAYER_BOX_START_LINE.escape(), Box.PLAYERS_BOX_START.escape());
         System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_RIGHT.escape());
         for (int i = Box.PLAYERS_BOX_START.escape(); i < (Box.HORIZONTAL_DIM.escape() - 1) ; i++)
-            System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
+            if(i == Box.HORIZONTAL_DIM.escape() - 14){
+                System.out.print("Players");
+                i += 6;
+            }else
+                System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
         System.out.print(Unicode.BOX_DRAWINGS_HEAVY_VERTICAL_AND_LEFT.escape());
 
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.PLAYER_BOX_START_LINE.escape() + 1, Box.PLAYERS_BOX_START.escape());
@@ -457,11 +461,11 @@ public class Cli extends View {
 
         //print player name in players' box
 
-        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.PLAYER_BOX_START_LINE.escape() + 1, Box.PLAYERS_BOX_START.escape() + 1);
-        System.out.println(myPlayer.getUsername());
-        for (int i = 0; i < players.size(); i++) {
-            System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
-            System.out.println(players.get(i).getUsername());
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.PLAYER_BOX_START_LINE.escape() + 2, Box.PLAYERS_BOX_START.escape() + 4);
+        System.out.println(Color.getColorCodeByColor(myPlayer.getWorkerByGender("male").getColor()).escape() + ColorCode.ANSI_BLACK.escape() + myPlayer.getUsername() + ColorCode.ANSI_RESET.escape() + "\n");
+        for (Player player : players) {
+            System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape() + 3);
+            System.out.println(Color.getColorCodeByColor(player.getWorkerByGender("male").getColor()).escape() + ColorCode.ANSI_BLACK.escape() + player.getUsername() + ColorCode.ANSI_RESET.escape() + "\n");
         }
 
 
