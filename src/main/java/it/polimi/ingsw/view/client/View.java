@@ -30,6 +30,11 @@ public abstract class View {
         gods = new GodsGenerator().getGods();
     }
 
+    public View(String ip, int port){
+        myIp = ip;
+        myPort = port;
+    }
+
     //methods
 
     //TODO : javadoc

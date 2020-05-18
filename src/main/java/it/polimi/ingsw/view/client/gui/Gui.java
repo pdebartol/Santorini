@@ -59,11 +59,17 @@ public class Gui extends View {
 
     @Override
     public void setUsername(boolean rejectedBefore) {
+        System.out.println("Test");
         showLoginUsername();
     }
 
     @Override
     public void startMatch() {
+
+    }
+
+    @Override
+    public void selectGods() {
 
     }
 

@@ -24,7 +24,9 @@ public class loginController {
     @FXML
     public void connection(ActionEvent actionEvent) throws IOException {
         Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()),(Stage) connectButton.getScene().getWindow(),connectButton.getScene());
-        gui.start(); }
+        gui.start();
+        gui.showLoginUsername();
+    }
 
     private String getIpAddress() {
         return ipAddress.getText();
