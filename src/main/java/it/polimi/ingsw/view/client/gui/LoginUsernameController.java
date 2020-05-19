@@ -6,6 +6,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import java.awt.event.ActionEvent;
+
 public class LoginUsernameController {
 
     @FXML
@@ -17,6 +19,7 @@ public class LoginUsernameController {
 
     private Gui gui;
 
+    @FXML
     public void sendUsername(MouseEvent mouseEvent) {
         gui.sendLoginRequest(getUsername());
     }

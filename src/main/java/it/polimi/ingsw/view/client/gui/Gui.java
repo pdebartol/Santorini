@@ -12,10 +12,11 @@ import java.io.IOException;
 public class Gui extends View {
 
     private LoginUsernameController loginUserController;
+    private LoginWaitController loginWaitController;
 
 
-    private Stage loginUserStage;
     private Scene loginUserScene;
+    private Scene loginWaitScene;
 
     private Stage stage;
     private Scene scene;
@@ -25,22 +26,34 @@ public class Gui extends View {
         this.stage = stage;
         this.scene = login;
         initLoginUsername();
+        initLoginWait();
+
     }
 
 
     private void initLoginUsername() {
-        try {
-            FXMLLoader loader = GuiManager.loadFXML("loginUsername");
-            Parent root = loader.load();
-            loginUserStage = new Stage();
-            loginUserStage.setTitle("Login");
-            loginUserScene = new Scene(root);
-            loginUserController = loader.getController();
-        } catch (IOException e) {
-            System.out.println("Could not initialize loginUsername Scene");
-        }
+                    try {
+                        FXMLLoader loader = GuiManager.loadFXML("loginUsername");
+                        Parent root = loader.load();
+                        loginUserScene = new Scene(root);
+                        loginUserController = loader.getController();
+                        loginUserController.setGui(this);
+                    } catch (IOException e) {
+                        System.out.println("Could not initialize loginUsername Scene");
+                    }
     }
 
+    private void initLoginWait() {
+                    try {
+                        FXMLLoader loader = GuiManager.loadFXML("loginWait");
+                        Parent root = loader.load();
+                        loginWaitScene = new Scene(root);
+                        loginWaitController = loader.getController();
+                        loginWaitController.setGui(this);
+                    } catch (IOException e) {
+                        System.out.println("Could not initialize loginWait Scene");
+                    }
+    }
 
 
     @Override
@@ -54,9 +67,11 @@ public class Gui extends View {
 
     @Override
     public void setUsername(boolean rejectedBefore) {
-        System.out.println("Test");
-        stage.setScene(loginUserScene);
-        stage.show();
+        Platform.runLater(
+                () -> {
+                    stage.setScene(loginUserScene);
+                    stage.show();
+                });
     }
 
     @Override
@@ -71,6 +86,11 @@ public class Gui extends View {
 
     @Override
     public void showLoginDone() {
+        Platform.runLater(
+                () -> {
+                    stage.setScene(loginWaitScene);
+                    stage.show();
+                });
 
     }
 

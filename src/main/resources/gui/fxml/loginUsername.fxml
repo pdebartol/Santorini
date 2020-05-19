@@ -30,7 +30,7 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0" />
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                <children>
-                  <ImageView fx:id="playImageViewButton" fitHeight="150.0" fitWidth="200.0" layoutX="173.0" layoutY="5.0" onMousePressed="#sendUsername" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="5.0">
+                  <ImageView fx:id="playImageViewButton" fitHeight="150.0" fitWidth="200.0" layoutX="173.0" layoutY="5.0" onMouseClicked="#sendUsername" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="5.0">
                      <image>
                         <Image url="@/gui/graphics_resources/Sprite/Buttons/button-play-normal.png" />
                      </image>

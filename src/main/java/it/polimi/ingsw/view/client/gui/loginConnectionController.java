@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.client.gui;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,7 +13,7 @@ import javafx.stage.Stage;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-public class loginController {
+public class loginConnectionController {
 
     @FXML
     public Label text;
@@ -21,8 +23,6 @@ public class loginController {
     public TextField ipAddress;
     @FXML
     private Button connectButton;
-
-
 
 
     private String getIpAddress() {
@@ -36,10 +36,14 @@ public class loginController {
 
     @FXML
     public void connection(ActionEvent actionEvent) {
-        System.out.print("pressed");
-        Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()),(Stage) connectButton.getScene().getWindow(), connectButton.getScene());
-        gui.start();
+        Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()), (Stage) connectButton.getScene().getWindow(), connectButton.getScene());
+        Thread th = new Thread(() -> {
+            gui.start();
+        });
+        th.start();
+
     }
-
-
 }
+
+
+

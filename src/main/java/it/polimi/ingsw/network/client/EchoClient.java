@@ -58,7 +58,6 @@ public class EchoClient {
             InputStream in = server.getInputStream();
 
             while(true) {
-
                 receiveXML(in);
 
                 if(isDisconnectionMessage()){
