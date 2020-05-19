@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.client.gui;
 
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.view.client.View;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -41,12 +42,6 @@ public class Gui extends View {
     }
 
 
-    public void showLoginUsername(){
-        loginUserController.setGui(this);
-        stage.setScene(loginUserScene);
-        stage.setResizable(false);
-        stage.show();
-    }
 
     @Override
     public void setMyIp(){
@@ -60,7 +55,8 @@ public class Gui extends View {
     @Override
     public void setUsername(boolean rejectedBefore) {
         System.out.println("Test");
-        showLoginUsername();
+        stage.setScene(loginUserScene);
+        stage.show();
     }
 
     @Override

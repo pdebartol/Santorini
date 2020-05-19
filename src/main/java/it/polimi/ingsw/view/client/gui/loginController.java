@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.awt.event.MouseEvent;
@@ -33,9 +34,12 @@ public class loginController {
     }
 
 
+    @FXML
     public void connection(ActionEvent actionEvent) {
+        System.out.print("pressed");
         Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()),(Stage) connectButton.getScene().getWindow(),connectButton.getScene());
         gui.start();
-        gui.showLoginUsername();
     }
+
+
 }
