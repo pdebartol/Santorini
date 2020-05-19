@@ -31,7 +31,6 @@ public class GuiManager extends Application {
         launch();
     }
 
-
     public static FXMLLoader loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(GuiManager.class.getResource("/gui/fxml/"+fxml + ".fxml"));
         return fxmlLoader;

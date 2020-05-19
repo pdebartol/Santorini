@@ -162,7 +162,7 @@
                                             <children>
                                     <AnchorPane>
                                        <children>
-                                                      <ImageView fx:id="imageToDrag" fitHeight="62.0" fitWidth="84.0" onDragDetected="#startChangingPosition" onDragDone="#dragDoneMethod" pickOnBounds="true" preserveRatio="true">
+                                                      <ImageView fx:id="imageToDrag" fitHeight="62.0" fitWidth="84.0" onDragDetected="#startChangingPosition" onDragDone="#dragDoneMethod" pickOnBounds="true" preserveRatio="true" visible="false">
                                                           <image>
                                                               <Image url="@/gui/graphics_resources/Sprite/Cards/Small/Achiles.png" />
                                                           </image>

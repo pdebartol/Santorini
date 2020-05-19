@@ -1,13 +1,19 @@
 package it.polimi.ingsw.view.client.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class LoginUsernameController {
 
     @FXML
-    public TextField usernameField;
+    private TextField usernameField;
+    @FXML
+    private ImageView playImageViewButton;
+    @FXML
+    private Label textLabel;
 
     private Gui gui;
 

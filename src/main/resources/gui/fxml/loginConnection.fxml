@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="480.0" style="-fx-background-color: #0083bd;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.client.gui.loginController">
    <children>
@@ -39,12 +40,15 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Label fx:id="text" alignment="CENTER" layoutX="22.0" layoutY="12.0" prefHeight="90.0" prefWidth="435.0" text="Label" textFill="WHITE" AnchorPane.bottomAnchor="12.799999999999997" />
+                  <Label fx:id="informationBox" alignment="CENTER" layoutX="22.0" layoutY="12.0" prefHeight="90.0" prefWidth="435.0" text="Enter IP Address and the port of the server to connect with it" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="12.799999999999997">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                <children>
-                  <Button fx:id="connectButton" layoutX="190.0" layoutY="73.0" mnemonicParsing="false"  onAction="#connection" prefHeight="36.0" prefWidth="100.0" text="Connect" AnchorPane.topAnchor="73.0" />
+                  <Button fx:id="connectButton" layoutX="190.0" layoutY="73.0" mnemonicParsing="false" onAction="#connection" prefHeight="36.0" prefWidth="100.0" text="Connect" AnchorPane.topAnchor="73.0" />
                </children>
             </AnchorPane>
          </children>

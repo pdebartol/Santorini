@@ -37,7 +37,7 @@ public class loginController {
     @FXML
     public void connection(ActionEvent actionEvent) {
         System.out.print("pressed");
-        Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()),(Stage) connectButton.getScene().getWindow(),connectButton.getScene());
+        Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()),(Stage) connectButton.getScene().getWindow(), connectButton.getScene());
         gui.start();
     }
 
