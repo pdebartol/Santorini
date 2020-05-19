@@ -22,9 +22,7 @@ public class loginController {
     private Button connectButton;
 
 
-    @FXML
-    public void connection(MouseEvent event) throws IOException {
-    }
+
 
     private String getIpAddress() {
         return ipAddress.getText();
@@ -34,8 +32,8 @@ public class loginController {
         return port.getText();
     }
 
-    @FXML
-    public void connection(javafx.scene.input.MouseEvent mouseEvent) {
+
+    public void connection(ActionEvent actionEvent) {
         Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()),(Stage) connectButton.getScene().getWindow(),connectButton.getScene());
         gui.start();
         gui.showLoginUsername();
