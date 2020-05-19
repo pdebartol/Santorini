@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class loginController {
@@ -22,7 +23,7 @@ public class loginController {
 
 
     @FXML
-    public void connection(ActionEvent actionEvent) throws IOException {
+    public void connection(MouseEvent event) throws IOException {
         Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()),(Stage) connectButton.getScene().getWindow(),connectButton.getScene());
         gui.start();
         gui.showLoginUsername();
