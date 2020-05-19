@@ -30,7 +30,6 @@ public class EchoClient {
     private final String hostName;
     private final int port;
     private Socket server;
-    Future processMsgThread;
     private final View view;
 
     private Document msgIn;
@@ -42,7 +41,6 @@ public class EchoClient {
         this.port = port;
         this.view = view;
         this.msgIn = null;
-        this.processMsgThread = null;
     }
 
     //methods
@@ -56,8 +54,6 @@ public class EchoClient {
 
         initializeClientConnection();
 
-        ExecutorService executor = Executors.newCachedThreadPool();
-
         try {
             InputStream in = server.getInputStream();
 
@@ -66,10 +62,9 @@ public class EchoClient {
                 receiveXML(in);
 
                 if(isDisconnectionMessage()){
-                    abortMsgProcessing(processMsgThread);
                     break;
                 }else{
-                    processMsgThread = executor.submit(this::processMsg);
+                    processMsg();
                 }
             }
 
@@ -77,8 +72,6 @@ public class EchoClient {
             server.close();
         }catch (IOException | SAXException | ParserConfigurationException e){
             if (!server.isClosed()) serverDisconnection();
-        }finally {
-            executor.shutdown();
         }
     }
 
@@ -114,12 +107,6 @@ public class EchoClient {
         msgIn = docBuilder.parse(xmlIn);
     }
 
-    //TODO : javadoc
-
-    private void abortMsgProcessing(Future thread){
-        if (thread != null) thread.cancel(true);
-    }
-
     /**
      * This method verify if the message mode is "disconnection".
      * @return true -> "disconnection" message mode
@@ -152,7 +139,6 @@ public class EchoClient {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        abortMsgProcessing(processMsgThread);
         view.showServerDisconnection();
     }
 
@@ -164,7 +150,6 @@ public class EchoClient {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        abortMsgProcessing(processMsgThread);
         view.showAnotherClientDisconnection();
     }
 

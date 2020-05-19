@@ -25,12 +25,14 @@ import java.util.concurrent.*;
 public class Cli extends View {
 
     private final String icon = Unicode.WORKER_ICON.escape();
+    ExecutorService inputExecutor;
+    Future<String> inputThread;
     private String state;
 
     public Cli(){
         super();
+        inputExecutor = Executors.newSingleThreadExecutor();
         cliSetup();
-        state = "SETUP";
     }
 
     /**
@@ -38,6 +40,7 @@ public class Cli extends View {
      */
 
     public void cliSetup(){
+        state = "SETUP";
         System.out.print(Escapes.CLEAR_ENTIRE_SCREEN.escape());
         printStartTemplate();
         gameSetup();
@@ -193,6 +196,7 @@ public class Cli extends View {
 
     @Override
     public void showAnotherClientDisconnection() {
+        abortInputProcessing();
         if(state.equals("SETUP")) printInStartTextBox("A client has disconnected from the game, the match has been deleted! Do you want to try to search a new game? (s/n)");
         else printInGameTextBox("A client has disconnected from the game, the match has been deleted! Do you want to try to search a new game? (s/n)");
         String input;
@@ -211,6 +215,7 @@ public class Cli extends View {
 
     @Override
     public void showDisconnectionForLobbyNoLongerAvailable() {
+        abortInputProcessing();
         printInStartTextBox("too long, the lobby you were entered into has already started! Do you want to try to search a new game? (s/n)");
         String input;
         do{
@@ -228,6 +233,7 @@ public class Cli extends View {
 
     @Override
     public void showServerDisconnection() {
+        abortInputProcessing();
         if(state.equals("SETUP")) printInStartTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
         else printInGameTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
         String input;
@@ -648,8 +654,14 @@ public class Cli extends View {
 
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
         System.out.print(">");
-        return InputCli.readLine();
-
+        inputThread = inputExecutor.submit(InputCli::readLine);
+        String input = "";
+        try {
+            input = inputThread.get();
+        } catch (InterruptedException | ExecutionException e) {
+            return "";
+        }
+        return input;
     }
 
     //TODO : javadoc
@@ -659,11 +671,10 @@ public class Cli extends View {
         System.out.print(">");
         String input = "";
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Future<String> result = executor.submit(InputCli::readLine);
+        inputThread = inputExecutor.submit(InputCli::readLine);
 
         try {
-            input = result.get(timeout, unit);
+            input = inputThread.get(timeout, unit);
         } catch (InterruptedException | TimeoutException | ExecutionException e) {
             return "expiredTimeout";
         }
@@ -1135,6 +1146,12 @@ public class Cli extends View {
     private boolean endTurn(){
         //TODO check if turn is over
         return false;
+    }
+
+    //TODO : javadoc
+
+    private void abortInputProcessing(){
+        if (inputThread != null) inputThread.cancel(true);
     }
 
 }
