@@ -24,6 +24,7 @@ public class LoginUsernameController {
         gui.sendLoginRequest(getUsername());
     }
 
+
     public void setGui(Gui gui) {
         this.gui = gui;
     }

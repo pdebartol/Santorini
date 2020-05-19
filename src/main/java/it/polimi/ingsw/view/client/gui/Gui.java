@@ -18,13 +18,11 @@ public class Gui extends View {
     private Scene loginUserScene;
     private Scene loginWaitScene;
 
-    private Stage stage;
-    private Scene scene;
+    private Stage primaryStage;
 
-    public Gui (String ip, int port,Stage stage, Scene login){
+    public Gui (String ip, int port,Stage stage){
         super(ip,port);
-        this.stage = stage;
-        this.scene = login;
+        this.primaryStage = stage;
         initLoginUsername();
         initLoginWait();
 
@@ -67,11 +65,18 @@ public class Gui extends View {
 
     @Override
     public void setUsername(boolean rejectedBefore) {
-        Platform.runLater(
-                () -> {
-                    stage.setScene(loginUserScene);
-                    stage.show();
-                });
+        // the server is asking for the username for the first time
+        if(!rejectedBefore){
+            Platform.runLater(
+                    () -> {
+                        primaryStage.setScene(loginUserScene);
+                        primaryStage.show();
+                    });
+        }
+        // username was rejected
+        else{
+        }
+
     }
 
     @Override
@@ -88,8 +93,8 @@ public class Gui extends View {
     public void showLoginDone() {
         Platform.runLater(
                 () -> {
-                    stage.setScene(loginWaitScene);
-                    stage.show();
+                    primaryStage.setScene(loginWaitScene);
+                    primaryStage.show();
                 });
 
     }

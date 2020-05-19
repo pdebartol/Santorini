@@ -1,17 +1,17 @@
 package it.polimi.ingsw.view.client.gui;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-import java.awt.event.MouseEvent;
-import java.io.IOException;
+
+/**
+ * This Class is the controller for the initial connection scene.
+ * @author pierobartolo
+ */
 
 public class loginConnectionController {
 
@@ -25,23 +25,27 @@ public class loginConnectionController {
     private Button connectButton;
 
 
+
+    /**
+     * This method is called when the connect button is pressed.
+     * It starts a new thread which handles the connection with the server.
+     * @param actionEvent
+     */
+
+    @FXML
+    public void connection(ActionEvent actionEvent) {
+        Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()), (Stage) connectButton.getScene().getWindow());
+        Thread th = new Thread(gui::start);
+        th.start();
+
+    }
+
     private String getIpAddress() {
         return ipAddress.getText();
     }
 
     private String getPort() {
         return port.getText();
-    }
-
-
-    @FXML
-    public void connection(ActionEvent actionEvent) {
-        Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()), (Stage) connectButton.getScene().getWindow(), connectButton.getScene());
-        Thread th = new Thread(() -> {
-            gui.start();
-        });
-        th.start();
-
     }
 }
 
