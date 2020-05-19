@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane fx:controller="it.polimi.ingsw.view.client.gui.loginController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="480.0" style="-fx-background-color: #0083bd;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="480.0" style="-fx-background-color: #0083bd;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.client.gui.loginController">
    <children>
       <GridPane layoutX="119.0" layoutY="221.0" prefHeight="640.0" prefWidth="480.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -51,7 +50,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                <children>
-                  <Button fx:id="connectButton" layoutX="190.0" layoutY="73.0" mnemonicParsing="false" onAction="#connection" prefHeight="36.0" prefWidth="100.0" text="Connect" AnchorPane.topAnchor="73.0" />
+                  <Button fx:id="connectButton" layoutX="190.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#connection" prefHeight="36.0" prefWidth="100.0" text="Connect" AnchorPane.topAnchor="73.0" />
                </children>
             </AnchorPane>
          </children>
