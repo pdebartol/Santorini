@@ -93,9 +93,9 @@
         <plugin>
           <groupId>org.openjfx</groupId>
           <artifactId>javafx-maven-plugin</artifactId>
-          <version>0.0.4</version>
+          <version>0.0.3</version>
           <configuration>
-            <mainClass>it.polimi.ingsw.Main</mainClass>
+            <mainClass>org.openjfx.App</mainClass>
           </configuration>
         </plugin>
       </plugins>

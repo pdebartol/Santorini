@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.client.gui;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -83,5 +84,14 @@ public class GameController {
 
         imageToDrag.setImage(null);
 
+    }
+
+    public void showOtherPlayerInformation(ActionEvent actionEvent) {
+    }
+
+    public void nextPlayer(ActionEvent actionEvent) {
+    }
+
+    public void showPrevPlayer(ActionEvent actionEvent) {
     }
 }

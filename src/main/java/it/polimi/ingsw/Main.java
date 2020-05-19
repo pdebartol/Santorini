@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.server.EchoServer;
 import it.polimi.ingsw.view.client.cli.Cli;
 import it.polimi.ingsw.view.client.gui.Gui;
 import it.polimi.ingsw.view.client.gui.GuiManager;
+import javafx.application.Application;
 
 //TODO : javadoc
 
@@ -37,8 +38,10 @@ public class Main {
 
         if(args.length == 2 && args[1].equals("-cli"))
             new Cli();
-        else
-           new  GuiManager().startGui();
+        else {
+            //new  GuiManager().startGui();
+            Application.launch(GuiManager.class);
+        }
     }
 
 }
