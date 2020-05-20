@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 /**
@@ -154,6 +155,11 @@ public class Gui extends View {
     }
 
     @Override
+    public void selectGod() {
+
+    }
+
+    @Override
     public void showLoginDone() {
         String infoMessage = "Hi " + myPlayer.getUsername() + ", you're in!";
 
@@ -211,6 +217,16 @@ public class Gui extends View {
 
     @Override
     public void showMatchStarted() {
+
+    }
+
+    @Override
+    public void showGodsChoiceDone(ArrayList<Integer> ids) {
+
+    }
+
+    @Override
+    public void showGodsChallengerSelected(String username, ArrayList<Integer> ids) {
 
     }
 

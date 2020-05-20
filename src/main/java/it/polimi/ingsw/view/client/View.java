@@ -77,6 +77,10 @@ public abstract class View {
 
     public abstract void selectGods();
 
+    //TODO : javadoc
+
+    public abstract void selectGod();
+
     //update method
 
     //TODO : javadoc
@@ -98,6 +102,18 @@ public abstract class View {
         showNewUserLogged(username,color);
     }
 
+    //TODO : javadoc
+
+    public void updateMyGodSelected(int id){
+        myPlayer.setGod(getGodById(id));
+    }
+
+    //TODO : javadoc
+
+    public void updateGodSelected(String username, int id){
+        getPlayerByUsername(username).setGod(getGodById(id));
+    }
+
     //disconnection methods
 
     //TODO : javadoc
@@ -109,6 +125,8 @@ public abstract class View {
     public void disconnectionForLobbyNoLongerAvailable(){
         clientHandler.disconnectionForLobbyNoLongerAvailable();
     }
+
+    //TODO : javadoc
 
     public void disconnectionForInputExpiredTimeout(){clientHandler.disconnectionForTimeout();}
 
@@ -130,6 +148,14 @@ public abstract class View {
     //TODO : javadoc
 
     public abstract void showMatchStarted();
+
+    //TODO : javadoc
+
+    public abstract void showGodsChoiceDone(ArrayList<Integer> ids);
+
+    //TODO : javadoc
+
+    public abstract void showGodsChallengerSelected(String username, ArrayList<Integer> ids);
 
     //TODO : javadoc
 
@@ -211,6 +237,24 @@ public abstract class View {
 
     public void sendEndOfTurnRequest(){
         clientHandler.sendMsg(new RequestMsgWriter().endOfTurnRequest(myPlayer.getUsername()));
+    }
+
+    //support methods
+
+    public God getGodById(int id){
+        for(God god : gods) {
+            if (god.getId() == id) return god;
+        }
+
+        return null;
+    }
+
+    public Player getPlayerByUsername(String username){
+        for(Player p : players){
+            if(p.getUsername().equals(username)) return p;
+        }
+
+        return null;
     }
 
 }

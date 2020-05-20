@@ -160,9 +160,20 @@ public class Cli extends View {
                         break;
 
                     case "t":
-                        godsId.add(gods.get(i).getId());
-                        if((players.size() + 1 - godsId.size()) > 0) {
-                            printInGameTextBox("You have to choose " + (players.size() + 1 - godsId.size()) + " more gods. Press enter to continue...");
+                        if(!godsId.contains(gods.get(i).getId())){
+                            godsId.add(gods.get(i).getId());
+
+                            if((players.size() + 1 - godsId.size()) > 0) {
+                                printInGameTextBox("You have to choose " + (players.size() + 1 - godsId.size()) + " more gods. Press enter to continue...");
+                                inputWithTimeout();
+                                printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
+                                appendInGameTextBox(gods.get(i).getDescription());
+                            }else{
+                                printInGameTextBox("Loading...");
+                            }
+                        }
+                        else{
+                            printInGameTextBox("This god has already been chosen! Press enter to continue...");
                             inputWithTimeout();
                             printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
                             appendInGameTextBox(gods.get(i).getDescription());
@@ -177,16 +188,15 @@ public class Cli extends View {
                 if(Thread.interrupted()) return;
             }
 
-            printInGameTextBox("Good choice! you will receive the left God from other choices.");
-
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                return;
-            }
-
             if (!Thread.interrupted()) sendCreateGodsRequest(godsId);
         });
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void selectGod() {
+
     }
 
     //TODO : javadoc
@@ -224,6 +234,9 @@ public class Cli extends View {
                 break;
             case "createGods":
                 printInGameTextBox(author + " is the challenger, he is choosing " + (players.size() + 1) + " divinities for this game...");
+                break;
+            case "choseGod":
+                appendInGameTextBox(author + " is choosing the god to use for this game...");
         }
     }
 
@@ -241,6 +254,34 @@ public class Cli extends View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void showGodsChoiceDone(ArrayList<Integer> ids) {
+        StringBuilder output = new StringBuilder();
+        output.append("You have chosen the following gods : ").append(getGodById(ids.get(0)).getName());
+        for(int i = 1; i < ids.size(); i++){
+            output.append(", ").append(getGodById(ids.get(i)).getName());
+        }
+
+        output.append(". You will receive the last god left after choosing the other players.");
+
+        printInGameTextBox(output.toString());
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void showGodsChallengerSelected(String username, ArrayList<Integer> ids) {
+        StringBuilder output = new StringBuilder();
+        output.append(username + " has chosen the following gods : ").append(getGodById(ids.get(0)).getName());
+        for(int i = 1; i < ids.size(); i++){
+            output.append(", ").append(getGodById(ids.get(i)).getName());
+        }
+
+        printInGameTextBox(output.toString());
     }
 
     //TODO : javadoc
@@ -328,6 +369,8 @@ public class Cli extends View {
             cliSetup();
         } else System.exit(0);
     }
+
+    //TODO : javadoc
 
     @Override
     public void showDisconnectionForInputExpiredTimeout() {
