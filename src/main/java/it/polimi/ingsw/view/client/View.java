@@ -31,6 +31,10 @@ public abstract class View {
     }
 
     public View(String ip, int port){
+        myPlayer = null;
+        players = new ArrayList<>();
+        gameBoard = new Board();
+        gods = new GodsGenerator().getGods();
         myIp = ip;
         myPort = port;
     }

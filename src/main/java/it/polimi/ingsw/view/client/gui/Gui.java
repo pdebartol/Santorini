@@ -75,6 +75,8 @@ public class Gui extends View {
         }
         // username was rejected
         else{
+            Platform.runLater(
+                    () -> loginUserController.notifyAlreadyInUse());
         }
 
     }

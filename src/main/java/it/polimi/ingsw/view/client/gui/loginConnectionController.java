@@ -29,15 +29,14 @@ public class loginConnectionController {
     /**
      * This method is called when the connect button is pressed.
      * It starts a new thread which handles the connection with the server.
-     * @param actionEvent
      */
 
     @FXML
     public void connection(ActionEvent actionEvent) {
-        Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()), (Stage) connectButton.getScene().getWindow());
-        Thread th = new Thread(gui::start);
-        th.start();
-
+            new Thread(() ->{
+                Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()), (Stage) connectButton.getScene().getWindow());
+                gui.start();
+            }){{start();}};
     }
 
     private String getIpAddress() {
