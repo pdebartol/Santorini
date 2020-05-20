@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.client.gui;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Control;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
@@ -46,8 +47,10 @@ public class GameController {
         Dragboard db = dragEvent.getDragboard();
         boolean success = false;
 
+        ImageView test = ((ImageView)dragEvent.getSource());
+
         if(db.hasImage()){
-            targetSquare.setImage(imageToDrag.getImage());
+            test.setImage(db.getImage());
             success = true;
         }
 
@@ -73,16 +76,17 @@ public class GameController {
 
     public void startChangingPosition(MouseEvent mouseEvent) {
 
-        Dragboard db = imageToDrag.startDragAndDrop(TransferMode.MOVE);
+        ImageView test = ((ImageView)mouseEvent.getSource());
+        Dragboard db = test.startDragAndDrop(TransferMode.MOVE);
         ClipboardContent content = new ClipboardContent();
-        content.putImage(imageToDrag.getImage());
+        content.putImage(test.getImage());
         db.setContent(content);
 
     }
 
     public void dragDoneMethod(DragEvent dragEvent) {
 
-        imageToDrag.setImage(null);
+        ((ImageView)dragEvent.getSource()).setImage(null);
 
     }
 
