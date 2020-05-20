@@ -76,7 +76,6 @@ public class ClientHandler implements Runnable{
                 if(isEndMode()){
                     break;
                 }else{
-                    //create a thread to execute the request
                     processRequest();
                 }
             }

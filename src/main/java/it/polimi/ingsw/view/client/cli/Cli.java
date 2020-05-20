@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.client.cli.graphicComponents.Unicode;
 import it.polimi.ingsw.view.client.viewComponents.*;
 import it.polimi.ingsw.view.client.viewComponents.Square;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.*;
@@ -111,10 +112,7 @@ public class Cli extends View {
             });
         } else {
             appendInStartTextBox("You are currently 3 players in the game, press enter to start the game now! The match will automatically start in 2 minutes");
-            inputThread = inputExecutor.submit(() -> {
-                inputWithTimeout(2, TimeUnit.MINUTES);
-                sendStartGameRequest();
-            });
+            inputThread = inputExecutor.submit((Runnable) this::inputWithTimeoutStartMatch);
         }
 
 
@@ -128,27 +126,24 @@ public class Cli extends View {
             ArrayList<Integer> godsId = new ArrayList<>();
             int i = 0;
 
-            //TODO get god from server and put them in the ArrayList
-            //TODO get other players' username and put them in the ArrayList (included the active player)
-
             printInGameTextBox("You are the challenger! Now you have to chose " + (players.size() + 1) + " Gods for this match! Wait...");
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                return;
             }
             printInGameTextBox("The list of Santorini Gods will be shown, write \"t\" to select the God shown, \"n\" to go to next God's card, \"p\" to go to previously God's card" +
                     ". Press enter to continue...");
-            input();
+            inputWithTimeout();
 
-            if(Thread.interrupted()) return;
+            if(!Thread.interrupted()) {
+                printInGameTextBox(gods.get(0).getId() + " " + gods.get(0).getName());
+                appendInGameTextBox(gods.get(0).getDescription());
+            }
 
-            printInGameTextBox(gods.get(0).getId() + " " + gods.get(0).getName());
-            appendInGameTextBox(gods.get(0).getDescription());
+            while (godsId.size() < (players.size() + 1)) {
 
-            while (godsId.size() < (players.size() + 1) && !Thread.interrupted()) {
-
-                switch (input()) {
+                switch (inputWithTimeout()) {
 
                     case "n":
                         if(i < gods.size() - 1) i++;
@@ -168,27 +163,29 @@ public class Cli extends View {
                         godsId.add(gods.get(i).getId());
                         if((players.size() + 1 - godsId.size()) > 0) {
                             printInGameTextBox("You have to choose " + (players.size() + 1 - godsId.size()) + " more gods. Press enter to continue...");
-                            input();
+                            inputWithTimeout();
                             printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
                             appendInGameTextBox(gods.get(i).getDescription());
                         }
                         break;
-                }
-            }
 
-            if(Thread.interrupted()) return;
+                    case "timeoutExpired" :
+                        clientHandler.disconnectionForTimeout();
+
+                }
+
+                if(Thread.interrupted()) return;
+            }
 
             printInGameTextBox("Good choice! you will receive the left God from other choices.");
 
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                return;
             }
 
-            if(Thread.interrupted()) return;
-
-            sendCreateGodsRequest(godsId);
+            if (!Thread.interrupted()) sendCreateGodsRequest(godsId);
         });
     }
 
@@ -286,6 +283,9 @@ public class Cli extends View {
 
         if (input.equals("s")) {
             newGame();
+            state = "SETUP";
+            eraseThings("all");
+            printStartTemplate();
             start();
         } else System.exit(0);
     }
@@ -303,6 +303,9 @@ public class Cli extends View {
 
         if (input.equals("s")) {
             newGame();
+            state = "SETUP";
+            eraseThings("all");
+            printStartTemplate();
             start();
         } else System.exit(0);
     }
@@ -322,7 +325,7 @@ public class Cli extends View {
 
         if (input.equals("s")) {
             newGame();
-            gameSetup();
+            cliSetup();
         } else System.exit(0);
     }
 
@@ -342,6 +345,9 @@ public class Cli extends View {
 
         if (input.equals("s")) {
             newGame();
+            state = "SETUP";
+            eraseThings("all");
+            printStartTemplate();
             start();
         } else System.exit(0);
     }
@@ -498,22 +504,6 @@ public class Cli extends View {
             } else
                 System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
         }
-
-        //draw the players vertical line
-
-        /*
-        System.out.print(Escapes.CURSOR_HOME_0x0.escape());
-        System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
-        System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_HORIZONTAL.escape());
-        System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.TEXT_START.escape());
-        System.out.println("Players");
-        for (int i = 1; i < (Box.TEXT_BOX_START.escape() - 1) ; i++) {
-            System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
-            System.out.println(Unicode.BOX_DRAWINGS_HEAVY_VERTICAL.escape());
-        }
-        System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
-        System.out.println(Unicode.BOX_DRAWINGS_HEAVY_UP_AND_HORIZONTAL.escape());
-         */
 
         //draw player box
 
@@ -735,18 +725,35 @@ public class Cli extends View {
 
     //TODO : javadoc
 
-    public String inputWithTimeout(int timeout, TimeUnit unit) {
+    public String inputWithTimeout() {
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
         System.out.print(">");
-        String input;
+        String input = "";
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<String> result = executor.submit(InputCli::readLine);
 
         try {
-            input = result.get(timeout, unit);
+            input = result.get(2, TimeUnit.MINUTES);
         } catch (TimeoutException | InterruptedException | ExecutionException e) {
-            return "timeoutExpired";
+            disconnectionForInputExpiredTimeout();
+        }
+
+        return input;
+    }
+
+    public String inputWithTimeoutStartMatch(){
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
+        System.out.print(">");
+        String input = "";
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> result = executor.submit(InputCli::readLine);
+
+        try {
+            input = result.get(2, TimeUnit.MINUTES);
+        } catch (TimeoutException | InterruptedException | ExecutionException e) {
+            sendStartGameRequest();
         }
 
         return input;
@@ -1092,9 +1099,10 @@ public class Cli extends View {
 
     private void abortInputProcessing() {
         if (inputThread != null) inputThread.cancel(true);
-    }
-
-    private boolean timeoutExpiredCheck(String input) {
-        return input.equals("timeoutExpired");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

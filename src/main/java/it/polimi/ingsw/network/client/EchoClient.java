@@ -54,24 +54,24 @@ public class EchoClient {
 
         initializeClientConnection();
 
-        try {
-            InputStream in = server.getInputStream();
+        if(server != null)
+            try {
+                InputStream in = server.getInputStream();
 
-            while(true) {
-                receiveXML(in);
+                while(!server.isClosed()) {
+                    receiveXML(in);
 
-                if(isDisconnectionMessage()){
-                    break;
-                }else{
-                    processMsg();
+                    if(isDisconnectionMessage()){
+                        break;
+                    }else{
+                        processMsg();
+                    }
                 }
-            }
 
-            in.close();
-            server.close();
-        }catch (IOException | SAXException | ParserConfigurationException e){
-            if (!server.isClosed()) serverDisconnection();
-        }
+                in.close();
+            }catch (IOException | SAXException | ParserConfigurationException e){
+                if (!server.isClosed()) serverDisconnection();
+            }
     }
 
     /**
@@ -135,6 +135,7 @@ public class EchoClient {
     public void serverDisconnection(){
         try {
             server.close();
+            server = null;
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -146,6 +147,7 @@ public class EchoClient {
     public void anotherClientDisconnection(){
         try {
             server.close();
+            server = null;
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -157,6 +159,7 @@ public class EchoClient {
     public void disconnectionForTimeout(){
         try {
             server.close();
+            server = null;
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
