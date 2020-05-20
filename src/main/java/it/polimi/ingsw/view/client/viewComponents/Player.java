@@ -17,7 +17,7 @@ public class Player {
         this.workers.add(new Worker(color, "male"));
         this.workers.add(new Worker(color, "female"));
         this.loser = false;
-        this.god = null;
+        this.god = new God(0,"not yet chosen","null");
     }
 
 

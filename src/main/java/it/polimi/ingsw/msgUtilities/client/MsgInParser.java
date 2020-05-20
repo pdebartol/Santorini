@@ -262,14 +262,13 @@ public class MsgInParser {
         String action = Objects.requireNonNull(evaluateXPath("/ToDo/Action/text()")).get(0);
         switch(action){
             case "login":
-                //TEST
-                view.setUsername(true);
-                //TODO notify view
+                view.setUsername(false);
                 break;
             case "canStartMatch":
-                //TEST
                 view.startMatch();
-                //TODO notify view
+                break;
+            case "createGods":
+                view.selectGods();
                 break;
             case "choseStartingPlayer":
                 //TODO notify view
@@ -283,8 +282,7 @@ public class MsgInParser {
             case "wait":
                 String waitFor = Objects.requireNonNull(evaluateXPath("/ToDo/Info/WaitFor/text()")).get(0);
                 String inActionPlayer = Objects.requireNonNull(evaluateXPath("/ToDo/Info/InActionPlayer/text()")).get(0);
-                if (waitFor.equals("startMatch")) view.showWaitMessage(waitFor,inActionPlayer);
-                //TODO notify view with info
+                view.showWaitMessage(waitFor,inActionPlayer);
                 break;
             case "yourTurn":
                 String possibleOperation = Objects.requireNonNull(evaluateXPath("/ToDo/Info/possibleOperation/text()")).get(0);
