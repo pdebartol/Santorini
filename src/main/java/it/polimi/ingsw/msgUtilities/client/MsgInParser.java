@@ -83,11 +83,9 @@ public class MsgInParser {
                 break;
             case "createGods" :
                 ArrayList<Integer> ids = new ArrayList<>();
-                for(int i = 1; i <= 3; ++i){
-                    int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/Gods/God[@n=" + i + "]/text()")).get(0));
-                    if(id != 0) ids.add(id);
+                for(int i = 0; i < view.getPlayerNumber(); i++){
+                    ids.add(Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/Gods/God[@n=\"" + i + "\"]/text()")).get(0)));
                 }
-                System.out.println("oK");
                 view.showGodsChallengerSelected(username,ids);
                 break;
             case "choseGod" :
@@ -171,11 +169,9 @@ public class MsgInParser {
             case "createGods" :
                 if(outcome.equals("accepted")){
                     ArrayList<Integer> ids = new ArrayList<>();
-                    for(int i = 1; i <= 3; ++i){
-                        int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/Gods/God[@n=" + i + "]/text()")).get(0));
-                        if(id != 0) ids.add(id);
+                    for(int i = 0; i < view.getPlayerNumber(); i++){
+                        ids.add(Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/Gods/God[@n=\"" + i + "\"]/text()")).get(0)));
                     }
-                    System.out.println("OK");
                     view.showGodsChoiceDone(ids);
                 }
                 else{
@@ -290,12 +286,12 @@ public class MsgInParser {
                 break;
             case "choseGod":
                 NodeList gods = document.getElementsByTagName("God");
-                ArrayList<String> godIds = new ArrayList<>();
-                for(int i=0;i< gods.getLength(); i++){
-                    godIds.add(gods.item(i).getNodeValue());
+                ArrayList<Integer> godIds = new ArrayList<>();
+                for(int i=0; i< gods.getLength(); i++){
+                    godIds.add(Integer.parseInt(gods.item(i).getTextContent()));
                 }
 
-                view.selectGod();
+                view.selectGod(godIds);
         }
 
     }

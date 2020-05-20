@@ -13,6 +13,7 @@ import it.polimi.ingsw.view.client.viewComponents.Square;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -195,8 +196,55 @@ public class Cli extends View {
     //TODO : javadoc
 
     @Override
-    public void selectGod() {
+    public void selectGod(List<Integer> ids) {
+        if(ids.size() == 1) {
+            printInGameTextBox("The last god left is " + getGodById(ids.get(0)).getName() + " and he will be your god for this game");
+            sendChooseGodRequest(ids.get(0));
+        }else{
+            printInGameTextBox("It's your turn to choose! To discover the gods you can choose press enter ...");
+            inputWithTimeout();
 
+            printInGameTextBox("Write \"t\" to select the God shown, \"n\" to go to next God's card, \"p\" to go to previously God's card" +
+                    ". Press enter to continue...");
+            inputWithTimeout();
+
+            int godId = 0, i = 0;
+
+            if(!Thread.interrupted()) {
+                printInGameTextBox(getGodById(ids.get(0)).getId() + " " + getGodById(ids.get(0)).getName());
+                appendInGameTextBox(getGodById(ids.get(0)).getDescription());
+            }
+
+            while (godId == 0) {
+
+                switch (inputWithTimeout()) {
+
+                    case "n":
+                        if(i < ids.size() - 1) i++;
+                        else i = 0;
+                        printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
+                        appendInGameTextBox(getGodById(ids.get(i)).getDescription());
+                        break;
+
+                    case "p":
+                        if(i > 0) i--;
+                        else i = ids.size() - 1;
+                        printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
+                        appendInGameTextBox(getGodById(ids.get(i)).getDescription());
+                        break;
+
+                    case "t":
+                        godId = getGodById(i).getId();
+                        printInGameTextBox("Loading...");
+                        break;
+                    case "timeoutExpired" :
+                        clientHandler.disconnectionForTimeout();
+                }
+                if(Thread.interrupted()) return;
+            }
+
+            if (!Thread.interrupted()) sendChooseGodRequest(godId);
+        }
     }
 
     //TODO : javadoc
@@ -236,7 +284,7 @@ public class Cli extends View {
                 printInGameTextBox(author + " is the challenger, he is choosing " + (players.size() + 1) + " divinities for this game...");
                 break;
             case "choseGod":
-                appendInGameTextBox(author + " is choosing the god to use for this game...");
+                printInGameTextBox(author + " is choosing a god to use for this game...");
         }
     }
 
@@ -268,6 +316,12 @@ public class Cli extends View {
 
         output.append(". You will receive the last god left after choosing the other players.");
 
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         printInGameTextBox(output.toString());
     }
 
@@ -276,12 +330,18 @@ public class Cli extends View {
     @Override
     public void showGodsChallengerSelected(String username, ArrayList<Integer> ids) {
         StringBuilder output = new StringBuilder();
-        output.append(username + " has chosen the following gods : ").append(getGodById(ids.get(0)).getName());
+        output.append(username).append(" has chosen the following gods : ").append(getGodById(ids.get(0)).getName());
         for(int i = 1; i < ids.size(); i++){
             output.append(", ").append(getGodById(ids.get(i)).getName());
         }
 
         printInGameTextBox(output.toString());
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     //TODO : javadoc

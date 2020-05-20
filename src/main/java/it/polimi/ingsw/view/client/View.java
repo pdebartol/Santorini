@@ -79,7 +79,7 @@ public abstract class View {
 
     //TODO : javadoc
 
-    public abstract void selectGod();
+    public abstract void selectGod(List<Integer> ids);
 
     //update method
 
@@ -255,6 +255,10 @@ public abstract class View {
         }
 
         return null;
+    }
+
+    public int getPlayerNumber(){
+        return players.size() + 1;
     }
 
 }

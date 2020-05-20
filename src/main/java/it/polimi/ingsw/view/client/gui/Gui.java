@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -155,7 +156,7 @@ public class Gui extends View {
     }
 
     @Override
-    public void selectGod() {
+    public void selectGod(List<Integer> ids) {
 
     }
 
