@@ -87,7 +87,8 @@ public class MsgInParser {
                     int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/Gods/God[@n=" + i + "]/text()")).get(0));
                     if(id != 0) ids.add(id);
                 }
-                //TODO notify view
+                System.out.println("oK");
+                view.showGodsChallengerSelected(username,ids);
                 break;
             case "choseGod" :
                 int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/godId/text()")).get(0));
@@ -165,7 +166,6 @@ public class MsgInParser {
                 }
                 else{
                     List<String> errors = getErrorList();
-                    //TODO notify view
                 }
                 break;
             case "createGods" :
@@ -175,11 +175,11 @@ public class MsgInParser {
                         int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/Gods/God[@n=" + i + "]/text()")).get(0));
                         if(id != 0) ids.add(id);
                     }
-                    //TODO notify view
+                    System.out.println("OK");
+                    view.showGodsChoiceDone(ids);
                 }
                 else{
                     List<String> errors = getErrorList();
-                    //TODO notify view
                 }
                 break;
             case "choseGod" :
@@ -295,6 +295,7 @@ public class MsgInParser {
                     godIds.add(gods.item(i).getNodeValue());
                 }
 
+                view.selectGod();
         }
 
     }

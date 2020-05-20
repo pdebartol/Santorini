@@ -169,6 +169,6 @@ public class EchoClient {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        view.disconnectionForLobbyNoLongerAvailable();
+        view.showDisconnectionForLobbyNoLongerAvailable();
     }
 }

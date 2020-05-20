@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Gui extends View {
 
@@ -92,6 +93,11 @@ public class Gui extends View {
     }
 
     @Override
+    public void selectGod() {
+
+    }
+
+    @Override
     public void showLoginDone() {
         Platform.runLater(
                 () -> {
@@ -113,6 +119,16 @@ public class Gui extends View {
 
     @Override
     public void showMatchStarted() {
+
+    }
+
+    @Override
+    public void showGodsChoiceDone(ArrayList<Integer> ids) {
+
+    }
+
+    @Override
+    public void showGodsChallengerSelected(String username, ArrayList<Integer> ids) {
 
     }
 
