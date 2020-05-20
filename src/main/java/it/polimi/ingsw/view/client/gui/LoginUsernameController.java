@@ -32,4 +32,9 @@ public class LoginUsernameController {
     private String getUsername(){
         return usernameField.getText();
     }
+
+    private void usernameAlreadyTaken(){
+        textLabel.setText("Username already taken! Insert another username!");
+    }
+
 }

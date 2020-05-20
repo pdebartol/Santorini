@@ -17,12 +17,12 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="playersNameBox" alignment="CENTER" layoutX="116.0" layoutY="38.0" prefHeight="168.0" prefWidth="248.0" text="Players name" textFill="WHITE" AnchorPane.bottomAnchor="38.0" AnchorPane.topAnchor="8.0" />
+                  <Label fx:id="playersNameBox" alignment="CENTER" layoutX="11.0" layoutY="15.0" prefHeight="184.0" prefWidth="457.0" text="Players name" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="15.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Label fx:id="informationBox" alignment="CENTER" layoutX="116.0" layoutY="38.0" prefHeight="168.0" prefWidth="248.0" text="Information" textFill="WHITE" AnchorPane.bottomAnchor="38.0" AnchorPane.topAnchor="38.0" />
+                  <Label fx:id="informationBox" alignment="CENTER" layoutX="11.0" layoutY="10.0" prefHeight="193.0" prefWidth="457.0" text="Information" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="10.0" AnchorPane.topAnchor="10.0" />
                </children>
             </AnchorPane>
             <GridPane GridPane.rowIndex="2">
@@ -36,12 +36,12 @@
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="waitButton" layoutX="94.0" layoutY="94.0" mnemonicParsing="false" onAction="#wait" text="Wait" AnchorPane.rightAnchor="105.6" AnchorPane.topAnchor="94.0" />
+                        <Button fx:id="waitButton" layoutX="69.0" layoutY="87.0" mnemonicParsing="false" onAction="#wait" prefHeight="39.0" prefWidth="102.0" text="Wait" AnchorPane.rightAnchor="69.0" AnchorPane.topAnchor="87.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <Button fx:id="startButton" layoutX="94.0" layoutY="94.0" mnemonicParsing="false" onAction="#starGameNow" text="Start" AnchorPane.leftAnchor="94.0" AnchorPane.topAnchor="94.0" />
+                        <Button fx:id="startButton" layoutX="69.0" layoutY="87.0" mnemonicParsing="false" onAction="#starGameNow" prefHeight="39.0" prefWidth="102.0" text="Start" AnchorPane.leftAnchor="69.0" AnchorPane.topAnchor="87.0" />
                      </children>
                   </AnchorPane>
                </children>
