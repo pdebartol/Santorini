@@ -212,6 +212,7 @@ public class VirtualView implements ViewInterface {
         }
         sendMsg(socket, new AnswerMsgWriter().loginAcceptedAnswer(username, color, players));
 
+        if(clients.size() == 3) lobbyNoLongerAvailable();
         //Send to the first client connected a to do message to starting match
         if(clients.size() == 2 || clients.size() == 3) toDoStartMatch();
     }
@@ -472,8 +473,8 @@ public class VirtualView implements ViewInterface {
                     sendMsg(c, new UpdateMsgWriter().extraUpdate("disconnection"));
                 }
             if (on) clientDisconnectionListener.onClientDown(this);
+            on = false;
         }
-        on = false;
     }
 
     //TODO : javadoc

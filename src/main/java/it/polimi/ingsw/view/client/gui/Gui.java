@@ -142,6 +142,11 @@ public class Gui extends View {
     }
 
     @Override
+    public void showDisconnectionForInputExpiredTimeout() {
+
+    }
+
+    @Override
     public void disconnectionForInputExpiredTimeout() {
 
     }

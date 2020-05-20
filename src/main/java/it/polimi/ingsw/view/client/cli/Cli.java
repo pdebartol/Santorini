@@ -329,10 +329,8 @@ public class Cli extends View {
         } else System.exit(0);
     }
 
-    //TODO : javadoc
-
     @Override
-    public void disconnectionForInputExpiredTimeout() {
+    public void showDisconnectionForInputExpiredTimeout() {
         if (state.equals("SETUP")) printInStartTextBox("The timeout to do your action has expired, " +
                 "you were kicked out of the game! Do you want to try to search a new game? (s/n)");
         else

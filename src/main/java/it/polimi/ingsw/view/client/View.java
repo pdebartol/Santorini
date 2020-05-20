@@ -107,8 +107,10 @@ public abstract class View {
     //TODO : javadoc
 
     public void disconnectionForLobbyNoLongerAvailable(){
-        clientHandler.disconnectionForTimeout();
+        clientHandler.disconnectionForLobbyNoLongerAvailable();
     }
+
+    public void disconnectionForInputExpiredTimeout(){clientHandler.disconnectionForTimeout();}
 
 
     //show methods
@@ -153,7 +155,7 @@ public abstract class View {
 
     //TODO : javadoc
 
-    public abstract void disconnectionForInputExpiredTimeout();
+    public abstract void showDisconnectionForInputExpiredTimeout();
 
     //sendRequest method
 

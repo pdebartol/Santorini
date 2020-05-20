@@ -135,7 +135,6 @@ public class EchoClient {
     public void serverDisconnection(){
         try {
             server.close();
-            server = null;
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -147,7 +146,6 @@ public class EchoClient {
     public void anotherClientDisconnection(){
         try {
             server.close();
-            server = null;
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -159,10 +157,18 @@ public class EchoClient {
     public void disconnectionForTimeout(){
         try {
             server.close();
-            server = null;
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        view.disconnectionForInputExpiredTimeout();
+        view.showDisconnectionForInputExpiredTimeout();
+    }
+
+    public void disconnectionForLobbyNoLongerAvailable(){
+        try {
+            server.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        view.disconnectionForLobbyNoLongerAvailable();
     }
 }
