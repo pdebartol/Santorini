@@ -98,9 +98,7 @@ public abstract class View {
 
     //TODO : javadoc
 
-    public void anotherClientDisconnection(){
-        clientHandler.anotherClientDisconnection();
-    }
+    public void anotherClientDisconnection(){clientHandler.anotherClientDisconnection();}
 
     //TODO : javadoc
 
