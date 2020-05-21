@@ -16,12 +16,12 @@ public class RequestMsgWriter {
 
     private Document document;
 
-    private static final int CHOOSE_STARTER_INDEX = 0;
-    private static final int CREATE_GODS_INDEX = 1;
-    private static final int CHOOSE_GOD_INDEX = 2;
-    private static final int SET_WORKER_INDEX = 3;
-    private static final int MOVE_INDEX = 4;
-    private static final int BUILD_INDEX = 5;
+    private static final int CHOOSE_STARTER_INDEX = 1;
+    private static final int CREATE_GODS_INDEX = 2;
+    private static final int CHOOSE_GOD_INDEX = 3;
+    private static final int SET_WORKER_INDEX = 4;
+    private static final int MOVE_INDEX = 5;
+    private static final int BUILD_INDEX = 6;
 
 
 

@@ -17,7 +17,7 @@ public class Player {
         this.workers.add(new Worker(color, "male"));
         this.workers.add(new Worker(color, "female"));
         this.loser = false;
-        this.god = new God(0,"not yet chosen","null");
+        this.god = new God(0,"...","null");
     }
 
 
@@ -35,6 +35,10 @@ public class Player {
             if (w.getGender().equals(gender)) return w;
         }
         return null;
+    }
+
+    public ArrayList<Worker> getWorkers() {
+        return workers;
     }
 
     public boolean getLoser(){

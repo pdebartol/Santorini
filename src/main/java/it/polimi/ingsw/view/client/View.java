@@ -21,6 +21,8 @@ public abstract class View {
     protected int myPort;
     protected List<God> gods;
 
+    protected Worker removedWorker;
+
     //constructors
 
     public View(){
@@ -28,6 +30,7 @@ public abstract class View {
         players = new ArrayList<>();
         gameBoard = new Board();
         gods = new GodsGenerator().getGods();
+        removedWorker = null;
     }
 
     public View(String ip, int port){
@@ -35,6 +38,7 @@ public abstract class View {
         players = new ArrayList<>();
         gameBoard = new Board();
         gods = new GodsGenerator().getGods();
+        removedWorker = null;
         myIp = ip;
         myPort = port;
     }
@@ -44,7 +48,6 @@ public abstract class View {
     //TODO : javadoc
 
     public void start(){
-        //TODO : delete testLoginClass() and replace it with this
         clientHandler = new EchoClient(myIp,myPort,this);
         clientHandler.start();
     }
@@ -79,7 +82,15 @@ public abstract class View {
 
     //TODO : javadoc
 
-    public abstract void selectGod();
+    public abstract void selectGod(List<Integer> ids);
+
+    //TODO : javadoc
+
+    public abstract void selectStartingPlayer();
+
+    //TODO : javadoc
+
+    public abstract void setWorkerOnBoard(String gender);
 
     //update method
 
@@ -106,12 +117,56 @@ public abstract class View {
 
     public void updateMyGodSelected(int id){
         myPlayer.setGod(getGodById(id));
+        showMyGodSelected();
     }
 
     //TODO : javadoc
 
     public void updateGodSelected(String username, int id){
         getPlayerByUsername(username).setGod(getGodById(id));
+        showGodSelected(username);
+    }
+
+    //TODO : javadoc
+
+    public void updatePlaceMyWorkerOnBoard(String gender, int x, int y){
+        gameBoard.getSquareByCoordinates(x,y).placeWorker(myPlayer.getWorkerByGender(gender));
+
+        showBoard();
+    }
+
+    //TODO : javadoc
+
+    public void updatePlaceWorkerOnBoard(String username, String gender, int x,int y){
+        gameBoard.getSquareByCoordinates(x,y).placeWorker(getPlayerByUsername(username).getWorkerByGender(gender));
+
+        showBoard();
+    }
+
+    //TODO : javadoc
+
+    public void updateWorkerPosition(int startX, int startY, int x, int y){
+        if(removedWorker == null) {
+            if (gameBoard.getSquareByCoordinates(x, y).getWorker() == null)
+                gameBoard.getSquareByCoordinates(x, y).placeWorker(gameBoard.getSquareByCoordinates(startX, startY).removeWorker());
+            else {
+                removedWorker = gameBoard.getSquareByCoordinates(x, y).removeWorker();
+                gameBoard.getSquareByCoordinates(x, y).placeWorker(gameBoard.getSquareByCoordinates(startX, startY).removeWorker());
+            }
+        }else {
+            gameBoard.getSquareByCoordinates(x, y).placeWorker(removedWorker);
+            removedWorker = null;
+        }
+
+        showBoard();
+    }
+
+    //TODO : javadoc
+
+    public void updatePositionLevel(int x, int y, int level){
+        gameBoard.getSquareByCoordinates(x,y).setLevel(level);
+
+        showBoard();
     }
 
     //disconnection methods
@@ -156,6 +211,18 @@ public abstract class View {
     //TODO : javadoc
 
     public abstract void showGodsChallengerSelected(String username, ArrayList<Integer> ids);
+
+    //TODO : javadoc
+
+    public abstract void showMyGodSelected();
+
+    //TODO : javadoc
+
+    public abstract void showGodSelected(String username);
+
+    //TODO : javadoc
+
+    public abstract void showStartingPlayer(String username);
 
     //TODO : javadoc
 
@@ -255,6 +322,10 @@ public abstract class View {
         }
 
         return null;
+    }
+
+    public int getPlayerNumber(){
+        return players.size() + 1;
     }
 
 }

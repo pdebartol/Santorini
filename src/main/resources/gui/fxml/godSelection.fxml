@@ -60,7 +60,7 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                        <children>
-                                          <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="13.0" layoutY="15.0" prefHeight="87.0" prefWidth="217.0" text="Description" textFill="WHITE" />
+                                          <Label fx:id="descriptionLabel" alignment="CENTER" layoutX="13.0" layoutY="15.0" prefHeight="87.0" prefWidth="217.0" text="Description" textFill="WHITE" wrapText="true" />
                                        </children>
                                     </AnchorPane>
                                  </children>

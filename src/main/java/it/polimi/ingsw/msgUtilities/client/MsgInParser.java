@@ -83,26 +83,24 @@ public class MsgInParser {
                 break;
             case "createGods" :
                 ArrayList<Integer> ids = new ArrayList<>();
-                for(int i = 1; i <= 3; ++i){
-                    int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/Gods/God[@n=" + i + "]/text()")).get(0));
-                    if(id != 0) ids.add(id);
+                for(int i = 0; i < view.getPlayerNumber(); i++){
+                    ids.add(Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/Gods/God[@n=\"" + i + "\"]/text()")).get(0)));
                 }
-                System.out.println("oK");
                 view.showGodsChallengerSelected(username,ids);
                 break;
             case "choseGod" :
                 int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/godId/text()")).get(0));
-                //TODO notify view
+                view.updateGodSelected(username,godId);
                 break;
             case "choseStartingPlayer":
                 String starter = Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/StartingPlayer/text()")).get(0);
-                //TODO notify view
+                view.showStartingPlayer(starter);
                 break;
             case "setWorkerOnBoard":
-                String WorkerGender = Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/WorkerGender/text()")).get(0);
+                String workerGender = Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/WorkerGender/text()")).get(0);
                 int x = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/xPosition/text()")).get(0));
                 int y = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/yPosition/text()")).get(0));
-                //TODO notify view
+                view.updatePlaceWorkerOnBoard(username,workerGender,x,y);
                 break;
             case "move":
                 NodeList positionsNode = document.getElementsByTagName("Position");
@@ -171,11 +169,9 @@ public class MsgInParser {
             case "createGods" :
                 if(outcome.equals("accepted")){
                     ArrayList<Integer> ids = new ArrayList<>();
-                    for(int i = 1; i <= 3; ++i){
-                        int id = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/Gods/God[@n=" + i + "]/text()")).get(0));
-                        if(id != 0) ids.add(id);
+                    for(int i = 0; i < view.getPlayerNumber(); i++){
+                        ids.add(Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/Gods/God[@n=\"" + i + "\"]/text()")).get(0)));
                     }
-                    System.out.println("OK");
                     view.showGodsChoiceDone(ids);
                 }
                 else{
@@ -185,30 +181,28 @@ public class MsgInParser {
             case "choseGod" :
                 if(outcome.equals("accepted")){
                     int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/godId/text()")).get(0));
-                    //TODO notify view
+                    view.updateMyGodSelected(godId);
                 }
                 else{
                     List<String> errors = getErrorList();
-                    //TODO notify view
                 }
                 break;
             case "choseStartingPlayer":
                 if(outcome.equals("accepted")){
                     String starter = Objects.requireNonNull(evaluateXPath( "/Answer/Update/StartingPlayer/text()")).get(0);
-                    //TODO notify view
+                    view.showStartingPlayer(starter);
 
                 }
                 else{
                     List<String> errors = getErrorList();
-                    //TODO notify view
                 }
                 break;
             case "setWorkerOnBoard":
                 if(outcome.equals("accepted")){
-                    String WorkerGender = Objects.requireNonNull(evaluateXPath( "/Answer/Update/WorkerGender/text()")).get(0);
+                    String workerGender = Objects.requireNonNull(evaluateXPath( "/Answer/Update/WorkerGender/text()")).get(0);
                     int x = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/xPosition/text()")).get(0));
                     int y = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/yPosition/text()")).get(0));
-                    //TODO notify view
+                    view.updatePlaceMyWorkerOnBoard(workerGender,x,y);
                 }
                 else{
                     List<String> errors = getErrorList();
@@ -271,13 +265,13 @@ public class MsgInParser {
                 view.selectGods();
                 break;
             case "choseStartingPlayer":
-                //TODO notify view
+                view.selectStartingPlayer();
                 break;
             case "setupMaleWorkerOnBoard":
-                //TODO notify view
+                view.setWorkerOnBoard("male");
                 break;
             case "setupFemaleWorkerOnBoard":
-                //TODO notify view
+                view.setWorkerOnBoard("female");
                 break;
             case "wait":
                 String waitFor = Objects.requireNonNull(evaluateXPath("/ToDo/Info/WaitFor/text()")).get(0);
@@ -290,12 +284,11 @@ public class MsgInParser {
                 break;
             case "choseGod":
                 NodeList gods = document.getElementsByTagName("God");
-                ArrayList<String> godIds = new ArrayList<>();
-                for(int i=0;i< gods.getLength(); i++){
-                    godIds.add(gods.item(i).getNodeValue());
+                ArrayList<Integer> godIds = new ArrayList<>();
+                for(int i=0; i< gods.getLength(); i++){
+                    godIds.add(Integer.parseInt(gods.item(i).getTextContent()));
                 }
-
-                view.selectGod();
+                view.selectGod(godIds);
         }
 
     }

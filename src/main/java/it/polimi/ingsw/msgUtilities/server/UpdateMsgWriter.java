@@ -101,8 +101,8 @@ public class UpdateMsgWriter {
         Node updateTag = initializeTagList("Update");
         Node godsTag = appendTag(updateTag,"Gods");
 
-        for(int i = 1; i <= ids.size(); ++i){
-            appendTagWithAttribute(godsTag,"God",String.valueOf(ids.get(i-1)),"n",String.valueOf(i));
+        for(int i = 0; i < ids.size(); i++){
+            appendTagWithAttribute(godsTag,"God",String.valueOf(ids.get(i)),"n",String.valueOf(i));
         }
         return document;
     }

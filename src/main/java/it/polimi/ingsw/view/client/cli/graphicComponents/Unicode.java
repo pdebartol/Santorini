@@ -1,7 +1,8 @@
 package it.polimi.ingsw.view.client.cli.graphicComponents;
 
 public enum Unicode {
-    WORKER_ICON("\u3020"),
+    WORKER_MALE_ICON("\u2642"),
+    WORKER_FEMALE_ICON("\u2640"),
     SQUARE_HORIZONTAL_DIM("        "),
     SQUARE_HORIZONTAL_DIM_MIN1("       "),
     BOX_DRAWINGS_HEAVY_HORIZONTAL("━"),

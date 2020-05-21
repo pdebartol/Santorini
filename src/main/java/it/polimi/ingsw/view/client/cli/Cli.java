@@ -10,9 +10,9 @@ import it.polimi.ingsw.view.client.cli.graphicComponents.Unicode;
 import it.polimi.ingsw.view.client.viewComponents.*;
 import it.polimi.ingsw.view.client.viewComponents.Square;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -23,7 +23,7 @@ import java.util.concurrent.*;
 
 public class Cli extends View {
 
-    private final String icon = Unicode.WORKER_ICON.escape();
+    private final String icon = Unicode.WORKER_MALE_ICON.escape();
     ExecutorService inputExecutor;
     Future inputThread;
     private String state;
@@ -112,7 +112,10 @@ public class Cli extends View {
             });
         } else {
             appendInStartTextBox("You are currently 3 players in the game, press enter to start the game now! The match will automatically start in 2 minutes");
-            inputThread = inputExecutor.submit((Runnable) this::inputWithTimeoutStartMatch);
+            inputThread = inputExecutor.submit(() ->{
+                inputWithTimeoutStartMatch();
+                if(!Thread.interrupted()) sendStartGameRequest();
+            });
         }
 
 
@@ -195,8 +198,92 @@ public class Cli extends View {
     //TODO : javadoc
 
     @Override
-    public void selectGod() {
+    public void selectGod(List<Integer> ids) {
+        if(ids.size() == 1) {
+            appendInGameTextBox("The last god left is " + getGodById(ids.get(0)).getName() + " and he will be your god for this game");
+            sendChooseGodRequest(ids.get(0));
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }else{
+            inputThread = inputExecutor.submit(() -> {
+                appendInGameTextBox("It's your turn to choose! To discover the gods you can choose press enter ...");
+                inputWithTimeout();
 
+                if(!Thread.interrupted()) {
+                    printInGameTextBox("Write \"t\" to select the God shown, \"n\" to go to next God's card, \"p\" to go to previously God's card" +
+                            ". Press enter to continue...");
+                    inputWithTimeout();
+                }
+
+                int godId = 0, i = 0;
+
+                if(!Thread.interrupted()) {
+                    printInGameTextBox(getGodById(ids.get(0)).getId() + " " + getGodById(ids.get(0)).getName());
+                    appendInGameTextBox(getGodById(ids.get(0)).getDescription());
+                }
+
+                while (godId == 0) {
+
+                    switch (inputWithTimeout()) {
+
+                        case "n":
+                            if(i < ids.size() - 1) i++;
+                            else i = 0;
+                            printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
+                            appendInGameTextBox(getGodById(ids.get(i)).getDescription());
+                            break;
+
+                        case "p":
+                            if(i > 0) i--;
+                            else i = ids.size() - 1;
+                            printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
+                            appendInGameTextBox(getGodById(ids.get(i)).getDescription());
+                            break;
+
+                        case "t":
+                            godId = getGodById(ids.get(i)).getId();
+                            printInGameTextBox("Loading...");
+                            break;
+                        case "timeoutExpired" :
+                            clientHandler.disconnectionForTimeout();
+                    }
+                    if(Thread.interrupted()) return;
+                }
+
+                if (!Thread.interrupted()) sendChooseGodRequest(godId);
+            });
+        }
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void selectStartingPlayer() {
+        inputThread = inputExecutor.submit(() -> {
+            printInGameTextBox("As a challenger you can choose who will start the game (yourself too), write starter name...");
+            String starter = inputWithTimeout();
+            while(getPlayerByUsername(starter) == null && !starter.equals(myPlayer.getUsername()) && !Thread.interrupted()) {
+                printInGameTextBox("Insert an existing username...");
+                starter = inputWithTimeout();
+            }
+
+            if(!Thread.interrupted()){
+                printInGameTextBox("Loading...");
+                sendChooseStartingPlayerRequest(starter);
+            }
+        });
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void setWorkerOnBoard(String gender) {
+        inputThread = inputExecutor.submit(() -> {
+
+        });
     }
 
     //TODO : javadoc
@@ -236,7 +323,17 @@ public class Cli extends View {
                 printInGameTextBox(author + " is the challenger, he is choosing " + (players.size() + 1) + " divinities for this game...");
                 break;
             case "choseGod":
-                appendInGameTextBox(author + " is choosing the god to use for this game...");
+                appendInGameTextBox(author + " is choosing a god to use for this game...");
+                break;
+            case "choseStartingPlayer":
+                appendInGameTextBox(author + " is choosing a the starter player...");
+                break;
+            case "setupMaleWorkerOnBoard":
+                printInGameTextBox(author + " is placing his male worker on the board...");
+                break;
+            case "setupFemaleWorkerOnBoard":
+                printInGameTextBox(author + " is placing his female worker on the board...");
+                break;
         }
     }
 
@@ -276,7 +373,7 @@ public class Cli extends View {
     @Override
     public void showGodsChallengerSelected(String username, ArrayList<Integer> ids) {
         StringBuilder output = new StringBuilder();
-        output.append(username + " has chosen the following gods : ").append(getGodById(ids.get(0)).getName());
+        output.append(username).append(" has chosen the following gods : ").append(getGodById(ids.get(0)).getName());
         for(int i = 1; i < ids.size(); i++){
             output.append(", ").append(getGodById(ids.get(i)).getName());
         }
@@ -287,8 +384,45 @@ public class Cli extends View {
     //TODO : javadoc
 
     @Override
-    public void showBoard() {
+    public void showMyGodSelected() {
+        printInGameTextBox("Good choice! Your God is " + myPlayer.getGod().getName() + ".");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
+    //TODO : javadoc
+
+    @Override
+    public void showGodSelected(String username) {
+        printInGameTextBox(username + " has chosen " + getPlayerByUsername(username).getGod().getName() + ".");
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void showStartingPlayer(String username) {
+        if(username.equals(myPlayer.getUsername()))
+            printInGameTextBox("You will be the starter player.");
+        else
+            printInGameTextBox(username + " will be the starter player.");
+
+        appendInGameTextBox("Loading...");
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void showBoard() {
+        printBoard();
     }
 
     //TODO : javadoc
@@ -679,9 +813,66 @@ public class Cli extends View {
 
     public void printBoard() {
 
+        //print Board frame
+
+        /*
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() - 1, Box.BOARD_START_LEFT.escape() - 2);
+
+        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_RIGHT.escape());
+        for (int i = 0; i < 8 * 5 + 4; i++) {
+            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
+            if(i % 8 == 0){
+                System.out.print(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_HORIZONTAL.escape() + Escapes.SAVE_CURSOR_POSITION.escape() + "\n");
+                for (int j = 0; j < 4 * 5 + 4; j++) {
+                    System.out.println(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
+                    System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() + i + 1);
+                    if(j % 4 == 0) {
+                        System.out.println(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL_AND_HORIZONTAL.escape());
+                        System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() + i + 1);
+                    }
+                }
+                System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_HORIZONTAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+            }
+        }
+        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_LEFT.escape());
+
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape(), Box.BOARD_START_LEFT.escape() - 2);
+
+        for (int i = 0; i < 4 * 5 + 4; i++) {
+
+            if (i % 4 == 0){
+                System.out.print(Unicode.BOX_RAWINGS_LIGHT_VERTICAL_AND_RIGHT.escape());
+                for (int j = 0; j < 8 * 5 + 4; j++) {
+                    System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
+                    if(j % 8 == 0)
+                        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL_AND_HORIZONTAL.escape());
+                }
+                System.out.println(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL_AND_LEFT.escape());
+            }
+
+            else
+                System.out.println(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
+
+            System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() - 2);
+        }
+
+        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_RIGHT.escape());
+
+        for (int i = 0; i < 8 * 5 + 4; i++) {
+            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
+            if(i % 8 == 0 )
+                System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_HORIZONTAL.escape());
+        }
+
+        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_LEFT.escape());
+        */
+
+
+
+
         //print 1,2,3,4,5 vertical board reference
         for (int i = Board.DIMENSION, j = 0; i > 0; i--, j += Box.SQUARE_DIMENSION.escape()) {
-            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() + j + 1, Box.BOARD_START_LEFT.escape() - 2);
+            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() + j + 1, Box.BOARD_START_LEFT.escape() - 3);
             System.out.printf("%d", i - 1);
         }
 
@@ -727,8 +918,12 @@ public class Cli extends View {
         }
 
         if (square.getWorker() != null) {
-            System.out.println(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + icon + Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape()
+            if(square.getWorker().getGender().equals("male"))
+                System.out.println(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + Unicode.WORKER_MALE_ICON.escape() + Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape()
                     + Escapes.RESTORE_CURSOR_POSITION.escape());
+            if(square.getWorker().getGender().equals("female"))
+                System.out.println(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + Unicode.WORKER_FEMALE_ICON.escape() + Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape()
+                        + Escapes.RESTORE_CURSOR_POSITION.escape());
             for (int i = 1; i < Box.SQUARE_DIMENSION.escape() - 1; i++) {
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape()
                         + Escapes.RESTORE_CURSOR_POSITION.escape());
@@ -783,7 +978,7 @@ public class Cli extends View {
         return input;
     }
 
-    public String inputWithTimeoutStartMatch(){
+    public void inputWithTimeoutStartMatch(){
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
         System.out.print(">");
         String input = "";
@@ -792,12 +987,11 @@ public class Cli extends View {
         Future<String> result = executor.submit(InputCli::readLine);
 
         try {
-            input = result.get(2, TimeUnit.MINUTES);
+            result.get(2, TimeUnit.MINUTES);
         } catch (TimeoutException | InterruptedException | ExecutionException e) {
             sendStartGameRequest();
         }
 
-        return input;
     }
 
 
@@ -1011,57 +1205,6 @@ public class Cli extends View {
 
     }
 
-    private void chooseGodsAction() {
-
-    }
-
-    private void notChallenger() {
-
-        int i = 0;
-        ArrayList<God> gods = new ArrayList<>();
-
-        //TODO get remaining gods from server that have been previously chosen by challenger
-
-        while (myPlayer.getGod() != null) {
-
-            switch (input()) {
-
-                case "next":
-                    printInStartTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
-                            gods.get(i).getDescription());
-                    i++;
-                    if (i > gods.size()) i = 0;
-                    break;
-
-                case "prev":
-                    i--;
-                    if (i < 0) i = gods.size();
-                    printInStartTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
-                            gods.get(i).getDescription());
-                    break;
-
-                case "this":
-                    printInStartTextBox("Confirm selection of " + gods.get(i) + "? Type \"y\" for yes or anything else for no");
-                    if (input() == "y")
-                        myPlayer.setGod(new God(gods.get(i).getId(), gods.get(i).getName(), gods.get(i).getDescription()));
-                    else {
-                        printInStartTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
-                                gods.get(i).getDescription());
-                    }
-                    break;
-
-                case "show commands":
-                    printInStartTextBox("\"this\" to select God, \"next\" to go to next God's card, \"prev\" to go to previously God's card" +
-                            "\"show command\" to show commands avaiable. Press enter to continue:");
-                    input();
-                    printInStartTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
-                            gods.get(i).getDescription());
-                    break;
-            }
-        }
-
-    }
-
     /**
      * This method represents the move process in the game
      */
@@ -1076,16 +1219,6 @@ public class Cli extends View {
         printInGameTextBox("Select the square where you want to move your worker: (type #,#)");
 
         numbers = Arrays.stream(input().split(",")).mapToInt(Integer::parseInt).toArray();
-
-        //TODO check if input is valid (check via server?)
-
-        //update board after server update
-        //TODO add Apollo case management
-
-        gameBoard.getSquareByCoordinates(numbers[0], numbers[1]).placeWorker(gameBoard.getSquareByCoordinates(workerPosition[0], workerPosition[1]).getWorker());
-        gameBoard.getSquareByCoordinates(workerPosition[0], workerPosition[1]).placeWorker(null);
-
-        eraseThings("text");
 
     }
 
@@ -1118,14 +1251,6 @@ public class Cli extends View {
         printInGameTextBox("Select the square where you want your worker to build: (type #,#)");
 
         numbers = Arrays.stream(input().split(",")).mapToInt(Integer::parseInt).toArray();
-
-        //TODO not necessary to provide the level wanted because it always increment by one, but is this game logic in view?
-
-        //TODO check if input is valid
-
-        //TODO update board
-
-        eraseThings("text");
 
     }
 

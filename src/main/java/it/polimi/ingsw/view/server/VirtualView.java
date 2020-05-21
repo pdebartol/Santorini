@@ -466,7 +466,7 @@ public class VirtualView implements ViewInterface {
 
     //TODO : javadoc
 
-    public void clientDown(Socket disconnectedClient){
+    public synchronized void clientDown(Socket disconnectedClient){
         if(clients.containsValue(disconnectedClient)){
             for(Socket c : clients.values())
                 if(!c.isClosed()) {
