@@ -13,7 +13,8 @@ public class InputValidator {
             "(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\." +
             "(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])";
     private final static String PORT_REGEXP = "(^(1)0[2-9]\\d$)|(^(1)[2-9](\\d{2}$))|(^[2-9](\\d{3}$))|(^[1-6](\\d{4})$)";
-    private final static String USERNAME_REGEXP = "^[A-Za-z0-9_-]{3,15}$";
+    private final static String USERNAME_REGEXP = "^[A-Za-z0-9_-]{3,10}$";
+    private final static String COORDINATES_REGEXP = "^[0-4],[0-4]$";
 
     //methods
 
@@ -32,4 +33,10 @@ public class InputValidator {
     //TODO : javadoc
 
     public static boolean validateUSERNAME(String input){return Pattern.matches(USERNAME_REGEXP,input);}
+
+    //TODO : javadoc
+
+    public static boolean validateCOORDINATES(String input){
+        return Pattern.matches(COORDINATES_REGEXP,input);
+    }
 }

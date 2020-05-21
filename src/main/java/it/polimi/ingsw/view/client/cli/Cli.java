@@ -23,7 +23,6 @@ import java.util.concurrent.*;
 
 public class Cli extends View {
 
-    private final String icon = Unicode.WORKER_MALE_ICON.escape();
     ExecutorService inputExecutor;
     Future inputThread;
     private String state;
@@ -83,12 +82,12 @@ public class Cli extends View {
         if(rejectedBefore)
             output = "Username already used! ";
 
-        output += "Insert your username (must be at least 3 characters long and no more than 15, valid characters: A-Z, a-z, 1-9, _)";
+        output += "Insert your username (must be at least 3 characters long and no more than 10, valid characters: A-Z, a-z, 1-9, _)";
         printInStartTextBox(output);
         inputThread = inputExecutor.submit(() -> {
             String username = input();
             while (!InputValidator.validateUSERNAME(username) && !Thread.interrupted()) {
-                printInStartTextBox("Invalid username! It must be at least 3 characters long and no more than 15, valid characters: A-Z, a-z, 1-9, _, try again!");
+                printInStartTextBox("Invalid username! It must be at least 3 characters long and no more than 10, valid characters: A-Z, a-z, 1-9, _, try again!");
                 username = input();
             }
             sendLoginRequest(username);
@@ -282,7 +281,17 @@ public class Cli extends View {
     @Override
     public void setWorkerOnBoard(String gender) {
         inputThread = inputExecutor.submit(() -> {
+            printInGameTextBox("Enter the coordinates where you want to place your " + gender + " worker (type #,#)...");
+            String input = inputWithTimeout();
+            while(!InputValidator.validateCOORDINATES(input) && !Thread.interrupted()){
+                printInGameTextBox("Invalid coordinates! Please try again (type #,#)...");
+                input = inputWithTimeout();
+            }
 
+            if(!Thread.interrupted()){
+                int[] coordinates = Arrays.stream(input.split(",")).mapToInt(Integer::parseInt).toArray();
+                sendSetWorkerOnBoardRequest(gender,coordinates[0],coordinates[1]);
+            }
         });
     }
 
@@ -363,7 +372,7 @@ public class Cli extends View {
             output.append(", ").append(getGodById(ids.get(i)).getName());
         }
 
-        output.append(". You will receive the last god left after choosing the other players.");
+        output.append(".");
 
         printInGameTextBox(output.toString());
     }
@@ -377,6 +386,8 @@ public class Cli extends View {
         for(int i = 1; i < ids.size(); i++){
             output.append(", ").append(getGodById(ids.get(i)).getName());
         }
+
+        output.append(".");
 
         printInGameTextBox(output.toString());
     }
@@ -470,7 +481,7 @@ public class Cli extends View {
     @Override
     public void showDisconnectionForLobbyNoLongerAvailable() {
         abortInputProcessing();
-        printInStartTextBox("too long, the lobby you were entered into has already started! Do you want to try to search a new game? (s/n)");
+        printInStartTextBox("Too long, the match you were entered into has already started! Do you want to try to search a new game? (s/n)");
         String input;
         do {
             input = input();
@@ -508,6 +519,7 @@ public class Cli extends View {
 
     @Override
     public void showDisconnectionForInputExpiredTimeout() {
+        abortInputProcessing();
         if (state.equals("SETUP")) printInStartTextBox("The timeout to do your action has expired, " +
                 "you were kicked out of the game! Do you want to try to search a new game? (s/n)");
         else
@@ -686,7 +698,7 @@ public class Cli extends View {
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.PLAYER_BOX_START_LINE.escape(), Box.PLAYERS_BOX_START.escape());
         System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_RIGHT.escape());
         for (int i = Box.PLAYERS_BOX_START.escape(); i < (Box.HORIZONTAL_DIM.escape() - 1); i++)
-            if (i == Box.HORIZONTAL_DIM.escape() - 32) {
+            if (i == Box.HORIZONTAL_DIM.escape() - 25) {
                 System.out.print("Players");
                 i += 6;
             } else

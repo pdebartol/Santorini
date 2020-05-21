@@ -135,9 +135,9 @@ public class RequestMsgWriter {
     }
 
     public Document setWorkerOnBoardRequest(String user, String workerGender, Integer xPosition, Integer yPosition){
-        setStandardRequestValues(user,"SetWorkerOnBoard");
+        setStandardRequestValues(user,"setWorkerOnBoard");
         Node updateTag = initializeTagList("Request", SET_WORKER_INDEX);
-        Node position = appendTag(updateTag,"Position","");
+        appendTag(updateTag,"Position","");
 
         appendWorkerPosition(0, workerGender,xPosition.toString(),yPosition.toString());
         return document;
