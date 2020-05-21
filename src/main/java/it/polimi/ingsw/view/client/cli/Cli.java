@@ -23,7 +23,7 @@ import java.util.concurrent.*;
 
 public class Cli extends View {
 
-    private final String icon = Unicode.WORKER_ICON.escape();
+    private final String icon = Unicode.WORKER_MALE_ICON.escape();
     ExecutorService inputExecutor;
     Future inputThread;
     private String state;
@@ -812,10 +812,11 @@ public class Cli extends View {
     //Board methods
 
     public void printBoard() {
+        
 
         //print 1,2,3,4,5 vertical board reference
         for (int i = Board.DIMENSION, j = 0; i > 0; i--, j += Box.SQUARE_DIMENSION.escape()) {
-            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() + j + 1, Box.BOARD_START_LEFT.escape() - 2);
+            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() + j + 1, Box.BOARD_START_LEFT.escape() - 3);
             System.out.printf("%d", i - 1);
         }
 
@@ -861,8 +862,12 @@ public class Cli extends View {
         }
 
         if (square.getWorker() != null) {
-            System.out.println(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + icon + Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape()
+            if(square.getWorker().getGender().equals("male"))
+                System.out.println(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + Unicode.WORKER_MALE_ICON.escape() + Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape()
                     + Escapes.RESTORE_CURSOR_POSITION.escape());
+            if(square.getWorker().getGender().equals("female"))
+                System.out.println(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + Unicode.WORKER_FEMALE_ICON.escape() + Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape()
+                        + Escapes.RESTORE_CURSOR_POSITION.escape());
             for (int i = 1; i < Box.SQUARE_DIMENSION.escape() - 1; i++) {
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape()
                         + Escapes.RESTORE_CURSOR_POSITION.escape());

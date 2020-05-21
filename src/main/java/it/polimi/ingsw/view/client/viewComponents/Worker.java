@@ -12,6 +12,7 @@ public class Worker {
     public Worker(Color color, String gender) {
         this.color = color;
         this.gender = gender;
+
     }
 
     public Color getColor() {
