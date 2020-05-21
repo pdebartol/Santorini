@@ -166,6 +166,11 @@ public class Gui extends View {
     }
 
     @Override
+    public void setWorkerOnBoard(String gender) {
+
+    }
+
+    @Override
     public void showLoginDone() {
         String infoMessage = "Hi " + myPlayer.getUsername() + ", you're in!";
 

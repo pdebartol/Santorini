@@ -37,6 +37,10 @@ public class Player {
         return null;
     }
 
+    public ArrayList<Worker> getWorkers() {
+        return workers;
+    }
+
     public boolean getLoser(){
         return loser;
     }

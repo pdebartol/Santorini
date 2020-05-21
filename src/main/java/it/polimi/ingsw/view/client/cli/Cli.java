@@ -280,6 +280,15 @@ public class Cli extends View {
     //TODO : javadoc
 
     @Override
+    public void setWorkerOnBoard(String gender) {
+        inputThread = inputExecutor.submit(() -> {
+
+        });
+    }
+
+    //TODO : javadoc
+
+    @Override
     public void showLoginDone() {
         StringBuilder message;
         message = new StringBuilder("Hi " + myPlayer.getUsername() + ", you're in!");
@@ -318,6 +327,12 @@ public class Cli extends View {
                 break;
             case "choseStartingPlayer":
                 appendInGameTextBox(author + " is choosing a the starter player...");
+                break;
+            case "setupMaleWorkerOnBoard":
+                printInGameTextBox(author + " is placing his male worker on the board...");
+                break;
+            case "setupFemaleWorkerOnBoard":
+                printInGameTextBox(author + " is placing his female worker on the board...");
                 break;
         }
     }
@@ -393,13 +408,21 @@ public class Cli extends View {
             printInGameTextBox("You will be the starter player.");
         else
             printInGameTextBox(username + " will be the starter player.");
+
+        appendInGameTextBox("Loading...");
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     //TODO : javadoc
 
     @Override
     public void showBoard() {
-
+        printBoard();
     }
 
     //TODO : javadoc
@@ -1121,10 +1144,6 @@ public class Cli extends View {
 
     }
 
-    private void chooseGodsAction() {
-
-    }
-
     /**
      * This method represents the move process in the game
      */
@@ -1139,16 +1158,6 @@ public class Cli extends View {
         printInGameTextBox("Select the square where you want to move your worker: (type #,#)");
 
         numbers = Arrays.stream(input().split(",")).mapToInt(Integer::parseInt).toArray();
-
-        //TODO check if input is valid (check via server?)
-
-        //update board after server update
-        //TODO add Apollo case management
-
-        gameBoard.getSquareByCoordinates(numbers[0], numbers[1]).placeWorker(gameBoard.getSquareByCoordinates(workerPosition[0], workerPosition[1]).getWorker());
-        gameBoard.getSquareByCoordinates(workerPosition[0], workerPosition[1]).placeWorker(null);
-
-        eraseThings("text");
 
     }
 
@@ -1181,14 +1190,6 @@ public class Cli extends View {
         printInGameTextBox("Select the square where you want your worker to build: (type #,#)");
 
         numbers = Arrays.stream(input().split(",")).mapToInt(Integer::parseInt).toArray();
-
-        //TODO not necessary to provide the level wanted because it always increment by one, but is this game logic in view?
-
-        //TODO check if input is valid
-
-        //TODO update board
-
-        eraseThings("text");
 
     }
 

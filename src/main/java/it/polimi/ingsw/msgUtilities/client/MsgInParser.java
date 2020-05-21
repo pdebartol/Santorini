@@ -97,10 +97,10 @@ public class MsgInParser {
                 view.showStartingPlayer(starter);
                 break;
             case "setWorkerOnBoard":
-                String WorkerGender = Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/WorkerGender/text()")).get(0);
+                String workerGender = Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/WorkerGender/text()")).get(0);
                 int x = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/xPosition/text()")).get(0));
                 int y = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/yPosition/text()")).get(0));
-                //TODO notify view
+                view.updatePlaceWorkerOnBoard(username,workerGender,x,y);
                 break;
             case "move":
                 NodeList positionsNode = document.getElementsByTagName("Position");
@@ -199,10 +199,10 @@ public class MsgInParser {
                 break;
             case "setWorkerOnBoard":
                 if(outcome.equals("accepted")){
-                    String WorkerGender = Objects.requireNonNull(evaluateXPath( "/Answer/Update/WorkerGender/text()")).get(0);
+                    String workerGender = Objects.requireNonNull(evaluateXPath( "/Answer/Update/WorkerGender/text()")).get(0);
                     int x = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/xPosition/text()")).get(0));
                     int y = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/yPosition/text()")).get(0));
-                    //TODO notify view
+                    view.updatePlaceMyWorkerOnBoard(workerGender,x,y);
                 }
                 else{
                     List<String> errors = getErrorList();
@@ -268,10 +268,10 @@ public class MsgInParser {
                 view.selectStartingPlayer();
                 break;
             case "setupMaleWorkerOnBoard":
-                //TODO notify view
+                view.setWorkerOnBoard("male");
                 break;
             case "setupFemaleWorkerOnBoard":
-                //TODO notify view
+                view.setWorkerOnBoard("female");
                 break;
             case "wait":
                 String waitFor = Objects.requireNonNull(evaluateXPath("/ToDo/Info/WaitFor/text()")).get(0);
