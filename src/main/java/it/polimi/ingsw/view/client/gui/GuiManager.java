@@ -4,8 +4,10 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.net.URL;
 
 
 /**
@@ -37,11 +39,15 @@ public class GuiManager extends Application {
      * Helper function for loading FXML files.
      * @param fxml the name of the fxml file
      * @return an instance of FXMLLoader
-     * @throws IOException
+     * @throws IOException none
      */
 
     public static FXMLLoader loadFXML(String fxml) throws IOException {
         return  new FXMLLoader(GuiManager.class.getResource("/gui/fxml/"+fxml + ".fxml"));
+    }
+
+    public static Image  loadImage(String img){
+        return new Image(GuiManager.class.getResource("/gui/graphics_resources/Sprite/"+img).toString());
     }
 
 

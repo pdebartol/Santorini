@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 public class LoginWaitController {
 
@@ -22,15 +21,29 @@ public class LoginWaitController {
     @FXML
     private Label playersNameBox;
 
+
+
+    /**
+     * This method is called when the creator of the match starts the game.
+     * @param actionEvent none
+     */
+
+    @FXML
     public void starGameNow(ActionEvent actionEvent) {
+        gui.sendStartGameRequest();
     }
 
+    @FXML
     public void wait(ActionEvent actionEvent) {
+        setInformationBox("Wait for a third player..");
+        this.hideStartButton();
+        this.hideWaitButton();
     }
 
     public void setGui(Gui gui) {
         this.gui = gui;
     }
+
 
     public void hideStartButton(){
         startButton.setDisable(true);
@@ -57,6 +70,10 @@ public class LoginWaitController {
 
     public String getInformationBox(){
         return informationBox.getText();
+    }
+
+    public String getPlayersBox(){
+        return playersNameBox.getText();
     }
 
     public void setPlayersNameBox(String text){
