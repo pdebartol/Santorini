@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ListIterator;
 
 
@@ -214,8 +215,20 @@ public class Gui extends View {
     }
 
     @Override
-    public void selectGod() {
+    public void selectGod(List<Integer> ids) {
+
     }
+
+    @Override
+    public void selectStartingPlayer() {
+
+    }
+
+    @Override
+    public void setWorkerOnBoard(String gender) {
+
+    }
+
 
     @Override
     public void showLoginDone() {
@@ -295,6 +308,21 @@ public class Gui extends View {
 
     @Override
     public void showGodsChallengerSelected(String username, ArrayList<Integer> ids) {
+
+    }
+
+    @Override
+    public void showMyGodSelected() {
+
+    }
+
+    @Override
+    public void showGodSelected(String username) {
+
+    }
+
+    @Override
+    public void showStartingPlayer(String username) {
 
     }
 
