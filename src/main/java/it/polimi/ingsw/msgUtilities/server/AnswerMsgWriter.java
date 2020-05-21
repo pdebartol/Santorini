@@ -126,6 +126,17 @@ public class AnswerMsgWriter {
         return document;
     }
 
+    public Document rejectedSetWorkerOnBoardAnswer(String user, String mod, List<Error> errors, String gender){
+        setStandardAnswerValues(user,mod,"rejected");
+
+        setErrorList(errors);
+
+        Node updateTag = initializeTagList("Update");
+
+        appendTag(updateTag,"WorkerGender",gender);
+        return document;
+    }
+
     public Document loginAcceptedAnswer(String user, Color c, Map<String,Color> users){
         setStandardAnswerValues(user,"login","accepted");
         Node updateTag = initializeTagList("Update");

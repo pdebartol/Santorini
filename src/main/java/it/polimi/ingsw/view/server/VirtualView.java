@@ -149,7 +149,7 @@ public class VirtualView implements ViewInterface {
         if(errors.isEmpty())
             onSetupOnBoardAcceptedRequest(username,workerGender,x,y);
         else
-            onRejectedRequest(username,errors,"setupOnBoard");
+            onSetWorkerOnBoardRejectedRequest(username,errors,"setWorkerOnBoard",workerGender);
     }
 
     //TODO : javadoc
@@ -247,6 +247,12 @@ public class VirtualView implements ViewInterface {
 
     public void onRejectedRequest(String username, List<Error> errors, String mode){
         sendMsg(clients.get(username), new AnswerMsgWriter().rejectedAnswer(username,mode,errors));
+    }
+
+    //TODO : javadoc
+
+    public void onSetWorkerOnBoardRejectedRequest(String username, List<Error> errors, String mode,String gender){
+        sendMsg(clients.get(username), new AnswerMsgWriter().rejectedSetWorkerOnBoardAnswer(username,mode,errors,gender));
     }
 
     //TODO : javadoc

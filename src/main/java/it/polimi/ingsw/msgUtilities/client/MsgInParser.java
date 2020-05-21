@@ -205,8 +205,9 @@ public class MsgInParser {
                     view.updatePlaceMyWorkerOnBoard(workerGender,x,y);
                 }
                 else{
+                    String workerGender = Objects.requireNonNull(evaluateXPath( "/Answer/Update/WorkerGender/text()")).get(0);
                     List<String> errors = getErrorList();
-                    //TODO notify view
+                    view.setWorkerOnBoard(workerGender,true);
                 }
                 break;
             case "move":
@@ -268,10 +269,10 @@ public class MsgInParser {
                 view.selectStartingPlayer();
                 break;
             case "setupMaleWorkerOnBoard":
-                view.setWorkerOnBoard("male");
+                view.setWorkerOnBoard("male",false);
                 break;
             case "setupFemaleWorkerOnBoard":
-                view.setWorkerOnBoard("female");
+                view.setWorkerOnBoard("female",false);
                 break;
             case "wait":
                 String waitFor = Objects.requireNonNull(evaluateXPath("/ToDo/Info/WaitFor/text()")).get(0);

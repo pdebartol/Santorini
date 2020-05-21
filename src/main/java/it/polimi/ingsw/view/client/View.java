@@ -90,7 +90,7 @@ public abstract class View {
 
     //TODO : javadoc
 
-    public abstract void setWorkerOnBoard(String gender);
+    public abstract void setWorkerOnBoard(String gender, boolean rejectedBefore);
 
     //update method
 
@@ -147,12 +147,12 @@ public abstract class View {
 
     public void updateWorkerPosition(int startX, int startY, int x, int y){
         if(removedWorker == null) {
-            if (gameBoard.getSquareByCoordinates(x, y).getWorker() == null)
-                gameBoard.getSquareByCoordinates(x, y).placeWorker(gameBoard.getSquareByCoordinates(startX, startY).removeWorker());
+            if (gameBoard.getSquareByCoordinates(x, y).getWorker() == null) {
+            }
             else {
                 removedWorker = gameBoard.getSquareByCoordinates(x, y).removeWorker();
-                gameBoard.getSquareByCoordinates(x, y).placeWorker(gameBoard.getSquareByCoordinates(startX, startY).removeWorker());
             }
+            gameBoard.getSquareByCoordinates(x, y).placeWorker(gameBoard.getSquareByCoordinates(startX, startY).removeWorker());
         }else {
             gameBoard.getSquareByCoordinates(x, y).placeWorker(removedWorker);
             removedWorker = null;

@@ -199,7 +199,7 @@ public class Cli extends View {
     @Override
     public void selectGod(List<Integer> ids) {
         if(ids.size() == 1) {
-            appendInGameTextBox("The last god left is " + getGodById(ids.get(0)).getName() + " and he will be your god for this game");
+            appendInGameTextBox("The last god left is " + getGodById(ids.get(0)).getName() + " and he will be your god for this game.");
             sendChooseGodRequest(ids.get(0));
             try {
                 Thread.sleep(5000);
@@ -279,9 +279,10 @@ public class Cli extends View {
     //TODO : javadoc
 
     @Override
-    public void setWorkerOnBoard(String gender) {
+    public void setWorkerOnBoard(String gender, boolean rejectedBefore) {
         inputThread = inputExecutor.submit(() -> {
-            printInGameTextBox("Enter the coordinates where you want to place your " + gender + " worker (type #,#)...");
+            if(rejectedBefore) printInGameTextBox("The position is occupied! Insert enter the coordinates of a free place (type #,#)...");
+            else printInGameTextBox("Enter the coordinates where you want to place your " + gender + " worker (type #,#)...");
             String input = inputWithTimeout();
             while(!InputValidator.validateCOORDINATES(input) && !Thread.interrupted()){
                 printInGameTextBox("Invalid coordinates! Please try again (type #,#)...");
@@ -937,13 +938,13 @@ public class Cli extends View {
 
         if (square.getWorker() != null) {
             if(square.getWorker().getGender().equals("male")) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + Unicode.WORKER_MALE_ICON.escape() + ColorCode.ANSI_RESET.escape());
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + " " + Unicode.WORKER_MALE_ICON.escape() + " " + ColorCode.ANSI_RESET.escape());
                 setBackgroundColor(square);
                 System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
             if(square.getWorker().getGender().equals("female")) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + Unicode.WORKER_FEMALE_ICON.escape() + ColorCode.ANSI_RESET.escape());
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + " " + Unicode.WORKER_FEMALE_ICON.escape() + " " + ColorCode.ANSI_RESET.escape());
                 setBackgroundColor(square);
                 System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
