@@ -161,6 +161,11 @@ public class Gui extends View {
     }
 
     @Override
+    public void selectStartingPlayer() {
+
+    }
+
+    @Override
     public void showLoginDone() {
         String infoMessage = "Hi " + myPlayer.getUsername() + ", you're in!";
 
@@ -228,6 +233,21 @@ public class Gui extends View {
 
     @Override
     public void showGodsChallengerSelected(String username, ArrayList<Integer> ids) {
+
+    }
+
+    @Override
+    public void showMyGodSelected() {
+
+    }
+
+    @Override
+    public void showGodSelected(String username) {
+
+    }
+
+    @Override
+    public void showStartingPlayer(String username) {
 
     }
 

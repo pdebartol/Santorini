@@ -90,11 +90,11 @@ public class MsgInParser {
                 break;
             case "choseGod" :
                 int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/godId/text()")).get(0));
-                //TODO notify view
+                view.updateGodSelected(username,godId);
                 break;
             case "choseStartingPlayer":
                 String starter = Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/StartingPlayer/text()")).get(0);
-                //TODO notify view
+                view.showStartingPlayer(starter);
                 break;
             case "setWorkerOnBoard":
                 String WorkerGender = Objects.requireNonNull(evaluateXPath( "/UpdateMsg/Update/WorkerGender/text()")).get(0);
@@ -181,22 +181,20 @@ public class MsgInParser {
             case "choseGod" :
                 if(outcome.equals("accepted")){
                     int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/godId/text()")).get(0));
-                    //TODO notify view
+                    view.updateMyGodSelected(godId);
                 }
                 else{
                     List<String> errors = getErrorList();
-                    //TODO notify view
                 }
                 break;
             case "choseStartingPlayer":
                 if(outcome.equals("accepted")){
                     String starter = Objects.requireNonNull(evaluateXPath( "/Answer/Update/StartingPlayer/text()")).get(0);
-                    //TODO notify view
+                    view.showStartingPlayer(starter);
 
                 }
                 else{
                     List<String> errors = getErrorList();
-                    //TODO notify view
                 }
                 break;
             case "setWorkerOnBoard":
@@ -267,7 +265,7 @@ public class MsgInParser {
                 view.selectGods();
                 break;
             case "choseStartingPlayer":
-                //TODO notify view
+                view.selectStartingPlayer();
                 break;
             case "setupMaleWorkerOnBoard":
                 //TODO notify view
@@ -290,7 +288,6 @@ public class MsgInParser {
                 for(int i=0; i< gods.getLength(); i++){
                     godIds.add(Integer.parseInt(gods.item(i).getTextContent()));
                 }
-
                 view.selectGod(godIds);
         }
 

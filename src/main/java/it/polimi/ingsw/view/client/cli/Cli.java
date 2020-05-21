@@ -10,7 +10,6 @@ import it.polimi.ingsw.view.client.cli.graphicComponents.Unicode;
 import it.polimi.ingsw.view.client.viewComponents.*;
 import it.polimi.ingsw.view.client.viewComponents.Square;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -113,7 +112,10 @@ public class Cli extends View {
             });
         } else {
             appendInStartTextBox("You are currently 3 players in the game, press enter to start the game now! The match will automatically start in 2 minutes");
-            inputThread = inputExecutor.submit((Runnable) this::inputWithTimeoutStartMatch);
+            inputThread = inputExecutor.submit(() ->{
+                inputWithTimeoutStartMatch();
+                if(!Thread.interrupted()) sendStartGameRequest();
+            });
         }
 
 
@@ -198,53 +200,81 @@ public class Cli extends View {
     @Override
     public void selectGod(List<Integer> ids) {
         if(ids.size() == 1) {
-            printInGameTextBox("The last god left is " + getGodById(ids.get(0)).getName() + " and he will be your god for this game");
+            appendInGameTextBox("The last god left is " + getGodById(ids.get(0)).getName() + " and he will be your god for this game");
             sendChooseGodRequest(ids.get(0));
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }else{
-            printInGameTextBox("It's your turn to choose! To discover the gods you can choose press enter ...");
-            inputWithTimeout();
+            inputThread = inputExecutor.submit(() -> {
+                appendInGameTextBox("It's your turn to choose! To discover the gods you can choose press enter ...");
+                inputWithTimeout();
 
-            printInGameTextBox("Write \"t\" to select the God shown, \"n\" to go to next God's card, \"p\" to go to previously God's card" +
-                    ". Press enter to continue...");
-            inputWithTimeout();
-
-            int godId = 0, i = 0;
-
-            if(!Thread.interrupted()) {
-                printInGameTextBox(getGodById(ids.get(0)).getId() + " " + getGodById(ids.get(0)).getName());
-                appendInGameTextBox(getGodById(ids.get(0)).getDescription());
-            }
-
-            while (godId == 0) {
-
-                switch (inputWithTimeout()) {
-
-                    case "n":
-                        if(i < ids.size() - 1) i++;
-                        else i = 0;
-                        printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
-                        appendInGameTextBox(getGodById(ids.get(i)).getDescription());
-                        break;
-
-                    case "p":
-                        if(i > 0) i--;
-                        else i = ids.size() - 1;
-                        printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
-                        appendInGameTextBox(getGodById(ids.get(i)).getDescription());
-                        break;
-
-                    case "t":
-                        godId = getGodById(i).getId();
-                        printInGameTextBox("Loading...");
-                        break;
-                    case "timeoutExpired" :
-                        clientHandler.disconnectionForTimeout();
+                if(!Thread.interrupted()) {
+                    printInGameTextBox("Write \"t\" to select the God shown, \"n\" to go to next God's card, \"p\" to go to previously God's card" +
+                            ". Press enter to continue...");
+                    inputWithTimeout();
                 }
-                if(Thread.interrupted()) return;
+
+                int godId = 0, i = 0;
+
+                if(!Thread.interrupted()) {
+                    printInGameTextBox(getGodById(ids.get(0)).getId() + " " + getGodById(ids.get(0)).getName());
+                    appendInGameTextBox(getGodById(ids.get(0)).getDescription());
+                }
+
+                while (godId == 0) {
+
+                    switch (inputWithTimeout()) {
+
+                        case "n":
+                            if(i < ids.size() - 1) i++;
+                            else i = 0;
+                            printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
+                            appendInGameTextBox(getGodById(ids.get(i)).getDescription());
+                            break;
+
+                        case "p":
+                            if(i > 0) i--;
+                            else i = ids.size() - 1;
+                            printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
+                            appendInGameTextBox(getGodById(ids.get(i)).getDescription());
+                            break;
+
+                        case "t":
+                            godId = getGodById(ids.get(i)).getId();
+                            printInGameTextBox("Loading...");
+                            break;
+                        case "timeoutExpired" :
+                            clientHandler.disconnectionForTimeout();
+                    }
+                    if(Thread.interrupted()) return;
+                }
+
+                if (!Thread.interrupted()) sendChooseGodRequest(godId);
+            });
+        }
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void selectStartingPlayer() {
+        inputThread = inputExecutor.submit(() -> {
+            printInGameTextBox("As a challenger you can choose who will start the game (yourself too), write starter name...");
+            String starter = inputWithTimeout();
+            while(getPlayerByUsername(starter) == null && !starter.equals(myPlayer.getUsername()) && !Thread.interrupted()) {
+                printInGameTextBox("Insert an existing username...");
+                starter = inputWithTimeout();
             }
 
-            if (!Thread.interrupted()) sendChooseGodRequest(godId);
-        }
+            if(!Thread.interrupted()){
+                printInGameTextBox("Loading...");
+                sendChooseStartingPlayerRequest(starter);
+            }
+        });
     }
 
     //TODO : javadoc
@@ -284,7 +314,11 @@ public class Cli extends View {
                 printInGameTextBox(author + " is the challenger, he is choosing " + (players.size() + 1) + " divinities for this game...");
                 break;
             case "choseGod":
-                printInGameTextBox(author + " is choosing a god to use for this game...");
+                appendInGameTextBox(author + " is choosing a god to use for this game...");
+                break;
+            case "choseStartingPlayer":
+                appendInGameTextBox(author + " is choosing a the starter player...");
+                break;
         }
     }
 
@@ -316,12 +350,6 @@ public class Cli extends View {
 
         output.append(". You will receive the last god left after choosing the other players.");
 
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         printInGameTextBox(output.toString());
     }
 
@@ -336,12 +364,35 @@ public class Cli extends View {
         }
 
         printInGameTextBox(output.toString());
+    }
 
+    //TODO : javadoc
+
+    @Override
+    public void showMyGodSelected() {
+        printInGameTextBox("Good choice! Your God is " + myPlayer.getGod().getName() + ".");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void showGodSelected(String username) {
+        printInGameTextBox(username + " has chosen " + getPlayerByUsername(username).getGod().getName() + ".");
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void showStartingPlayer(String username) {
+        if(username.equals(myPlayer.getUsername()))
+            printInGameTextBox("You will be the starter player.");
+        else
+            printInGameTextBox(username + " will be the starter player.");
     }
 
     //TODO : javadoc
@@ -843,7 +894,7 @@ public class Cli extends View {
         return input;
     }
 
-    public String inputWithTimeoutStartMatch(){
+    public void inputWithTimeoutStartMatch(){
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
         System.out.print(">");
         String input = "";
@@ -852,12 +903,11 @@ public class Cli extends View {
         Future<String> result = executor.submit(InputCli::readLine);
 
         try {
-            input = result.get(2, TimeUnit.MINUTES);
+            result.get(2, TimeUnit.MINUTES);
         } catch (TimeoutException | InterruptedException | ExecutionException e) {
             sendStartGameRequest();
         }
 
-        return input;
     }
 
 
@@ -1072,53 +1122,6 @@ public class Cli extends View {
     }
 
     private void chooseGodsAction() {
-
-    }
-
-    private void notChallenger() {
-
-        int i = 0;
-        ArrayList<God> gods = new ArrayList<>();
-
-        //TODO get remaining gods from server that have been previously chosen by challenger
-
-        while (myPlayer.getGod() != null) {
-
-            switch (input()) {
-
-                case "next":
-                    printInStartTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
-                            gods.get(i).getDescription());
-                    i++;
-                    if (i > gods.size()) i = 0;
-                    break;
-
-                case "prev":
-                    i--;
-                    if (i < 0) i = gods.size();
-                    printInStartTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
-                            gods.get(i).getDescription());
-                    break;
-
-                case "this":
-                    printInStartTextBox("Confirm selection of " + gods.get(i) + "? Type \"y\" for yes or anything else for no");
-                    if (input() == "y")
-                        myPlayer.setGod(new God(gods.get(i).getId(), gods.get(i).getName(), gods.get(i).getDescription()));
-                    else {
-                        printInStartTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
-                                gods.get(i).getDescription());
-                    }
-                    break;
-
-                case "show commands":
-                    printInStartTextBox("\"this\" to select God, \"next\" to go to next God's card, \"prev\" to go to previously God's card" +
-                            "\"show command\" to show commands avaiable. Press enter to continue:");
-                    input();
-                    printInStartTextBox(gods.get(i).getName() + " " + (i + 1) + " of " + gods.size() + "\n" +
-                            gods.get(i).getDescription());
-                    break;
-            }
-        }
 
     }
 

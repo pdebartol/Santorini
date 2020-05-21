@@ -44,7 +44,6 @@ public abstract class View {
     //TODO : javadoc
 
     public void start(){
-        //TODO : delete testLoginClass() and replace it with this
         clientHandler = new EchoClient(myIp,myPort,this);
         clientHandler.start();
     }
@@ -81,6 +80,10 @@ public abstract class View {
 
     public abstract void selectGod(List<Integer> ids);
 
+    //TODO : javadoc
+
+    public abstract void selectStartingPlayer();
+
     //update method
 
     //TODO : javadoc
@@ -106,12 +109,14 @@ public abstract class View {
 
     public void updateMyGodSelected(int id){
         myPlayer.setGod(getGodById(id));
+        showMyGodSelected();
     }
 
     //TODO : javadoc
 
     public void updateGodSelected(String username, int id){
         getPlayerByUsername(username).setGod(getGodById(id));
+        showGodSelected(username);
     }
 
     //disconnection methods
@@ -156,6 +161,18 @@ public abstract class View {
     //TODO : javadoc
 
     public abstract void showGodsChallengerSelected(String username, ArrayList<Integer> ids);
+
+    //TODO : javadoc
+
+    public abstract void showMyGodSelected();
+
+    //TODO : javadoc
+
+    public abstract void showGodSelected(String username);
+
+    //TODO : javadoc
+
+    public abstract void showStartingPlayer(String username);
 
     //TODO : javadoc
 
