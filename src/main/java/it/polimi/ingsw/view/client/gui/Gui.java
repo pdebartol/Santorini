@@ -230,6 +230,31 @@ public class Gui extends View {
     }
 
     @Override
+    public void turn(String firstOperation) {
+
+    }
+
+    @Override
+    public void move() {
+
+    }
+
+    @Override
+    public void build() {
+
+    }
+
+    @Override
+    public void moveOrBuild() {
+
+    }
+
+    @Override
+    public void buildOrEnd() {
+
+    }
+
+    @Override
     public void showLoginDone() {
         String infoMessage = "Hi " + myPlayer.getUsername() + ", you're in!\n";
 
@@ -327,6 +352,21 @@ public class Gui extends View {
 
     @Override
     public void showBoard() {
+
+    }
+
+    @Override
+    public void showTurnEnded(String username) {
+
+    }
+
+    @Override
+    public void showMyTurnEnded() {
+
+    }
+
+    @Override
+    public void showTurnErrors(List<String> errors) {
 
     }
 

@@ -22,6 +22,7 @@ public abstract class View {
     protected List<God> gods;
 
     protected Worker removedWorker;
+    protected int[] workerForThisTurnCoordinates;
 
     //constructors
 
@@ -31,6 +32,8 @@ public abstract class View {
         gameBoard = new Board();
         gods = new GodsGenerator().getGods();
         removedWorker = null;
+        workerForThisTurnCoordinates = new int[2];
+        workerForThisTurnCoordinates[0] = workerForThisTurnCoordinates[1] = -1;
     }
 
     public View(String ip, int port){
@@ -41,6 +44,7 @@ public abstract class View {
         removedWorker = null;
         myIp = ip;
         myPort = port;
+        workerForThisTurnCoordinates[0] = workerForThisTurnCoordinates[1] = -1;
     }
 
     //methods
@@ -56,6 +60,8 @@ public abstract class View {
         myPlayer = null;
         players = new ArrayList<>();
         gameBoard = new Board();
+        removedWorker = null;
+        workerForThisTurnCoordinates[0] = workerForThisTurnCoordinates[1] = -1;
     }
 
     //input methods
@@ -91,6 +97,26 @@ public abstract class View {
     //TODO : javadoc
 
     public abstract void setWorkerOnBoard(String gender, boolean rejectedBefore);
+
+    //TODO : javadoc
+
+    public abstract void turn(String firstOperation);
+
+    //TODO : javadoc
+
+    public abstract void move();
+
+    //TODO : javadoc
+
+    public abstract void build();
+
+    //TODO : javadoc
+
+    public abstract void moveOrBuild();
+
+    //TODO : javadoc
+
+    public abstract void buildOrEnd();
 
     //update method
 
@@ -145,11 +171,39 @@ public abstract class View {
 
     //TODO : javadoc
 
+    public void updateMyWorkerPosition(int startX, int startY, int x, int y){
+        if(removedWorker == null) {
+            if (gameBoard.getSquareByCoordinates(x, y).getWorker() != null) {
+                removedWorker = gameBoard.getSquareByCoordinates(x, y).removeWorker();
+            }
+            gameBoard.getSquareByCoordinates(x, y).placeWorker(gameBoard.getSquareByCoordinates(startX, startY).removeWorker());
+        }else {
+            gameBoard.getSquareByCoordinates(x, y).placeWorker(removedWorker);
+            removedWorker = null;
+        }
+        workerForThisTurnCoordinates[0] = x;
+        workerForThisTurnCoordinates[1] = y;
+
+        showBoard();
+    }
+
+    public void invalidMove(List<String> errors){
+        showTurnErrors(errors);
+
+        move();
+    }
+
+    public void invalidBuild(List<String> errors){
+        showTurnErrors(errors);
+
+        build();
+    }
+
+    //TODO : javadoc
+
     public void updateWorkerPosition(int startX, int startY, int x, int y){
         if(removedWorker == null) {
-            if (gameBoard.getSquareByCoordinates(x, y).getWorker() == null) {
-            }
-            else {
+            if (gameBoard.getSquareByCoordinates(x, y).getWorker() != null) {
                 removedWorker = gameBoard.getSquareByCoordinates(x, y).removeWorker();
             }
             gameBoard.getSquareByCoordinates(x, y).placeWorker(gameBoard.getSquareByCoordinates(startX, startY).removeWorker());
@@ -163,10 +217,31 @@ public abstract class View {
 
     //TODO : javadoc
 
+    public void updateMyPositionLevel(int x, int y, int level){
+        gameBoard.getSquareByCoordinates(x,y).setLevel(level);
+
+        workerForThisTurnCoordinates[0] = x;
+        workerForThisTurnCoordinates[1] = y;
+
+        showBoard();
+    }
+
+    //TODO : javadoc
+
     public void updatePositionLevel(int x, int y, int level){
         gameBoard.getSquareByCoordinates(x,y).setLevel(level);
 
         showBoard();
+    }
+
+    public void updateMyEndOfTurn(){
+        workerForThisTurnCoordinates[0] = workerForThisTurnCoordinates[1] = -1;
+
+        showMyTurnEnded();
+    }
+
+    public void updateEndOfTurn(String username){
+        showTurnEnded(username);
     }
 
     //disconnection methods
@@ -227,6 +302,18 @@ public abstract class View {
     //TODO : javadoc
 
     public abstract void showBoard();
+
+    //TODO : javadoc
+
+    public abstract void showTurnEnded(String username);
+
+    //TODO : javadoc
+
+    public abstract void showMyTurnEnded();
+
+    //TODO : javadoc
+
+    public abstract void showTurnErrors(List<String> errors);
 
     //TODO : javadoc
 
@@ -307,6 +394,25 @@ public abstract class View {
     }
 
     //support methods
+
+    public void nextOperation(String nextOperation){
+        switch (nextOperation){
+            case "move" :
+                move();
+                break;
+            case "build" :
+                build();
+                break;
+            case "move/build":
+                moveOrBuild();
+                break;
+            case "build/end" :
+                buildOrEnd();
+                break;
+            case "end" :
+                sendEndOfTurnRequest();
+        }
+    }
 
     public God getGodById(int id){
         for(God god : gods) {

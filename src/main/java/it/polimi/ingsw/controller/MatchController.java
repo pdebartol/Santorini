@@ -203,7 +203,6 @@ public class MatchController implements ControllerInterface {
                     // if everyone set the workers go to next state
                     if (playerController.getPlayerByIndex((playerController.getStarterIndex() + playerController.getNumberOfPlayers() - 1) % playerController.getNumberOfPlayers()).getUsername().equals(playerUsername)) {
                         gameBoard.setGameState("in_game");
-                        System.out.println("Game started!");
                     }
                 }
             }
@@ -253,7 +252,7 @@ public class MatchController implements ControllerInterface {
 
         //Check if currentPlayer has won, if is it, it send a message to indicate that the match is finished and currentPlayer has won
         if(errors.isEmpty() && viewInterface != null){
-            if(currentPlayer.checkWin(activeWorker)) viewInterface.directlyWinCase(currentPlayer.getUsername());
+            if(currentPlayer.checkWin(selectedWorker)) viewInterface.directlyWinCase(currentPlayer.getUsername());
         }
 
         //if the player have to build and he can't, he lose
@@ -261,15 +260,14 @@ public class MatchController implements ControllerInterface {
             if(errors.isEmpty() && viewInterface != null){
                 if(playerController.getNumberOfPlayers() == 3){
                     if (viewInterface != null) viewInterface.match3PlayerLose(currentPlayer.getUsername());
+                    playerController.removeCurrentPlayer();
+                    playerController.nextTurn();
+                    if (viewInterface != null) sendNextToDoTurn();
                 }
                 else{
                     // notify that match is finished and currentPlayer lose -> there are only 2 players so nextPlayer is the winner
                     if (viewInterface != null) viewInterface.match2PlayerLose(playerController.getNextPlayer().getUsername());
                 }
-                playerController.removeCurrentPlayer();
-                playerController.nextTurn();
-
-                if (viewInterface != null) sendNextToDoTurn();
             }
 
         return errors;

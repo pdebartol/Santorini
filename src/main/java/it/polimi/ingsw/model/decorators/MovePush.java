@@ -58,7 +58,7 @@ public class MovePush extends PowerDecorator {
             decoratedPower.updateMove(w, x, y);
 
             //Write this update into move request accepted answer
-            getBoard().getMsgContainer().updateMove(x,y,sameDirectionX,sameDirectionY);
+            getBoard().getMsgContainer().updateMove(1,x,y,sameDirectionX,sameDirectionY);
             opw.setWorkerOnBoard(getBoard().getSquare(sameDirectionX,sameDirectionY));
         } else
             decoratedPower.updateMove(w, x, y);

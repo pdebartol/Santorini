@@ -5,6 +5,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import javax.print.Doc;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
@@ -31,12 +32,14 @@ public class UpdateMsgWriter {
 
     //support methods
 
-    public void setStandardUpdateValues(String user,String mod){
+    public Document setStandardUpdateValues(String user, String mod){
         Node mode = document.getElementsByTagName("Mode").item(0);
         Node username = document.getElementsByTagName("Author").item(0);
 
         mode.setTextContent(mod);
         username.setTextContent(user);
+
+        return document;
     }
 
     private Node appendTagWithAttribute(Node father, String tagName, String textContent, String attributeName, String attributeValue){
@@ -58,6 +61,12 @@ public class UpdateMsgWriter {
         Element tag = document.createElement(tagName);
         father.appendChild(tag);
         return document.getElementsByTagName(tagName).item(0);
+    }
+
+    private Node appendTag(int index, Node father,String tagName){
+        Element tag = document.createElement(tagName);
+        father.appendChild(tag);
+        return document.getElementsByTagName(tagName).item(index);
     }
 
     private Node initializeTagList(String tagName){
@@ -134,10 +143,10 @@ public class UpdateMsgWriter {
         return document;
     }
 
-    public Document moveUpdate(int startX, int startY, int x, int y){
+    public Document moveUpdate(int index, int startX, int startY, int x, int y){
         Node updateTag = initializeTagList("Update");
 
-        Node position = appendTag(updateTag,"Position");
+        Node position = appendTag(index, updateTag,"Position");
         appendTag(position,"startXPosition",String.valueOf(startX));
         appendTag(position,"startYPosition",String.valueOf(startY));
         appendTag(position,"xPosition",String.valueOf(x));
@@ -145,10 +154,10 @@ public class UpdateMsgWriter {
         return document;
     }
 
-    public Document buildUpdate(int startX, int startY, int x, int y, int level){
+    public Document buildUpdate(int index, int startX, int startY, int x, int y, int level){
         Node updateTag = initializeTagList("Update");
 
-        Node height = appendTag(updateTag,"Height");
+        Node height = appendTag(index, updateTag,"Height");
         appendTag(height,"startXPosition",String.valueOf(startX));
         appendTag(height,"startYPosition",String.valueOf(startY));
         appendTag(height,"xPosition",String.valueOf(x));

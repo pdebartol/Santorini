@@ -19,8 +19,8 @@ public class ModelMsgContainer {
     public ModelMsgContainer(String username, String mode){
         this.updateMsgWriter = new UpdateMsgWriter();
         this.answerMsgWriter = new AnswerMsgWriter();
-        updateMsgWriter.setStandardUpdateValues(username,mode);
-        answerMsgWriter.setStandardAnswerValues(username,mode,"accepted");
+        updateMsg = updateMsgWriter.setStandardUpdateValues(username,mode);
+        answerMsg = answerMsgWriter.setStandardAnswerValues(username,mode,"accepted");
     }
 
     //methods
@@ -39,16 +39,16 @@ public class ModelMsgContainer {
 
     //TODO : javadoc
 
-    public void updateMove(int startX, int startY, int x, int y){
-        answerMsg = answerMsgWriter.moveUpdate(startX,startY,x,y);
-        updateMsg = updateMsgWriter.moveUpdate(startX,startY,x,y);
+    public void updateMove(int index, int startX, int startY, int x, int y){
+        answerMsg = answerMsgWriter.moveUpdate(index,startX,startY,x,y);
+        updateMsg = updateMsgWriter.moveUpdate(index,startX,startY,x,y);
     }
 
     //TODO : javadoc
 
-    public void updateBuild(int startX, int startY, int x, int y, int level){
-        answerMsg = answerMsgWriter.buildUpdate(startX,startY,x,y,level);
-        updateMsg = updateMsgWriter.buildUpdate(startX,startY,x,y,level);
+    public void updateBuild(int index, int startX, int startY, int x, int y, int level){
+        answerMsg = answerMsgWriter.buildUpdate(index,startX,startY,x,y,level);
+        updateMsg = updateMsgWriter.buildUpdate(index,startX,startY,x,y,level);
     }
 
     //TODO : javadoc

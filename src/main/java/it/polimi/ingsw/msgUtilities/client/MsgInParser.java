@@ -105,17 +105,28 @@ public class MsgInParser {
             case "move":
                 NodeList positionsNode = document.getElementsByTagName("Position");
                 List<HashMap<String,String>> positions = getActionData(positionsNode);
-                //TODO notify view
+                for(HashMap<String,String> position : positions){
+                    int startXPosition = Integer.parseInt(position.get("startXPosition"));
+                    int startYPosition = Integer.parseInt(position.get("startYPosition"));
+                    int xPosition = Integer.parseInt(position.get("xPosition"));
+                    int yPosition = Integer.parseInt(position.get("yPosition"));
+                    view.updateWorkerPosition(startXPosition,startYPosition,xPosition,yPosition);
+                }
                 break;
             case "build":
                 NodeList heightsNode = document.getElementsByTagName("Height");
                 List<HashMap<String,String>> heights = getActionData(heightsNode);
-                //TODO notify view
+                for(HashMap<String,String> height : heights){
+                    int xPosition = Integer.parseInt(height.get("xPosition"));
+                    int yPosition = Integer.parseInt(height.get("yPosition"));
+                    int level = Integer.parseInt(height.get("Level"));
+                    view.updatePositionLevel(xPosition,yPosition,level);
+                }
                 break;
             case "endOfTurn":
                 NodeList removeAndBuildNode = document.getElementsByTagName("RemoveAndBuild");
                 List<HashMap<String,String>> removeAndBuild = getActionData(removeAndBuildNode);
-                //TODO notify view
+                view.updateEndOfTurn(username);
                 break;
             case "youWinDirectly":
                 //TODO notify view
@@ -212,36 +223,49 @@ public class MsgInParser {
                 break;
             case "move":
                 if(outcome.equals("accepted")){
-                    nextStep =  Objects.requireNonNull(evaluateXPath("/Answer/TurnNextStep/text()")).get(0);
+                    nextStep = Objects.requireNonNull(evaluateXPath("/Answer/TurnNextStep/text()")).get(0);
                     NodeList positionsNode = document.getElementsByTagName("Position");
                     List<HashMap<String,String>> positions = getActionData(positionsNode);
-                    System.out.println(positions);
-                    //TODO notify view
+                    for(HashMap<String,String> position : positions){
+                        int startXPosition = Integer.parseInt(position.get("startXPosition"));
+                        int startYPosition = Integer.parseInt(position.get("startYPosition"));
+                        int xPosition = Integer.parseInt(position.get("xPosition"));
+                        int yPosition = Integer.parseInt(position.get("yPosition"));
+                        view.updateMyWorkerPosition(startXPosition,startYPosition,xPosition,yPosition);
+                    }
+                    view.nextOperation(nextStep);
                 }
                 else{
                     List<String> errors = getErrorList();
-                    System.out.print(errors);
+                    System.out.println(errors);
+                    view.invalidMove(errors);
                 }
                 break;
             case "build":
                 if(outcome.equals("accepted")){
-                    nextStep =  Objects.requireNonNull(evaluateXPath("/Answer/TurnNextStep/text()")).get(0);
+                    nextStep = Objects.requireNonNull(evaluateXPath("/Answer/TurnNextStep/text()")).get(0);
                     NodeList heightsNode = document.getElementsByTagName("Height");
                     List<HashMap<String,String>> heights = getActionData(heightsNode);
-                    //TODO notify view
+                    for(HashMap<String,String> height : heights){
+                        int xPosition = Integer.parseInt(height.get("xPosition"));
+                        int yPosition = Integer.parseInt(height.get("yPosition"));
+                        int level = Integer.parseInt(height.get("Level"));
+                        view.updateMyPositionLevel(xPosition,yPosition,level);
+                    }
+                    view.nextOperation(nextStep);
                 }
                 else{
                     List<String> errors = getErrorList();
-
+                    System.out.println(errors);
+                    view.invalidBuild(errors);
                 }
                 break;
 
             case "endOfTurn":
                 if(outcome.equals("accepted")){
-                    nextStep =  Objects.requireNonNull(evaluateXPath("/Answer/TurnNextStep/text()")).get(0);
                     NodeList removeAndBuildNode = document.getElementsByTagName("RemoveAndBuild");
                     List<HashMap<String,String>> removeBuild = getActionData(removeAndBuildNode);
-                    //TODO notify view
+                    view.updateMyEndOfTurn();
                 }
                 else{
                     List<String> errors = getErrorList();
@@ -281,7 +305,7 @@ public class MsgInParser {
                 break;
             case "yourTurn":
                 String possibleOperation = Objects.requireNonNull(evaluateXPath("/ToDo/Info/possibleOperation/text()")).get(0);
-                //TODO notify view with info
+                view.turn(possibleOperation);
                 break;
             case "choseGod":
                 NodeList gods = document.getElementsByTagName("God");

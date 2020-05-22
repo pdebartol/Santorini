@@ -147,7 +147,7 @@ public class RequestMsgWriter {
         setStandardRequestValues(user,"move");
         Node updateTag = initializeTagList("Request", MOVE_INDEX);
         appendTag(updateTag,"Position","");
-        appendWorkerPosition(1, workerGender,xPosition.toString(),yPosition.toString());
+        appendWorkerPosition(0, workerGender,xPosition.toString(),yPosition.toString());
         return document;
     }
 
@@ -156,7 +156,7 @@ public class RequestMsgWriter {
         Node updateTag = initializeTagList("Request", BUILD_INDEX);
         Node position = appendTag(updateTag,"Position","");
 
-        appendWorkerPositionAndLevel(2, workerGender,xPosition.toString(),yPosition.toString(),level);
+        appendWorkerPositionAndLevel(0, workerGender,xPosition.toString(),yPosition.toString(),level);
         return document;
     }
 

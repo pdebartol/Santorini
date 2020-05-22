@@ -8,11 +8,17 @@ public class Worker {
 
     private final Color color;
     private final String gender;
+    private Square currentPosition;
 
     public Worker(Color color, String gender) {
         this.color = color;
         this.gender = gender;
+        currentPosition = null;
 
+    }
+
+    public void setCurrentPosition(Square s){
+        this.currentPosition = s;
     }
 
     public Color getColor() {
@@ -21,6 +27,10 @@ public class Worker {
 
     public String getGender(){
         return gender;
+    }
+
+    public Square getCurrentPosition(){
+        return currentPosition;
     }
 
 }

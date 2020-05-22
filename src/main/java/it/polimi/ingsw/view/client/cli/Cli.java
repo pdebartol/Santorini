@@ -316,6 +316,114 @@ public class Cli extends View {
     //TODO : javadoc
 
     @Override
+    public void turn(String firstOperation) {
+        printInGameTextBox("It’s time to play your turn! Wait...");
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        nextOperation(firstOperation);
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void move() {
+        printInGameTextBox("You have to move!");
+        inputThread = inputExecutor.submit(() -> {
+            int[] startCoordinates = selectWorker();
+
+            String input;
+            int[] coordinates;
+
+            printInGameTextBox("Where do you want to move? (#,#)");
+            input = inputWithTimeout();
+            while (!InputValidator.validateCOORDINATES(input) && !Thread.interrupted()) {
+                printInGameTextBox("Invalid coordinates! Please try again (type #,#)...");
+                input = inputWithTimeout();
+            }
+            if(!Thread.interrupted()) {
+                coordinates = Arrays.stream(input.split(",")).mapToInt(Integer::parseInt).toArray();
+                sendMoveRequest(gameBoard.getSquareByCoordinates(startCoordinates[0],startCoordinates[1]).getWorker().getGender(),coordinates[0],coordinates[1]);
+            }
+        });
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void build() {
+        printInGameTextBox("You have to build!");
+        inputThread = inputExecutor.submit(() -> {
+            int[] startCoordinates = selectWorker();
+
+            String inputCoordinates;
+            int[] coordinates;
+
+            printInGameTextBox("Where do you want to build? (#,#)");
+            inputCoordinates = inputWithTimeout();
+            while (!InputValidator.validateCOORDINATES(inputCoordinates) && !Thread.interrupted()) {
+                printInGameTextBox("Invalid coordinates! Please try again (type #,#)...");
+                inputCoordinates = inputWithTimeout();
+            }
+
+            int level;
+            String inputLevel;
+            printInGameTextBox("What type of building do you want to build? (#)");
+            inputLevel = inputWithTimeout();
+            while (!InputValidator.validateLEVEL(inputLevel) && !Thread.interrupted()) {
+                printInGameTextBox("Invalid building! Please try again (#)...");
+                inputLevel = inputWithTimeout();
+            }
+
+            if(!Thread.interrupted()) {
+                coordinates = Arrays.stream(inputCoordinates.split(",")).mapToInt(Integer::parseInt).toArray();
+                level = Integer.parseInt(inputLevel);
+                sendBuildRequest(gameBoard.getSquareByCoordinates(startCoordinates[0],startCoordinates[1]).getWorker().getGender(),coordinates[0],coordinates[1],level);
+            }
+        });
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void moveOrBuild() {
+        inputThread = inputExecutor.submit(() -> {
+            printInGameTextBox("You can both move and build, what do you want to do? (m,b)");
+            String input;
+            do {
+                input = inputWithTimeout();
+            }while (!Thread.interrupted() && !input.equals("m") && !input.equals("b"));
+
+            if(!Thread.interrupted()){
+                if(input.equals("m")) move();
+                else if(input.equals("b")) build();
+            }
+        });
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void buildOrEnd() {
+        inputThread = inputExecutor.submit(() -> {
+            printInGameTextBox("You can both build and end your turn, what do you want to do? (b,e)");
+            String input;
+            do {
+                input = inputWithTimeout();
+            }while (!Thread.interrupted() && !input.equals("b") && !input.equals("e"));
+
+            if(!Thread.interrupted()){
+                if(input.equals("b")) build();
+                else if(input.equals("e")) sendEndOfTurnRequest();
+            }
+        });
+    }
+
+    //TODO : javadoc
+
+    @Override
     public void showLoginDone() {
         StringBuilder message;
         message = new StringBuilder("Hi " + myPlayer.getUsername() + ", you're in!");
@@ -361,6 +469,8 @@ public class Cli extends View {
             case "setupFemaleWorkerOnBoard":
                 printInGameTextBox(author + " is placing his female worker on the board...");
                 break;
+            case "hisTurn":
+                printInGameTextBox(author + " is playing his turn...");
         }
     }
 
@@ -452,6 +562,51 @@ public class Cli extends View {
     @Override
     public void showBoard() {
         printBoard();
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void showTurnEnded(String username) {
+        printInGameTextBox(username + " turn is over!");
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void showMyTurnEnded(){
+        printInGameTextBox("Your turn is over!");
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void showTurnErrors(List<String> errors) {
+        StringBuilder output = new StringBuilder();
+
+        output.append("Invalid action! errors encountered : ");
+        output.append(errors.get(0));
+
+        for(String e : errors){
+            output.append(", ").append(e);
+        }
+
+        output.append(". Press enter to try again...");
+        printInGameTextBox(output.toString());
+
+        inputThread = inputExecutor.submit((Runnable) this::inputWithTimeout);
     }
 
     //TODO : javadoc
@@ -657,6 +812,14 @@ public class Cli extends View {
                 System.out.print("Game Board");
                 i += 10;
             }
+            if(i == Box.GODS_BOX_START.escape() + 10){
+                System.out.print("God Power");
+                i += 9;
+            }
+            if(i == Box.GODS_BOX_START.escape() - 1){
+                System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_HORIZONTAL.escape());
+                i += 1;
+            }
             System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
         }
         System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_LEFT.escape());
@@ -714,11 +877,20 @@ public class Cli extends View {
                 System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
         }
 
+        //draw the gods box
+
+        System.out.println(Escapes.CURSOR_HOME_0x0.escape());
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.GODS_BOX_START_LINE.escape() + 1, Box.GODS_BOX_START.escape());
+        for (int i = Box.GODS_BOX_START_LINE.escape() + 1; i < Box.PLAYER_BOX_START_LINE.escape(); i++) {
+            System.out.println(Unicode.BOX_DRAWINGS_HEAVY_VERTICAL.escape());
+            System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.GODS_BOX_START.escape() - 1);
+        }
+
         //draw player box
 
         System.out.print(Escapes.CURSOR_HOME_0x0.escape());
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.PLAYER_BOX_START_LINE.escape(), Box.PLAYERS_BOX_START.escape());
-        System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_RIGHT.escape());
+        System.out.print(Unicode.BOX_RAWINGS_HEAVY_VERTICAL_AND_RIGHT.escape());
         for (int i = Box.PLAYERS_BOX_START.escape(); i < (Box.HORIZONTAL_DIM.escape() - 1); i++)
             if (i == Box.HORIZONTAL_DIM.escape() - 25) {
                 System.out.print("Players");
@@ -758,7 +930,7 @@ public class Cli extends View {
     public void printSantorini() {
 
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.ASCII_ART_START_UP.escape(), Box.ASCII_ART_START_LEFT.escape() + 1);
-        System.out.print(ColorCode.ANSI_BLUE.escape() +
+        System.out.print(ColorCode.ANSI_CYAN.escape() +
                 "  _____  ____  ____   ______   ___   ____   ____  ____   ____ \n" + "\u001b[" + Box.ASCII_ART_START_LEFT.escape() + "C" +
                 " / ___/ /    ||    \\ |      | /   \\ |    \\ |    ||    \\ |    |\n" + "\u001b[" + Box.ASCII_ART_START_LEFT.escape() + "C" +
                 "(   \\_ |  o  ||  _  ||      ||     ||  D  ) |  | |  _  | |  | \n" + "\u001b[" + Box.ASCII_ART_START_LEFT.escape() + "C" +
@@ -906,7 +1078,7 @@ public class Cli extends View {
 
         //print 1,2,3,4,5 vertical board reference
         for (int i = Board.DIMENSION, j = 0; i > 0; i--, j += Box.SQUARE_DIMENSION.escape()) {
-            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() + j + 1, Box.BOARD_START_LEFT.escape() - 3);
+            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() + j + 2, Box.BOARD_START_LEFT.escape() - 3);
             System.out.printf("%d", i - 1);
         }
 
@@ -958,7 +1130,7 @@ public class Cli extends View {
         setBackgroundColor(square);
 
         System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_RIGHT.escape());
-        for (int i = 0; i < 8 - 2; i++) {
+        for (int i = 0; i < 6; i++) {
             System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
         }
         System.out.print(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_LEFT.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
@@ -1199,115 +1371,50 @@ public class Cli extends View {
 
     }
 
-    /**
-     * This game represents an ordinary turn
-     */
-
-    public void gameTurn() {
-
-        boolean notOverYet = true;
-
-        while (notOverYet) {
-
-            eraseThings("all");
-            printBoard();
-            printInGameTextBox("Insert command (type \"show commands\" for help)");
-
-            switch (input()) {
-
-                case "move":
-                    eraseThings("text");
-                    move();
-                    notOverYet = !endTurn();
-                    break;
-
-                case "build":
-                    eraseThings("text");
-                    build();
-                    notOverYet = !endTurn();
-                    break;
-
-                case "show my divinity":
-                    printGameDivinities(1);
-                    break;
-
-                case "show other divinities":
-                    printGameDivinities(0);
-                    break;
-
-                case "show commands":
-                    eraseThings("text");
-                    printInGameTextBox("move - build - show my divinity - show other divinities || Press enter to continue");
-                    input();
-                    break;
-
-                case "quit":
-                    eraseThings("text");
-                    notOverYet = false;
-
-                default:
-                    eraseThings("text");
-                    printInGameTextBox("Wrong command! Retype it! - Press enter to continue");
-                    input();
-
-            }
-        }
-
-    }
-
-    /**
-     * This method represents the move process in the game
-     */
-
-    private void move() {
-
-        int[] numbers;
-        int[] workerPosition;
-
-        workerPosition = selectWorker();
-
-        printInGameTextBox("Select the square where you want to move your worker: (type #,#)");
-
-        numbers = Arrays.stream(input().split(",")).mapToInt(Integer::parseInt).toArray();
-
-    }
-
     private int[] selectWorker() {
 
-        int[] numbers;
+        int[] coordinates = new int[2];
 
-        do {
-            eraseThings("text");
-            printInGameTextBox("Select the worker: (type #,#)");
+        if(workerForThisTurnCoordinates[0] == -1 && workerForThisTurnCoordinates[1] == -1) {
+            String input = "";
 
-            numbers = Arrays.stream(input().split(",")).mapToInt(Integer::parseInt).toArray();
+            if(myPlayer.getWorkers().size() == 1){
+                Square s = myPlayer.getWorkers().get(0).getCurrentPosition();
+                coordinates[0] = s.getX();
+                coordinates[1] = s.getY();
+                appendInGameTextBox("You have only one worker in game, you will play your turn with him!");
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                appendInGameTextBox("Select one of your workers: (m,f)");
+                input = inputWithTimeout();
+                while (!input.equals("m") && !input.equals("f") && !Thread.interrupted()) {
+                    printInGameTextBox("Invalid input! Please try again (m,f)...");
+                    input = inputWithTimeout();
+                }
 
-        } while (gameBoard.getSquareByCoordinates(numbers[0], numbers[1]).getWorker() == null);
+                if (input.equals("m") && !Thread.interrupted()) {
+                    Square s = myPlayer.getWorkerByGender("male").getCurrentPosition();
+                    coordinates[0] = s.getX();
+                    coordinates[1] = s.getY();
+                }
+                if (input.equals("f") && !Thread.interrupted()) {
+                    Square s = myPlayer.getWorkerByGender("female").getCurrentPosition();
+                    coordinates[0] = s.getX();
+                    coordinates[1] = s.getY();
+                }
+            }
 
-        //TODO change color of square of selected worker
+        }else{
+            coordinates = workerForThisTurnCoordinates;
+        }
 
-        return numbers;
-
+        return coordinates;
     }
 
-    /**
-     * This method represents the build process in the game
-     */
-
-    private void build() {
-
-        int[] numbers;
-
-        printInGameTextBox("Select the square where you want your worker to build: (type #,#)");
-
-        numbers = Arrays.stream(input().split(",")).mapToInt(Integer::parseInt).toArray();
-
-    }
-
-    private boolean endTurn() {
-        //TODO check if turn is over
-        return false;
-    }
 
     //support methods
 

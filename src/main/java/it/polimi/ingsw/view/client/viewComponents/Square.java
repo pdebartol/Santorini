@@ -41,6 +41,7 @@ public class Square {
 
     public void placeWorker(Worker worker) {
         this.worker = worker;
+        worker.setCurrentPosition(this);
     }
 
     //TODO : javadoc

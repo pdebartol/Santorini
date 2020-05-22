@@ -167,7 +167,7 @@ public class StandardPower implements Power {
         if(s.equals(w.getCurrentSquare())) throw new IllegalStateException("Can't move on the same Square!");
 
         //Write this update into move request accepted answer
-        board.getMsgContainer().updateMove(w.getCurrentSquare().getXPosition(),w.getCurrentSquare().getYPosition(),x,y);
+        board.getMsgContainer().updateMove(0,w.getCurrentSquare().getXPosition(),w.getCurrentSquare().getYPosition(),x,y);
 
         w.updateWorkerPosition(s);
         w.getLastSquareMove().removeWorker();
@@ -195,15 +195,15 @@ public class StandardPower implements Power {
         Square s = board.getSquare(x,y);
 
         //Write this update into build request accepted answer
-        board.getMsgContainer().updateBuild(w.getCurrentSquare().getXPosition(),w.getCurrentSquare().getYPosition(),x,y,l);
+        board.getMsgContainer().updateBuild(0,w.getCurrentSquare().getXPosition(),w.getCurrentSquare().getYPosition(),x,y,l);
 
         s.buildLevel(l);
         w.setLastSquareBuild(s);
         board.incNBuild();
 
         //Write nexStepIndication in xml build request answer
-        if (maxBuild - board.getNBuild() > 0) board.getMsgContainer().nextStepIndication("build/finished");
-        else board.getMsgContainer().nextStepIndication("finished");
+        if (maxBuild - board.getNBuild() > 0) board.getMsgContainer().nextStepIndication("build/end");
+        else board.getMsgContainer().nextStepIndication("end");
     }
 
     /**

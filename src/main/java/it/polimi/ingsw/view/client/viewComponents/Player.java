@@ -49,6 +49,13 @@ public class Player {
 
     //TODO : javadoc
 
+    public void removeWorker(Worker w){
+        w.getCurrentPosition().removeWorker();
+        workers.remove(w);
+    }
+
+    //TODO : javadoc
+
     public void lose(){
         loser = true;
     }
