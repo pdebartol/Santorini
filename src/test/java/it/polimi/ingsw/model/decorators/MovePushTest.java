@@ -25,7 +25,7 @@ class MovePushTest {
 
         b = new Board();
         GodsFactory factory = new GodsFactory(b);
-        p1 = new Player("aledimaio", Color.WHITE);
+        p1 = new Player("aledimaio", Color.ORANGE);
         p2 = new Player("marcodige",Color.GREY);
         p3 = new Player("pierobartolo", Color.AZURE);
         ArrayList<God> gods = factory.getGods( new ArrayList<>(Arrays.asList(8,3,1)));

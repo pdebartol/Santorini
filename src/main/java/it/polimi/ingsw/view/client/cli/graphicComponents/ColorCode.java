@@ -16,6 +16,7 @@ public enum ColorCode {
     ANSI_CYAN("\u001B[36m"),
     ANSI_WHITE("\u001B[37m"),
     WHITE("\u001B[48;5;255m"),
+    ORANGE("\u001B[48;5;209m"),
     GREY("\u001B[48;5;246m"),
     TEXT_GREY("\u001b[38;5;246m"),
     AZURE("\u001B[48;5;75m"),

@@ -33,7 +33,7 @@ class CanMoveUpTest {
         //Object creation
         b = new Board();
         GodsFactory factory = new GodsFactory(b);
-        p1 = new Player("pierobartolo", Color.WHITE);
+        p1 = new Player("pierobartolo", Color.ORANGE);
         p2 = new Player("marcodige",Color.GREY);
         p3 = new Player("aledimaio",Color.AZURE);
         ArrayList<God> gods = factory.getGods( new ArrayList<>(Arrays.asList(1,2,3)));

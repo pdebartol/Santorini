@@ -43,7 +43,7 @@ class WorkerTest {
         assertEquals(worker, gameBoard.getSquare(1,1).getWorker());
         assertEquals(gameBoard.getSquare(1,1),worker.getCurrentSquare());
 
-        Worker w2 = new Worker(Color.WHITE,"female");
+        Worker w2 = new Worker(Color.ORANGE,"female");
         w2.setWorkerOnBoard(gameBoard.getSquare(1,2));
         gameBoard.getSquare(1,1).removeWorker();
 
@@ -68,7 +68,7 @@ class WorkerTest {
         assertEquals(worker.getCurrentSquare(), gameBoard.getSquare(2,2));
 
         //check that it's impossible to update worker position with an occupied position
-        Worker w2 = new Worker(Color.WHITE,"female");
+        Worker w2 = new Worker(Color.ORANGE,"female");
         w2.setWorkerOnBoard(gameBoard.getSquare(1,2));
 
         assertThrows(IllegalStateException.class, () -> worker.updateWorkerPosition(gameBoard.getSquare(1,2)));

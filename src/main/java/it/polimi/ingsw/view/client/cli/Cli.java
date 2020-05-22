@@ -26,9 +26,11 @@ public class Cli extends View {
     ExecutorService inputExecutor;
     Future inputThread;
     private String state;
+    private boolean disconnected;
 
     public Cli() {
         super();
+        disconnected = false;
         inputExecutor = Executors.newSingleThreadExecutor();
         cliSetup();
     }
@@ -42,6 +44,22 @@ public class Cli extends View {
         System.out.print(Escapes.CLEAR_ENTIRE_SCREEN.escape());
         printStartTemplate();
         gameSetup();
+    }
+
+    /**
+     * This method represents the game setup
+     */
+
+    public void gameSetup() {
+        printInStartTextBox("Press enter button to start");
+        input();
+
+        //Connection setup
+        setMyIp();
+        setMyPort();
+
+        //start connection
+        start();
     }
 
     //View Override methods
@@ -78,6 +96,8 @@ public class Cli extends View {
 
     @Override
     public void setUsername(boolean rejectedBefore) {
+        disconnected = false;
+
         String output = "";
         if(rejectedBefore)
             output = "Username already used! ";
@@ -141,53 +161,52 @@ public class Cli extends View {
             if(!Thread.interrupted()) {
                 printInGameTextBox(gods.get(0).getId() + " " + gods.get(0).getName());
                 appendInGameTextBox(gods.get(0).getDescription());
-            }
 
-            while (godsId.size() < (players.size() + 1)) {
+                while (godsId.size() < (players.size() + 1)) {
 
-                switch (inputWithTimeout()) {
+                    switch (inputWithTimeout()) {
 
-                    case "n":
-                        if(i < gods.size() - 1) i++;
-                        else i = 0;
-                        printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
-                        appendInGameTextBox(gods.get(i).getDescription());
-                        break;
+                        case "n":
+                            if (i < gods.size() - 1) i++;
+                            else i = 0;
+                            printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
+                            appendInGameTextBox(gods.get(i).getDescription());
+                            break;
 
-                    case "p":
-                        if(i > 0) i--;
-                        else i = gods.size() - 1;
-                        printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
-                        appendInGameTextBox(gods.get(i).getDescription());
-                        break;
+                        case "p":
+                            if (i > 0) i--;
+                            else i = gods.size() - 1;
+                            printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
+                            appendInGameTextBox(gods.get(i).getDescription());
+                            break;
 
-                    case "t":
-                        if(!godsId.contains(gods.get(i).getId())){
-                            godsId.add(gods.get(i).getId());
+                        case "t":
+                            if (!godsId.contains(gods.get(i).getId())) {
+                                godsId.add(gods.get(i).getId());
 
-                            if((players.size() + 1 - godsId.size()) > 0) {
-                                printInGameTextBox("You have to choose " + (players.size() + 1 - godsId.size()) + " more gods. Press enter to continue...");
+                                if ((players.size() + 1 - godsId.size()) > 0) {
+                                    printInGameTextBox("You have to choose " + (players.size() + 1 - godsId.size()) + " more gods. Press enter to continue...");
+                                    inputWithTimeout();
+                                    printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
+                                    appendInGameTextBox(gods.get(i).getDescription());
+                                } else {
+                                    printInGameTextBox("Loading...");
+                                }
+                            } else {
+                                printInGameTextBox("This god has already been chosen! Press enter to continue...");
                                 inputWithTimeout();
                                 printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
                                 appendInGameTextBox(gods.get(i).getDescription());
-                            }else{
-                                printInGameTextBox("Loading...");
                             }
-                        }
-                        else{
-                            printInGameTextBox("This god has already been chosen! Press enter to continue...");
-                            inputWithTimeout();
-                            printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
-                            appendInGameTextBox(gods.get(i).getDescription());
-                        }
-                        break;
+                            break;
 
-                    case "timeoutExpired" :
-                        clientHandler.disconnectionForTimeout();
+                        case "timeoutExpired":
+                            clientHandler.disconnectionForTimeout();
 
+                    }
+
+                    if (Thread.interrupted()) return;
                 }
-
-                if(Thread.interrupted()) return;
             }
 
             if (!Thread.interrupted()) sendCreateGodsRequest(godsId);
@@ -222,34 +241,32 @@ public class Cli extends View {
                 if(!Thread.interrupted()) {
                     printInGameTextBox(getGodById(ids.get(0)).getId() + " " + getGodById(ids.get(0)).getName());
                     appendInGameTextBox(getGodById(ids.get(0)).getDescription());
-                }
 
-                while (godId == 0) {
+                    while (godId == 0 && !Thread.interrupted()) {
 
-                    switch (inputWithTimeout()) {
+                        switch (inputWithTimeout()) {
 
-                        case "n":
-                            if(i < ids.size() - 1) i++;
-                            else i = 0;
-                            printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
-                            appendInGameTextBox(getGodById(ids.get(i)).getDescription());
-                            break;
+                            case "n":
+                                if (i < ids.size() - 1) i++;
+                                else i = 0;
+                                printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
+                                appendInGameTextBox(getGodById(ids.get(i)).getDescription());
+                                break;
 
-                        case "p":
-                            if(i > 0) i--;
-                            else i = ids.size() - 1;
-                            printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
-                            appendInGameTextBox(getGodById(ids.get(i)).getDescription());
-                            break;
+                            case "p":
+                                if (i > 0) i--;
+                                else i = ids.size() - 1;
+                                printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
+                                appendInGameTextBox(getGodById(ids.get(i)).getDescription());
+                                break;
 
-                        case "t":
-                            godId = getGodById(ids.get(i)).getId();
-                            printInGameTextBox("Loading...");
-                            break;
-                        case "timeoutExpired" :
-                            clientHandler.disconnectionForTimeout();
+                            case "t":
+                                godId = getGodById(ids.get(i)).getId();
+                                printInGameTextBox("Loading...");
+                                break;
+                        }
+                        if (Thread.interrupted()) return;
                     }
-                    if(Thread.interrupted()) return;
                 }
 
                 if (!Thread.interrupted()) sendChooseGodRequest(godId);
@@ -458,6 +475,7 @@ public class Cli extends View {
 
     @Override
     public void showAnotherClientDisconnection() {
+        disconnected = true;
         abortInputProcessing();
         if (state.equals("SETUP"))
             printInStartTextBox("A client has disconnected from the game, the match has been deleted! Do you want to try to search a new game? (s/n)");
@@ -481,6 +499,7 @@ public class Cli extends View {
 
     @Override
     public void showDisconnectionForLobbyNoLongerAvailable() {
+        disconnected = true;
         abortInputProcessing();
         printInStartTextBox("Too long, the match you were entered into has already started! Do you want to try to search a new game? (s/n)");
         String input;
@@ -501,6 +520,7 @@ public class Cli extends View {
 
     @Override
     public void showServerDisconnection() {
+        disconnected = true;
         abortInputProcessing();
         if (state.equals("SETUP"))
             printInStartTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
@@ -520,6 +540,7 @@ public class Cli extends View {
 
     @Override
     public void showDisconnectionForInputExpiredTimeout() {
+        disconnected = true;
         abortInputProcessing();
         if (state.equals("SETUP")) printInStartTextBox("The timeout to do your action has expired, " +
                 "you were kicked out of the game! Do you want to try to search a new game? (s/n)");
@@ -997,7 +1018,11 @@ public class Cli extends View {
         try {
             input = result.get(2, TimeUnit.MINUTES);
         } catch (TimeoutException | InterruptedException | ExecutionException e) {
-            disconnectionForInputExpiredTimeout();
+            if(!disconnected){
+                new Thread(this::disconnectionForInputExpiredTimeout).start();
+            }
+            Thread.currentThread().interrupt();
+            result.cancel(true);
         }
 
         return input;
@@ -1158,23 +1183,6 @@ public class Cli extends View {
     }
 
     /**
-     * This method represents the game setup
-     */
-
-    public void gameSetup() {
-
-        printInStartTextBox("Press enter button to start");
-        input();
-
-        //Connection setup
-        setMyIp();
-        setMyPort();
-
-        //start connection
-        start();
-    }
-
-    /**
      * This game represents an ordinary turn
      */
 
@@ -1289,7 +1297,8 @@ public class Cli extends View {
     //TODO : javadoc
 
     private void abortInputProcessing() {
-        if (inputThread != null) inputThread.cancel(true);
+        if (inputThread != null && !inputThread.isCancelled()) inputThread.cancel(true);
+
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {

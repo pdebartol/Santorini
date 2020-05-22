@@ -30,7 +30,7 @@ class BuildDomeEverywhereTest {
     void setUp() {
         b = new Board();
         GodsFactory factory = new GodsFactory(b);
-        p1 = new Player("aledimaio", Color.WHITE);
+        p1 = new Player("aledimaio", Color.ORANGE);
         ArrayList<God> gods = factory.getGods(new ArrayList<>(Collections.singletonList(4)));
         p1.setGod(Objects.requireNonNull(gods.get(0))); // Atlas
 

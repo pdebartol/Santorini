@@ -31,7 +31,7 @@ class PlayerTest {
     @BeforeEach
     void setUp() {
 
-        p1 = new Player("pierobartolo", Color.WHITE);
+        p1 = new Player("pierobartolo", Color.ORANGE);
         p2 = new Player("marcoDige",Color.AZURE);
         p3 = new Player("aledimaio",Color.GREY);
 

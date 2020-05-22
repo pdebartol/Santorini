@@ -32,7 +32,7 @@ class StandardPowerTest {
     public void setUp() {
         b = new Board();
         p1 = new Player("marcoDige", Color.AZURE);
-        p2 = new Player("pierobartolo", Color.WHITE);
+        p2 = new Player("pierobartolo", Color.ORANGE);
         wmp1 = p1.getWorkers().get(0);
         wfp1 = p1.getWorkers().get(1);
         wmp2 = p2.getWorkers().get(0);
