@@ -20,7 +20,9 @@ public class PlayerOrderSelectionController {
     @FXML
     public ImageView playImageViewButton;
     @FXML
-    public Label informationLabel;
+    private Label informationLabel;
+
+    private Gui gui;
 
     @FXML
     public void confirmFirstPlayerAndStartGame(MouseEvent mouseEvent) {
@@ -32,4 +34,12 @@ public class PlayerOrderSelectionController {
     public void prevPlayer(ActionEvent actionEvent) {
     }
 
+
+    public void setInformationLabel(String text){
+        informationLabel.setText(text);
+    }
+
+    public void setGui(Gui gui) {
+        this.gui = gui;
+    }
 }
