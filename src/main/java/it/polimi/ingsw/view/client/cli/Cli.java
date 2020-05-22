@@ -966,13 +966,13 @@ public class Cli extends View {
 
         if (square.getWorker() != null) {
             if(square.getWorker().getGender().equals("male")) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + " " + Unicode.WORKER_MALE_ICON.escape() + " " + ColorCode.ANSI_RESET.escape());
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + Unicode.WORKER_MALE_ICON.escape() + ColorCode.ANSI_RESET.escape());
                 setBackgroundColor(square);
                 System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
             if(square.getWorker().getGender().equals("female")) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + " " + Unicode.WORKER_FEMALE_ICON.escape() + " " + ColorCode.ANSI_RESET.escape());
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + Unicode.WORKER_FEMALE_ICON.escape() + ColorCode.ANSI_RESET.escape());
                 setBackgroundColor(square);
                 System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
