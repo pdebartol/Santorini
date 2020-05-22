@@ -23,13 +23,14 @@ import java.util.concurrent.*;
 
 public class Cli extends View {
 
-    private final String icon = Unicode.WORKER_MALE_ICON.escape();
     ExecutorService inputExecutor;
     Future inputThread;
     private String state;
+    private boolean disconnected;
 
     public Cli() {
         super();
+        disconnected = false;
         inputExecutor = Executors.newSingleThreadExecutor();
         cliSetup();
     }
@@ -43,6 +44,22 @@ public class Cli extends View {
         System.out.print(Escapes.CLEAR_ENTIRE_SCREEN.escape());
         printStartTemplate();
         gameSetup();
+    }
+
+    /**
+     * This method represents the game setup
+     */
+
+    public void gameSetup() {
+        printInStartTextBox("Press enter button to start");
+        input();
+
+        //Connection setup
+        setMyIp();
+        setMyPort();
+
+        //start connection
+        start();
     }
 
     //View Override methods
@@ -79,16 +96,18 @@ public class Cli extends View {
 
     @Override
     public void setUsername(boolean rejectedBefore) {
+        disconnected = false;
+
         String output = "";
         if(rejectedBefore)
             output = "Username already used! ";
 
-        output += "Insert your username (must be at least 3 characters long and no more than 15, valid characters: A-Z, a-z, 1-9, _)";
+        output += "Insert your username (must be at least 3 characters long and no more than 10, valid characters: A-Z, a-z, 1-9, _)";
         printInStartTextBox(output);
         inputThread = inputExecutor.submit(() -> {
             String username = input();
             while (!InputValidator.validateUSERNAME(username) && !Thread.interrupted()) {
-                printInStartTextBox("Invalid username! It must be at least 3 characters long and no more than 15, valid characters: A-Z, a-z, 1-9, _, try again!");
+                printInStartTextBox("Invalid username! It must be at least 3 characters long and no more than 10, valid characters: A-Z, a-z, 1-9, _, try again!");
                 username = input();
             }
             sendLoginRequest(username);
@@ -142,53 +161,52 @@ public class Cli extends View {
             if(!Thread.interrupted()) {
                 printInGameTextBox(gods.get(0).getId() + " " + gods.get(0).getName());
                 appendInGameTextBox(gods.get(0).getDescription());
-            }
 
-            while (godsId.size() < (players.size() + 1)) {
+                while (godsId.size() < (players.size() + 1)) {
 
-                switch (inputWithTimeout()) {
+                    switch (inputWithTimeout()) {
 
-                    case "n":
-                        if(i < gods.size() - 1) i++;
-                        else i = 0;
-                        printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
-                        appendInGameTextBox(gods.get(i).getDescription());
-                        break;
+                        case "n":
+                            if (i < gods.size() - 1) i++;
+                            else i = 0;
+                            printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
+                            appendInGameTextBox(gods.get(i).getDescription());
+                            break;
 
-                    case "p":
-                        if(i > 0) i--;
-                        else i = gods.size() - 1;
-                        printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
-                        appendInGameTextBox(gods.get(i).getDescription());
-                        break;
+                        case "p":
+                            if (i > 0) i--;
+                            else i = gods.size() - 1;
+                            printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
+                            appendInGameTextBox(gods.get(i).getDescription());
+                            break;
 
-                    case "t":
-                        if(!godsId.contains(gods.get(i).getId())){
-                            godsId.add(gods.get(i).getId());
+                        case "t":
+                            if (!godsId.contains(gods.get(i).getId())) {
+                                godsId.add(gods.get(i).getId());
 
-                            if((players.size() + 1 - godsId.size()) > 0) {
-                                printInGameTextBox("You have to choose " + (players.size() + 1 - godsId.size()) + " more gods. Press enter to continue...");
+                                if ((players.size() + 1 - godsId.size()) > 0) {
+                                    printInGameTextBox("You have to choose " + (players.size() + 1 - godsId.size()) + " more gods. Press enter to continue...");
+                                    inputWithTimeout();
+                                    printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
+                                    appendInGameTextBox(gods.get(i).getDescription());
+                                } else {
+                                    printInGameTextBox("Loading...");
+                                }
+                            } else {
+                                printInGameTextBox("This god has already been chosen! Press enter to continue...");
                                 inputWithTimeout();
                                 printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
                                 appendInGameTextBox(gods.get(i).getDescription());
-                            }else{
-                                printInGameTextBox("Loading...");
                             }
-                        }
-                        else{
-                            printInGameTextBox("This god has already been chosen! Press enter to continue...");
-                            inputWithTimeout();
-                            printInGameTextBox(gods.get(i).getId() + " " + gods.get(i).getName());
-                            appendInGameTextBox(gods.get(i).getDescription());
-                        }
-                        break;
+                            break;
 
-                    case "timeoutExpired" :
-                        clientHandler.disconnectionForTimeout();
+                        case "timeoutExpired":
+                            clientHandler.disconnectionForTimeout();
 
+                    }
+
+                    if (Thread.interrupted()) return;
                 }
-
-                if(Thread.interrupted()) return;
             }
 
             if (!Thread.interrupted()) sendCreateGodsRequest(godsId);
@@ -200,7 +218,7 @@ public class Cli extends View {
     @Override
     public void selectGod(List<Integer> ids) {
         if(ids.size() == 1) {
-            appendInGameTextBox("The last god left is " + getGodById(ids.get(0)).getName() + " and he will be your god for this game");
+            appendInGameTextBox("The last god left is " + getGodById(ids.get(0)).getName() + " and he will be your god for this game.");
             sendChooseGodRequest(ids.get(0));
             try {
                 Thread.sleep(5000);
@@ -223,34 +241,32 @@ public class Cli extends View {
                 if(!Thread.interrupted()) {
                     printInGameTextBox(getGodById(ids.get(0)).getId() + " " + getGodById(ids.get(0)).getName());
                     appendInGameTextBox(getGodById(ids.get(0)).getDescription());
-                }
 
-                while (godId == 0) {
+                    while (godId == 0 && !Thread.interrupted()) {
 
-                    switch (inputWithTimeout()) {
+                        switch (inputWithTimeout()) {
 
-                        case "n":
-                            if(i < ids.size() - 1) i++;
-                            else i = 0;
-                            printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
-                            appendInGameTextBox(getGodById(ids.get(i)).getDescription());
-                            break;
+                            case "n":
+                                if (i < ids.size() - 1) i++;
+                                else i = 0;
+                                printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
+                                appendInGameTextBox(getGodById(ids.get(i)).getDescription());
+                                break;
 
-                        case "p":
-                            if(i > 0) i--;
-                            else i = ids.size() - 1;
-                            printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
-                            appendInGameTextBox(getGodById(ids.get(i)).getDescription());
-                            break;
+                            case "p":
+                                if (i > 0) i--;
+                                else i = ids.size() - 1;
+                                printInGameTextBox(getGodById(ids.get(i)).getId() + " " + getGodById(ids.get(i)).getName());
+                                appendInGameTextBox(getGodById(ids.get(i)).getDescription());
+                                break;
 
-                        case "t":
-                            godId = getGodById(ids.get(i)).getId();
-                            printInGameTextBox("Loading...");
-                            break;
-                        case "timeoutExpired" :
-                            clientHandler.disconnectionForTimeout();
+                            case "t":
+                                godId = getGodById(ids.get(i)).getId();
+                                printInGameTextBox("Loading...");
+                                break;
+                        }
+                        if (Thread.interrupted()) return;
                     }
-                    if(Thread.interrupted()) return;
                 }
 
                 if (!Thread.interrupted()) sendChooseGodRequest(godId);
@@ -280,9 +296,20 @@ public class Cli extends View {
     //TODO : javadoc
 
     @Override
-    public void setWorkerOnBoard(String gender) {
+    public void setWorkerOnBoard(String gender, boolean rejectedBefore) {
         inputThread = inputExecutor.submit(() -> {
+            if(rejectedBefore) printInGameTextBox("The position is occupied! Insert enter the coordinates of a free place (type #,#)...");
+            else printInGameTextBox("Enter the coordinates where you want to place your " + gender + " worker (type #,#)...");
+            String input = inputWithTimeout();
+            while(!InputValidator.validateCOORDINATES(input) && !Thread.interrupted()){
+                printInGameTextBox("Invalid coordinates! Please try again (type #,#)...");
+                input = inputWithTimeout();
+            }
 
+            if(!Thread.interrupted()){
+                int[] coordinates = Arrays.stream(input.split(",")).mapToInt(Integer::parseInt).toArray();
+                sendSetWorkerOnBoardRequest(gender,coordinates[0],coordinates[1]);
+            }
         });
     }
 
@@ -363,7 +390,7 @@ public class Cli extends View {
             output.append(", ").append(getGodById(ids.get(i)).getName());
         }
 
-        output.append(". You will receive the last god left after choosing the other players.");
+        output.append(".");
 
         printInGameTextBox(output.toString());
     }
@@ -377,6 +404,8 @@ public class Cli extends View {
         for(int i = 1; i < ids.size(); i++){
             output.append(", ").append(getGodById(ids.get(i)).getName());
         }
+
+        output.append(".");
 
         printInGameTextBox(output.toString());
     }
@@ -446,6 +475,7 @@ public class Cli extends View {
 
     @Override
     public void showAnotherClientDisconnection() {
+        disconnected = true;
         abortInputProcessing();
         if (state.equals("SETUP"))
             printInStartTextBox("A client has disconnected from the game, the match has been deleted! Do you want to try to search a new game? (s/n)");
@@ -469,8 +499,9 @@ public class Cli extends View {
 
     @Override
     public void showDisconnectionForLobbyNoLongerAvailable() {
+        disconnected = true;
         abortInputProcessing();
-        printInStartTextBox("too long, the lobby you were entered into has already started! Do you want to try to search a new game? (s/n)");
+        printInStartTextBox("Too long, the match you were entered into has already started! Do you want to try to search a new game? (s/n)");
         String input;
         do {
             input = input();
@@ -489,6 +520,7 @@ public class Cli extends View {
 
     @Override
     public void showServerDisconnection() {
+        disconnected = true;
         abortInputProcessing();
         if (state.equals("SETUP"))
             printInStartTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
@@ -508,6 +540,8 @@ public class Cli extends View {
 
     @Override
     public void showDisconnectionForInputExpiredTimeout() {
+        disconnected = true;
+        abortInputProcessing();
         if (state.equals("SETUP")) printInStartTextBox("The timeout to do your action has expired, " +
                 "you were kicked out of the game! Do you want to try to search a new game? (s/n)");
         else
@@ -686,7 +720,7 @@ public class Cli extends View {
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.PLAYER_BOX_START_LINE.escape(), Box.PLAYERS_BOX_START.escape());
         System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_RIGHT.escape());
         for (int i = Box.PLAYERS_BOX_START.escape(); i < (Box.HORIZONTAL_DIM.escape() - 1); i++)
-            if (i == Box.HORIZONTAL_DIM.escape() - 32) {
+            if (i == Box.HORIZONTAL_DIM.escape() - 25) {
                 System.out.print("Players");
                 i += 6;
             } else
@@ -878,7 +912,7 @@ public class Cli extends View {
 
         //This cycle prints 0,0 position in the left-bottom corner
 
-        for (int x = Board.DIMENSION - 1, i = 0, j = 0; x > -1; x--, i += Box.SQUARE_HORIZONTAL_DIM.escape(), j++) {
+        for (int x = 0, i = 0, j = 0; x < Board.DIMENSION; x++, i += Box.SQUARE_HORIZONTAL_DIM.escape(), j++) {
             System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape(), Box.BOARD_START_LEFT.escape() + i - 1);
             for (int y = Board.DIMENSION - 1; y > -1; y--) {
                 drawSquare(x, y);
@@ -892,11 +926,7 @@ public class Cli extends View {
 
     }
 
-    public void drawSquare(int x, int y) {
-
-        Square square = gameBoard.getSquareByCoordinates(x, y);
-
-        //change color of single square based on level of square
+    private void setBackgroundColor(Square square){
 
         if (square.getDome())
             System.out.print(ColorCode.LEVEL_DOME_BLUE_BACKGROUND.escape());
@@ -917,27 +947,60 @@ public class Cli extends View {
             }
         }
 
+    }
+
+    public void drawSquare(int x, int y) {
+
+        Square square = gameBoard.getSquareByCoordinates(x, y);
+
+        //change color of single square based on level of square
+
+        setBackgroundColor(square);
+
+        System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_RIGHT.escape());
+        for (int i = 0; i < 8 - 2; i++) {
+            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
+        }
+        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_LEFT.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+        System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+
         if (square.getWorker() != null) {
-            if(square.getWorker().getGender().equals("male"))
-                System.out.println(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + Unicode.WORKER_MALE_ICON.escape() + Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape()
-                    + Escapes.RESTORE_CURSOR_POSITION.escape());
-            if(square.getWorker().getGender().equals("female"))
-                System.out.println(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + Unicode.WORKER_FEMALE_ICON.escape() + Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape()
-                        + Escapes.RESTORE_CURSOR_POSITION.escape());
+            if(square.getWorker().getGender().equals("male")) {
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + Unicode.WORKER_MALE_ICON.escape() + ColorCode.ANSI_RESET.escape());
+                setBackgroundColor(square);
+                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+            }
+            if(square.getWorker().getGender().equals("female")) {
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + Unicode.WORKER_FEMALE_ICON.escape() + ColorCode.ANSI_RESET.escape());
+                setBackgroundColor(square);
+                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+            }
+
+            /*
             for (int i = 1; i < Box.SQUARE_DIMENSION.escape() - 1; i++) {
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape()
                         + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
-            System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + ColorCode.ANSI_BLACK.escape() + square.getLevel() + ColorCode.ANSI_RESET.escape());
+            */
+
         } else {
-            for (int i = 0; i < Box.SQUARE_DIMENSION.escape() - 1; i++) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape()
-                        + Escapes.RESTORE_CURSOR_POSITION.escape());
-                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
-            }
-            System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + ColorCode.ANSI_BLACK.escape() + square.getLevel() + ColorCode.ANSI_RESET.escape());
+            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape()
+                    + Unicode.SQUARE_HORIZONTAL_DIM_MIN2.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+            System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
         }
+            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + ColorCode.ANSI_BLACK.escape() + square.getLevel() + ColorCode.ANSI_RESET.escape());
+            setBackgroundColor(square);
+            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+            System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+
+            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_RIGHT.escape());
+            for (int i = 0; i < 8 - 2; i++) {
+                System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
+            }
+            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_LEFT.escape());
     }
 
     //Worker methods
@@ -972,7 +1035,11 @@ public class Cli extends View {
         try {
             input = result.get(2, TimeUnit.MINUTES);
         } catch (TimeoutException | InterruptedException | ExecutionException e) {
-            disconnectionForInputExpiredTimeout();
+            if(!disconnected){
+                new Thread(this::disconnectionForInputExpiredTimeout).start();
+            }
+            Thread.currentThread().interrupt();
+            result.cancel(true);
         }
 
         return input;
@@ -1133,23 +1200,6 @@ public class Cli extends View {
     }
 
     /**
-     * This method represents the game setup
-     */
-
-    public void gameSetup() {
-
-        printInStartTextBox("Press enter button to start");
-        input();
-
-        //Connection setup
-        setMyIp();
-        setMyPort();
-
-        //start connection
-        start();
-    }
-
-    /**
      * This game represents an ordinary turn
      */
 
@@ -1264,7 +1314,8 @@ public class Cli extends View {
     //TODO : javadoc
 
     private void abortInputProcessing() {
-        if (inputThread != null) inputThread.cancel(true);
+        if (inputThread != null && !inputThread.isCancelled()) inputThread.cancel(true);
+
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {

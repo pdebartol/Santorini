@@ -43,7 +43,7 @@ class MatchControllerTest {
         assertEquals(Color.AZURE, temp_player.getWorkers().get(0).getColor());
 
         // 2nd player login
-        errors = controller.onNewPlayer("piero", Color.WHITE);
+        errors = controller.onNewPlayer("piero", Color.ORANGE);
         assertEquals(1, errors.size());
         assertTrue(errors.contains(Error.LOGIN_USERNAME_NOT_AVAILABLE));
 
@@ -76,12 +76,12 @@ class MatchControllerTest {
         assertEquals(Color.AZURE, temp_player.getWorkers().get(0).getColor());
 
         // 2nd player login
-        errors = controller.onNewPlayer("marco", Color.WHITE);
+        errors = controller.onNewPlayer("marco", Color.ORANGE);
         assertEquals(0, errors.size());
 
         temp_player = controller.playerController.getPlayerByUsername("marco");
         assertEquals("marco",temp_player.getUsername());
-        assertEquals(Color.WHITE, temp_player.getWorkers().get(0).getColor());
+        assertEquals(Color.ORANGE, temp_player.getWorkers().get(0).getColor());
 
         // 3rd player login
         errors = controller.onNewPlayer("ale", Color.GREY);
@@ -334,12 +334,12 @@ class MatchControllerTest {
         assertEquals(Color.AZURE, temp_player.getWorkers().get(0).getColor());
 
         // 2nd player login
-        errors = controller.onNewPlayer("marco", Color.WHITE);
+        errors = controller.onNewPlayer("marco", Color.ORANGE);
         assertEquals(0, errors.size());
 
         temp_player = controller.playerController.getPlayerByUsername("marco");
         assertEquals("marco",temp_player.getUsername());
-        assertEquals(Color.WHITE, temp_player.getWorkers().get(0).getColor());
+        assertEquals(Color.ORANGE, temp_player.getWorkers().get(0).getColor());
 
         // 3rd player login
         errors = controller.onNewPlayer("ale", Color.GREY);

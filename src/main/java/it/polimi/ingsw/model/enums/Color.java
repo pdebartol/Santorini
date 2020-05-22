@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 
 public enum Color {
-    WHITE("W"),
+    ORANGE("O"),
     GREY("G"),
     AZURE("A");
 
@@ -49,8 +49,8 @@ public enum Color {
         ColorCode cc;
 
          switch (Objects.requireNonNull(Color.labelOfEnum(c))){
-             case "W" :
-                 cc = ColorCode.WHITE;
+             case "O" :
+                 cc = ColorCode.ORANGE;
                  break;
              case "G" :
                  cc = ColorCode.GREY;

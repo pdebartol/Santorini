@@ -248,10 +248,9 @@ public class Gui extends View {
     }
 
     @Override
-    public void setWorkerOnBoard(String gender) {
+    public void setWorkerOnBoard(String gender, boolean rejectedBefore) {
 
     }
-
 
     @Override
     public void showLoginDone() {

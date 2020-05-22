@@ -36,10 +36,10 @@ class ExtraBuildTest {
          //Object creation
          b = new Board();
          GodsFactory factory = new GodsFactory(b);
-         p1 = new Player("pierobartolo", Color.WHITE);
+         p1 = new Player("pierobartolo", Color.ORANGE);
          p2 = new Player("marcodige",Color.GREY);
          p3 = new Player("aledimaio",Color.AZURE);
-         p4 = new Player("athenaTester",Color.WHITE);
+         p4 = new Player("athenaTester",Color.ORANGE);
          ArrayList<God> gods = factory.getGods( new ArrayList<>(Arrays.asList(5,6,21,3)));
          p1.setGod(Objects.requireNonNull(gods.get(0))); // Demeter
          p2.setGod(Objects.requireNonNull(gods.get(1))); // Hephaestus

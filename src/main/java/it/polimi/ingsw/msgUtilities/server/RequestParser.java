@@ -57,19 +57,19 @@ public class RequestParser {
                 vrtV.choseGodRequest(username, godId);
                 break;
             case "setWorkerOnBoard" :
-                String sWorkerGender = Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0);
-                int x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[@WorkerGender=\"male\"]/xPosition/text()")).get(0));
-                int y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Positions/Position[@WorkerGender=\"male\"]/yPosition/text()")).get(0));
+                String sWorkerGender = Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerGender/text()")).get(0);
+                int x = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
+                int y = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
                 vrtV.setupOnBoardRequest(username,sWorkerGender,x,y);
                 break;
             case "move" :
-                String mWorkerGender = Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0);
+                String mWorkerGender = Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerGender/text()")).get(0);
                 int xm = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
                 int ym = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
                 vrtV.moveRequest(username,mWorkerGender,xm,ym);
                 break;
             case "build":
-                String bWorkerGender = Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerId/text()")).get(0);
+                String bWorkerGender = Objects.requireNonNull(evaluateXPath(standardPath +"/Position/WorkerGender/text()")).get(0);
                 int xb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/xPosition/text()")).get(0));
                 int yb = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/yPosition/text()")).get(0));
                 int level = Integer.parseInt(Objects.requireNonNull(evaluateXPath(standardPath +"/Position/Level/text()")).get(0));

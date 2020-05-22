@@ -61,6 +61,14 @@
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addClasspath>true</addClasspath>
+                <mainClass>it.polimi.ingsw.Main</mainClass>
+              </manifest>
+            </archive>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
@@ -103,17 +111,13 @@
           <artifactId>maven-shade-plugin</artifactId>
           <version>3.2.0</version>
           <configuration>
-            <filters>
-              <filter>
-                <artifact>*:*</artifact>
-                <excludes>
-                  <exclude>module-info.class</exclude>
-                  <exclude>META-INF/*.SF</exclude>
-                  <exclude>META-INF/*.DSA</exclude>
-                  <exclude>META-INF/*.RSA</exclude>
-                </excludes>
-              </filter>
-            </filters>
+            <transformers>
+              <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                <mainClass>it.polimi.ingsw.Main</mainClass>
+              </transformer>
+            </transformers>
+            <shadedArtifactAttached>true</shadedArtifactAttached>
+            <shadedClassifierName>launcher</shadedClassifierName>
           </configuration>
           <executions>
             <execution>

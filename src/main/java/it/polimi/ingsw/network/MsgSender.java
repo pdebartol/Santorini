@@ -32,7 +32,7 @@ public class MsgSender {
      * and its methods.
      */
 
-    public boolean sendMsg() {
+    public synchronized boolean sendMsg() {
         if (!socket.isClosed())
             try {
 
