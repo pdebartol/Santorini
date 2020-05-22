@@ -11,7 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -45,6 +47,14 @@ public class Gui extends View {
     private GodSelectionController godSelectionController;
 
     /**
+     * Scene and Controller for the PlayerOrderSelection scene
+     */
+
+    private Scene playerOrderScene;
+    private PlayerOrderSelectionController playerOrderController;
+
+
+    /**
      * GUI's primary stage where all the scenes are set
      */
 
@@ -56,28 +66,27 @@ public class Gui extends View {
 
     private Scene initialScene;
 
-    private ListIterator<God> godsIterator;
 
     /**
      * Keeps track of the current god during godSelectionScene
      */
 
-    int currentGodId = 0;
+    private int currentGodId = 0;
 
     /**
      * Keeps track of the selected Gods from the challenger
      */
 
-    ArrayList<Integer> selectedGodIds = new ArrayList<>();
+    private ArrayList<God> selectedGods= new ArrayList<>();
 
     public Gui (String ip, int port,Stage stage, Scene scene){
         super(ip,port);
         this.primaryStage = stage;
         this.initialScene = scene;
-        godsIterator = gods.listIterator(0);
         initLoginUsername();
         initLoginWait();
         initGodSelection();
+        initPlayerOrderSelection();
     }
 
 
@@ -128,8 +137,25 @@ public class Gui extends View {
             godSelectionController.setGui(this);
             godSelectionController.initializeGods(gods.get(0));
             godSelectionController.setGodProgression(1 + " of " + gods.size());
+            godSelectionController.hideFinalConfirmButton();
         } catch (IOException e) {
             System.out.println("Could not initialize GodSelection Scene");
+        }
+    }
+
+    /**
+     * This method loads the FXML of the playerOrderSelection scene and initializes its controller
+     */
+
+    private void initPlayerOrderSelection(){
+        try {
+            FXMLLoader loader = GuiManager.loadFXML("playerOrderSelection");
+            Parent root = loader.load();
+            playerOrderScene = new Scene(root);
+            playerOrderController = loader.getController();
+            playerOrderController.setGui(this);
+        } catch (IOException e) {
+            System.out.println("Could not initialize PlayerOrderSelection Scene");
         }
     }
 
@@ -197,9 +223,6 @@ public class Gui extends View {
                     });
 
         }
-
-
-
     }
 
     @Override
@@ -327,11 +350,42 @@ public class Gui extends View {
 
     @Override
     public void showGodsChoiceDone(ArrayList<Integer> ids) {
-        System.out.println(ids);
+
+
+        String infoMessage = "\n You will receive the last god left after choosing the other players.";
+
+        Platform.runLater(
+                () -> {
+                    primaryStage.setScene(playerOrderScene);
+                    primaryStage.show();
+                    playerOrderController.setInformationLabel(infoMessage);
+                });
+
+
     }
+
 
     @Override
     public void showGodsChallengerSelected(String username, ArrayList<Integer> ids) {
+
+        for(God god: gods){
+            if(ids.contains(god.getId())){
+                selectedGods.add(god);
+            }
+        }
+
+        //TODO handle the godSelection from not challenger
+
+        Platform.runLater(
+                () -> {
+                    gods = selectedGods;
+                    godSelectionController.initializeGods(selectedGods.get(0));
+                    godSelectionController.setGodProgression(1 + " of " + selectedGods.size());
+                    godSelectionController.setInstructionLabel("Choose one of the following gods!");
+                    primaryStage.setScene(godSelectionScene);
+                    primaryStage.show();
+                });
+
 
     }
 
@@ -372,7 +426,6 @@ public class Gui extends View {
 
     @Override
     public void serverNotFound() {
-        System.out.print("server not found");
         Platform.runLater(
                 () -> alertUser("Server Error", "Server not found!"));
     }
@@ -459,7 +512,7 @@ public class Gui extends View {
      */
 
     public void addCurrentGod(){
-        selectedGodIds.add(currentGodId);
+        selectedGods.add(gods.get(currentGodId));
         gods.remove(currentGodId);
 
         if (currentGodId >= gods.size()-1) {
@@ -471,13 +524,21 @@ public class Gui extends View {
         godSelectionController.initializeGods(gods.get(currentGodId));
         godSelectionController.setGodProgression(currentGodId + 1 + " of " + gods.size());
 
-        if(players.size()+1 -selectedGodIds.size() > 0)
-            godSelectionController.setInstructionLabel("You have to choose " + (players.size() + 1 - selectedGodIds.size()) + " more gods. Press enter to continue...");
+        if(players.size()+1 -selectedGods.size() > 0)
+            godSelectionController.setInstructionLabel("You have to choose " + (players.size() + 1 - selectedGods.size()) + " more gods. Press enter to continue...");
         else{
-            sendCreateGodsRequest(selectedGodIds);
-            //TODO Wait for others player to choose gods
+            godSelectionController.setInstructionLabel("Gods chosen! You're ready for the next phase!");
+            godSelectionController.hideConfirmGodButton();
+            godSelectionController.showFinalConfirmButton();
         }
     }
 
+    public ArrayList<Integer> getSelectedGodsIds(){
+        ArrayList<Integer> godIds = new ArrayList<>();
+        for (God god: gods){
+            godIds.add(god.getId());
+        }
+        return godIds;
+    }
 }
 

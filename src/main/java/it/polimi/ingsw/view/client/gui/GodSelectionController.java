@@ -81,14 +81,19 @@ public class GodSelectionController {
 
     @FXML
     public void changeImageOfSelectionButton(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
+        confirmationImageViewButton.setImage(updateButton);
     }
 
     @FXML
     public void changeImageOfConfirmationButton(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
+        confirmationImageViewButton.setImage(updateButton);
     }
 
     @FXML
     public void nextPhaseBlueButton(MouseEvent mouseEvent) {
+        gui.sendCreateGodsRequest(gui.getSelectedGodsIds());
     }
 
 
@@ -131,4 +136,20 @@ public class GodSelectionController {
     public void setGodProgression(String text){
         progressionOfGods.setText(text);
     }
+
+    public void hideConfirmGodButton(){
+        godSelectionButton.setDisable(true);
+        godSelectionButton.setVisible(false);
+    }
+
+    public void hideFinalConfirmButton(){
+        confirmationImageViewButton.setDisable(true);
+        confirmationImageViewButton.setVisible(false);
+    }
+
+    public void showFinalConfirmButton(){
+        confirmationImageViewButton.setDisable(false);
+        confirmationImageViewButton.setVisible(true);
+    }
+
 }

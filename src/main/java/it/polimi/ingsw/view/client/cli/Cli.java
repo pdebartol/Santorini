@@ -1256,6 +1256,15 @@ public class Cli extends View {
 
     }
 
+    public void printInGodTextBox(String name, String s){
+
+        int size = s.length();
+
+        if(name.equals("name")){
+            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape());
+        }
+
+    }
 
     public void appendInStartTextBox(String text) {
         char[] information = text.toCharArray();
