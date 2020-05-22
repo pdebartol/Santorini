@@ -957,33 +957,50 @@ public class Cli extends View {
 
         setBackgroundColor(square);
 
+        System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_RIGHT.escape());
+        for (int i = 0; i < 8 - 2; i++) {
+            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
+        }
+        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_LEFT.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+        System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+
         if (square.getWorker() != null) {
             if(square.getWorker().getGender().equals("male")) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + " " + Unicode.WORKER_MALE_ICON.escape() + " " + ColorCode.ANSI_RESET.escape());
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + " " + Unicode.WORKER_MALE_ICON.escape() + " " + ColorCode.ANSI_RESET.escape());
                 setBackgroundColor(square);
-                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
             if(square.getWorker().getGender().equals("female")) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + " " + Unicode.WORKER_FEMALE_ICON.escape() + " " + ColorCode.ANSI_RESET.escape());
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + " " + Unicode.WORKER_FEMALE_ICON.escape() + " " + ColorCode.ANSI_RESET.escape());
                 setBackgroundColor(square);
-                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
+
+            /*
             for (int i = 1; i < Box.SQUARE_DIMENSION.escape() - 1; i++) {
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape()
                         + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
-            System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + ColorCode.ANSI_BLACK.escape() + square.getLevel() + ColorCode.ANSI_RESET.escape());
+            */
+
         } else {
-            for (int i = 0; i < Box.SQUARE_DIMENSION.escape() - 1; i++) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape()
-                        + Escapes.RESTORE_CURSOR_POSITION.escape());
-                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
-            }
-            System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + ColorCode.ANSI_BLACK.escape() + square.getLevel() + ColorCode.ANSI_RESET.escape());
+            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape()
+                    + Unicode.SQUARE_HORIZONTAL_DIM_MIN2.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+            System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
         }
+            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + ColorCode.ANSI_BLACK.escape() + square.getLevel() + ColorCode.ANSI_RESET.escape());
+            setBackgroundColor(square);
+            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+            System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+
+            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_RIGHT.escape());
+            for (int i = 0; i < 8 - 2; i++) {
+                System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
+            }
+            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_LEFT.escape());
     }
 
     //Worker methods
