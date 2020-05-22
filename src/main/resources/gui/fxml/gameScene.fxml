@@ -13,49 +13,121 @@
                     <children>
                         <GridPane fx:id="boardGridPane" alignment="CENTER" layoutX="68.0" layoutY="54.0" prefHeight="266.0" prefWidth="264.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columnConstraints>
-                                <ColumnConstraints maxWidth="89.60001220703126" minWidth="10.0" prefWidth="78.19998779296876" />
-                                <ColumnConstraints maxWidth="130.39999999999998" minWidth="10.0" prefWidth="69.00001220703123" />
-                                <ColumnConstraints maxWidth="80.39998779296874" minWidth="0.0" prefWidth="70.200048828125" />
-                                <ColumnConstraints maxWidth="72.39998779296877" minWidth="10.0" prefWidth="68.99998779296877" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.20001220703125" minWidth="10.0" prefWidth="76.40001220703124" />
+                                <ColumnConstraints maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+                                <ColumnConstraints maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+                                <ColumnConstraints maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+                                <ColumnConstraints maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints maxHeight="95.60000381469726" minHeight="10.0" prefHeight="67.80001220703124" vgrow="SOMETIMES" />
-                                <RowConstraints maxHeight="81.39999389648438" minHeight="6.60002441406251" prefHeight="60.399987792968744" />
-                                <RowConstraints maxHeight="105.39997558593751" minHeight="10.0" prefHeight="59.600006103515625" />
-                                <RowConstraints maxHeight="80.59996032714844" minHeight="10.0" prefHeight="61.199987792968756" />
-                                <RowConstraints maxHeight="72.39999999999998" minHeight="3.60003662109375" prefHeight="69.60001220703123" />
+                                <RowConstraints maxHeight="64.0" minHeight="64.0" prefHeight="64.0" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="64.0" minHeight="64.0" prefHeight="64.0" />
+                                <RowConstraints maxHeight="64.0" minHeight="64.0" prefHeight="64.0" />
+                                <RowConstraints maxHeight="64.0" minHeight="64.0" prefHeight="64.0" />
+                                <RowConstraints maxHeight="64.0" minHeight="64.0" prefHeight="64.0" />
                             </rowConstraints>
                             <children>
                                 <AnchorPane fx:id="anchorPane00">
                                     <children>
-                                        <ImageView fx:id="targetSquare" fitHeight="61.0" fitWidth="63.0" layoutX="9.0" layoutY="8.0" nodeOrientation="INHERIT" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="0.0" />
+                                        <ImageView fx:id="targetSquare" fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                     </children>
                                 </AnchorPane>
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children></AnchorPane>
                             </children>
                         </GridPane>
                     </children>

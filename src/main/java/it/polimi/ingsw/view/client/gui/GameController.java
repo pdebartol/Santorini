@@ -3,7 +3,9 @@ package it.polimi.ingsw.view.client.gui;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
@@ -20,6 +22,26 @@ public class GameController {
     public ImageView targetSquare = new ImageView();
     @FXML
     public ImageView imageToDrag;
+    @FXML
+    public Button shwoInformationButton;
+    @FXML
+    public Label playerName;
+    @FXML
+    public Button nextButton;
+    @FXML
+    public Label numberOfPlayer;
+    @FXML
+    public Button prevButton;
+    @FXML
+    public Label informationBox;
+    @FXML
+    public ImageView blueButton;
+    @FXML
+    public Label godDescription;
+    @FXML
+    public Label godName;
+    @FXML
+    public ImageView godImage;
 
     @FXML
     public void testMethod(MouseEvent mouseEvent) {
@@ -58,9 +80,14 @@ public class GameController {
     }
 
     public void highlightSquare(DragEvent dragEvent) {
+
+        //((ImageView)dragEvent.getSource()).setImage();
+
     }
 
     public void notHihglightSquare(DragEvent dragEvent) {
+
+
     }
 
     public void highlightSquareOverMethod(DragEvent dragEvent) throws IOException {
@@ -89,6 +116,11 @@ public class GameController {
         ((ImageView)dragEvent.getSource()).setImage(null);
 
     }
+
+    /**
+     * When showInformationButton is clicked, informations about selected player is displayed
+     * @param actionEvent
+     */
 
     public void showOtherPlayerInformation(ActionEvent actionEvent) {
     }
