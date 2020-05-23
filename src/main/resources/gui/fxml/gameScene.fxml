@@ -191,7 +191,6 @@
                                                 <Image url="@/gui/graphics_resources/Sprite/Buttons/btn_blue.png" />
                                             </image>
                                         </ImageView>
-                                        <Label layoutX="216.0" layoutY="31.0" text="Move" textFill="WHITE" AnchorPane.rightAnchor="74.0" />
                                     </children>
                                 </AnchorPane>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
@@ -201,7 +200,6 @@
                                                 <Image url="@/gui/graphics_resources/Sprite/Buttons/btn_coral.png" />
                                             </image>
                                         </ImageView>
-                                        <Label layoutX="77.0" layoutY="32.0" text="Build" textFill="WHITE" AnchorPane.leftAnchor="77.0" />
                                     </children>
                                 </AnchorPane>
                             </children>

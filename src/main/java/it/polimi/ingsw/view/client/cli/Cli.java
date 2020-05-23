@@ -1175,6 +1175,7 @@ public class Cli extends View {
 
     }
 
+
     public void drawSquare(int x, int y) {
 
         Square square = gameBoard.getSquareByCoordinates(x, y);
@@ -1209,14 +1210,6 @@ public class Cli extends View {
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
 
-            /*
-            for (int i = 1; i < Box.SQUARE_DIMENSION.escape() - 1; i++) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape()
-                        + Escapes.RESTORE_CURSOR_POSITION.escape());
-                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
-            }
-            */
-
         } else {
             for (int i = 0; i < 2; i++) {
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
@@ -1244,7 +1237,6 @@ public class Cli extends View {
     }
 
     //Worker methods
-
 
     //Text methods
 

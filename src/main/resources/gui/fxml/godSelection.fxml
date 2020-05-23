@@ -120,7 +120,6 @@
                                     <Image url="@/gui/graphics_resources/Sprite/Buttons/btn_featuredGod.png" />
                                  </image>
                               </ImageView>
-                              <Label layoutX="73.0" layoutY="34.0" text="Confirm Selection" />
                            </children>
                         </AnchorPane>
                      </children>
