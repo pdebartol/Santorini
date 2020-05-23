@@ -7,13 +7,13 @@ import it.polimi.ingsw.view.client.cli.graphicComponents.Box;
 import it.polimi.ingsw.view.client.cli.graphicComponents.ColorCode;
 import it.polimi.ingsw.view.client.cli.graphicComponents.Escapes;
 import it.polimi.ingsw.view.client.cli.graphicComponents.Unicode;
-import it.polimi.ingsw.view.client.viewComponents.*;
+import it.polimi.ingsw.view.client.viewComponents.Board;
+import it.polimi.ingsw.view.client.viewComponents.God;
+import it.polimi.ingsw.view.client.viewComponents.Player;
 import it.polimi.ingsw.view.client.viewComponents.Square;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -140,7 +140,6 @@ public class Cli extends View {
             });
         }
 
-
     }
 
     //TODO : javadoc
@@ -153,7 +152,7 @@ public class Cli extends View {
 
             printInGameTextBox("You are the challenger! Now you have to chose " + (players.size() + 1) + " Gods for this match! Wait...");
             try {
-                Thread.sleep(5000);
+                Thread.sleep(4500);
             } catch (InterruptedException e) {
                 return;
             }
@@ -221,10 +220,10 @@ public class Cli extends View {
     @Override
     public void selectGod(List<Integer> ids) {
         if(ids.size() == 1) {
-            appendInGameTextBox("The last god left is " + getGodById(ids.get(0)).getName() + " and he will be your god for this game.");
+            appendInGameTextBox("The last god left will be your god for this game.");
             sendChooseGodRequest(ids.get(0));
             try {
-                Thread.sleep(5000);
+                Thread.sleep(4000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -322,7 +321,7 @@ public class Cli extends View {
     public void turn(String firstOperation) {
         printInGameTextBox("It’s time to play your turn! Wait...");
         try {
-            Thread.sleep(4000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -333,85 +332,23 @@ public class Cli extends View {
 
     @Override
     public void move() {
-        printInGameTextBox("You have to move!");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        inputThread = inputExecutor.submit(() -> {
-            int[] startCoordinates = selectWorker();
-
-            String input;
-            int[] coordinates;
-
-            do {
-                printInGameTextBox("Where do you want to move? (#,#) or type \"n\" if you want to change god to visualize in God Power box...");
-                input = inputWithTimeout();
-                while (!InputValidator.validateCOORDINATES(input) && !input.equals("n") && !Thread.interrupted()) {
-                    printInGameTextBox("Invalid coordinates or input! Please try again (type #,#) or \"n\"...");
-                    input = inputWithTimeout();
-                }
-
-                if(input.equals("n") && !Thread.interrupted()) changeGodToVisualize();
-            }while (!Thread.interrupted() && input.equals("n"));
-
-
-            if(!Thread.interrupted()) {
-                coordinates = Arrays.stream(input.split(",")).mapToInt(Integer::parseInt).toArray();
-                sendMoveRequest(gameBoard.getSquareByCoordinates(startCoordinates[0],startCoordinates[1]).getWorker().getGender(),coordinates[0],coordinates[1]);
-            }
-        });
+        abortInputProcessing();
+        moveAfterChose();
     }
 
     //TODO : javadoc
 
     @Override
     public void build() {
-        printInGameTextBox("You have to build!");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        inputThread = inputExecutor.submit(() -> {
-            int[] startCoordinates = selectWorker();
-
-            String inputCoordinates;
-            int[] coordinates;
-
-            do {
-                printInGameTextBox("Where do you want to build? (#,#) or type \"n\" if you want to change god to visualize in God Power box...");
-                inputCoordinates = inputWithTimeout();
-                while (!InputValidator.validateCOORDINATES(inputCoordinates) && !inputCoordinates.equals("n") && !Thread.interrupted()) {
-                    printInGameTextBox("Invalid coordinates or input! Please try again (type #,#) or \"n\"...");
-                    inputCoordinates = inputWithTimeout();
-                }
-
-                if(inputCoordinates.equals("n") && !Thread.interrupted()) changeGodToVisualize();
-            }while (!Thread.interrupted() && inputCoordinates.equals("n"));
-
-            int level;
-            String inputLevel;
-            printInGameTextBox("What type of building do you want to build? (#)");
-            inputLevel = inputWithTimeout();
-            while (!InputValidator.validateLEVEL(inputLevel) && !Thread.interrupted()) {
-                printInGameTextBox("Invalid building! Please try again (#)...");
-                inputLevel = inputWithTimeout();
-            }
-
-            if(!Thread.interrupted()) {
-                coordinates = Arrays.stream(inputCoordinates.split(",")).mapToInt(Integer::parseInt).toArray();
-                level = Integer.parseInt(inputLevel);
-                sendBuildRequest(gameBoard.getSquareByCoordinates(startCoordinates[0],startCoordinates[1]).getWorker().getGender(),coordinates[0],coordinates[1],level);
-            }
-        });
+        abortInputProcessing();
+        buildAfterChose();
     }
 
     //TODO : javadoc
 
     @Override
     public void moveOrBuild() {
+        abortInputProcessing();
         inputThread = inputExecutor.submit(() -> {
             String input;
             do {
@@ -420,12 +357,20 @@ public class Cli extends View {
                     input = inputWithTimeout();
                 } while (!Thread.interrupted() && !input.equals("m") && !input.equals("b") && !input.equals("n"));
 
-                if (!Thread.interrupted()) {
-                    if (input.equals("m")) move();
-                    else if (input.equals("b")) build();
-                    if(input.equals("n")) changeGodToVisualize();
-                }
+                if (!Thread.interrupted() && input.equals("n")) changeGodToVisualize();
+
             }while (!Thread.interrupted() && input.equals("n"));
+
+            if (!Thread.interrupted()) {
+                switch (input){
+                    case "m" :
+                        moveAfterChose();
+                        break;
+                    case "b" :
+                        buildAfterChose();
+                        break;
+                }
+            }
         });
     }
 
@@ -433,6 +378,7 @@ public class Cli extends View {
 
     @Override
     public void buildOrEnd() {
+        abortInputProcessing();
         inputThread = inputExecutor.submit(() -> {
             String input;
             do {
@@ -441,12 +387,20 @@ public class Cli extends View {
                     input = inputWithTimeout();
                 } while (!Thread.interrupted() && !input.equals("b") && !input.equals("e") && !input.equals("n"));
 
-                if (!Thread.interrupted()) {
-                    if (input.equals("b")) build();
-                    else if (input.equals("e")) sendEndOfTurnRequest();
-                    if(input.equals("n")) changeGodToVisualize();
-                }
+                if(!Thread.interrupted() && input.equals("n")) changeGodToVisualize();
+
             }while(!Thread.interrupted() && input.equals("n"));
+
+            if (!Thread.interrupted()) {
+                switch (input){
+                    case "b" :
+                        buildAfterChose();
+                        break;
+                    case "e" :
+                        sendEndOfTurnRequest();
+                        break;
+                }
+            }
         });
     }
 
@@ -499,6 +453,7 @@ public class Cli extends View {
                 printInGameTextBox(author + " is placing his female worker on the board...");
                 break;
             case "hisTurn":
+                abortInputProcessing();
                 inputThread = inputExecutor.submit(() -> {
                     while(!Thread.interrupted()){
                         printInGameTextBox(author + " is playing his turn...");
@@ -522,7 +477,7 @@ public class Cli extends View {
         printBoard();
         printInGameTextBox("the match has been started...");
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -562,9 +517,9 @@ public class Cli extends View {
 
     @Override
     public void showMyGodSelected() {
-        printInGameTextBox("Good choice! Your God is " + myPlayer.getGod().getName() + ".");
+        printInGameTextBox("Your God is " + myPlayer.getGod().getName() + ".");
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -592,7 +547,7 @@ public class Cli extends View {
         appendInGameTextBox("Loading...");
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -612,7 +567,7 @@ public class Cli extends View {
         printInGameTextBox(username + " turn is over!");
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -625,7 +580,7 @@ public class Cli extends View {
         printInGameTextBox("Your turn is over!");
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -639,8 +594,8 @@ public class Cli extends View {
 
         output.append("Invalid action! errors encountered :");
 
-        for(int i = 0 ; i < errors.size(); i++){
-            switch (errors.get(i)){
+        for (String error : errors) {
+            switch (error) {
                 case "BMU":
                     output.append(", ").append("Athena blocked upward movements");
                     break;
@@ -690,7 +645,7 @@ public class Cli extends View {
         printInGameTextBox(output.toString());
 
         try {
-            Thread.sleep(6000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -702,7 +657,7 @@ public class Cli extends View {
     public void serverNotFound() {
         printInStartTextBox("Server not found!");
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -1500,13 +1455,91 @@ public class Cli extends View {
 
     //support methods
 
+    //TODO : javadoc
+
+    public void moveAfterChose(){
+        printInGameTextBox("You have to move!");
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        inputThread = inputExecutor.submit(() -> {
+            int[] startCoordinates = selectWorker();
+
+            String input;
+            int[] coordinates;
+
+            do {
+                printInGameTextBox("Where do you want to move? (#,#) or type \"n\" if you want to change god to visualize in God Power box...");
+                input = inputWithTimeout();
+                while (!InputValidator.validateCOORDINATES(input) && !input.equals("n") && !Thread.interrupted()) {
+                    printInGameTextBox("Invalid coordinates or input! Please try again (type #,#) or \"n\"...");
+                    input = inputWithTimeout();
+                }
+
+                if(input.equals("n") && !Thread.interrupted()) changeGodToVisualize();
+            }while (!Thread.interrupted() && input.equals("n"));
+
+
+            if(!Thread.interrupted()) {
+                coordinates = Arrays.stream(input.split(",")).mapToInt(Integer::parseInt).toArray();
+                sendMoveRequest(gameBoard.getSquareByCoordinates(startCoordinates[0],startCoordinates[1]).getWorker().getGender(),coordinates[0],coordinates[1]);
+            }
+        });
+    }
+
+    //TODO : javadoc
+
+    public void buildAfterChose(){
+        printInGameTextBox("You have to build!");
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        inputThread = inputExecutor.submit(() -> {
+            int[] startCoordinates = selectWorker();
+
+            String inputCoordinates;
+            int[] coordinates;
+
+            do {
+                printInGameTextBox("Where do you want to build? (#,#) or type \"n\" if you want to change god to visualize in God Power box...");
+                inputCoordinates = inputWithTimeout();
+                while (!InputValidator.validateCOORDINATES(inputCoordinates) && !inputCoordinates.equals("n") && !Thread.interrupted()) {
+                    printInGameTextBox("Invalid coordinates or input! Please try again (type #,#) or \"n\"...");
+                    inputCoordinates = inputWithTimeout();
+                }
+
+                if(inputCoordinates.equals("n") && !Thread.interrupted()) changeGodToVisualize();
+            }while (!Thread.interrupted() && inputCoordinates.equals("n"));
+
+            int level;
+            String inputLevel;
+            printInGameTextBox("What type of building do you want to build? (#)");
+            inputLevel = inputWithTimeout();
+            while (!InputValidator.validateLEVEL(inputLevel) && !Thread.interrupted()) {
+                printInGameTextBox("Invalid building! Please try again (#)...");
+                inputLevel = inputWithTimeout();
+            }
+
+            if(!Thread.interrupted()) {
+                coordinates = Arrays.stream(inputCoordinates.split(",")).mapToInt(Integer::parseInt).toArray();
+                level = Integer.parseInt(inputLevel);
+                sendBuildRequest(gameBoard.getSquareByCoordinates(startCoordinates[0],startCoordinates[1]).getWorker().getGender(),coordinates[0],coordinates[1],level);
+            }
+        });
+    }
+
+    //TODO : javadoc
 
     private int[] selectWorker() {
 
         int[] coordinates = new int[2];
 
         if(workerForThisTurnCoordinates[0] == -1 && workerForThisTurnCoordinates[1] == -1) {
-            String input = "";
+            String input;
 
             if(myPlayer.getWorkers().size() == 1){
                 Square s = myPlayer.getWorkers().get(0).getCurrentPosition();
@@ -1514,7 +1547,7 @@ public class Cli extends View {
                 coordinates[1] = s.getY();
                 appendInGameTextBox("You have only one worker in game, you will play your turn with him!");
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -1551,7 +1584,10 @@ public class Cli extends View {
     //TODO : javadoc
 
     private void abortInputProcessing() {
-        if (inputThread != null && !inputThread.isCancelled()) inputThread.cancel(true);
+        if (inputThread != null && !inputThread.isCancelled()) {
+            inputThread.cancel(true);
+            inputThread = null;
+        }
 
         try {
             Thread.sleep(500);
