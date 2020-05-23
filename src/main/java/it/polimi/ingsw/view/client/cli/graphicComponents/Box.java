@@ -1,10 +1,10 @@
 package it.polimi.ingsw.view.client.cli.graphicComponents;
 
 public enum Box {
-    VERTICAL_DIM (34),
+    VERTICAL_DIM (37),
     HORIZONTAL_DIM (95),
-    TEXT_BOX_START (27),
-    INPUT_BOX_START (32),
+    TEXT_BOX_START (29),
+    INPUT_BOX_START (34),
     TEXT_START (2),
     PLAYERS_BOX_START(67),
     PLAYER_BOX_START_LINE(19),

@@ -1181,26 +1181,31 @@ public class Cli extends View {
 
         //change color of single square based on level of square
 
+        System.out.print(ColorCode.ANSI_BLACK.escape());
+
         setBackgroundColor(square);
 
+        System.out.print(ColorCode.WHITE.escape());
         System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_RIGHT.escape());
         for (int i = 0; i < 6; i++) {
             System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
         }
         System.out.print(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_LEFT.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+        setBackgroundColor(square);
         System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+
 
         if (square.getWorker() != null) {
             if(square.getWorker().getGender().equals("male")) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + Unicode.WORKER_MALE_ICON.escape() + ColorCode.ANSI_RESET.escape());
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + " " + Unicode.WORKER_MALE_ICON.escape() + " " );
                 setBackgroundColor(square);
-                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN5.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
             if(square.getWorker().getGender().equals("female")) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + ColorCode.ANSI_BLACK.escape() + Unicode.WORKER_FEMALE_ICON.escape() + ColorCode.ANSI_RESET.escape());
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + " " + Unicode.WORKER_FEMALE_ICON.escape() + " " );
                 setBackgroundColor(square);
-                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN5.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
 
@@ -1213,13 +1218,15 @@ public class Cli extends View {
             */
 
         } else {
-            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape()
-                    + Unicode.SQUARE_HORIZONTAL_DIM_MIN2.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
+            setBackgroundColor(square);
+            System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN2.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
             System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
         }
-            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + ColorCode.ANSI_BLACK.escape() + square.getLevel() + ColorCode.ANSI_RESET.escape());
+            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
             setBackgroundColor(square);
-            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+            System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + square.getLevel());
+            System.out.print(ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
             System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
 
             System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_RIGHT.escape());
@@ -1227,6 +1234,9 @@ public class Cli extends View {
                 System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
             }
             System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_LEFT.escape());
+
+            System.out.print(ColorCode.ANSI_RESET.escape());
+
     }
 
     //Worker methods
