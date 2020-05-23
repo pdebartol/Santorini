@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
@@ -44,6 +45,8 @@ public class GameController {
     public ImageView godImage;
     @FXML
     public ImageView worker;
+
+    private Gui gui;
 
     ImageView source;
     ImageView source_pointer;
@@ -167,5 +170,18 @@ public class GameController {
     }
 
     public void showPrevPlayer(ActionEvent actionEvent) {
+    }
+
+    public void setupWorker(){
+        Image workerImage = GuiManager.loadImage("Buildings_+_pawns/male_azure_worker.png");
+        worker.setImage(workerImage);
+    }
+
+    public void setInstructionLabel(String text){
+        informationBox.setText(text);
+    }
+
+    public void setGui(Gui gui){
+        this.gui = gui;
     }
 }

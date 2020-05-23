@@ -44,6 +44,8 @@ public abstract class View {
         removedWorker = null;
         myIp = ip;
         myPort = port;
+        workerForThisTurnCoordinates = new int[2];
+
         workerForThisTurnCoordinates[0] = workerForThisTurnCoordinates[1] = -1;
     }
 
