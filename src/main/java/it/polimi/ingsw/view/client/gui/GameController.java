@@ -59,6 +59,8 @@ public class GameController {
 
     private int currentPlayerId = 0;
 
+    boolean showGod = false;
+
 
     @FXML
     public void testMethod(MouseEvent mouseEvent) {
@@ -168,7 +170,7 @@ public class GameController {
      */
 
     public void showOtherPlayerInformation(ActionEvent actionEvent) {
-        if(showInformationButton.getText() == "Show Informations"){
+        if(!showGod){
             God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
             godName.setText(tempGod.getName());
             godDescription.setText(tempGod.getDescription());
@@ -177,11 +179,13 @@ public class GameController {
             godImage.setVisible(true);
             godDescription.setVisible(true);
             showInformationButton.setText("Hide Informations");
+            showGod = true;
         }
 
         else{
             showInformationButton.setText("Show Informations");
             hideGod();
+            showGod = false;
         }
 
 
@@ -193,6 +197,11 @@ public class GameController {
         else
             currentPlayerId++;
 
+        God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
+        godName.setText(tempGod.getName());
+        godDescription.setText(tempGod.getDescription());
+        godImage.setImage(GuiManager.loadGod(tempGod.getId()));
+
         numberOfPlayer.setText(currentPlayerId+1 + " of " + players.size());
         playerName.setText(players.get(currentPlayerId).getUsername());
     }
@@ -202,6 +211,12 @@ public class GameController {
             currentPlayerId = players.size()-1;
         else
             currentPlayerId--;
+
+
+        God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
+        godName.setText(tempGod.getName());
+        godDescription.setText(tempGod.getDescription());
+        godImage.setImage(GuiManager.loadGod(tempGod.getId()));
 
         numberOfPlayer.setText(currentPlayerId+1 + " of " + players.size());
         playerName.setText(players.get(currentPlayerId).getUsername());
@@ -217,6 +232,7 @@ public class GameController {
         Image workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_azure_worker.png");
         worker.setImage(workerImage);
         workerGender = gender;
+        showInformationButton.setText("Show Informations");
     }
 
     public void setInstructionLabel(String text){
