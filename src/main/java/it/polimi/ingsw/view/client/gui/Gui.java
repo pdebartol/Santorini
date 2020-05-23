@@ -92,9 +92,6 @@ public class Gui extends View {
 
 
 
-    private int currentPlayer;
-
-
     private boolean isChallenger = false;
 
     public Gui (String ip, int port,Stage stage, Scene scene){
@@ -310,7 +307,17 @@ public class Gui extends View {
 
     @Override
     public void setWorkerOnBoard(String gender, boolean rejectedBefore) {
-
+        if(!rejectedBefore){
+            Platform.runLater(
+                    () -> {
+                        gameSceneController.setInstructionLabel("Setup your " + gender + " worker!");
+                        gameSceneController.setupWorker(gender);
+                    });
+        }
+        else{
+            gameSceneController.restoreImage();
+            alertUser("Worker Error","Invalid worker position!");
+        }
     }
 
     @Override
@@ -399,6 +406,17 @@ public class Gui extends View {
                 Platform.runLater(
                         () -> godSelectionController.setInstructionLabel(author + " is choosing a the starter player..."));
                 break;
+            case "setupMaleWorkerOnBoard":
+                Platform.runLater(
+                        () -> gameSceneController.setInstructionLabel(author + " is placing his male worker on the board..."));
+                break;
+            case "setupFemaleWorkerOnBoard":
+                Platform.runLater(
+                        () -> gameSceneController.setInstructionLabel(author + " is placing his female worker on the board..."));
+                break;
+            case "hisTurn":
+                Platform.runLater(
+                        () -> gameSceneController.setInstructionLabel(author + " is playing his turn.."));
         }
 
 
@@ -484,7 +502,7 @@ public class Gui extends View {
                         gameSceneController.setInstructionLabel(username + " You will be the starter player!");
                     else
                         gameSceneController.setInstructionLabel(username + " will be the starter player!");
-                    gameSceneController.setupWorker();
+
 
                 });
 

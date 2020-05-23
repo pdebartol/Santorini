@@ -12,6 +12,11 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 
+/**
+ * This Class is the controller for the starting player selection  scene.
+ * @author pierobartolo
+ */
+
 public class PlayerOrderSelectionController {
 
     @FXML
@@ -20,6 +25,8 @@ public class PlayerOrderSelectionController {
     public Button nextButton;
     @FXML
     public Label numberOfPlayer;
+
+    //TODO remove this button
     @FXML
     public Button selectFirstPlayer;
     @FXML
@@ -35,6 +42,10 @@ public class PlayerOrderSelectionController {
 
     private int currentPlayerId = 0;
 
+    /**
+     * This method confirms the player's choice and starts the game.
+     * @param mouseEvent none
+     */
 
     @FXML
     public void confirmFirstPlayerAndStartGame(MouseEvent mouseEvent) {
@@ -44,6 +55,12 @@ public class PlayerOrderSelectionController {
             gui.sendChooseStartingPlayerRequest(players.get(currentPlayerId).getUsername());
         }
     }
+
+    /**
+     * This method is called when the user clicks the next button.
+     * It shows the next player in the list.
+     * @param actionEvent none
+     */
 
     @FXML
     public void nextPlayer(ActionEvent actionEvent) {
@@ -55,6 +72,13 @@ public class PlayerOrderSelectionController {
         numberOfPlayer.setText(currentPlayerId+1 + " of " + players.size());
         playerName.setText(players.get(currentPlayerId).getUsername());
     }
+
+    /**
+     * This method is called when the user clicks the prev button.
+     * It shows the previous player in the list.
+     * @param actionEvent none
+     */
+
     @FXML
     public void prevPlayer(ActionEvent actionEvent) {
         if(currentPlayerId == 0)

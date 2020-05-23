@@ -45,7 +45,6 @@ public abstract class View {
         myIp = ip;
         myPort = port;
         workerForThisTurnCoordinates = new int[2];
-
         workerForThisTurnCoordinates[0] = workerForThisTurnCoordinates[1] = -1;
     }
 
@@ -353,7 +352,7 @@ public abstract class View {
 
     public abstract void showDisconnectionForInputExpiredTimeout();
 
-    //sendRequest method
+    //SRequest method
 
     //TODO : javadoc
 

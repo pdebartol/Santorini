@@ -5,6 +5,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
+/**
+ * This Class is the controller for the wait after login scene.
+ * @author pierobartolo
+ */
+
 public class LoginWaitController {
 
     private Gui gui;
@@ -32,6 +37,12 @@ public class LoginWaitController {
     public void starGameNow(ActionEvent actionEvent) {
         gui.sendStartGameRequest();
     }
+
+
+    /**
+     * This method is called when the creator of the match chooses to wait for another player.
+     * @param actionEvent
+     */
 
     @FXML
     public void wait(ActionEvent actionEvent) {

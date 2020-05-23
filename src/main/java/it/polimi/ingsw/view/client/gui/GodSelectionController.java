@@ -13,6 +13,11 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 
+/**
+ * This Class is the controller for the god selection connection scene.
+ * @author pierobartolo
+ */
+
 public class GodSelectionController {
 
     @FXML
@@ -37,6 +42,11 @@ public class GodSelectionController {
     private Gui gui;
 
 
+    /**
+     * This method loads the image of a god
+     * @param id of the god
+     * @return an Image of the god
+     */
 
     private Image loadGod(int id){
         Image god;
@@ -93,6 +103,12 @@ public class GodSelectionController {
         confirmationImageViewButton.setImage(updateButton);
     }
 
+
+    /**
+     * This method is called when the user confirms his choice and makes it final
+     * @param mouseEvent none
+     */
+
     @FXML
     public void nextPhaseBlueButton(MouseEvent mouseEvent) {
         if(gui.getIsChallenger()){
@@ -124,13 +140,7 @@ public class GodSelectionController {
         }
     }
 
-    public void setInstructionLabel(String Text){
-        instructionLabel.setText(Text);
-    }
 
-    public void setGui(Gui gui){
-        this.gui = gui;
-    }
 
 
     /**
@@ -170,4 +180,11 @@ public class GodSelectionController {
         confirmationImageViewButton.setVisible(true);
     }
 
+    public void setInstructionLabel(String Text){
+        instructionLabel.setText(Text);
+    }
+
+    public void setGui(Gui gui){
+        this.gui = gui;
+    }
 }

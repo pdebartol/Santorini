@@ -6,6 +6,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * This Class is the controller for the login scene.
+ * @author pierobartolo
+ */
 
 public class LoginUsernameController {
 

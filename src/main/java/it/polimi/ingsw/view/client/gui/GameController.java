@@ -46,6 +46,8 @@ public class GameController {
     @FXML
     public ImageView worker;
 
+    String workerGender;
+
     private Gui gui;
 
     ImageView source;
@@ -79,9 +81,7 @@ public class GameController {
     }
 
     public void acceptElement(DragEvent dragEvent) {
-
-        //TODO send request to server
-
+        gui.sendSetWorkerOnBoardRequest(workerGender,board.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()),board.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
         Dragboard db = dragEvent.getDragboard();
         boolean success = false;
 
@@ -173,9 +173,10 @@ public class GameController {
     public void showPrevPlayer(ActionEvent actionEvent) {
     }
 
-    public void setupWorker(){
-        Image workerImage = GuiManager.loadImage("Buildings_+_pawns/male_azure_worker.png");
+    public void setupWorker(String gender){
+        Image workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_azure_worker.png");
         worker.setImage(workerImage);
+        workerGender = gender;
     }
 
     public void setInstructionLabel(String text){
