@@ -238,11 +238,12 @@
                                                           </image>
                                                       </ImageView>
                                           <ImageView fx:id="femaleWorker" fitHeight="64.0" fitWidth="64.0" layoutX="48.0" layoutY="8.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" />
+                                          <ImageView fx:id="worker" fitHeight="64.0" fitWidth="64.0" layoutX="48.0" layoutY="8.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="8.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                        <children>
-                                          <ImageView fx:id="maleWorker" fitHeight="64.0" fitWidth="64.0" layoutX="48.0" layoutY="8.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" />
+                                          <ImageView fx:id="maleWorker" fitHeight="64.0" fitWidth="64.0" layoutX="48.0" layoutY="8.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="8.0" />
                                        </children></AnchorPane>
                                             </children>
                                         </GridPane>

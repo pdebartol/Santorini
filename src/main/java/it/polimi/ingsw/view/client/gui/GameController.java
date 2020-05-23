@@ -42,6 +42,8 @@ public class GameController {
     public Label godName;
     @FXML
     public ImageView godImage;
+    @FXML
+    public ImageView worker;
 
     @FXML
     public void testMethod(MouseEvent mouseEvent) {
