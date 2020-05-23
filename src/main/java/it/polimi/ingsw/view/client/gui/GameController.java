@@ -99,7 +99,6 @@ public class GameController {
 
         //TODO if the answer from server is negative restoreImage();
 
-        
     }
 
     public void loadingScreen(){
