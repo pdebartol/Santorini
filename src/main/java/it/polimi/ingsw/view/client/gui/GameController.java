@@ -45,6 +45,12 @@ public class GameController {
     @FXML
     public ImageView worker;
 
+    ImageView source;
+    ImageView source_pointer;
+
+    ImageView destination;
+    ImageView destination_pointer;
+
     @FXML
     public void testMethod(MouseEvent mouseEvent) {
 
@@ -64,21 +70,46 @@ public class GameController {
     }
 
     public void removeWorkerDragged(DragEvent dragEvent) {
+
+        ((ImageView)dragEvent.getSource()).setImage(null);
+
     }
 
     public void acceptElement(DragEvent dragEvent) {
+
+        //TODO send request to server
 
         Dragboard db = dragEvent.getDragboard();
         boolean success = false;
 
         ImageView test = ((ImageView)dragEvent.getSource());
 
+        destination = new ImageView(((ImageView)dragEvent.getSource()).getImage());
+        destination_pointer = test;
         if(db.hasImage()){
             test.setImage(db.getImage());
             success = true;
         }
 
         dragEvent.setDropCompleted(success);
+
+        //TODO if the answer from server is negative restoreImage();
+
+    }
+
+    public void loadingScreen(){
+        //loading screen
+    }
+
+    public void consumeDrop(DragEvent dragEvent){
+
+    }
+
+    public void restoreImage(){
+
+
+
+
     }
 
     public void highlightSquare(DragEvent dragEvent) {
@@ -106,6 +137,10 @@ public class GameController {
     public void startChangingPosition(MouseEvent mouseEvent) {
 
         ImageView test = ((ImageView)mouseEvent.getSource());
+
+        source = new ImageView(((ImageView)mouseEvent.getSource()).getImage());
+        source_pointer = test;
+
         Dragboard db = test.startDragAndDrop(TransferMode.MOVE);
         ClipboardContent content = new ClipboardContent();
         content.putImage(test.getImage());
