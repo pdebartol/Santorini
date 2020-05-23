@@ -93,8 +93,10 @@ public class GameController {
 
         dragEvent.setDropCompleted(success);
 
+
         //TODO if the answer from server is negative restoreImage();
 
+        
     }
 
     public void loadingScreen(){
