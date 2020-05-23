@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
+
 public class GodSelectionController {
 
     @FXML
@@ -93,7 +95,18 @@ public class GodSelectionController {
 
     @FXML
     public void nextPhaseBlueButton(MouseEvent mouseEvent) {
-        gui.sendCreateGodsRequest(gui.getSelectedGodsIds());
+        if(gui.getIsChallenger()){
+            gui.sendCreateGodsRequest((ArrayList<Integer>) gui.getSelectedGodsIds());
+            System.out.println(gui.getSelectedGodsIds());
+
+        }
+        else{
+            gui.sendChooseGodRequest(gui.getUserSelectedGodId());
+            System.out.println(gui.getUserSelectedGodId());
+
+        }
+        changeImageOfConfirmationButton(null);
+        hideFinalConfirmButton();
     }
 
 
@@ -145,6 +158,11 @@ public class GodSelectionController {
     public void hideFinalConfirmButton(){
         confirmationImageViewButton.setDisable(true);
         confirmationImageViewButton.setVisible(false);
+    }
+
+    public void showConfirmGodButton(){
+        godSelectionButton.setDisable(false);
+        godSelectionButton.setVisible(true);
     }
 
     public void showFinalConfirmButton(){

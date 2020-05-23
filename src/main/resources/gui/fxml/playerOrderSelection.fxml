@@ -29,7 +29,7 @@
                      <children>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Label alignment="CENTER" layoutX="130.0" layoutY="52.0" prefHeight="77.0" prefWidth="220.0" text="Player name" textFill="WHITE" AnchorPane.bottomAnchor="51.999999999999986" />
+                              <Label fx:id="playerName" alignment="CENTER" layoutX="130.0" layoutY="52.0" prefHeight="77.0" prefWidth="220.0" text="Player name" textFill="WHITE" AnchorPane.bottomAnchor="51.999999999999986" />
                            </children>
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
