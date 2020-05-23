@@ -67,14 +67,10 @@
                                              <children>
                                                 <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                    <children>
-                                                      <Label fx:id="numberOfPlayer" alignment="CENTER" layoutX="50.0" layoutY="61.0" prefHeight="25.0" prefWidth="60.0" text="x of y" textFill="WHITE" />
+                                                      <Label fx:id="numberOfPlayer" alignment="CENTER" layoutX="50.0" layoutY="82.0" prefHeight="25.0" prefWidth="60.0" text="x of y" textFill="WHITE" />
                                                    </children>
                                                 </AnchorPane>
-                                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-                                                   <children>
-                                                      <Button fx:id="selectFirstPlayer" layoutX="54.0" layoutY="17.0" mnemonicParsing="false" text="Select" />
-                                                   </children>
-                                                </AnchorPane>
+                                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                                              </children>
                                           </GridPane>
                                        </children>
