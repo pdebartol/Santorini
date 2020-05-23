@@ -51,5 +51,25 @@ public class GuiManager extends Application {
     }
 
 
+    /**
+     * This method loads the image of a god
+     * @param id of the god
+     * @return an Image of the god
+     */
+
+    public static Image loadGod(int id){
+        Image god;
+
+        if(id < 10){
+            god = GuiManager.loadImage("godCards/0"+ (id) + ".png");
+        }
+        else{
+            god = GuiManager.loadImage("godCards/"+ (id) + ".png");
+        }
+
+        return god;
+    }
+
+
 }
 

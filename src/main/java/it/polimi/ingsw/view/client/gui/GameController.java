@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.client.gui;
 
+import it.polimi.ingsw.view.client.viewComponents.God;
+import it.polimi.ingsw.view.client.viewComponents.Player;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,9 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 
-import java.awt.*;
 import java.io.IOException;
-import java.util.Objects;
+import java.util.ArrayList;
 
 public class GameController {
 
@@ -24,7 +25,7 @@ public class GameController {
     @FXML
     public ImageView imageToDrag;
     @FXML
-    public Button shwoInformationButton;
+    public Button showInformationButton;
     @FXML
     public Label playerName;
     @FXML
@@ -55,6 +56,11 @@ public class GameController {
 
     ImageView destination;
     ImageView destination_pointer;
+
+    private ArrayList<Player> players;
+
+    private int currentPlayerId = 0;
+
 
     @FXML
     public void testMethod(MouseEvent mouseEvent) {
@@ -164,12 +170,49 @@ public class GameController {
      */
 
     public void showOtherPlayerInformation(ActionEvent actionEvent) {
+        if(showInformationButton.getText() == "Show Informations"){
+            God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
+            godName.setText(tempGod.getName());
+            godDescription.setText(tempGod.getDescription());
+            godImage.setImage(GuiManager.loadGod(tempGod.getId()));
+            godName.setVisible(true);
+            godImage.setVisible(true);
+            godDescription.setVisible(true);
+            showInformationButton.setText("Hide Informations");
+        }
+
+        else{
+            showInformationButton.setText("Show Informations");
+            hideGod();
+        }
+
+
     }
 
     public void nextPlayer(ActionEvent actionEvent) {
+        if(currentPlayerId >= players.size()-1 )
+            currentPlayerId = 0;
+        else
+            currentPlayerId++;
+
+        numberOfPlayer.setText(currentPlayerId+1 + " of " + players.size());
+        playerName.setText(players.get(currentPlayerId).getUsername());
     }
 
     public void showPrevPlayer(ActionEvent actionEvent) {
+        if(currentPlayerId == 0)
+            currentPlayerId = players.size()-1;
+        else
+            currentPlayerId--;
+
+        numberOfPlayer.setText(currentPlayerId+1 + " of " + players.size());
+        playerName.setText(players.get(currentPlayerId).getUsername());
+    }
+
+    public void setPlayers(ArrayList<Player> players){
+        this.players = players;
+        numberOfPlayer.setText(currentPlayerId+1 + " of " + players.size());
+        playerName.setText(players.get(currentPlayerId).getUsername());
     }
 
     public void setupWorker(String gender){
@@ -181,6 +224,13 @@ public class GameController {
     public void setInstructionLabel(String text){
         informationBox.setText(text);
     }
+
+    public void hideGod(){
+        godDescription.setVisible(false);
+        godImage.setVisible(false);
+        godName.setVisible(false);
+    }
+
 
     public void setGui(Gui gui){
         this.gui = gui;
