@@ -126,7 +126,13 @@ public class MsgInParser {
             case "endOfTurn":
                 NodeList removeAndBuildNode = document.getElementsByTagName("RemoveAndBuild");
                 List<HashMap<String,String>> removeAndBuild = getActionData(removeAndBuildNode);
-                view.updateEndOfTurn(username);
+                for(HashMap<String,String> rb : removeAndBuild){
+                    int xPosition = Integer.parseInt(rb.get("startXPosition"));
+                    int yPosition = Integer.parseInt(rb.get("startYPosition"));
+                    int level = Integer.parseInt(rb.get("Level"));
+                    view.updateEndOfTurn(xPosition,yPosition,level);
+                }
+                view.endOfTurnWithoutUpdate(username);
                 break;
             case "youWinDirectly":
                 //TODO notify view
@@ -173,9 +179,6 @@ public class MsgInParser {
                 if(outcome.equals("accepted")){
                     view.showMatchStarted();
                 }
-                else{
-                    List<String> errors = getErrorList();
-                }
                 break;
             case "createGods" :
                 if(outcome.equals("accepted")){
@@ -185,17 +188,11 @@ public class MsgInParser {
                     }
                     view.showGodsChoiceDone(ids);
                 }
-                else{
-                    List<String> errors = getErrorList();
-                }
                 break;
             case "choseGod" :
                 if(outcome.equals("accepted")){
                     int godId = Integer.parseInt(Objects.requireNonNull(evaluateXPath( "/Answer/Update/godId/text()")).get(0));
                     view.updateMyGodSelected(godId);
-                }
-                else{
-                    List<String> errors = getErrorList();
                 }
                 break;
             case "choseStartingPlayer":
@@ -203,9 +200,6 @@ public class MsgInParser {
                     String starter = Objects.requireNonNull(evaluateXPath( "/Answer/Update/StartingPlayer/text()")).get(0);
                     view.showStartingPlayer(starter);
 
-                }
-                else{
-                    List<String> errors = getErrorList();
                 }
                 break;
             case "setWorkerOnBoard":
@@ -237,7 +231,6 @@ public class MsgInParser {
                 }
                 else{
                     List<String> errors = getErrorList();
-                    System.out.println(errors);
                     view.invalidMove(errors);
                 }
                 break;
@@ -256,7 +249,6 @@ public class MsgInParser {
                 }
                 else{
                     List<String> errors = getErrorList();
-                    System.out.println(errors);
                     view.invalidBuild(errors);
                 }
                 break;
@@ -265,14 +257,14 @@ public class MsgInParser {
                 if(outcome.equals("accepted")){
                     NodeList removeAndBuildNode = document.getElementsByTagName("RemoveAndBuild");
                     List<HashMap<String,String>> removeBuild = getActionData(removeAndBuildNode);
-                    view.updateMyEndOfTurn();
+                    for(HashMap<String,String> rb : removeBuild){
+                        int xPosition = Integer.parseInt(rb.get("startXPosition"));
+                        int yPosition = Integer.parseInt(rb.get("startYPosition"));
+                        int level = Integer.parseInt(rb.get("Level"));
+                        view.updateEndOfTurn(xPosition,yPosition,level);
+                    }
+                    view.myEndOfTurnWithoutUpdate();
                 }
-                else{
-                    List<String> errors = getErrorList();
-
-                }
-
-
         }
 
     }

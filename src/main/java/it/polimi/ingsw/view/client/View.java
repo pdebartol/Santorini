@@ -234,13 +234,27 @@ public abstract class View {
         showBoard();
     }
 
-    public void updateMyEndOfTurn(){
+    public void updateEndOfTurn(int x, int y, int l){
+        if(myPlayer.getWorkers().contains(gameBoard.getSquareByCoordinates(x,y).getWorker())){
+            myPlayer.removeWorker(gameBoard.getSquareByCoordinates(x,y).getWorker());
+        }
+        for(Player p : players)
+            if(p.getWorkers().contains(gameBoard.getSquareByCoordinates(x,y).getWorker())){
+                p.removeWorker(gameBoard.getSquareByCoordinates(x,y).getWorker());
+            }
+
+        updatePositionLevel(x,y,l);
+    }
+
+    //TODO : javadoc
+
+    public void myEndOfTurnWithoutUpdate(){
         workerForThisTurnCoordinates[0] = workerForThisTurnCoordinates[1] = -1;
 
         showMyTurnEnded();
     }
 
-    public void updateEndOfTurn(String username){
+    public void endOfTurnWithoutUpdate(String username){
         showTurnEnded(username);
     }
 

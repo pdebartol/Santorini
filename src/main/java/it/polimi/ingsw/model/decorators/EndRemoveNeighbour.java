@@ -43,6 +43,7 @@ public class EndRemoveNeighbour extends PowerDecorator {
      */
 
     private void replaceAndBuild(Worker w){
+        int index = 0;
         for(int i = -1; i <= 1 ; i++)
             for(int j = -1; j <= 1; j++){
                 int x = w.getCurrentSquare().getXPosition() + i;
@@ -54,7 +55,8 @@ public class EndRemoveNeighbour extends PowerDecorator {
                         s.buildLevel(s.getLevel() + 1);
 
                         //Write remove update in endOfTurn request answer
-                        getBoard().getMsgContainer().endOfTurnRemoveAndBuildUpdate(x,y,s.getLevel());
+                        getBoard().getMsgContainer().endOfTurnRemoveAndBuildUpdate(index,x,y,s.getLevel());
+                        index++;
                     }
                 }
             }

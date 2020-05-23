@@ -10,8 +10,10 @@ import it.polimi.ingsw.view.client.cli.graphicComponents.Unicode;
 import it.polimi.ingsw.view.client.viewComponents.*;
 import it.polimi.ingsw.view.client.viewComponents.Square;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -596,17 +598,63 @@ public class Cli extends View {
     public void showTurnErrors(List<String> errors) {
         StringBuilder output = new StringBuilder();
 
-        output.append("Invalid action! errors encountered : ");
-        output.append(errors.get(0));
+        output.append("Invalid action! errors encountered :");
 
-        for(String e : errors){
-            output.append(", ").append(e);
+        for(int i = 0 ; i < errors.size(); i++){
+            switch (errors.get(i)){
+                case "BMU":
+                    output.append(", ").append("Athena blocked upward movements");
+                    break;
+                case "CDU":
+                    output.append(", ").append("you can't build a dome under yourself");
+                    break;
+                case "CMU":
+                    output.append(", ").append("you can't move up because you build before you moved");
+                    break;
+                case "EBNP":
+                    output.append(", ").append("the additional build can't be on a perimeter space");
+                    break;
+                case "EBNSS":
+                    output.append(", ").append("the additional build can't be on the same space");
+                    break;
+                case "EBOSS":
+                    output.append(", ").append("the additional build must be built on top of your first block");
+                    break;
+                case "EMNB":
+                    output.append(", ").append("your worker can't moves back to the space it started on");
+                    break;
+                case "ILB":
+                    output.append(", ").append("you can't build this block in the space you selected");
+                    break;
+                case "ILM":
+                    output.append(", ").append("the space where you want to move is too high");
+                    break;
+                case "ID":
+                    output.append(", ").append("there is a dome");
+                    break;
+                case "NA":
+                    output.append(", ").append("the space you selected is not adjacent");
+                    break;
+                case "NF":
+                    output.append(", ").append("the space you selected is occupied");
+                    break;
+                case "SDNF":
+                    output.append(", ").append("you can't push the worker on this space because the space in the same direction is occupied");
+                    break;
+                case "EBND":
+                    output.append(", ").append("the additional build block can't be a dome");
+            }
         }
+        output.delete(37,38);
 
-        output.append(". Press enter to try again...");
+        output.append(". Try again...");
         printInGameTextBox(output.toString());
 
-        inputThread = inputExecutor.submit((Runnable) this::inputWithTimeout);
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     //TODO : javadoc

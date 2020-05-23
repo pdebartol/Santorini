@@ -55,7 +55,8 @@ public class Square {
     //TODO : javadoc
 
     public void setLevel(int level) {
-        this.level = level;
+        if(level == 4) dome = true;
+        else this.level = level;
     }
 
 }

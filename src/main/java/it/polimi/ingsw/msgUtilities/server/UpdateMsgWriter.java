@@ -166,10 +166,10 @@ public class UpdateMsgWriter {
         return document;
     }
 
-    public Document endOfTurnRemoveAndBuildUpdate(int startX, int startY,int level){
+    public Document endOfTurnRemoveAndBuildUpdate(int index, int startX, int startY,int level){
         Node updateTag = initializeTagList("Update");
 
-        Node removeAndBuild = appendTag(updateTag,"RemoveAndBuild");
+        Node removeAndBuild = appendTag(index, updateTag,"RemoveAndBuild");
         appendTag(removeAndBuild,"startXPosition",String.valueOf(startX));
         appendTag(removeAndBuild,"startYPosition",String.valueOf(startY));
         appendTag(removeAndBuild,"Level",String.valueOf(level));

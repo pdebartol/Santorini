@@ -59,8 +59,8 @@ public class ModelMsgContainer {
 
     //TODO : javadoc
 
-    public void endOfTurnRemoveAndBuildUpdate(int startX,int startY,int level){
-        answerMsg = answerMsgWriter.endOfTurnRemoveAndBuildUpdate(startX,startY,level);
-        updateMsg = updateMsgWriter.endOfTurnRemoveAndBuildUpdate(startX,startY,level);
+    public void endOfTurnRemoveAndBuildUpdate(int index, int startX,int startY,int level){
+        answerMsg = answerMsgWriter.endOfTurnRemoveAndBuildUpdate(index, startX,startY,level);
+        updateMsg = updateMsgWriter.endOfTurnRemoveAndBuildUpdate(index, startX,startY,level);
     }
 }

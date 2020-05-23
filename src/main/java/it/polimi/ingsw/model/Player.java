@@ -225,10 +225,8 @@ public class Player implements PropertyChangeListener {
         List<Error> errorList = power.checkMove(w, x, y);
         List<Error> errors = Collections.unmodifiableList(errorList);
         if(errors.isEmpty()){
-            System.out.println("Move done.");
             power.updateMove(w,x,y);
-        }else
-            System.out.println("Invalid move!");
+        }
 
         return errors;
     }
@@ -253,10 +251,8 @@ public class Player implements PropertyChangeListener {
         List<Error> errorList = power.checkBuild(w, x, y, l);
         List<Error> errors = Collections.unmodifiableList(errorList);
         if(errors.isEmpty()){
-            System.out.println("Build done.");
             power.updateBuild(w, x, y, l);
-        }else
-            System.out.println("Invalid build!");
+        }
 
         return errors;
     }
