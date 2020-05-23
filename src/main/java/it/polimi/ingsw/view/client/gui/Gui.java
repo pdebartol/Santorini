@@ -185,6 +185,7 @@ public class Gui extends View {
             gameScene = new Scene(root);
             gameSceneController = loader.getController();
             gameSceneController.setGui(this);
+            gameSceneController.hideGod();
         } catch (IOException e) {
             System.out.println("Could not initialize Game Scene");
         }
@@ -496,6 +497,8 @@ public class Gui extends View {
     public void showStartingPlayer(String username) {
         Platform.runLater(
                 () -> {
+                    if(!isChallenger) players.add(myPlayer);
+                    gameSceneController.setPlayers(players);
                     primaryStage.setScene(gameScene);
                     primaryStage.show();
                     if(username.equals(myPlayer.getUsername()))
@@ -668,6 +671,9 @@ public class Gui extends View {
             return gods;
     }
 
+    public God getPlayerGod(Player p){
+        return getGodById(p.getGod().getId());
+    }
 
 }
 

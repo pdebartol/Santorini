@@ -309,7 +309,7 @@
                                 </AnchorPane>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                                     <children>
-                                        <Button fx:id="shwoInformationButton" layoutX="27.0" layoutY="13.0" mnemonicParsing="false" onAction="#showOtherPlayerInformation" text="Show Information" />
+                                        <Button fx:id="showInformationButton" layoutX="27.0" layoutY="13.0" mnemonicParsing="false" onAction="#showOtherPlayerInformation" text="Show Informations" />
                                     </children>
                                 </AnchorPane>
                             </children>

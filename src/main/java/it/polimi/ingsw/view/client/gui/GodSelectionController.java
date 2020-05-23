@@ -42,24 +42,7 @@ public class GodSelectionController {
     private Gui gui;
 
 
-    /**
-     * This method loads the image of a god
-     * @param id of the god
-     * @return an Image of the god
-     */
 
-    private Image loadGod(int id){
-        Image god;
-
-        if(id < 10){
-            god = GuiManager.loadImage("godCards/0"+ (id) + ".png");
-        }
-        else{
-            god = GuiManager.loadImage("godCards/"+ (id) + ".png");
-        }
-
-        return god;
-    }
 
 
     /**
@@ -71,7 +54,7 @@ public class GodSelectionController {
     public void prevGodImage(ActionEvent actionEvent) {
         God god = gui.getPreviousGod();
         int godId = god.getId();
-        imageGod.setImage(loadGod(godId));
+        imageGod.setImage(GuiManager.loadGod(godId));
         nameLabel.setText(god.getName());
         descriptionLabel.setText(god.getDescription());
     }
@@ -86,7 +69,7 @@ public class GodSelectionController {
     public void nextGodImage(ActionEvent actionEvent) {
         God god = gui.getNextGod();
         int godId = god.getId();
-        imageGod.setImage(loadGod(godId));
+        imageGod.setImage(GuiManager.loadGod(godId));
         nameLabel.setText(god.getName());
         descriptionLabel.setText(god.getDescription());
     }
@@ -150,7 +133,7 @@ public class GodSelectionController {
 
     public void initializeGods(God starterGod){
         int godId = starterGod.getId();
-        imageGod.setImage(loadGod(godId));
+        imageGod.setImage(GuiManager.loadGod(godId));
         nameLabel.setText(starterGod.getName());
         descriptionLabel.setText(starterGod.getDescription());
     }
