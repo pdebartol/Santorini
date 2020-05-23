@@ -27,28 +27,28 @@
                                 <RowConstraints maxHeight="64.0" minHeight="64.0" prefHeight="64.0" />
                             </rowConstraints>
                             <children>
-                                <AnchorPane fx:id="anchorPane00">
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                     <children>
-                                        <ImageView fx:id="targetSquare" fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                        <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                     </children>
                                 </AnchorPane>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4">
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="0">
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>
@@ -64,11 +64,11 @@
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.columnIndex="0">
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" GridPane.columnIndex="0">
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>
@@ -78,7 +78,7 @@
                            </children></AnchorPane>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                            <children>
-                              <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                            <children>
@@ -88,7 +88,7 @@
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" GridPane.columnIndex="0">
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>
@@ -108,7 +108,7 @@
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>
-                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" GridPane.columnIndex="0">
                            <children>
                               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children></AnchorPane>

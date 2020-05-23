@@ -20,8 +20,6 @@ public class GameController {
     @FXML
     public GridPane board;
     @FXML
-    public ImageView targetSquare = new ImageView();
-    @FXML
     public ImageView imageToDrag;
     @FXML
     public Button shwoInformationButton;
