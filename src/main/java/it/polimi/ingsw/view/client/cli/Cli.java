@@ -29,6 +29,7 @@ public class Cli extends View {
     Future inputThread;
     private String state;
     private boolean disconnected;
+    private God godToVisualize;
 
     public Cli() {
         super();
@@ -333,18 +334,29 @@ public class Cli extends View {
     @Override
     public void move() {
         printInGameTextBox("You have to move!");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         inputThread = inputExecutor.submit(() -> {
             int[] startCoordinates = selectWorker();
 
             String input;
             int[] coordinates;
 
-            printInGameTextBox("Where do you want to move? (#,#)");
-            input = inputWithTimeout();
-            while (!InputValidator.validateCOORDINATES(input) && !Thread.interrupted()) {
-                printInGameTextBox("Invalid coordinates! Please try again (type #,#)...");
+            do {
+                printInGameTextBox("Where do you want to move? (#,#) or type \"n\" if you want to change god to visualize in God Power box...");
                 input = inputWithTimeout();
-            }
+                while (!InputValidator.validateCOORDINATES(input) && !input.equals("n") && !Thread.interrupted()) {
+                    printInGameTextBox("Invalid coordinates or input! Please try again (type #,#) or \"n\"...");
+                    input = inputWithTimeout();
+                }
+
+                if(input.equals("n") && !Thread.interrupted()) changeGodToVisualize();
+            }while (!Thread.interrupted() && input.equals("n"));
+
+
             if(!Thread.interrupted()) {
                 coordinates = Arrays.stream(input.split(",")).mapToInt(Integer::parseInt).toArray();
                 sendMoveRequest(gameBoard.getSquareByCoordinates(startCoordinates[0],startCoordinates[1]).getWorker().getGender(),coordinates[0],coordinates[1]);
@@ -357,18 +369,27 @@ public class Cli extends View {
     @Override
     public void build() {
         printInGameTextBox("You have to build!");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         inputThread = inputExecutor.submit(() -> {
             int[] startCoordinates = selectWorker();
 
             String inputCoordinates;
             int[] coordinates;
 
-            printInGameTextBox("Where do you want to build? (#,#)");
-            inputCoordinates = inputWithTimeout();
-            while (!InputValidator.validateCOORDINATES(inputCoordinates) && !Thread.interrupted()) {
-                printInGameTextBox("Invalid coordinates! Please try again (type #,#)...");
+            do {
+                printInGameTextBox("Where do you want to build? (#,#) or type \"n\" if you want to change god to visualize in God Power box...");
                 inputCoordinates = inputWithTimeout();
-            }
+                while (!InputValidator.validateCOORDINATES(inputCoordinates) && !inputCoordinates.equals("n") && !Thread.interrupted()) {
+                    printInGameTextBox("Invalid coordinates or input! Please try again (type #,#) or \"n\"...");
+                    inputCoordinates = inputWithTimeout();
+                }
+
+                if(inputCoordinates.equals("n") && !Thread.interrupted()) changeGodToVisualize();
+            }while (!Thread.interrupted() && inputCoordinates.equals("n"));
 
             int level;
             String inputLevel;
@@ -392,16 +413,19 @@ public class Cli extends View {
     @Override
     public void moveOrBuild() {
         inputThread = inputExecutor.submit(() -> {
-            printInGameTextBox("You can both move and build, what do you want to do? (m,b)");
             String input;
             do {
-                input = inputWithTimeout();
-            }while (!Thread.interrupted() && !input.equals("m") && !input.equals("b"));
+                printInGameTextBox("You can both move and build, what do you want to do? (m,b) or type \"n\" if you want to change god to visualize in God Power box...");
+                do {
+                    input = inputWithTimeout();
+                } while (!Thread.interrupted() && !input.equals("m") && !input.equals("b") && !input.equals("n"));
 
-            if(!Thread.interrupted()){
-                if(input.equals("m")) move();
-                else if(input.equals("b")) build();
-            }
+                if (!Thread.interrupted()) {
+                    if (input.equals("m")) move();
+                    else if (input.equals("b")) build();
+                    if(input.equals("n")) changeGodToVisualize();
+                }
+            }while (!Thread.interrupted() && input.equals("n"));
         });
     }
 
@@ -410,16 +434,19 @@ public class Cli extends View {
     @Override
     public void buildOrEnd() {
         inputThread = inputExecutor.submit(() -> {
-            printInGameTextBox("You can both build and end your turn, what do you want to do? (b,e)");
             String input;
             do {
-                input = inputWithTimeout();
-            }while (!Thread.interrupted() && !input.equals("b") && !input.equals("e"));
+                printInGameTextBox("You can both build and end your turn, what do you want to do? (b,e) or type \"n\" if you want to change god to visualize in God Power box...");
+                do {
+                    input = inputWithTimeout();
+                } while (!Thread.interrupted() && !input.equals("b") && !input.equals("e") && !input.equals("n"));
 
-            if(!Thread.interrupted()){
-                if(input.equals("b")) build();
-                else if(input.equals("e")) sendEndOfTurnRequest();
-            }
+                if (!Thread.interrupted()) {
+                    if (input.equals("b")) build();
+                    else if (input.equals("e")) sendEndOfTurnRequest();
+                    if(input.equals("n")) changeGodToVisualize();
+                }
+            }while(!Thread.interrupted() && input.equals("n"));
         });
     }
 
@@ -472,7 +499,16 @@ public class Cli extends View {
                 printInGameTextBox(author + " is placing his female worker on the board...");
                 break;
             case "hisTurn":
-                printInGameTextBox(author + " is playing his turn...");
+                inputThread = inputExecutor.submit(() -> {
+                    while(!Thread.interrupted()){
+                        printInGameTextBox(author + " is playing his turn...");
+                        appendInGameTextBox("Enter \"n\" if you want to change god to visualize in God Power box...");
+                        String input = input();
+                        if(input.equals("n")){
+                            changeGodToVisualize();
+                        }
+                    }
+                });
         }
     }
 
@@ -532,6 +568,9 @@ public class Cli extends View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        godToVisualize = myPlayer.getGod();
+        printGodInGodBox();
     }
 
     //TODO : javadoc
@@ -645,7 +684,7 @@ public class Cli extends View {
                     output.append(", ").append("the additional build block can't be a dome");
             }
         }
-        output.delete(37,38);
+        output.delete(36,37);
 
         output.append(". Try again...");
         printInGameTextBox(output.toString());
@@ -1317,6 +1356,35 @@ public class Cli extends View {
 
     }
 
+    //TODO : javadoc
+
+    public void printGodInGodBox(){
+        eraseThings("godBox");
+
+        printInGodTextBox("name",godToVisualize.getName());
+        printInGodTextBox("description",godToVisualize.getDescription());
+    }
+
+    //TODO : javadoc
+
+    public void changeGodToVisualize(){
+        if(godToVisualize.getName().equals(myPlayer.getGod().getName())){
+            godToVisualize = players.get(0).getGod();
+        }else {
+            if (players.size() == 1)
+                godToVisualize = myPlayer.getGod();
+            else {
+
+                if (godToVisualize.getName().equals(players.get(0).getGod().getName()))
+                    godToVisualize = players.get(1).getGod();
+                else
+                    godToVisualize = myPlayer.getGod();
+            }
+        }
+
+        printGodInGodBox();
+    }
+
     /**
      * This method prints in God text box
      * @param name represents what is intended to print, of god or its descriptions
@@ -1328,24 +1396,23 @@ public class Cli extends View {
         int size = text.length();
         char[] information = text.toCharArray();
 
-        eraseThings("godBox");
         printGameTemplate();
 
         System.out.print(Escapes.CURSOR_HOME_0x0.escape());
 
         if(name.equals("name")){
             size = ((Box.HORIZONTAL_DIM.escape() - Box.GODS_BOX_START.escape()) - size)/2;
-            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.GODS_BOX_START_LINE.escape() + 1, Box.GODS_BOX_START.escape() + size + 1);
+            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.GODS_BOX_START_LINE.escape() + 3, Box.GODS_BOX_START.escape() + size + 1);
             System.out.print(text);
         }
         else{
-            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.GODS_BOX_START_LINE.escape() + 4, Box.GODS_BOX_START.escape());
-            for (int i = Box.GODS_BOX_START.escape(), j = 0; j < information.length; i++, j++) {
+            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.GODS_BOX_START_LINE.escape() + 7, Box.GODS_BOX_START.escape() + 2);
+            for (int i = Box.GODS_BOX_START.escape() + 2, j = 0; j < information.length; i++, j++) {
                 System.out.print(information[j]);
-                if (i == Box.HORIZONTAL_DIM.escape() - 2) {
+                if (i == Box.HORIZONTAL_DIM.escape() - 3) {
                     System.out.print("-\n");
-                    System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.GODS_BOX_START.escape());
-                    i = Box.GODS_BOX_START.escape();
+                    System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.GODS_BOX_START.escape() + 1);
+                    i = Box.GODS_BOX_START.escape() + 1;
                 }
             }
         }
@@ -1427,44 +1494,8 @@ public class Cli extends View {
         }
     }
 
-    //Gods methods
+    //support methods
 
-    /**
-     * This method prints Gods on screen
-     *
-     * @param i indicates if will be prints the God of player or Gods of other players
-     */
-
-    public void printStartDivinities(int i) {
-
-        if (i == 1) {
-            printInStartTextBox(myPlayer.getGod().getName() + "\n\u001b[1C" + myPlayer.getGod().getDescription() + "enter for continue");
-            input();
-        } else {
-            for (int j = 0; j < players.size(); j++) {
-                printInStartTextBox(players.get(j).getGod().getName() + "\n\u001b[1C" + players.get(j).getGod().getDescription()
-                        + "\n\u001b[1C" + (j + 1) + " of " + players.size() + " enter for continue");
-                input();
-            }
-        }
-
-    }
-
-    public void printGameDivinities(int i) {
-
-        if (i == 1) {
-            printInGameTextBox(myPlayer.getGod().getName() + "\n\u001b[1C" + myPlayer.getGod().getDescription() + "enter for continue");
-            input();
-        } else {
-            printInGameTextBox(myPlayer.getGod().getName() + "\n\u001b[1C" + myPlayer.getGod().getDescription() + "enter for continue");
-            for (int j = 0; j < players.size(); j++) {
-                printInGameTextBox(players.get(j).getGod().getName() + "\n\u001b[1C" + players.get(j).getGod().getDescription()
-                        + "\n\u001b[1C" + (j + 1) + " of " + players.size() + " enter for continue");
-                input();
-            }
-        }
-
-    }
 
     private int[] selectWorker() {
 
@@ -1484,12 +1515,15 @@ public class Cli extends View {
                     e.printStackTrace();
                 }
             }else {
-                appendInGameTextBox("Select one of your workers: (m,f)");
-                input = inputWithTimeout();
-                while (!input.equals("m") && !input.equals("f") && !Thread.interrupted()) {
-                    printInGameTextBox("Invalid input! Please try again (m,f)...");
+                do {
+                    printInGameTextBox("Select one of your workers: (m,f) or type \"n\" if you want to change god to visualize in God Power box...");
                     input = inputWithTimeout();
-                }
+                    while (!input.equals("m") && !input.equals("f") && !input.equals("n") && !Thread.interrupted()) {
+                        printInGameTextBox("Invalid input! Please try again (m,f) or \"n\"...");
+                        input = inputWithTimeout();
+                    }
+                    if(input.equals("n")) changeGodToVisualize();
+                }while (!Thread.interrupted() && input.equals("n"));
 
                 if (input.equals("m") && !Thread.interrupted()) {
                     Square s = myPlayer.getWorkerByGender("male").getCurrentPosition();
@@ -1509,9 +1543,6 @@ public class Cli extends View {
 
         return coordinates;
     }
-
-
-    //support methods
 
     //TODO : javadoc
 
