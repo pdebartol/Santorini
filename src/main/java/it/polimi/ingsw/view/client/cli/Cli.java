@@ -1058,6 +1058,12 @@ public class Cli extends View {
                     System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape());
                 }
                 break;
+            case "godBox":
+                System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.GODS_BOX_START_LINE.escape(), Box.GODS_BOX_START.escape());
+                for (int i = 0; i < (Box.PLAYER_BOX_START_LINE.escape() - 1); i++) {
+                    System.out.println(Escapes.CLEAR_LINE_FROM_CURSOR_TO_END.escape());
+                    System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.GODS_BOX_START.escape());
+                }
         }
 
 
@@ -1282,6 +1288,7 @@ public class Cli extends View {
     }
 
 
+
     public void printInStartTextBox(String text) {
 
         char[] information = text.toCharArray();
@@ -1304,12 +1311,37 @@ public class Cli extends View {
 
     }
 
-    public void printInGodTextBox(String name, String s){
+    /**
+     * This method prints in God text box
+     * @param name represents what is intended to print, of god or its descriptions
+     * @param text represents the content to be displayed
+     */
 
-        int size = s.length();
+    public void printInGodTextBox(String name, String text){
+
+        int size = text.length();
+        char[] information = text.toCharArray();
+
+        eraseThings("godBox");
+        printGameTemplate();
+
+        System.out.print(Escapes.CURSOR_HOME_0x0.escape());
 
         if(name.equals("name")){
-            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape());
+            size = ((Box.HORIZONTAL_DIM.escape() - Box.GODS_BOX_START.escape()) - size)/2;
+            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.GODS_BOX_START_LINE.escape() + 1, Box.GODS_BOX_START.escape() + size + 1);
+            System.out.print(text);
+        }
+        else{
+            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.GODS_BOX_START_LINE.escape() + 4, Box.GODS_BOX_START.escape());
+            for (int i = Box.GODS_BOX_START.escape(), j = 0; j < information.length; i++, j++) {
+                System.out.print(information[j]);
+                if (i == Box.HORIZONTAL_DIM.escape() - 2) {
+                    System.out.print("-\n");
+                    System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.GODS_BOX_START.escape());
+                    i = Box.GODS_BOX_START.escape();
+                }
+            }
         }
 
     }
