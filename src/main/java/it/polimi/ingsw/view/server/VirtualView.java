@@ -443,7 +443,7 @@ public class VirtualView implements ViewInterface {
         sendMsg(clients.get(winnerUsername), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youWinForAnotherLose"));
         for (String user : clients.keySet())
             if(!user.equals(winnerUsername)){
-                sendMsg(clients.get(user), new UpdateMsgWriter().winLoseUpdate(winnerUsername,""));
+                sendMsg(clients.get(user), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youLoseForBlocked"));
             }
         matchFinished();
     }

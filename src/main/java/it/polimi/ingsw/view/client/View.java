@@ -259,6 +259,17 @@ public abstract class View {
         showTurnEnded(username);
     }
 
+    public void updateLoser(String username){
+        for(Worker worker : getPlayerByUsername(username).getWorkers()){
+            worker.getCurrentPosition().removeWorker();
+        }
+        players.remove(getPlayerByUsername(username));
+
+
+        showPlayerLose(username);
+        showBoard();
+    }
+
     //disconnection methods
 
     //TODO : javadoc
@@ -352,7 +363,19 @@ public abstract class View {
 
     public abstract void showDisconnectionForInputExpiredTimeout();
 
-    //SRequest method
+    //TODO : javadoc
+
+    public abstract void showPlayerLose(String username);
+
+    //TODO : javadoc
+
+    public abstract void showYouLose(String reason, String winner);
+
+    //TODO : javadoc
+
+    public abstract void showYouWin(String reason);
+
+    //Request method
 
     //TODO : javadoc
 

@@ -17,8 +17,8 @@ public class MsgInParser {
 
     //attributes
 
-    private Document document;
-    private View view;
+    private final Document document;
+    private final View view;
 
     public MsgInParser(Document document, View view){
         this.document = document;
@@ -135,25 +135,23 @@ public class MsgInParser {
                 view.endOfTurnWithoutUpdate(username);
                 break;
             case "youWinDirectly":
-                //TODO notify view
+                view.showYouWin(mode);
                 break;
             case "youLoseForDirectWin":
-                //TODO notify view
+                view.showYouLose(mode,username);
                 break;
             case  "youWinForAnotherLose":
-                //TODO notify view
+                view.showYouWin(mode);
                 break;
             case "youLoseForBlocked":
-                //TODO notify view
-
-
-
+                view.showYouLose(mode,username);
+            case "loser":
+                view.updateLoser(username);
         }
     }
 
     private void parseAnswer(){
         String mode = Objects.requireNonNull(evaluateXPath("/Answer/Mode/text()")).get(0);
-        String username = Objects.requireNonNull(evaluateXPath("/Answer/Username/text()")).get(0);
         String outcome = Objects.requireNonNull(evaluateXPath("/Answer/Outcome/text()")).get(0);
         String nextStep;
         switch (mode){
@@ -211,7 +209,6 @@ public class MsgInParser {
                 }
                 else{
                     String workerGender = Objects.requireNonNull(evaluateXPath( "/Answer/Update/WorkerGender/text()")).get(0);
-                    List<String> errors = getErrorList();
                     view.setWorkerOnBoard(workerGender,true);
                 }
                 break;

@@ -719,9 +719,17 @@ public class Cli extends View {
     public void showServerDisconnection() {
         disconnected = true;
         abortInputProcessing();
-        if (state.equals("SETUP"))
-            printInStartTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
-        else printInGameTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
+        switch (state){
+            case "SETUP" :
+                printInStartTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
+                break;
+            case "MATCH":
+                printInGameTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
+                break;
+            case "FINISHED":
+                printInGameTextBox("The server disconnected you! Do you want to try to reconnect? (s/n)");
+                break;
+        }
         String input;
         do {
             input = input();
@@ -756,6 +764,77 @@ public class Cli extends View {
             printStartTemplate();
             start();
         } else System.exit(0);
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void showPlayerLose(String username) {
+        printInGameTextBox(username + " lost! now you are only 2 : You and " + players.get(0));
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void showYouLose(String reason, String winner) {
+        state = "FINISHED";
+        eraseThings("all");
+        printFinalTemplate();
+        printLoser();
+
+        StringBuilder output = new StringBuilder();
+        output.append("You lose because ");
+        switch (reason){
+            case "youLoseForDirectWin":
+                output.append(winner).append(" won instantly!");
+                break;
+            case "youLoseForBlocked":
+                output.append("you were trapped!");
+                if(!winner.equals(myPlayer.getUsername()))
+                    output.append(" The winner is ").append(winner).append("!");
+        }
+
+        printInStartTextBox(output.toString());
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //TODO : javadoc
+
+    @Override
+    public void showYouWin(String reason) {
+        state = "FINISHED";
+        eraseThings("all");
+        printFinalTemplate();
+        printLoser();
+
+        StringBuilder output = new StringBuilder();
+        output.append("You win ");
+        switch (reason){
+            case "youLoseForDirectWin":
+                output.append("instantly!");
+                break;
+            case "youWinForAnotherLose":
+                output.append("your opponent were trapped!");
+        }
+
+        printInStartTextBox(output.toString());
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     //Frame methods
@@ -839,8 +918,75 @@ public class Cli extends View {
         System.out.print(ColorCode.ANSI_CYAN.escape() + "    Piersilvio De Bartolomeis, Marco Di Gennaro, Alessandro Di Maio" + ColorCode.ANSI_RESET.escape());
 
         printSantorini();
+    }
 
+    public void printFinalTemplate(){
 
+        //draw the top line
+
+        System.out.print(Escapes.CURSOR_HOME_0x0.escape());
+        System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_RIGHT.escape());
+        for (int i = 1; i < Box.HORIZONTAL_DIM.escape() - 1; i++) {
+            if (i == Box.TEXT_START.escape()) {
+                System.out.print("Login");
+                i += 5;
+            }
+            System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
+        }
+        System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_LEFT.escape());
+
+        //draw the left line
+
+        System.out.println(Escapes.CURSOR_HOME_0x0.escape());
+        for (int i = 1; i < Box.VERTICAL_DIM.escape(); i++) {
+            if (i == Box.TEXT_BOX_START.escape() - 1 || i == Box.INPUT_BOX_START.escape() - 1)
+                System.out.println(Unicode.BOX_RAWINGS_HEAVY_VERTICAL_AND_RIGHT.escape());
+            else
+                System.out.println(Unicode.BOX_DRAWINGS_HEAVY_VERTICAL.escape());
+        }
+        System.out.print(Unicode.BOX_DRAWINGS_HEAVY_UP_AND_RIGHT.escape());
+
+        //draw the bottom line
+
+        for (int i = 1; i < Box.HORIZONTAL_DIM.escape() - 1; i++) {
+            System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
+        }
+        System.out.print(Unicode.BOX_DRAWINGS_HEAVY_UP_AND_LEFT.escape());
+
+        //draw the right line
+
+        System.out.println(Escapes.CURSOR_HOME_0x0.escape());
+        for (int i = 1; i < Box.VERTICAL_DIM.escape(); i++) {
+            System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.HORIZONTAL_DIM.escape() - 1);
+            if (i == Box.TEXT_BOX_START.escape() - 1 || i == Box.INPUT_BOX_START.escape() - 1)
+                System.out.println(Unicode.BOX_DRAWINGS_HEAVY_VERTICAL_AND_LEFT.escape());
+            else
+                System.out.println(Unicode.BOX_DRAWINGS_HEAVY_VERTICAL.escape());
+        }
+
+        //draw the text line
+
+        System.out.print(Escapes.CURSOR_HOME_0x0.escape());
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.TEXT_BOX_START.escape(), 2);
+        for (int i = 1; i < Box.HORIZONTAL_DIM.escape(); i++) {
+            if (i == Box.TEXT_START.escape()) {
+                System.out.print("Text");
+                i += 4;
+            } else
+                System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
+        }
+
+        //draw the input line
+
+        System.out.print(Escapes.CURSOR_HOME_0x0.escape());
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape(), 2);
+        for (int i = 1; i < Box.HORIZONTAL_DIM.escape(); i++) {
+            if (i == Box.TEXT_START.escape()) {
+                System.out.print("Input");
+                i += 5;
+            } else
+                System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
+        }
     }
 
     public void printGameTemplate() {
@@ -1457,6 +1603,8 @@ public class Cli extends View {
 
     //TODO : javadoc
 
+    //TODO : javadoc
+
     public void moveAfterChose(){
         printInGameTextBox("You have to move!");
         try {
@@ -1517,7 +1665,7 @@ public class Cli extends View {
 
             int level;
             String inputLevel;
-            printInGameTextBox("What type of building do you want to build? (#)");
+            printInGameTextBox("What type of building do you want to build? (1 -> first block, 2 -> second block, 3 -> third block, 4 -> dome)");
             inputLevel = inputWithTimeout();
             while (!InputValidator.validateLEVEL(inputLevel) && !Thread.interrupted()) {
                 printInGameTextBox("Invalid building! Please try again (#)...");

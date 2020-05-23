@@ -16,7 +16,6 @@ public class Player {
         this.workers = new ArrayList<>();
         this.workers.add(new Worker(color, "male"));
         this.workers.add(new Worker(color, "female"));
-        this.loser = false;
         this.god = new God(0,"...","null");
     }
 
@@ -52,11 +51,5 @@ public class Player {
     public void removeWorker(Worker w){
         w.getCurrentPosition().removeWorker();
         workers.remove(w);
-    }
-
-    //TODO : javadoc
-
-    public void lose(){
-        loser = true;
     }
 }

@@ -572,6 +572,21 @@ public class Gui extends View {
     }
 
     @Override
+    public void showPlayerLose(String username) {
+
+    }
+
+    @Override
+    public void showYouLose(String reason, String winner) {
+
+    }
+
+    @Override
+    public void showYouWin(String reason) {
+
+    }
+
+    @Override
     public void disconnectionForInputExpiredTimeout() {
 
     }
