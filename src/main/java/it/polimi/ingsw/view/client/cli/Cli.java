@@ -1187,7 +1187,7 @@ public class Cli extends View {
 
         System.out.print(ColorCode.WHITE.escape());
         System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_RIGHT.escape());
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < Box.SQUARE_HORIZONTAL_DIM.escape() - 2; i++) {
             System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
         }
         System.out.print(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_LEFT.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
@@ -1218,11 +1218,15 @@ public class Cli extends View {
             */
 
         } else {
-            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
-            setBackgroundColor(square);
-            System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN2.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
-            System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+            for (int i = 0; i < 2; i++) {
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
+                setBackgroundColor(square);
+                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN2.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+            }
+
         }
+
             System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
             setBackgroundColor(square);
             System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + square.getLevel());
@@ -1230,7 +1234,7 @@ public class Cli extends View {
             System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
 
             System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_RIGHT.escape());
-            for (int i = 0; i < 8 - 2; i++) {
+            for (int i = 0; i < Box.SQUARE_HORIZONTAL_DIM.escape() - 2; i++) {
                 System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
             }
             System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_LEFT.escape());
