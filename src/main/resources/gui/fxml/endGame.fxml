@@ -1,21 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-
-<AnchorPane fx:controller="it.polimi.ingsw.view.client.gui.EndGameController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: #0083bd;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.client.gui.EndGameController">
    <children>
       <GridPane layoutX="220.0" layoutY="195.0" prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="318.8000030517578" minHeight="10.0" prefHeight="318.8000030517578" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="262.3999938964844" minHeight="10.0" prefHeight="161.1999969482422" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="381.99998779296874" minHeight="10.0" prefHeight="277.79998168945315" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="262.3999938964844" minHeight="10.0" prefHeight="92.20001831054685" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="262.3999938964844" minHeight="10.0" prefHeight="111.00002441406252" vgrow="SOMETIMES" />
         </rowConstraints>
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+               <children>
+                  <GridPane layoutX="220.0" layoutY="36.0" prefHeight="161.2" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="creditsButton" layoutX="109.0" layoutY="36.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="102.0" text="Credits" />
+                           </children></AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                           <children>
+                              <Button fx:id="newGameButton" layoutX="109.0" layoutY="36.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="102.0" text="New Game" />
+                           </children></AnchorPane>
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="endGameFrame" fitHeight="202.0" fitWidth="188.0" layoutX="226.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics_resources/Sprite/Layouts/Endgame/endgame_victorywin.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="trumpetsRight" fitHeight="181.0" fitWidth="163.0" layoutX="414.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics_resources/Sprite/Layouts/Endgame/endgame_victorytrumpets.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="trumpetsLeft" fitHeight="181.0" fitWidth="165.0" layoutX="62.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics_resources/Sprite/Layouts/Endgame/endgame_victorytrumpets_left.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="playerGodImageView" fitHeight="81.0" fitWidth="64.0" layoutX="289.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics_resources/Sprite/Cards/Small/Apolo.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="winLoseLabel" alignment="CENTER" layoutX="278.0" layoutY="230.0" prefHeight="34.0" prefWidth="84.0" text="You Won!" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fx:id="cloudLeft" fitHeight="81.0" fitWidth="138.0" layoutX="14.0" layoutY="6.0">
+                     <image>
+                        <Image url="@../graphics_resources/Sprite/Layouts/Endgame/endgame_victorycloudleft.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="cloudRight" fitHeight="81.0" fitWidth="138.0" layoutX="488.0" layoutY="6.0">
+                     <image>
+                        <Image url="@../graphics_resources/Sprite/Layouts/Endgame/endgame_victorycloudright.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="informationLabel" alignment="CENTER" layoutX="180.0" layoutY="12.0" prefHeight="69.0" prefWidth="279.0" text="Information" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+         </children>
       </GridPane>
    </children>
 </AnchorPane>

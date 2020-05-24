@@ -50,6 +50,8 @@ public class GameController {
     @FXML
     public ImageView worker;
 
+    public boolean dNdActive;
+
     String workerGender;
 
     private Gui gui;
@@ -84,11 +86,22 @@ public class GameController {
     public void doActionBlueButton(MouseEvent mouseEvent) {
     }
 
+    /**
+     * On Drag Done Method
+     * @param dragEvent
+     */
+
     public void removeWorkerDragged(DragEvent dragEvent) {
 
-        ((ImageView)dragEvent.getSource()).setImage(null);
+        if(dragEvent.getTransferMode() == TransferMode.MOVE)
+            ((ImageView)dragEvent.getSource()).setImage(null);
 
     }
+
+    /**
+     * On Drag Dropped method
+     * @param dragEvent
+     */
 
     public void acceptElement(DragEvent dragEvent) {
         gui.sendSetWorkerOnBoardRequest(workerGender,board.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()),board.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
@@ -105,6 +118,7 @@ public class GameController {
         }
 
         dragEvent.setDropCompleted(success);
+        dragEvent.consume();
 
 
         //TODO if the answer from server is negative restoreImage();
@@ -137,19 +151,29 @@ public class GameController {
 
     }
 
+    /**
+     * On Drag Over method
+     * @param dragEvent
+     * @throws IOException
+     */
+
     public void highlightSquareOverMethod(DragEvent dragEvent) throws IOException {
 
-        Dragboard db = dragEvent.getDragboard();
-
-        if(db.hasImage()){
+        /* ((ImageView)dragEvent.getGestureSource()) != source_pointer should check that the place for drop is not the same of source of drag
+        if(((ImageView)dragEvent.getGestureSource()) != source_pointer && dragEvent.getDragboard().hasImage())
             dragEvent.acceptTransferModes(TransferMode.MOVE);
-        }
-
         dragEvent.consume();
+         */
+
+        if(dragEvent.getDragboard().hasImage())
+            dragEvent.acceptTransferModes(TransferMode.MOVE);
+        dragEvent.consume();
+
     }
 
     public void startChangingPosition(MouseEvent mouseEvent) {
 
+        //TODO if dNdActive is true -> start dNd
         ImageView test = ((ImageView)mouseEvent.getSource());
 
         source = new ImageView(((ImageView)mouseEvent.getSource()).getImage());
@@ -159,12 +183,14 @@ public class GameController {
         ClipboardContent content = new ClipboardContent();
         content.putImage(test.getImage());
         db.setContent(content);
+        mouseEvent.consume();
 
     }
 
     public void dragDoneMethod(DragEvent dragEvent) {
 
-        ((ImageView)dragEvent.getSource()).setImage(null);
+        if(dragEvent.getTransferMode() == TransferMode.MOVE)
+            ((ImageView)dragEvent.getSource()).setImage(null);
 
     }
 
