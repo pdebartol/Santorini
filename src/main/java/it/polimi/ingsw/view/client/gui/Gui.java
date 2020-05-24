@@ -318,7 +318,6 @@ public class Gui extends View {
             Platform.runLater(
                     () -> {
                         gameSceneController.setInstructionLabel("Setup your " + gender + " worker!");
-                        gameSceneController.activateWorkers();
                         gameSceneController.setupWorker(gender);
                     });
         }
@@ -335,7 +334,6 @@ public class Gui extends View {
     public void turn(String firstOperation) {
         Platform.runLater(
                 () -> {
-                    gameSceneController.activateWorkers();
                     alertUser("Match Information", "It's your turn!", Alert.AlertType.INFORMATION);
                     nextOperation(firstOperation);
                 });
@@ -560,7 +558,6 @@ public class Gui extends View {
         Platform.runLater(
                 () -> {
                     alertUser("Match Information", "Your turn ended!", Alert.AlertType.INFORMATION);
-                    gameSceneController.deactivateWorkers();
                 });
     }
 

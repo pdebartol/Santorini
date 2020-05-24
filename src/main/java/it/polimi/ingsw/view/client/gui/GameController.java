@@ -104,13 +104,25 @@ public class GameController {
 
     String state = "worker";
 
+
+    @FXML
+    public void testMethod(MouseEvent mouseEvent) {
+
+    }
+
     public void changeImageViewRedButton(MouseEvent mouseEvent) {
         Image updateButton = GuiManager.loadImage("Buttons/btn_red_pressed.png");
         redButton.setImage(updateButton);
         redButton.setDisable(true);
     }
 
+    /**
+     * build button
+     * @param mouseEvent
+     */
     public void doActionRedButton(MouseEvent mouseEvent) {
+        dNdActiveBuild = true;
+        state ="build";
     }
 
     public void changeImageViewBlueButton(MouseEvent mouseEvent) {
@@ -120,6 +132,7 @@ public class GameController {
     }
 
     public void doActionBlueButton(MouseEvent mouseEvent) {
+        dNdActiveMove = true;
         state = "move";
     }
 
@@ -132,6 +145,7 @@ public class GameController {
 
     /**
      * On Drag Done Method
+     * @param dragEvent
      */
 
     public void removeWorkerDragged(DragEvent dragEvent) {
@@ -147,18 +161,22 @@ public class GameController {
 
     /**
      * On Drag Dropped method
+     * @param dragEvent
      */
 
     public void acceptElement(DragEvent dragEvent) {
         switch(state){
             case "worker":
                 gui.sendSetWorkerOnBoardRequest(workerGender,boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()),boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
-                deactivateWorkers();
                 break;
             case "move":
                 gui.setSelectedWorker(boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
                 gui.sendMoveRequest(gui.getWorkerGender(boardGridPane.getRowIndex(source_pointer.getParent()),boardGridPane.getColumnIndex( source_pointer.getParent())),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
-                deactivateWorkers();
+                dNdActiveMove = false;
+            case "build":
+                //TODO get square level
+                dNdActiveBuild = false;
+                break;
         }
 
         Dragboard db = dragEvent.getDragboard();
@@ -429,12 +447,6 @@ public class GameController {
         this.gui = gui;
     }
 
-    public void activateWorkers(){
-        dNdActiveMove = true;
-    }
-    public void deactivateWorkers(){
-        dNdActiveMove = false;
-    }
 
     public void hideBlueButton(){
         blueButton.setVisible(false);

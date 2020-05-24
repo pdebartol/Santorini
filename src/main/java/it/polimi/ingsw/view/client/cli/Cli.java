@@ -727,7 +727,7 @@ public class Cli extends View {
                 printInGameTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
                 break;
             case "FINISHED":
-                printInGameTextBox("The server disconnected you! Do you want to try to reconnect? (s/n)");
+                printInFinalTextBox("The server disconnected you! Do you want to try to reconnect? (s/n)");
                 break;
         }
         String input;
@@ -795,12 +795,13 @@ public class Cli extends View {
                 output.append(winner).append(" won instantly!");
                 break;
             case "youLoseForBlocked":
-                output.append("you were trapped!");
+                if(myPlayer.getWorkers().size() == 0) output.append(" you no longer have workers.");
+                else output.append("you were trapped!");
                 if(!winner.equals(myPlayer.getUsername()))
                     output.append(" The winner is ").append(winner).append("!");
         }
 
-        printInStartTextBox(output.toString());
+        printInFinalTextBox(output.toString());
 
         try {
             Thread.sleep(3000);
@@ -825,10 +826,11 @@ public class Cli extends View {
                 output.append("instantly!");
                 break;
             case "youWinForAnotherLose":
-                output.append("your opponent were trapped!");
+                if(players.get(0).getWorkers().size() == 0) output.append(" your opponent no longer have workers.");
+                else output.append("your opponent were trapped!");
         }
 
-        printInStartTextBox(output.toString());
+        printInFinalTextBox(output.toString());
 
         try {
             Thread.sleep(3000);
@@ -928,7 +930,7 @@ public class Cli extends View {
         System.out.print(Unicode.BOX_DRAWINGS_HEAVY_DOWN_AND_RIGHT.escape());
         for (int i = 1; i < Box.HORIZONTAL_DIM.escape() - 1; i++) {
             if (i == Box.TEXT_START.escape()) {
-                System.out.print("Login");
+                System.out.print("End");
                 i += 5;
             }
             System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
@@ -1136,7 +1138,7 @@ public class Cli extends View {
 
     public void printLoser() {
 
-        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.ASCII_ART_START_UP.escape(), Box.ASCII_ART_START_LEFT.escape() + 1);
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.ASCII_ART_START_UP.escape(), Box.ASCII_ART_START_LEFT.escape() + 4);
         System.out.print(ColorCode.ANSI_RED.escape() +
                 " (        )   (         (     \n" + "\u001b[" + Box.ASCII_ART_START_LEFT.escape() + "C" +
                 " )\\ )  ( /(   )\\ )      )\\ )  \n" + "\u001b[" + Box.ASCII_ART_START_LEFT.escape() + "C" +
@@ -1468,6 +1470,28 @@ public class Cli extends View {
 
         printInGodTextBox("name",godToVisualize.getName());
         printInGodTextBox("description",godToVisualize.getDescription());
+    }
+
+    public void printInFinalTextBox(String text) {
+
+        char[] information = text.toCharArray();
+
+        eraseThings("text");
+        printFinalTemplate();
+
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.TEXT_BOX_START.escape() + 1, 2);
+
+        //this cycle allow to avoid that text exceed the frame length
+
+        for (int i = 2, j = 0; j < information.length; i++, j++) {
+            System.out.print(information[j]);
+            if (i == Box.HORIZONTAL_DIM.escape() - 2) {
+                System.out.print("-\n");
+                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1);
+                i = 1;
+            }
+        }
+
     }
 
     //TODO : javadoc
