@@ -307,8 +307,9 @@ public class Gui extends View {
         Platform.runLater(
                 () -> {
                     playerOrderController.setInstructionLabel("Insert an existing username...");
-                    players.add(myPlayer);
-                    playerOrderController.setPlayers(players);
+                    ArrayList<Player> tempPlayers = (ArrayList<Player>) players.clone();
+                    tempPlayers.add(myPlayer);
+                    playerOrderController.setPlayers(tempPlayers);
                     primaryStage.setScene(playerOrderScene);
                     primaryStage.show();
                 });
@@ -533,8 +534,10 @@ public class Gui extends View {
     public void showStartingPlayer(String username) {
         Platform.runLater(
                 () -> {
-                    if(!isChallenger) players.add(myPlayer);
-                    gameSceneController.setPlayers(players);
+                    //if(!isChallenger) players.add(myPlayer);
+                    ArrayList<Player> tempPlayers = (ArrayList<Player>) players.clone();
+                    tempPlayers.add(myPlayer);
+                    gameSceneController.setPlayers(tempPlayers);
                     primaryStage.setScene(gameScene);
                     primaryStage.show();
                     if(username.equals(myPlayer.getUsername()))
@@ -671,21 +674,40 @@ public class Gui extends View {
 
     @Override
     public void showDisconnectionForInputExpiredTimeout() {
-
+        Platform.runLater(
+                () -> {
+                    alertUser("Server Error", "The server disconnected!", Alert.AlertType.ERROR);
+                    primaryStage.setScene(initialScene);
+                });
     }
 
     @Override
     public void showPlayerLose(String username) {
-
+        ArrayList<Player> tempPlayers = (ArrayList<Player>) players.clone();
+        tempPlayers.add(myPlayer);
+        Platform.runLater(
+                () -> {
+                    alertUser("Match Information", username+ " has lost!", Alert.AlertType.INFORMATION);
+                    primaryStage.setScene(initialScene);
+                });
     }
 
     @Override
     public void showYouLose(String reason, String winner) {
-
+        Platform.runLater(
+                () -> {
+                    alertUser("Match Information", winner + " has won!", Alert.AlertType.INFORMATION);
+                    primaryStage.setScene(initialScene);
+                });
     }
 
     @Override
     public void showYouWin(String reason) {
+        Platform.runLater(
+                () -> {
+                    alertUser("Match Information", reason + " has won!", Alert.AlertType.INFORMATION);
+                    primaryStage.setScene(initialScene);
+                });
 
     }
 
