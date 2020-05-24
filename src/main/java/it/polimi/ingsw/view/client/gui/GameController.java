@@ -181,19 +181,37 @@ public class GameController {
      */
 
     public void acceptElement(DragEvent dragEvent) {
+
         switch(state){
             case "worker":
                 gui.sendSetWorkerOnBoardRequest(workerGender,boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()),boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
                 break;
             case "move":
-                gui.setSelectedWorker(boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
+                gui.setSelectedWorker(boardGridPane.getRowIndex( source_pointer.getParent()), boardGridPane.getColumnIndex( source_pointer.getParent()));
                 gui.sendMoveRequest(gui.getWorkerGender(boardGridPane.getRowIndex(source_pointer.getParent()),boardGridPane.getColumnIndex( source_pointer.getParent())),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
                 dNdActiveMove = false;
             case "build":
-                //TODO get square level
+
+                int level;
+                switch (source_pointer.getId()){
+                    case "firstLevelImageView":
+                        level = 1;
+                        break;
+                    case "secondLevelImageView":
+                        level = 2;
+                        break;
+                    case "thirdLevelImageView":
+                        level = 3;
+                        break;
+                    case "domeImageView":
+                        level = 4;
+                        break;
+                }
+
                 dNdActiveBuild = false;
                 break;
         }
+
 
         Dragboard db = dragEvent.getDragboard();
         boolean success = false;
@@ -237,8 +255,10 @@ public class GameController {
 
     public void startChangingPosition(MouseEvent mouseEvent) {
 
+
         if((state.equals("worker") && ((ImageView) mouseEvent.getSource()).getId().equals("worker")) || (dNdActiveMove && ((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")) || (dNdActiveBuild && !(((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")))) {
             ImageView test = ((ImageView) mouseEvent.getSource());
+
 
             source = new ImageView(((ImageView) mouseEvent.getSource()).getImage());
             source_pointer = test;
