@@ -62,6 +62,12 @@ public class GameController {
     public ImageView endTurnButton;
     @FXML
     public ImageView firstLevelImageView;
+    @FXML
+    public ImageView secondLevelImageView;
+    @FXML
+    public ImageView thirdLevelImageView;
+    @FXML
+    public ImageView domeImageView;
 
     private boolean dNdActiveMove = false;
     private boolean dNdActiveBuild = false;
@@ -212,7 +218,7 @@ public class GameController {
          */
 
         if(state.equals("worker") || dNdActiveMove || dNdActiveBuild) {
-            if (dragEvent.getGestureSource() != dragEvent.getSource() && dragEvent.getDragboard().hasImage())
+            if ((dragEvent.getGestureSource() != dragEvent.getSource()) && dragEvent.getDragboard().hasImage())
                 dragEvent.acceptTransferModes(TransferMode.MOVE);
             dragEvent.consume();
         }
