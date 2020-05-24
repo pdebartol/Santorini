@@ -5,11 +5,13 @@ import it.polimi.ingsw.view.client.viewComponents.Board;
 import it.polimi.ingsw.view.client.viewComponents.God;
 import it.polimi.ingsw.view.client.viewComponents.Player;
 import it.polimi.ingsw.view.client.viewComponents.Square;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -58,6 +60,8 @@ public class GameController {
     public GridPane boardGridPane;
     @FXML
     public ImageView endTurnButton;
+    @FXML
+    public ImageView firstLevelImageView;
 
     private boolean dNdActiveMove = false;
     private boolean dNdActiveBuild = false;
@@ -132,6 +136,13 @@ public class GameController {
         state = "move";
     }
 
+    public void restoreImage(){
+
+        source_pointer.setImage(source.getImage());
+        destination_pointer.setImage(destination.getImage());
+
+    }
+
     /**
      * On Drag Done Method
      * @param dragEvent
@@ -139,8 +150,12 @@ public class GameController {
 
     public void removeWorkerDragged(DragEvent dragEvent) {
 
-        if(dragEvent.getTransferMode() == TransferMode.MOVE)
-            ((ImageView)dragEvent.getSource()).setImage(null);
+        if(dragEvent.getTransferMode() == TransferMode.MOVE){
+            if(!((ImageView) dragEvent.getSource()).getId().equals("worker")){}
+            else
+                ((ImageView)dragEvent.getSource()).setImage(null);
+        }
+
 
     }
 
@@ -184,29 +199,8 @@ public class GameController {
 
     }
 
-
-    public void restoreImage(){
-
-        source_pointer.setImage(source.getImage());
-        destination_pointer.setImage(destination.getImage());
-
-    }
-
-    public void highlightSquare(DragEvent dragEvent) {
-
-        //((ImageView)dragEvent.getSource()).setImage();
-
-    }
-
-    public void notHihglightSquare(DragEvent dragEvent) {
-
-
-    }
-
     /**
      * On Drag Over method
-     * @param dragEvent
-     * @throws IOException
      */
 
     public void highlightSquareOverMethod(DragEvent dragEvent) throws IOException {
@@ -217,7 +211,7 @@ public class GameController {
         dragEvent.consume();
          */
 
-        if(dNdActive) {
+        if((state.equals("worker") && ((ImageView) dragEvent.getSource()).getId().equals("worker")) || dNdActiveMove || dNdActiveBuild) {
             if (dragEvent.getGestureSource() != dragEvent.getSource() && dragEvent.getDragboard().hasImage())
                 dragEvent.acceptTransferModes(TransferMode.MOVE);
             dragEvent.consume();
@@ -227,9 +221,8 @@ public class GameController {
 
     public void startChangingPosition(MouseEvent mouseEvent) {
 
-        //TODO if dNdActive is true -> start dNd
 
-        if(dNdActive) {
+        if((state.equals("worker") && ((ImageView) mouseEvent.getSource()).getId().equals("worker")) || dNdActiveMove || dNdActiveBuild) {
             ImageView test = ((ImageView) mouseEvent.getSource());
 
             source = new ImageView(((ImageView) mouseEvent.getSource()).getImage());
@@ -246,10 +239,17 @@ public class GameController {
 
     public void dragDoneMethod(DragEvent dragEvent) {
 
-        if(dragEvent.getTransferMode() == TransferMode.MOVE)
-            ((ImageView)dragEvent.getSource()).setImage(null);
+        if(dragEvent.getTransferMode() == TransferMode.MOVE){
+            if(!((ImageView) dragEvent.getSource()).getId().equals("worker")){}
+            else
+                ((ImageView)dragEvent.getSource()).setImage(null);
+        }
 
     }
+
+    public void highlightSquare(DragEvent dragEvent) { }
+
+    public void notHihglightSquare(DragEvent dragEvent) { }
 
     /**
      * When showInformationButton is clicked, informations about selected player is displayed
