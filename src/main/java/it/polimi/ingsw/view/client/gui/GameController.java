@@ -4,11 +4,13 @@ import it.polimi.ingsw.view.client.viewComponents.Board;
 import it.polimi.ingsw.view.client.viewComponents.God;
 import it.polimi.ingsw.view.client.viewComponents.Player;
 import it.polimi.ingsw.view.client.viewComponents.Square;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -97,8 +99,12 @@ public class GameController {
 
     public void removeWorkerDragged(DragEvent dragEvent) {
 
-        if(dragEvent.getTransferMode() == TransferMode.MOVE)
-            ((ImageView)dragEvent.getSource()).setImage(null);
+        if(dragEvent.getTransferMode() == TransferMode.MOVE){
+            if(!((ImageView) dragEvent.getSource()).getId().equals("worker")){}
+            else
+                ((ImageView)dragEvent.getSource()).setImage(null);
+        }
+
 
     }
 
