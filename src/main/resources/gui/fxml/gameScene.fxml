@@ -234,7 +234,7 @@
                                             <children>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
                                        <children>
-                                          <ImageView fx:id="domeImageView" fitHeight="54.0" fitWidth="51.0" layoutX="15.0" layoutY="14.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="14.263004302978516">
+                                          <ImageView fx:id="domeImageView" fitHeight="54.0" fitWidth="51.0" layoutX="15.0" layoutY="14.0" onDragDetected="#startChangingPosition" onDragDone="#dragDoneMethod" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="14.263004302978516">
                                              <image>
                                                 <Image url="@../graphics_resources/Sprite/Buildings_+_pawns/dome.png" />
                                              </image>
@@ -242,12 +242,16 @@
                                        </children></AnchorPane>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fx:id="worker" fitHeight="72.0" fitWidth="68.0" layoutX="7.0" layoutY="4.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" />
+                                          <ImageView fx:id="firstLevelImageView" fitHeight="60.0" fitWidth="61.0" layoutX="10.0" layoutY="10.0" onDragDetected="#startChangingPosition" onDragDone="#dragDoneMethod" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../graphics_resources/Sprite/Buildings_+_pawns/first_level.png" />
+                                             </image>
+                                          </ImageView>
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                        <children>
-                                          <ImageView fx:id="secondLevelImageView" fitHeight="58.0" fitWidth="58.0" layoutX="11.0" layoutY="11.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="11.0">
+                                          <ImageView fx:id="secondLevelImageView" fitHeight="58.0" fitWidth="58.0" layoutX="11.0" layoutY="11.0" onDragDetected="#startChangingPosition" onDragDone="#dragDoneMethod" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="11.0">
                                              <image>
                                                 <Image url="@../graphics_resources/Sprite/Buildings_+_pawns/second_level.png" />
                                              </image>
@@ -256,7 +260,7 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                        <children>
-                                          <ImageView fx:id="thirdLevelImageView" fitHeight="62.0" fitWidth="66.0" layoutX="10.0" layoutY="9.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="9.0">
+                                          <ImageView fx:id="thirdLevelImageView" fitHeight="62.0" fitWidth="66.0" layoutX="10.0" layoutY="9.0" onDragDetected="#startChangingPosition" onDragDone="#dragDoneMethod" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="9.0">
                                              <image>
                                                 <Image url="@../graphics_resources/Sprite/Buildings_+_pawns/third_level.png" />
                                              </image>
@@ -271,7 +275,23 @@
                                     <children>
                                         <AnchorPane layoutX="60.0" layoutY="-60.0" prefHeight="140.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <children>
-                                                <Label fx:id="informationBox" alignment="CENTER" layoutX="94.0" layoutY="20.0" prefHeight="80.0" prefWidth="320.0" text="Information" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="76.0" minWidth="10.0" prefWidth="76.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="265.0" minWidth="10.0" prefWidth="244.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                                      <Label fx:id="informationBox" alignment="CENTER" prefHeight="80.0" prefWidth="320.0" text="Information" textFill="WHITE" wrapText="true" GridPane.columnIndex="1" />
+                                          <AnchorPane prefHeight="80.0" prefWidth="97.0">
+                                             <children>
+                                                <ImageView fx:id="worker" fitHeight="67.0" fitWidth="62.0" layoutX="7.0" layoutY="7.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" />
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                    </GridPane>
                                             </children>
                                         </AnchorPane>
                                     </children></AnchorPane>
