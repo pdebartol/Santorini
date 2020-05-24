@@ -193,7 +193,7 @@ public class GameController {
         dragEvent.consume();
          */
 
-        if((state.equals("worker") && ((ImageView) dragEvent.getSource()).getId().equals("worker")) || dNdActiveMove || dNdActiveBuild) {
+        if(state.equals("worker") || dNdActiveMove || dNdActiveBuild) {
             if (dragEvent.getGestureSource() != dragEvent.getSource() && dragEvent.getDragboard().hasImage())
                 dragEvent.acceptTransferModes(TransferMode.MOVE);
             dragEvent.consume();
