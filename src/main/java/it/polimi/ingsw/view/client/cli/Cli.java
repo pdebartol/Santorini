@@ -674,10 +674,17 @@ public class Cli extends View {
     public void showAnotherClientDisconnection() {
         disconnected = true;
         abortInputProcessing();
-        if (state.equals("SETUP"))
-            printInStartTextBox("A client has disconnected from the game, the match has been deleted! Do you want to try to search a new game? (s/n)");
-        else
-            printInGameTextBox("A client has disconnected from the game, the match has been deleted! Do you want to try to search a new game? (s/n)");
+        switch (state){
+            case "SETUP" :
+                printInStartTextBox("A client has disconnected from the game, the match has been deleted! Do you want to try to search a new game? (s/n)");
+                break;
+            case "MATCH":
+                printInGameTextBox("A client has disconnected from the game, the match has been deleted! Do you want to try to search a new game? (s/n)");
+                break;
+            case "FINISHED":
+                printInFinalTextBox("The server disconnected you! Do you want to try to reconnect? (s/n)");
+                break;
+        }
         String input;
         do {
             input = input();
