@@ -255,8 +255,13 @@ public class GameController {
 
     public void startChangingPosition(MouseEvent mouseEvent) {
 
-
-        if((state.equals("worker") && ((ImageView) mouseEvent.getSource()).getId().equals("worker")) || (dNdActiveMove && ((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")) || (dNdActiveBuild && !(((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")))) {
+        boolean testing = false;
+        int i[];
+        if(state.equals("move")) {
+            i = gui.getMyWorkerPosition(gui.getWorkerGender(boardGridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent()), boardGridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent())));
+            testing = (dNdActiveMove && (((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")) && (i[0] == boardGridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent()) && (i[1] == boardGridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent()))));
+        }
+        if((state.equals("worker") && ((ImageView) mouseEvent.getSource()).getId().equals("worker")) || (testing) || (dNdActiveBuild && !(((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")))) {
             ImageView test = ((ImageView) mouseEvent.getSource());
 
 
