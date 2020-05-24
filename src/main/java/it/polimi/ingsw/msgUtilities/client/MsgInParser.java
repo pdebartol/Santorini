@@ -148,6 +148,7 @@ public class MsgInParser {
                 break;
             case "loser":
                 view.updateLoser(username);
+                break;
         }
     }
 
