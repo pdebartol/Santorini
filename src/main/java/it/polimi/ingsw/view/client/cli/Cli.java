@@ -456,7 +456,6 @@ public class Cli extends View {
                 abortInputProcessing();
                 inputThread = inputExecutor.submit(() -> {
                     while(!Thread.interrupted()){
-                        printInGameTextBox(author + " is playing his turn...");
                         appendInGameTextBox("Enter \"n\" if you want to change god to visualize in God Power box...");
                         String input = input();
                         if(input.equals("n")){
@@ -1643,7 +1642,8 @@ public class Cli extends View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        inputThread = inputExecutor.submit(() -> {
+        if(!Thread.interrupted())
+            inputThread = inputExecutor.submit(() -> {
             int[] startCoordinates = selectWorker();
 
             String input;
@@ -1665,7 +1665,7 @@ public class Cli extends View {
                 coordinates = Arrays.stream(input.split(",")).mapToInt(Integer::parseInt).toArray();
                 sendMoveRequest(gameBoard.getSquareByCoordinates(startCoordinates[0],startCoordinates[1]).getWorker().getGender(),coordinates[0],coordinates[1]);
             }
-        });
+            });
     }
 
     //TODO : javadoc
@@ -1677,7 +1677,8 @@ public class Cli extends View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        inputThread = inputExecutor.submit(() -> {
+        if(!Thread.interrupted())
+            inputThread = inputExecutor.submit(() -> {
             int[] startCoordinates = selectWorker();
 
             String inputCoordinates;
@@ -1708,7 +1709,7 @@ public class Cli extends View {
                 level = Integer.parseInt(inputLevel);
                 sendBuildRequest(gameBoard.getSquareByCoordinates(startCoordinates[0],startCoordinates[1]).getWorker().getGender(),coordinates[0],coordinates[1],level);
             }
-        });
+            });
     }
 
     //TODO : javadoc

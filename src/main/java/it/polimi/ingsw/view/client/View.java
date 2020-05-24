@@ -221,9 +221,6 @@ public abstract class View {
     public void updateMyPositionLevel(int x, int y, int level){
         gameBoard.getSquareByCoordinates(x,y).setLevel(level);
 
-        workerForThisTurnCoordinates[0] = x;
-        workerForThisTurnCoordinates[1] = y;
-
         showBoard();
     }
 
