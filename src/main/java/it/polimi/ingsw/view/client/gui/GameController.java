@@ -1,14 +1,17 @@
 package it.polimi.ingsw.view.client.gui;
 
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.view.client.viewComponents.Board;
 import it.polimi.ingsw.view.client.viewComponents.God;
 import it.polimi.ingsw.view.client.viewComponents.Player;
 import it.polimi.ingsw.view.client.viewComponents.Square;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,6 +23,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
+/**
+ * This class implements the GameScene Controller
+ * @author pierobartolo & aledimaio
+ */
 
 public class GameController {
 
@@ -53,8 +60,12 @@ public class GameController {
     public GridPane boardGridPane;
     @FXML
     public ImageView endTurnButton;
+    @FXML
+    public ImageView firstLevelImageView;
 
-    private boolean dNdActive = false;
+    private boolean dNdActiveMove = false;
+    private boolean dNdActiveBuild = false;
+
 
     String workerGender;
 
@@ -66,11 +77,32 @@ public class GameController {
     ImageView destination;
     ImageView destination_pointer;
 
+    /**
+     * In-Game Players
+     */
+
     private ArrayList<Player> players;
+
+    /**
+     * Current player in the player's information box
+     */
 
     private int currentPlayerId = 0;
 
+    /**
+     * When it is true the gui shows the player's god card
+     */
+
     boolean showGod = false;
+
+    /**
+     * Current state of the match.
+     * (worker-> place workers)
+     * (move)
+     * (build)
+     */
+
+    String state = "worker";
 
 
     @FXML
@@ -79,15 +111,36 @@ public class GameController {
     }
 
     public void changeImageViewRedButton(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_red_pressed.png");
+        redButton.setImage(updateButton);
+        redButton.setDisable(true);
     }
 
+    /**
+     * build button
+     * @param mouseEvent
+     */
     public void doActionRedButton(MouseEvent mouseEvent) {
+        dNdActiveBuild = true;
+        state ="build";
     }
 
     public void changeImageViewBlueButton(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
+        blueButton.setImage(updateButton);
+        blueButton.setDisable(true);
     }
 
     public void doActionBlueButton(MouseEvent mouseEvent) {
+        dNdActiveMove = true;
+        state = "move";
+    }
+
+    public void restoreImage(){
+
+        source_pointer.setImage(source.getImage());
+        destination_pointer.setImage(destination.getImage());
+
     }
 
     /**
@@ -97,8 +150,12 @@ public class GameController {
 
     public void removeWorkerDragged(DragEvent dragEvent) {
 
-        if(dragEvent.getTransferMode() == TransferMode.MOVE)
-            ((ImageView)dragEvent.getSource()).setImage(null);
+        if(dragEvent.getTransferMode() == TransferMode.MOVE){
+            if(!((ImageView) dragEvent.getSource()).getId().equals("worker")){}
+            else
+                ((ImageView)dragEvent.getSource()).setImage(null);
+        }
+
 
     }
 
@@ -108,8 +165,20 @@ public class GameController {
      */
 
     public void acceptElement(DragEvent dragEvent) {
+        switch(state){
+            case "worker":
+                gui.sendSetWorkerOnBoardRequest(workerGender,boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()),boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
+                break;
+            case "move":
+                gui.setSelectedWorker(boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
+                gui.sendMoveRequest(gui.getWorkerGender(boardGridPane.getRowIndex(source_pointer.getParent()),boardGridPane.getColumnIndex( source_pointer.getParent())),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
+                dNdActiveMove = false;
+            case "build":
+                //TODO get square level
+                dNdActiveBuild = false;
+                break;
+        }
 
-        gui.sendSetWorkerOnBoardRequest(workerGender,boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()),boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
         Dragboard db = dragEvent.getDragboard();
         boolean success = false;
 
@@ -130,36 +199,8 @@ public class GameController {
 
     }
 
-    public void loadingScreen(){
-        //loading screen
-    }
-
-    public void consumeDrop(DragEvent dragEvent){
-
-    }
-
-    public void restoreImage(){
-
-        source_pointer.setImage(source.getImage());
-        destination_pointer.setImage(destination.getImage());
-
-    }
-
-    public void highlightSquare(DragEvent dragEvent) {
-
-        //((ImageView)dragEvent.getSource()).setImage();
-
-    }
-
-    public void notHihglightSquare(DragEvent dragEvent) {
-
-
-    }
-
     /**
      * On Drag Over method
-     * @param dragEvent
-     * @throws IOException
      */
 
     public void highlightSquareOverMethod(DragEvent dragEvent) throws IOException {
@@ -170,7 +211,7 @@ public class GameController {
         dragEvent.consume();
          */
 
-        if(dNdActive) {
+        if((state.equals("worker") && ((ImageView) dragEvent.getSource()).getId().equals("worker")) || dNdActiveMove || dNdActiveBuild) {
             if (dragEvent.getGestureSource() != dragEvent.getSource() && dragEvent.getDragboard().hasImage())
                 dragEvent.acceptTransferModes(TransferMode.MOVE);
             dragEvent.consume();
@@ -180,7 +221,8 @@ public class GameController {
 
     public void startChangingPosition(MouseEvent mouseEvent) {
 
-        if(dNdActive) {
+
+        if((state.equals("worker") && ((ImageView) mouseEvent.getSource()).getId().equals("worker")) || dNdActiveMove || dNdActiveBuild) {
             ImageView test = ((ImageView) mouseEvent.getSource());
 
             source = new ImageView(((ImageView) mouseEvent.getSource()).getImage());
@@ -197,10 +239,17 @@ public class GameController {
 
     public void dragDoneMethod(DragEvent dragEvent) {
 
-        if(dragEvent.getTransferMode() == TransferMode.MOVE)
-            ((ImageView)dragEvent.getSource()).setImage(null);
+        if(dragEvent.getTransferMode() == TransferMode.MOVE){
+            if(!((ImageView) dragEvent.getSource()).getId().equals("worker")){}
+            else
+                ((ImageView)dragEvent.getSource()).setImage(null);
+        }
 
     }
+
+    public void highlightSquare(DragEvent dragEvent) { }
+
+    public void notHihglightSquare(DragEvent dragEvent) { }
 
     /**
      * When showInformationButton is clicked, informations about selected player is displayed
@@ -229,6 +278,11 @@ public class GameController {
 
     }
 
+    /**
+     * This method is called when the next player button is pressed, it updates the gui
+     * @param actionEvent none
+     */
+
     public void nextPlayer(ActionEvent actionEvent) {
         if(currentPlayerId >= players.size()-1 )
             currentPlayerId = 0;
@@ -243,6 +297,11 @@ public class GameController {
         numberOfPlayer.setText(currentPlayerId+1 + " of " + players.size());
         playerName.setText(players.get(currentPlayerId).getUsername());
     }
+
+    /**
+     * This method is called when the prev player button is pressed, it updates the gui
+     * @param actionEvent none
+     */
 
     public void showPrevPlayer(ActionEvent actionEvent) {
         if(currentPlayerId == 0)
@@ -267,23 +326,7 @@ public class GameController {
     }
 
     public void setupWorker(String gender){
-
-        Image workerImage;
-
-        switch(gui.getMyColor()){
-            case AZURE:
-                 workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_azure_worker.png");
-                 worker.setImage(workerImage);
-                break;
-            case ORANGE:
-                workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_white_worker.png");
-                worker.setImage(workerImage);
-                break;
-            case GREY:
-                workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_gray_worker.png");
-                worker.setImage(workerImage);
-                break;
-        }
+        worker.setImage(getWorkerImage(gui.getMyColor(),gender));
         workerGender = gender;
         showInformationButton.setText("Show Informations");
     }
@@ -322,9 +365,8 @@ public class GameController {
         if (anchorPane != null){
 
             if(square.getWorker() != null){
-                //Image workerImage = GuiManager.loadImage("Buildings_+_pawns/"+square.getWorker().getGender()+"_"+square.getWorker().getColor().toString()+"_worker.png");
-                Image workerImage = GuiManager.loadImage("Buildings_+_pawns/"+square.getWorker().getGender()+"_azure_worker.png");
-                 ((ImageView) anchorPane.getChildren().get(0)).setImage(workerImage);
+                Image workerImage = getWorkerImage( square.getWorker().getColor(), square.getWorker().getGender());
+                ((ImageView) anchorPane.getChildren().get(0)).setImage(workerImage);
             }
             else {
                 ((ImageView) anchorPane.getChildren().get(0)).setImage(null);
@@ -405,12 +447,6 @@ public class GameController {
         this.gui = gui;
     }
 
-    public void activateWorkers(){
-        dNdActive = true;
-    }
-    public void deactivateWorkers(){
-        dNdActive = false;
-    }
 
     public void hideBlueButton(){
         blueButton.setVisible(false);
@@ -418,17 +454,38 @@ public class GameController {
     }
 
     public void showBlueButton(){
-        blueButton.setVisible(false);
-        blueButton.setDisable(true);
+        blueButton.setVisible(true);
+        blueButton.setDisable(false);
     }
     public void showRedButton(){
-        redButton.setVisible(false);
-        redButton.setDisable(true);
+        redButton.setVisible(true);
+        redButton.setDisable(false);
     }
 
     public void hideRedButton(){
         redButton.setVisible(false);
         redButton.setDisable(true);
+    }
+
+    private Image getWorkerImage(Color color, String gender ){
+        // default
+        Image workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_azure_worker.png");
+
+        switch(color){
+            case AZURE:
+                workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_azure_worker.png");
+                break;
+            case ORANGE:
+                workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_white_worker.png");
+                break;
+            case GREY:
+                workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_gray_worker.png");
+                break;
+
+        }
+        return workerImage;
+
+
     }
 
     /**
@@ -437,5 +494,16 @@ public class GameController {
 
     @FXML
     public void buildAction(MouseEvent mouseEvent) {
+
     }
+
+    //TODO dndACTIVEMOVE only when you press move
+    //TODO dndATIVEMOVE false after move request (move va male? build before move?)
+    //TODO dndACTIVEBUILD true when you press build
+    //TODO  dndACTIVEBUILD false when you send request
+
+    //TODO build va male -> bottone build up e blocco trascinato back
+    //TODO move va male-> ok
+    //
+
 }

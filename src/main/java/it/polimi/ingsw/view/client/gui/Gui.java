@@ -318,7 +318,6 @@ public class Gui extends View {
             Platform.runLater(
                     () -> {
                         gameSceneController.setInstructionLabel("Setup your " + gender + " worker!");
-                        gameSceneController.activateWorkers();
                         gameSceneController.setupWorker(gender);
                     });
         }
@@ -335,9 +334,8 @@ public class Gui extends View {
     public void turn(String firstOperation) {
         Platform.runLater(
                 () -> {
-                    gameSceneController.activateWorkers();
                     alertUser("Match Information", "It's your turn!", Alert.AlertType.INFORMATION);
-                    gameSceneController.setInstructionLabel("It's your turn! You can: " + firstOperation);
+                    nextOperation(firstOperation);
                 });
     }
 
@@ -560,13 +558,17 @@ public class Gui extends View {
         Platform.runLater(
                 () -> {
                     alertUser("Match Information", "Your turn ended!", Alert.AlertType.INFORMATION);
-                    gameSceneController.deactivateWorkers();
                 });
     }
 
     @Override
     public void showTurnErrors(List<String> errors) {
-
+        Platform.runLater(
+                () -> {
+                    alertUser("Match Information", "There were the following errors: "+ errors, Alert.AlertType.WARNING);
+                    gameSceneController.restoreImage();
+                    //TODO restore worker position!
+                });
     }
 
     @Override
@@ -733,6 +735,33 @@ public class Gui extends View {
 
     public Color getMyColor(){
         return myPlayer.getWorkers().get(0).getColor();
+    }
+
+    public String getWorkerGender(int x, int y){
+        return gameBoard.getSquareByCoordinates(x,y).getWorker().getGender();
+    }
+
+    public void setSelectedWorker(int x, int y){
+        workerForThisTurnCoordinates[0] = x;
+        workerForThisTurnCoordinates[1] = y;
+    }
+
+    public int[] getSelectedWorker(){
+        return workerForThisTurnCoordinates;
+    }
+
+
+    public int[] getMyWorkerPosition(String gender){
+        int  coordinates[] = new int[2];
+        if(myPlayer.getWorkerByGender(gender) != null){
+            coordinates[0] = myPlayer.getWorkerByGender(gender).getCurrentPosition().getX();
+            coordinates[1] = myPlayer.getWorkerByGender(gender).getCurrentPosition().getY();
+        }
+        else{
+            coordinates[0] = -1;
+            coordinates[1] = -1;
+        }
+        return coordinates;
     }
 
 }
