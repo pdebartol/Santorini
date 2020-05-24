@@ -117,7 +117,7 @@ public class GameController {
     }
 
     public void changeImageViewRedButton(MouseEvent mouseEvent) {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_red_pressed.png");
+        Image updateButton = GuiManager.loadImage("Buttons/btn_coral_pressed_build.png");
         redButton.setImage(updateButton);
         redButton.setDisable(true);
     }
@@ -129,10 +129,11 @@ public class GameController {
     public void doActionRedButton(MouseEvent mouseEvent) {
         dNdActiveBuild = true;
         state ="build";
+        showImageViews();
     }
 
     public void changeImageViewBlueButton(MouseEvent mouseEvent) {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
+        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed_move.png");
         blueButton.setImage(updateButton);
         blueButton.setDisable(true);
     }
@@ -143,7 +144,6 @@ public class GameController {
     }
 
     public void restoreImage(){
-
         source_pointer.setImage(source.getImage());
         destination_pointer.setImage(destination.getImage());
 
@@ -190,9 +190,10 @@ public class GameController {
                 gui.setSelectedWorker(boardGridPane.getRowIndex( source_pointer.getParent()), boardGridPane.getColumnIndex( source_pointer.getParent()));
                 gui.sendMoveRequest(gui.getWorkerGender(boardGridPane.getRowIndex(source_pointer.getParent()),boardGridPane.getColumnIndex( source_pointer.getParent())),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
                 dNdActiveMove = false;
+                blueButton.setDisable(true);
+                break;
             case "build":
-
-                int level;
+                int level = 0;
                 switch (source_pointer.getId()){
                     case "firstLevelImageView":
                         level = 1;
@@ -207,7 +208,13 @@ public class GameController {
                         level = 4;
                         break;
                 }
-
+                if(gui.getSelectedWorker() == null)
+                    //TODO select worker first (build before move)
+                    //
+                System.out.println("BUILD : " + boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent())  +" "+ boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
+                gui.sendBuildRequest(gui.getSelectedWorker().getGender(),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()), level);
+                redButton.setDisable(true);
+                hideImageViews();
                 dNdActiveBuild = false;
                 break;
         }
@@ -486,15 +493,31 @@ public class GameController {
     public void showBlueButton(){
         blueButton.setVisible(true);
         blueButton.setDisable(false);
+        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_move.png");
+        blueButton.setImage(updateButton);
     }
     public void showRedButton(){
         redButton.setVisible(true);
         redButton.setDisable(false);
+        Image updateButton = GuiManager.loadImage("Buttons/btn_coral_build.png");
+        redButton.setImage(updateButton);
     }
 
     public void hideRedButton(){
         redButton.setVisible(false);
         redButton.setDisable(true);
+    }
+
+    public void showEndButton(){
+        endTurnButton.setVisible(true);
+        endTurnButton.setDisable(false);
+        Image updateButton = GuiManager.loadImage("Buttons/btn_small_gray.png");
+        endTurnButton.setImage(updateButton);
+    }
+
+    public void hideEndButton(){
+        endTurnButton.setVisible(false);
+        endTurnButton.setDisable(true);
     }
 
     private Image getWorkerImage(Color color, String gender ){
@@ -527,13 +550,22 @@ public class GameController {
 
     }
 
-    //TODO dndACTIVEMOVE only when you press move
-    //TODO dndATIVEMOVE false after move request (move va male? build before move?)
-    //TODO dndACTIVEBUILD true when you press build
-    //TODO  dndACTIVEBUILD false when you send request
 
-    //TODO build va male -> bottone build up e blocco trascinato back
-    //TODO move va male-> ok
-    //
+
+
+    public void hideImageViews(){
+        firstLevelImageView.setVisible(false);
+        secondLevelImageView.setVisible(false);
+        thirdLevelImageView.setVisible(false);
+        domeImageView.setVisible(false);
+    }
+
+    public void showImageViews(){
+        firstLevelImageView.setVisible(true);
+        secondLevelImageView.setVisible(true);
+        thirdLevelImageView.setVisible(true);
+        domeImageView.setVisible(true);
+    }
+
 
 }
