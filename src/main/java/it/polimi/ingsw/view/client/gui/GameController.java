@@ -139,8 +139,8 @@ public class GameController {
 
     public void restoreImage(){
 
-
-
+        source_pointer.setImage(source.getImage());
+        destination_pointer.setImage(destination.getImage());
 
     }
 
@@ -315,7 +315,6 @@ public class GameController {
         //Node node = board.getChildren().get(y*5+x);
         //AnchorPane anchorPane = (AnchorPane) boardGridPane.getChildren().get((y*5+x));
 
-
         if (anchorPane != null){
 
             if(square.getWorker() != null){
@@ -428,4 +427,11 @@ public class GameController {
         redButton.setDisable(true);
     }
 
+    /**
+     * This method is triggered when a square is clicked
+     */
+
+    @FXML
+    public void buildAction(MouseEvent mouseEvent) {
+    }
 }
