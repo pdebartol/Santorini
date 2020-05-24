@@ -30,7 +30,6 @@
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                     <children>
                                         <ImageView fx:id="workerImageView" fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHihglightSquare" onDragOver="#highlightSquareOverMethod" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                              <ImageView fx:id="level" disable="true" fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                     </children>
                                 </AnchorPane>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -161,12 +160,12 @@
                                 </AnchorPane>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                     <children>
-                                        <Label fx:id="godName" alignment="CENTER" layoutX="45.0" layoutY="7.0" prefHeight="25.0" prefWidth="70.0" text="Name" textFill="WHITE" />
+                                        <Label fx:id="godName" alignment="CENTER" layoutX="45.0" layoutY="7.0" prefHeight="25.0" prefWidth="70.0" text="Name" textFill="WHITE" wrapText="true" />
                                     </children>
                                 </AnchorPane>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                                     <children>
-                                        <Label fx:id="godDescription" alignment="CENTER" layoutX="3.0" layoutY="3.0" prefHeight="80.0" prefWidth="154.0" text="Description" textFill="WHITE" />
+                                        <Label fx:id="godDescription" alignment="CENTER" layoutX="3.0" layoutY="3.0" prefHeight="80.0" prefWidth="154.0" text="Description" textFill="WHITE" wrapText="true" />
                                     </children>
                                 </AnchorPane>
                             </children>
@@ -254,7 +253,7 @@
                                     <children>
                                         <AnchorPane layoutX="60.0" layoutY="-60.0" prefHeight="140.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <children>
-                                                <Label fx:id="informationBox" alignment="CENTER" layoutX="94.0" layoutY="20.0" prefHeight="80.0" prefWidth="320.0" text="Information" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Label fx:id="informationBox" alignment="CENTER" layoutX="94.0" layoutY="20.0" prefHeight="80.0" prefWidth="320.0" text="Information" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                             </children>
                                         </AnchorPane>
                                     </children></AnchorPane>
@@ -313,6 +312,15 @@
                                         <Button fx:id="showInformationButton" layoutX="27.0" layoutY="13.0" mnemonicParsing="false" onAction="#showOtherPlayerInformation" text="Show Informations" />
                                     </children>
                                 </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+                           <children>
+                              <ImageView fx:id="endTurnButton" fitHeight="97.0" fitWidth="119.0" layoutX="21.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../graphics_resources/Sprite/Buttons/btn_small_gray.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
                             </children>
                         </GridPane>
                     </children></AnchorPane>

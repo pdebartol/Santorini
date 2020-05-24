@@ -25,8 +25,6 @@ import java.util.ArrayList;
 public class GameController {
 
     @FXML
-    public GridPane board;
-    @FXML
     public ImageView imageToDrag;
     @FXML
     public Button showInformationButton;
@@ -52,6 +50,10 @@ public class GameController {
     public ImageView godImage;
     @FXML
     public ImageView worker;
+    @FXML
+    public GridPane boardGridPane;
+    @FXML
+    public ImageView endTurnButton;
 
     private boolean dNdActive = false;
 
@@ -107,7 +109,7 @@ public class GameController {
      */
 
     public void acceptElement(DragEvent dragEvent) {
-        gui.sendSetWorkerOnBoardRequest(workerGender,board.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()),board.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
+        gui.sendSetWorkerOnBoardRequest(workerGender,boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()),boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
         Dragboard db = dragEvent.getDragboard();
         boolean success = false;
 
@@ -295,6 +297,7 @@ public class GameController {
 
     public void updateBoard(Board board_view){
 
+
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
                 updateSquare(board_view.getSquareByCoordinates(x,y));
@@ -308,18 +311,21 @@ public class GameController {
         int x = square.getX();
         int y = square.getY();
         Image imageTemp;
-        AnchorPane anchorPane = (AnchorPane) getNodeFromGridPane(board, x, y);
-        Node node = getNodeFromGridPane(board, x, y);
+        AnchorPane anchorPane = (AnchorPane) getNodeFromGridPane(boardGridPane, y, x);
+        //Node node = getNodeFromGridPane(board, x, y);
+        //Node node = board.getChildren().get(y*5+x);
+        //AnchorPane anchorPane = (AnchorPane) boardGridPane.getChildren().get((y*5+x));
 
-        if (node != null){
+
+        if (anchorPane != null){
 
             if(square.getWorker() != null){
                 //Image workerImage = GuiManager.loadImage("Buildings_+_pawns/"+square.getWorker().getGender()+"_"+square.getWorker().getColor().toString()+"_worker.png");
                 Image workerImage = GuiManager.loadImage("Buildings_+_pawns/"+square.getWorker().getGender()+"_azure_worker.png");
-                ((ImageView) ((AnchorPane) node).getChildren() ).setImage(workerImage);
+                 ((ImageView) anchorPane.getChildren().get(0)).setImage(workerImage);
             }
             else {
-                ((ImageView) ((AnchorPane) node).getChildren() ).setImage(null);
+                ((ImageView) anchorPane.getChildren().get(0)).setImage(null);
             }
 
             if(square.getDome()){
@@ -366,12 +372,10 @@ public class GameController {
 
     }
 
-    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-        Node result = null;
-        ObservableList<Node> childrens = gridPane.getChildren();
+    public Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
 
         for (Node node : gridPane.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+            if (gridPane.getColumnIndex(node) == col &&  gridPane.getRowIndex(node) == row) {
                 return node;
             }
         }
