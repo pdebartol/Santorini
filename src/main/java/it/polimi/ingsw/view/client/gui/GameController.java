@@ -149,6 +149,16 @@ public class GameController {
 
     }
 
+    public void dragDoneMethod(DragEvent dragEvent) {
+
+        if(dragEvent.getTransferMode() == TransferMode.MOVE){
+            if(!((ImageView) dragEvent.getSource()).getId().equals("worker")){}
+            else
+                ((ImageView)dragEvent.getSource()).setImage(null);
+        }
+
+    }
+
     /**
      * On Drag Done Method
      * @param dragEvent
@@ -227,7 +237,6 @@ public class GameController {
 
     public void startChangingPosition(MouseEvent mouseEvent) {
 
-
         if((state.equals("worker") && ((ImageView) mouseEvent.getSource()).getId().equals("worker")) || dNdActiveMove || dNdActiveBuild) {
             ImageView test = ((ImageView) mouseEvent.getSource());
 
@@ -239,16 +248,6 @@ public class GameController {
             content.putImage(test.getImage());
             db.setContent(content);
             mouseEvent.consume();
-        }
-
-    }
-
-    public void dragDoneMethod(DragEvent dragEvent) {
-
-        if(dragEvent.getTransferMode() == TransferMode.MOVE){
-            if(!((ImageView) dragEvent.getSource()).getId().equals("worker")){}
-            else
-                ((ImageView)dragEvent.getSource()).setImage(null);
         }
 
     }
