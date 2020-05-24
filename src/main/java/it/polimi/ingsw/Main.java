@@ -11,6 +11,8 @@ import javafx.application.Application;
 public class Main {
 
     public static void main(String[] args){
+        if(args.length == 0)
+            clientMode(args);
         if(args[0].equals("-client")){
             clientMode(args);
         }else

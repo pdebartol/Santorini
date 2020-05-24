@@ -145,6 +145,7 @@ public class MsgInParser {
                 break;
             case "youLoseForBlocked":
                 view.showYouLose(mode,username);
+                break;
             case "loser":
                 view.updateLoser(username);
         }

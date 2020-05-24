@@ -6,12 +6,9 @@ import it.polimi.ingsw.view.client.viewComponents.Player;
 import it.polimi.ingsw.view.client.viewComponents.Square;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,6 +18,8 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+
 
 public class GameController {
 
@@ -415,9 +414,18 @@ public class GameController {
         blueButton.setDisable(true);
     }
 
-    public void hideRedButton(){
+    public void showBlueButton(){
         blueButton.setVisible(false);
         blueButton.setDisable(true);
+    }
+    public void showRedButton(){
+        redButton.setVisible(false);
+        redButton.setDisable(true);
+    }
+
+    public void hideRedButton(){
+        redButton.setVisible(false);
+        redButton.setDisable(true);
     }
 
 }

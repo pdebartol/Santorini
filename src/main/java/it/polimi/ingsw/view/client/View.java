@@ -238,6 +238,7 @@ public abstract class View {
     public void updateEndOfTurn(int x, int y, int l){
         if(myPlayer.getWorkers().contains(gameBoard.getSquareByCoordinates(x,y).getWorker())){
             myPlayer.removeWorker(gameBoard.getSquareByCoordinates(x,y).getWorker());
+
         }
         for(Player p : players)
             if(p.getWorkers().contains(gameBoard.getSquareByCoordinates(x,y).getWorker())){

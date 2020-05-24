@@ -115,7 +115,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <ImageView fx:id="godSelectionButton" fitHeight="48.0" fitWidth="180.0" layoutX="55.0" layoutY="19.0" onMousePressed="#changeImageOfSelectionButton" onMouseReleased="#confirmGodSelection" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="godSelectionButton" fitHeight="48.0" fitWidth="180.0" layoutX="55.0" layoutY="19.0" onMouseReleased="#confirmGodSelection" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@/gui/graphics_resources/Sprite/Buttons/btn_featuredGod.png" />
                                  </image>
