@@ -227,7 +227,7 @@ public class GameController {
         dragEvent.consume();
          */
 
-        if(state.equals("worker") || dNdActiveMove || dNdActiveBuild) {
+        if(state.equals("worker") || dNdActiveMove || (dNdActiveBuild && ((ImageView) dragEvent.getSource()).getId().equals("workerImageView"))) {
             if ((dragEvent.getGestureSource() != dragEvent.getSource()) && dragEvent.getDragboard().hasImage())
                 dragEvent.acceptTransferModes(TransferMode.MOVE);
             dragEvent.consume();
@@ -237,7 +237,7 @@ public class GameController {
 
     public void startChangingPosition(MouseEvent mouseEvent) {
 
-        if((state.equals("worker") && ((ImageView) mouseEvent.getSource()).getId().equals("worker")) || dNdActiveMove || dNdActiveBuild) {
+        if((state.equals("worker") && ((ImageView) mouseEvent.getSource()).getId().equals("worker")) || (dNdActiveMove && ((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")) || (dNdActiveBuild && !(((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")))) {
             ImageView test = ((ImageView) mouseEvent.getSource());
 
             source = new ImageView(((ImageView) mouseEvent.getSource()).getImage());
