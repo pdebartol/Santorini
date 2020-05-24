@@ -74,11 +74,11 @@ public class GodSelectionController {
         descriptionLabel.setText(god.getDescription());
     }
 
-    @FXML
-    public void changeImageOfSelectionButton(MouseEvent mouseEvent) {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
-        confirmationImageViewButton.setImage(updateButton);
-    }
+
+    /**
+     * This method is called when the confirm button is pressed to change its image.
+     * @param mouseEvent none
+     */
 
     @FXML
     public void changeImageOfConfirmationButton(MouseEvent mouseEvent) {
@@ -94,6 +94,7 @@ public class GodSelectionController {
 
     @FXML
     public void nextPhaseBlueButton(MouseEvent mouseEvent) {
+
         if(gui.getIsChallenger()){
             gui.sendCreateGodsRequest((ArrayList<Integer>) gui.getSelectedGodsIds());
             System.out.println(gui.getSelectedGodsIds());
@@ -104,8 +105,7 @@ public class GodSelectionController {
             System.out.println(gui.getUserSelectedGodId());
 
         }
-        changeImageOfConfirmationButton(null);
-        hideFinalConfirmButton();
+        confirmationImageViewButton.setDisable(true);
     }
 
 
@@ -116,6 +116,7 @@ public class GodSelectionController {
 
     @FXML
     public void confirmGodSelection(MouseEvent mouseEvent) {
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure " + gui.getCurrentGod().getName()  + " is the god you want?",ButtonType.NO, ButtonType.YES);
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {

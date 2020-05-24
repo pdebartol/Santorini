@@ -57,7 +57,7 @@ public class ClientHandler implements Runnable{
 
         System.out.println("Client " + client + " has connected in lobby number " + lobbyNumber + "!");
 
-        if(!client.getInetAddress().getHostAddress().equals("127.0.0.1")) new Thread(this::pingClient).start();
+        //if(!client.getInetAddress().getHostAddress().equals("127.0.0.1")) new Thread(this::pingClient).start();
 
         virtualView.addInWaitList(client);
 
@@ -148,6 +148,7 @@ public class ClientHandler implements Runnable{
             virtualView.clientDown(client);
     }
 
+    /**
     private void pingClient() {
         boolean reachable = true;
         do{
@@ -161,4 +162,6 @@ public class ClientHandler implements Runnable{
         clientDisconnection();
         Thread.currentThread().interrupt();
     }
+     */
 }
+

@@ -91,6 +91,9 @@ public class Gui extends View {
     private int userSelectedGodId;
 
 
+    /**
+     * Keeps track of the challenger during setup
+     */
 
     private boolean isChallenger = false;
 
@@ -193,14 +196,15 @@ public class Gui extends View {
         }
     }
 
+
     /**
      * This method throws an alert to the user and it is called when something goes wrong
      * @param title alert's title
      * @param text alert's text
      */
 
-    private void alertUser(String title, String text){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+    private void alertUser(String title, String text, Alert.AlertType type){
+        Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(text);
         alert.showAndWait();
@@ -231,7 +235,7 @@ public class Gui extends View {
         // username was rejected
         else{
             Platform.runLater(
-                    () -> alertUser("Username Error","Username already in use!"));
+                    () -> alertUser("Username Error","Username already in use!", Alert.AlertType.WARNING));
         }
 
     }
@@ -322,7 +326,7 @@ public class Gui extends View {
             Platform.runLater(
                     () -> {
                         gameSceneController.restoreImage();
-                        alertUser("Worker Error","Invalid worker position!");
+                        alertUser("Worker Error","Invalid worker position!", Alert.AlertType.WARNING);
                     });
         }
     }
@@ -332,23 +336,39 @@ public class Gui extends View {
         Platform.runLater(
                 () -> {
                     gameSceneController.activateWorkers();
-                    gameSceneController.setInstructionLabel("It's your turn! " + firstOperation);
+                    alertUser("Match Information", "It's your turn!", Alert.AlertType.INFORMATION);
+                    gameSceneController.setInstructionLabel("It's your turn! You can: " + firstOperation);
                 });
     }
 
     @Override
     public void move() {
+        Platform.runLater(
+                () -> {
+                    gameSceneController.showBlueButton();
+                    gameSceneController.setInstructionLabel("Please move your worker!" );
+                });
 
     }
 
     @Override
     public void build() {
+        Platform.runLater(
+                () -> {
+                    gameSceneController.showRedButton();
+                    gameSceneController.setInstructionLabel("Please build something!" );
+                });
 
     }
 
     @Override
     public void moveOrBuild() {
-
+        Platform.runLater(
+                () -> {
+                    gameSceneController.showBlueButton();
+                    gameSceneController.showRedButton();
+                    gameSceneController.setInstructionLabel("Please move your worker or build something!" );
+                });
     }
 
     @Override
@@ -539,7 +559,7 @@ public class Gui extends View {
     public void showMyTurnEnded() {
         Platform.runLater(
                 () -> {
-                    gameSceneController.setInstructionLabel("Your turn ended!");
+                    alertUser("Match Information", "Your turn ended!", Alert.AlertType.INFORMATION);
                     gameSceneController.deactivateWorkers();
                 });
     }
@@ -552,14 +572,14 @@ public class Gui extends View {
     @Override
     public void serverNotFound() {
         Platform.runLater(
-                () -> alertUser("Server Error", "Server not found!"));
+                () -> alertUser("Server Error", "Server not found!", Alert.AlertType.ERROR));
     }
 
     @Override
     public void showAnotherClientDisconnection() {
         Platform.runLater(
                 () -> {
-                    alertUser("Server Error", "Match ended! Another client disconnected from the match!");
+                    alertUser("Server Error", "Match ended! Another client disconnected from the match!", Alert.AlertType.ERROR);
                     primaryStage.setScene(initialScene);
                 });
     }
@@ -568,7 +588,7 @@ public class Gui extends View {
     public void showDisconnectionForLobbyNoLongerAvailable() {
         Platform.runLater(
                 () -> {
-                    alertUser("Server Error", "Lobby is already full! You will need to find another match!");
+                    alertUser("Server Error", "Lobby is already full! You will need to find another match!", Alert.AlertType.ERROR);
                     primaryStage.setScene(initialScene);
                 });
     }
@@ -577,7 +597,7 @@ public class Gui extends View {
     public void showServerDisconnection() {
         Platform.runLater(
                 () -> {
-                   alertUser("Server Error", "The server disconnected!");
+                   alertUser("Server Error", "The server disconnected!", Alert.AlertType.ERROR);
                     primaryStage.setScene(initialScene);
                 });
     }
@@ -693,6 +713,11 @@ public class Gui extends View {
         return userSelectedGodId;
     }
 
+    /**
+     * This method is used to filter only the gods that are available to choose (both for challenger and non-challenger)
+     * @param ids of the gods that the challenger selected
+     * @return a list containing the filtered gods
+     */
     private List<God> getVisibleGods(List<Integer> ids){
         if(ids.size() > 0 && isChallenger)
             return gods.stream().filter(God -> !ids.contains(God.getId())).collect(Collectors.toList());
