@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.view.client.View;
 import it.polimi.ingsw.view.client.viewComponents.God;
 import it.polimi.ingsw.view.client.viewComponents.Player;
+import it.polimi.ingsw.view.client.viewComponents.Worker;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -191,6 +192,8 @@ public class Gui extends View {
             gameSceneController.hideGod();
             gameSceneController.hideBlueButton();
             gameSceneController.hideRedButton();
+            gameSceneController.hideEndButton();
+            gameSceneController.hideImageViews();
         } catch (IOException e) {
             System.out.println("Could not initialize Game Scene");
         }
@@ -371,7 +374,12 @@ public class Gui extends View {
 
     @Override
     public void buildOrEnd() {
-
+        Platform.runLater(
+                () -> {
+                    gameSceneController.showRedButton();
+                    gameSceneController.showEndButton();
+                    gameSceneController.setInstructionLabel("Please build something or end your turn!" );
+                });
     }
 
     @Override
@@ -557,19 +565,73 @@ public class Gui extends View {
     public void showMyTurnEnded() {
         Platform.runLater(
                 () -> {
+                    gameSceneController.hideRedButton();
+                    gameSceneController.hideBlueButton();
+                    gameSceneController.hideEndButton();
                     alertUser("Match Information", "Your turn ended!", Alert.AlertType.INFORMATION);
                 });
     }
 
     @Override
     public void showTurnErrors(List<String> errors) {
-        Platform.runLater(
-                () -> {
-                    alertUser("Match Information", "There were the following errors: "+ errors, Alert.AlertType.WARNING);
-                    gameSceneController.restoreImage();
-                    //TODO restore worker position!
-                });
+
+
+        String errorMessage = "Invalid action! errors encountered : ";
+
+        for (String error : errors) {
+            switch (error) {
+                case "BMU":
+                    errorMessage += "Athena blocked upward movements";
+                    break;
+                case "CDU":
+                    errorMessage += "you can't build a dome under yourself";
+                    break;
+                case "CMU":
+                    errorMessage += ("you can't move up because you build before you moved");
+                    break;
+                case "EBNP":
+                    errorMessage += ("the additional build can't be on a perimeter space");
+                    break;
+                case "EBNSS":
+                    errorMessage += ("the additional build can't be on the same space");
+                    break;
+                case "EBOSS":
+                    errorMessage += ("the additional build must be built on top of your first block");
+                    break;
+                case "EMNB":
+                    errorMessage += ("your worker can't moves back to the space it started on");
+                    break;
+                case "ILB":
+                    errorMessage += ("you can't build this block in the space you selected");
+                    break;
+                case "ILM":
+                    errorMessage += ("the space where you want to move is too high");
+                    break;
+                case "ID":
+                    errorMessage += ("there is a dome");
+                    break;
+                case "NA":
+                    errorMessage += ("the space you selected is not adjacent");
+                    break;
+                case "NF":
+                    errorMessage += ("the space you selected is occupied");
+                    break;
+                case "SDNF":
+                    errorMessage += ("you can't push the worker on this space because the space in the same direction is occupied");
+                    break;
+                case "EBND":
+                    errorMessage += ("the additional build block can't be a dome");
+
+                    String finalErrorMessage = errorMessage;
+                    Platform.runLater(
+                            () -> {
+                                alertUser("Match Information", finalErrorMessage, Alert.AlertType.WARNING);
+                                gameSceneController.restoreImage();
+                            });
+            }
+        }
     }
+
 
     @Override
     public void serverNotFound() {
@@ -746,9 +808,11 @@ public class Gui extends View {
         workerForThisTurnCoordinates[1] = y;
     }
 
-    public int[] getSelectedWorker(){
-        return workerForThisTurnCoordinates;
+    public Worker getSelectedWorker(){
+        return gameBoard.getSquareByCoordinates(workerForThisTurnCoordinates[0],workerForThisTurnCoordinates[1]).getWorker();
     }
+
+
 
 
     public int[] getMyWorkerPosition(String gender){

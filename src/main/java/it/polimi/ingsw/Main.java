@@ -40,8 +40,9 @@ public class Main {
 
         if(args.length == 2 && args[1].equals("-cli"))
             new Cli();
-        if(args.length == 2 && args[1].equals("-server"))
+        if(args.length == 0 || args.length == 2 && args[1].equals("-gui"))
             new  GuiManager().startGui();
+
     }
 
 }
