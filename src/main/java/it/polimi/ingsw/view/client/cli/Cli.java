@@ -816,7 +816,7 @@ public class Cli extends View {
         state = "FINISHED";
         eraseThings("all");
         printFinalTemplate();
-        printLoser();
+        printWinner();
 
         StringBuilder output = new StringBuilder();
         output.append("You win ");
@@ -1102,10 +1102,10 @@ public class Cli extends View {
         //print player name in players' box
 
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.PLAYER_BOX_START_LINE.escape() + 2, Box.PLAYERS_BOX_START.escape() + 4);
-        System.out.println(Color.getColorCodeByColor(myPlayer.getWorkerByGender("male").getColor()).escape() + ColorCode.ANSI_BLACK.escape() + " " + myPlayer.getUsername() + " " + ColorCode.ANSI_RESET.escape() + " : " + myPlayer.getGod().getName() + "\n");
+        System.out.println(Color.getColorCodeByColor(myPlayer.getWorkers().get(0).getColor()).escape() + ColorCode.ANSI_BLACK.escape() + " " + myPlayer.getUsername() + " " + ColorCode.ANSI_RESET.escape() + " : " + myPlayer.getGod().getName() + "\n");
         for (Player player : players) {
             System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.PLAYERS_BOX_START.escape() + 3);
-            System.out.println(Color.getColorCodeByColor(player.getWorkerByGender("male").getColor()).escape() + ColorCode.ANSI_BLACK.escape() + " " + player.getUsername() + " " + ColorCode.ANSI_RESET.escape() + " : " + player.getGod().getName() + "\n");
+            System.out.println(Color.getColorCodeByColor(player.getWorkers().get(0).getColor()).escape() + ColorCode.ANSI_BLACK.escape() + " " + player.getUsername() + " " + ColorCode.ANSI_RESET.escape() + " : " + player.getGod().getName() + "\n");
         }
 
 
