@@ -108,7 +108,7 @@ public class GameController {
      */
 
     public void acceptElement(DragEvent dragEvent) {
-        
+
         gui.sendSetWorkerOnBoardRequest(workerGender,boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()),boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
         Dragboard db = dragEvent.getDragboard();
         boolean success = false;
@@ -171,7 +171,7 @@ public class GameController {
          */
 
         if(dNdActive) {
-            if (dragEvent.getDragboard().hasImage())
+            if (dragEvent.getGestureSource() != dragEvent.getSource() && dragEvent.getDragboard().hasImage())
                 dragEvent.acceptTransferModes(TransferMode.MOVE);
             dragEvent.consume();
         }
@@ -179,8 +179,6 @@ public class GameController {
     }
 
     public void startChangingPosition(MouseEvent mouseEvent) {
-
-        //TODO if dNdActive is true -> start dNd
 
         if(dNdActive) {
             ImageView test = ((ImageView) mouseEvent.getSource());
