@@ -112,7 +112,13 @@ public class GameController {
         redButton.setDisable(true);
     }
 
+    /**
+     * build button
+     * @param mouseEvent
+     */
     public void doActionRedButton(MouseEvent mouseEvent) {
+        dNdActiveBuild = true;
+        state ="build";
     }
 
     public void changeImageViewBlueButton(MouseEvent mouseEvent) {
@@ -122,6 +128,7 @@ public class GameController {
     }
 
     public void doActionBlueButton(MouseEvent mouseEvent) {
+        dNdActiveMove = true;
         state = "move";
     }
 
@@ -146,12 +153,15 @@ public class GameController {
         switch(state){
             case "worker":
                 gui.sendSetWorkerOnBoardRequest(workerGender,boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()),boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
-                deactivateWorkers();
                 break;
             case "move":
                 gui.setSelectedWorker(boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
                 gui.sendMoveRequest(gui.getWorkerGender(boardGridPane.getRowIndex(source_pointer.getParent()),boardGridPane.getColumnIndex( source_pointer.getParent())),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
-                deactivateWorkers();
+                dNdActiveMove = false;
+            case "build":
+                //TODO get square level
+                dNdActiveBuild = false;
+                break;
         }
 
         Dragboard db = dragEvent.getDragboard();
@@ -437,12 +447,6 @@ public class GameController {
         this.gui = gui;
     }
 
-    public void activateWorkers(){
-        dNdActive = true;
-    }
-    public void deactivateWorkers(){
-        dNdActive = false;
-    }
 
     public void hideBlueButton(){
         blueButton.setVisible(false);
