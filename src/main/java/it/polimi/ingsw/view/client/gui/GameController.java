@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -69,9 +70,13 @@ public class GameController {
     @FXML
     public ImageView domeImageView;
 
+    DropShadow borderGlow= new DropShadow();
+
+
     private boolean dNdActiveMove = false;
     private boolean dNdActiveBuild = false;
 
+    ImageView builderWorker;
 
     String workerGender;
 
@@ -209,8 +214,8 @@ public class GameController {
                         break;
                 }
                 if(gui.getSelectedWorker() == null)
-                    //TODO select worker first (build before move)
-                    //
+                    //TODO select worker first (build before move) gui.setSelectedWorker(x,y);
+                    gui.setSelectedWorker(boardGridPane.getRowIndex(builderWorker.getParent()), boardGridPane.getColumnIndex(builderWorker.getParent()));
                 System.out.println("BUILD : " + boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent())  +" "+ boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
                 gui.sendBuildRequest(gui.getSelectedWorker().getGender(),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()), level);
                 redButton.setDisable(true);
@@ -284,7 +289,11 @@ public class GameController {
 
     }
 
-    public void highlightSquare(DragEvent dragEvent) { }
+    public void highlightSquare(DragEvent dragEvent) {
+
+
+
+    }
 
     public void notHihglightSquare(DragEvent dragEvent) { }
 
@@ -379,7 +388,6 @@ public class GameController {
     }
 
     public void updateBoard(Board board_view){
-
 
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
@@ -547,6 +555,17 @@ public class GameController {
 
     @FXML
     public void buildAction(MouseEvent mouseEvent) {
+
+        if(dNdActiveBuild){
+            int depth = 70;
+            builderWorker = ((ImageView) mouseEvent.getSource());
+            borderGlow.setOffsetY(0f);
+            borderGlow.setOffsetX(0f);
+            borderGlow.setColor(javafx.scene.paint.Color.RED);
+            borderGlow.setWidth(depth);
+            borderGlow.setHeight(depth);
+            ((ImageView) mouseEvent.getSource()).setEffect(borderGlow);
+        }
 
     }
 
