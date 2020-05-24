@@ -621,16 +621,19 @@ public class Gui extends View {
                     break;
                 case "EBND":
                     errorMessage += ("the additional build block can't be a dome");
+                    break;
+            }
+        }
 
-                    String finalErrorMessage = errorMessage;
-                    Platform.runLater(
+        String finalErrorMessage = errorMessage;
+        Platform.runLater(
                             () -> {
                                 alertUser("Match Information", finalErrorMessage, Alert.AlertType.WARNING);
                                 gameSceneController.restoreImage();
                             });
             }
-        }
-    }
+
+
 
 
     @Override
