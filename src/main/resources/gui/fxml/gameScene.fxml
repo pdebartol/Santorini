@@ -196,7 +196,7 @@
                                 </AnchorPane>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                     <children>
-                                        <ImageView fitHeight="36.0" fitWidth="145.0" layoutX="14.0" layoutY="22.0" onMousePressed="#changeImageViewRedButton" onMouseReleased="#doActionRedButton" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0">
+                                        <ImageView fx:id="redButton" fitHeight="36.0" fitWidth="145.0" layoutX="14.0" layoutY="22.0" onMousePressed="#changeImageViewRedButton" onMouseReleased="#doActionRedButton" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0">
                                             <image>
                                                 <Image url="@/gui/graphics_resources/Sprite/Buttons/btn_coral.png" />
                                             </image>

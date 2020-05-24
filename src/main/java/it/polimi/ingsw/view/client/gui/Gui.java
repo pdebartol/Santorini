@@ -186,6 +186,8 @@ public class Gui extends View {
             gameSceneController = loader.getController();
             gameSceneController.setGui(this);
             gameSceneController.hideGod();
+            gameSceneController.hideBlueButton();
+            gameSceneController.hideRedButton();
         } catch (IOException e) {
             System.out.println("Could not initialize Game Scene");
         }
@@ -312,18 +314,26 @@ public class Gui extends View {
             Platform.runLater(
                     () -> {
                         gameSceneController.setInstructionLabel("Setup your " + gender + " worker!");
+                        gameSceneController.activateWorkers();
                         gameSceneController.setupWorker(gender);
                     });
         }
         else{
-            gameSceneController.restoreImage();
-            alertUser("Worker Error","Invalid worker position!");
+            Platform.runLater(
+                    () -> {
+                        gameSceneController.restoreImage();
+                        alertUser("Worker Error","Invalid worker position!");
+                    });
         }
     }
 
     @Override
     public void turn(String firstOperation) {
-
+        Platform.runLater(
+                () -> {
+                    gameSceneController.activateWorkers();
+                    gameSceneController.setInstructionLabel("It's your turn! " + firstOperation);
+                });
     }
 
     @Override
@@ -515,6 +525,8 @@ public class Gui extends View {
 
     @Override
     public void showBoard() {
+        Platform.runLater(
+                () -> gameSceneController.updateBoard(gameBoard));
 
     }
 
@@ -525,7 +537,11 @@ public class Gui extends View {
 
     @Override
     public void showMyTurnEnded() {
-
+        Platform.runLater(
+                () -> {
+                    gameSceneController.setInstructionLabel("Your turn ended!");
+                    gameSceneController.deactivateWorkers();
+                });
     }
 
     @Override
@@ -688,6 +704,10 @@ public class Gui extends View {
 
     public God getPlayerGod(Player p){
         return getGodById(p.getGod().getId());
+    }
+
+    public Color getMyColor(){
+        return myPlayer.getWorkers().get(0).getColor();
     }
 
 }

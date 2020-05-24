@@ -4,6 +4,7 @@ import it.polimi.ingsw.view.client.viewComponents.Board;
 import it.polimi.ingsw.view.client.viewComponents.God;
 import it.polimi.ingsw.view.client.viewComponents.Player;
 import it.polimi.ingsw.view.client.viewComponents.Square;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -42,6 +43,8 @@ public class GameController {
     @FXML
     public ImageView blueButton;
     @FXML
+    public ImageView redButton;
+    @FXML
     public Label godDescription;
     @FXML
     public Label godName;
@@ -50,7 +53,7 @@ public class GameController {
     @FXML
     public ImageView worker;
 
-    public boolean dNdActive;
+    private boolean dNdActive = false;
 
     String workerGender;
 
@@ -259,8 +262,23 @@ public class GameController {
     }
 
     public void setupWorker(String gender){
-        Image workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_azure_worker.png");
-        worker.setImage(workerImage);
+
+        Image workerImage;
+
+        switch(gui.getMyColor()){
+            case AZURE:
+                 workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_azure_worker.png");
+                 worker.setImage(workerImage);
+                break;
+            case ORANGE:
+                workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_white_worker.png");
+                worker.setImage(workerImage);
+                break;
+            case GREY:
+                workerImage = GuiManager.loadImage("Buildings_+_pawns/"+gender+"_gray_worker.png");
+                worker.setImage(workerImage);
+                break;
+        }
         workerGender = gender;
         showInformationButton.setText("Show Informations");
     }
@@ -349,6 +367,9 @@ public class GameController {
     }
 
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
                 return node;
@@ -377,4 +398,22 @@ public class GameController {
     public void setGui(Gui gui){
         this.gui = gui;
     }
+
+    public void activateWorkers(){
+        dNdActive = true;
+    }
+    public void deactivateWorkers(){
+        dNdActive = false;
+    }
+
+    public void hideBlueButton(){
+        blueButton.setVisible(false);
+        blueButton.setDisable(true);
+    }
+
+    public void hideRedButton(){
+        blueButton.setVisible(false);
+        blueButton.setDisable(true);
+    }
+
 }
