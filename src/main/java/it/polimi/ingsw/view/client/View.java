@@ -178,12 +178,12 @@ public abstract class View {
                 removedWorker = gameBoard.getSquareByCoordinates(x, y).removeWorker();
             }
             gameBoard.getSquareByCoordinates(x, y).placeWorker(gameBoard.getSquareByCoordinates(startX, startY).removeWorker());
+            workerForThisTurnCoordinates[0] = x;
+            workerForThisTurnCoordinates[1] = y;
         }else {
             gameBoard.getSquareByCoordinates(x, y).placeWorker(removedWorker);
             removedWorker = null;
         }
-        workerForThisTurnCoordinates[0] = x;
-        workerForThisTurnCoordinates[1] = y;
 
         showBoard();
     }
@@ -218,8 +218,13 @@ public abstract class View {
 
     //TODO : javadoc
 
-    public void updateMyPositionLevel(int x, int y, int level){
+    public void updateMyPositionLevel(int startX, int startY, int x, int y, int level){
         gameBoard.getSquareByCoordinates(x,y).setLevel(level);
+
+        if(workerForThisTurnCoordinates[0] == -1 && workerForThisTurnCoordinates[1] == -1) {
+            workerForThisTurnCoordinates[0] = startX;
+            workerForThisTurnCoordinates[1] = startY;
+        }
 
         showBoard();
     }
