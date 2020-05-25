@@ -614,6 +614,7 @@ public class Gui extends View {
                     gameSceneController.hideRedButton();
                     gameSceneController.hideBlueButton();
                     gameSceneController.hideEndButton();
+                    gameSceneController.state = "wait";
                     alertUser("Match Information", "Your turn ended!", Alert.AlertType.INFORMATION);
                 });
     }
