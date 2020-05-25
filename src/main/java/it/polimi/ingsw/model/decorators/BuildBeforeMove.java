@@ -74,6 +74,10 @@ public class BuildBeforeMove extends PowerDecorator {
         if(getBoard().getNBuild() == 1 && getBoard().getNMoves() == 0)
             //Write nexStepIndication in xml build request answer
             getBoard().getMsgContainer().nextStepIndication("move");
+        else
+            if(getBoard().getNMoves() == 1 && getBoard().getNBuild() == 1){
+                getBoard().getMsgContainer().nextStepIndication("end");
+            }
     }
 
 }
