@@ -105,6 +105,12 @@ public class Gui extends View {
 
     private boolean isChallenger = false;
 
+    /**
+     * Keeps track of the state of the game
+     */
+
+    private boolean endGame = false;
+
     public Gui (String ip, int port,Stage stage, Scene scene){
         super(ip,port);
         this.primaryStage = stage;
@@ -246,14 +252,15 @@ public class Gui extends View {
 
     }
 
-    public void newMatch(){
-        start();
+    @Override
+    public void newGame() {
         Platform.runLater(
                 () -> {
-                    primaryStage.setScene(loginUserScene);
+                    primaryStage.setScene(initialScene);
                     primaryStage.show();
                 });
     }
+
 
     // Useless
 
@@ -703,11 +710,12 @@ public class Gui extends View {
 
     @Override
     public void showServerDisconnection() {
-        Platform.runLater(
-                () -> {
-                   alertUser("Server Error", "The server disconnected!", Alert.AlertType.ERROR);
-                    primaryStage.setScene(initialScene);
-                });
+        if(!endGame)
+            Platform.runLater(
+                    () -> {
+                       alertUser("Server Error", "The server disconnected!", Alert.AlertType.ERROR);
+                        primaryStage.setScene(initialScene);
+                    });
     }
 
     @Override
@@ -731,6 +739,7 @@ public class Gui extends View {
 
     @Override
     public void showYouLose(String reason, String winner) {
+        endGame = true;
         Platform.runLater(
                 () -> {
                     endGameSceneController.setGodImage(myPlayer.getGod().getId());
@@ -742,6 +751,7 @@ public class Gui extends View {
 
     @Override
     public void showYouWin(String reason) {
+        endGame = true;
         Platform.runLater(
                 () -> {
 

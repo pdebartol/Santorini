@@ -124,7 +124,7 @@ public class GameController {
     }
 
     public void changeImageViewRedButton(MouseEvent mouseEvent) {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_coral_pressed_build.png");
+        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
         redButton.setImage(updateButton);
         redButton.setDisable(true);
     }
@@ -223,6 +223,15 @@ public class GameController {
                     //gui.setSelectedWorker(boardGridPane.getRowIndex(builderWorker.getParent()), boardGridPane.getColumnIndex(builderWorker.getParent()));
                     //builderWorker.setEffect(null);
                 //}
+
+                //System.out.println("selected:worker:  "+ gui.getSelectedWorker().getCurrentPosition().getX() + " " + gui.getSelectedWorker().getCurrentPosition().getY());
+                //System.out.println("BUILD : " + boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent())  +" "+ boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
+                gui.sendBuildRequest(gui.getSelectedWorker().getGender(),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()), level);
+                //remove red circle around worker selected for build before move
+                if(builderWorker != null){
+                    builderWorker.setEffect(null);
+                    builderWorker = null;
+                }
                 if(gui.getSelectedWorker() != null) {
                     System.out.println("selected:worker:  " + gui.getSelectedWorker().getCurrentPosition().getX() + " " + gui.getSelectedWorker().getCurrentPosition().getY());
                     System.out.println("BUILD : " + boardGridPane.getRowIndex(((ImageView) dragEvent.getSource()).getParent()) + " " + boardGridPane.getColumnIndex(((ImageView) dragEvent.getSource()).getParent()));
@@ -521,7 +530,8 @@ public class GameController {
 
 
     public void hideBlueButton(){
-        blueButton.setVisible(false);
+        Image updateButton = GuiManager.loadImage("Buttons/btn_small_gray.png");
+        blueButton.setImage(updateButton);
         blueButton.setDisable(true);
     }
 
@@ -534,24 +544,26 @@ public class GameController {
     public void showRedButton(){
         redButton.setVisible(true);
         redButton.setDisable(false);
-        Image updateButton = GuiManager.loadImage("Buttons/btn_coral_build.png");
+        Image updateButton = GuiManager.loadImage("Buttons/btn_blue.png");
         redButton.setImage(updateButton);
     }
 
     public void hideRedButton(){
-        redButton.setVisible(false);
+        Image updateButton = GuiManager.loadImage("Buttons/btn_small_gray.png");
+        redButton.setImage(updateButton);
         redButton.setDisable(true);
     }
 
     public void showEndButton(){
         endTurnButton.setVisible(true);
         endTurnButton.setDisable(false);
-        Image updateButton = GuiManager.loadImage("Buttons/btn_small_gray.png");
+        Image updateButton = GuiManager.loadImage("Buttons/btn_blue.png");
         endTurnButton.setImage(updateButton);
     }
 
     public void hideEndButton(){
-        endTurnButton.setVisible(false);
+        Image updateButton = GuiManager.loadImage("Buttons/btn_small_gray.png");
+        endTurnButton.setImage(updateButton);
         endTurnButton.setDisable(true);
     }
 
@@ -659,4 +671,13 @@ public class GameController {
     }
 
 
+    public void changeImageViewEndButton(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
+        redButton.setImage(updateButton);
+        redButton.setDisable(true);
+    }
+
+    public void doActionEndButton(MouseEvent mouseEvent) {
+        gui.sendEndOfTurnRequest();
+    }
 }

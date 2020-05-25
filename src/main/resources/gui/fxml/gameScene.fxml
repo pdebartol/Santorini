@@ -377,7 +377,7 @@
                                 </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                            <children>
-                              <ImageView fx:id="endTurnButton" fitHeight="97.0" fitWidth="119.0" layoutX="21.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="endTurnButton"   onMousePressed="#changeImageViewEndButton" onMouseReleased="#doActionEndButton" fitHeight="97.0" fitWidth="119.0" layoutX="21.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../graphics_resources/Sprite/Buttons/btn_small_gray.png" />
                                  </image>

@@ -47,7 +47,7 @@ public class EndGameController {
 
     public void setWin(String message){
         winLoseLabel.setText("You Won!");
-        informationLabel.setText(message);
+        //informationLabel.setText(message);
         cloudRight.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_victorycloudright.png"));
         cloudLeft.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_victorycloudleft.png"));
         trumpetsLeft.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_victorytrumpets_left.png"));
@@ -58,7 +58,7 @@ public class EndGameController {
     }
     public void setLose(String message){
         winLoseLabel.setText("You Lost!");
-        informationLabel.setText(message);
+        //informationLabel.setText(message);
         cloudRight.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_defeatcloudright.png"));
         cloudLeft.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_defeatcloudleft.png"));
         trumpetsLeft.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_defeattrumpetleft.png"));
