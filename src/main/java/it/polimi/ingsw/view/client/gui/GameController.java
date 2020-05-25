@@ -1,10 +1,7 @@
 package it.polimi.ingsw.view.client.gui;
 
 import it.polimi.ingsw.model.enums.Color;
-import it.polimi.ingsw.view.client.viewComponents.Board;
-import it.polimi.ingsw.view.client.viewComponents.God;
-import it.polimi.ingsw.view.client.viewComponents.Player;
-import it.polimi.ingsw.view.client.viewComponents.Square;
+import it.polimi.ingsw.view.client.viewComponents.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -118,9 +115,8 @@ public class GameController {
     String state = "worker";
 
 
-    @FXML
-    public void testMethod(MouseEvent mouseEvent) {
-
+    public void setGui(Gui gui){
+        this.gui = gui;
     }
 
     public void changeImageViewRedButton(MouseEvent mouseEvent) {
@@ -133,6 +129,7 @@ public class GameController {
      * build button
      * @param mouseEvent
      */
+
     public void doActionRedButton(MouseEvent mouseEvent) {
         dNdActiveBuild = true;
         state ="build";
@@ -156,6 +153,11 @@ public class GameController {
 
     }
 
+    /**
+     * On Drag Done method for levels
+     * @param dragEvent
+     */
+
     public void dragDoneMethod(DragEvent dragEvent) {
 
         if(dragEvent.getTransferMode() == TransferMode.MOVE){
@@ -178,7 +180,6 @@ public class GameController {
             else
                 ((ImageView)dragEvent.getSource()).setImage(null);
         }
-
 
     }
 
@@ -226,7 +227,7 @@ public class GameController {
 
                 //System.out.println("selected:worker:  "+ gui.getSelectedWorker().getCurrentPosition().getX() + " " + gui.getSelectedWorker().getCurrentPosition().getY());
                 //System.out.println("BUILD : " + boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent())  +" "+ boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
-                gui.sendBuildRequest(gui.getSelectedWorker().getGender(),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()), level);
+                //gui.sendBuildRequest(gui.getSelectedWorker().getGender(),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()), level);
                 //remove red circle around worker selected for build before move
                 if(builderWorker != null){
                     builderWorker.setEffect(null);
@@ -290,7 +291,36 @@ public class GameController {
 
     }
 
+    /*
+    private boolean isMyWorker(MouseEvent mouseEvent){
+
+        int[] i = gui.getMyWorkerPosition("male");
+
+    }
+
+    private boolean canIDrag(MouseEvent mouseEvent){
+
+        switch (state){
+
+            case "worker":
+                if (((ImageView) mouseEvent.getSource()).getId().equals("worker"))
+                    return true;
+                break;
+
+            case "move":
+                if(dNdActiveMove && ((ImageView) mouseEvent.getSource()).getImage() != null)
+
+
+            default:
+                return false;
+        }
+
+    }
+
+     */
     public void startChangingPosition(MouseEvent mouseEvent) {
+
+
 
         boolean myWorker = false;
 
@@ -298,7 +328,8 @@ public class GameController {
             int i[] = gui.getMyWorkerPosition(gui.getWorkerGender(boardGridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent()), boardGridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent())));
             myWorker = (dNdActiveMove && (((AnchorPane)((ImageView) mouseEvent.getSource()).getParent()).getChildren().get(1).getId().equals("workerImageView")) && (i[0] == boardGridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent()) && (i[1] == boardGridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent()))));
         }
-        if((state.equals("worker") && ((ImageView) mouseEvent.getSource()).getId().equals("worker")) || (myWorker) || (dNdActiveBuild && !(((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")))) {
+
+        if((state.equals("worker") && ((ImageView) mouseEvent.getSource()).getId().equals("worker")) || (myWorker) || (dNdActiveBuild && gui.getSelectedWorker() != null && !(((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")))) {
             ImageView test = ((ImageView) mouseEvent.getSource());
 
 
@@ -319,11 +350,15 @@ public class GameController {
 
     }
 
+    //actually useless
+
     public void highlightSquare(DragEvent dragEvent) {
 
 
 
     }
+
+    //actually useless
 
     public void notHihglightSquare(DragEvent dragEvent) { }
 
@@ -417,6 +452,11 @@ public class GameController {
         godName.setVisible(false);
     }
 
+    /**
+     * This method displays the updated board
+     * @param board_view is the board that hate to be displayed
+     */
+
     public void updateBoard(Board board_view){
 
         for (int x = 0; x < 5; x++) {
@@ -426,6 +466,11 @@ public class GameController {
         }
 
     }
+
+    /**
+     * This method displays a single updated square
+     * @param square is the square that have to be displayed
+     */
 
     public void updateSquare(Square square){
 
@@ -497,6 +542,14 @@ public class GameController {
 
     }
 
+    /**
+     * This method return a node of GridPane by giving to it the coordinates of the node
+     * @param gridPane represents the GridPane
+     * @param col represents the x
+     * @param row represents the y
+     * @return
+     */
+
     public Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
 
         for (Node node : gridPane.getChildren()) {
@@ -506,28 +559,6 @@ public class GameController {
         }
         return null;
     }
-
-    /*
-    public static ArrayList<Node> getAllNodes(Parent root) {
-        ArrayList<Node> nodes = new ArrayList<Node>();
-        addAllDescendents(root, nodes);
-        return nodes;
-    }
-
-    private static void addAllDescendents(Parent parent, ArrayList<Node> nodes) {
-        for (Node node : parent.getChildrenUnmodifiable()) {
-            nodes.add(node);
-            if (node instanceof Parent)
-                addAllDescendents((Parent)node, nodes);
-        }
-    }
-    */
-
-
-    public void setGui(Gui gui){
-        this.gui = gui;
-    }
-
 
     public void hideBlueButton(){
         Image updateButton = GuiManager.loadImage("Buttons/btn_small_gray.png");

@@ -211,7 +211,7 @@
                             <children>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                     <children>
-                                        <ImageView fx:id="blueButton" fitHeight="41.0" fitWidth="140.0" layoutX="160.0" layoutY="22.0" onMouseClicked="#testMethod" onMousePressed="#changeImageViewBlueButton" onMouseReleased="#doActionBlueButton" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="20.0">
+                                        <ImageView fx:id="blueButton" fitHeight="41.0" fitWidth="140.0" layoutX="160.0" layoutY="22.0" onMousePressed="#changeImageViewBlueButton" onMouseReleased="#doActionBlueButton" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="20.0">
                                             <image>
                                                 <Image url="@/gui/graphics_resources/Sprite/Buttons/btn_blue.png" />
                                             </image>
