@@ -456,6 +456,7 @@ public class Cli extends View {
                 abortInputProcessing();
                 inputThread = inputExecutor.submit(() -> {
                     while(!Thread.interrupted()){
+                        printInGameTextBox(author + " is playing his turn...");
                         appendInGameTextBox("Enter \"n\" if you want to change god to visualize in God Power box...");
                         String input = input();
                         if(input.equals("n")){
@@ -1646,24 +1647,27 @@ public class Cli extends View {
             inputThread = inputExecutor.submit(() -> {
             int[] startCoordinates = selectWorker();
 
-            String input;
-            int[] coordinates;
+            if(startCoordinates != null) {
 
-            do {
-                printInGameTextBox("Where do you want to move? (#,#) or type \"n\" if you want to change god to visualize in God Power box...");
-                input = inputWithTimeout();
-                while (!InputValidator.validateCOORDINATES(input) && !input.equals("n") && !Thread.interrupted()) {
-                    printInGameTextBox("Invalid coordinates or input! Please try again (type #,#) or \"n\"...");
+                String input;
+                int[] coordinates;
+
+                do {
+                    printInGameTextBox("Where do you want to move? (#,#) or type \"n\" if you want to change god to visualize in God Power box...");
                     input = inputWithTimeout();
+                    while (!InputValidator.validateCOORDINATES(input) && !input.equals("n") && !Thread.interrupted()) {
+                        printInGameTextBox("Invalid coordinates or input! Please try again (type #,#) or \"n\"...");
+                        input = inputWithTimeout();
+                    }
+
+                    if (input.equals("n") && !Thread.interrupted()) changeGodToVisualize();
+                } while (!Thread.interrupted() && input.equals("n"));
+
+
+                if (InputValidator.validateCOORDINATES(input)) {
+                    coordinates = Arrays.stream(input.split(",")).mapToInt(Integer::parseInt).toArray();
+                    sendMoveRequest(gameBoard.getSquareByCoordinates(startCoordinates[0], startCoordinates[1]).getWorker().getGender(), coordinates[0], coordinates[1]);
                 }
-
-                if(input.equals("n") && !Thread.interrupted()) changeGodToVisualize();
-            }while (!Thread.interrupted() && input.equals("n"));
-
-
-            if(!Thread.interrupted()) {
-                coordinates = Arrays.stream(input.split(",")).mapToInt(Integer::parseInt).toArray();
-                sendMoveRequest(gameBoard.getSquareByCoordinates(startCoordinates[0],startCoordinates[1]).getWorker().getGender(),coordinates[0],coordinates[1]);
             }
             });
     }
@@ -1681,33 +1685,38 @@ public class Cli extends View {
             inputThread = inputExecutor.submit(() -> {
             int[] startCoordinates = selectWorker();
 
-            String inputCoordinates;
-            int[] coordinates;
+            if(startCoordinates != null) {
 
-            do {
-                printInGameTextBox("Where do you want to build? (#,#) or type \"n\" if you want to change god to visualize in God Power box...");
-                inputCoordinates = inputWithTimeout();
-                while (!InputValidator.validateCOORDINATES(inputCoordinates) && !inputCoordinates.equals("n") && !Thread.interrupted()) {
-                    printInGameTextBox("Invalid coordinates or input! Please try again (type #,#) or \"n\"...");
+                String inputCoordinates = null;
+                int[] coordinates;
+
+                do {
+                    printInGameTextBox("Where do you want to build? (#,#) or type \"n\" if you want to change god to visualize in God Power box...");
                     inputCoordinates = inputWithTimeout();
+                    while (!InputValidator.validateCOORDINATES(inputCoordinates) && !inputCoordinates.equals("n") && !Thread.interrupted()) {
+                        printInGameTextBox("Invalid coordinates or input! Please try again (type #,#) or \"n\"...");
+                        inputCoordinates = inputWithTimeout();
+                    }
+
+                    if (inputCoordinates.equals("n") && !Thread.interrupted()) changeGodToVisualize();
+                } while (!Thread.interrupted() && inputCoordinates.equals("n"));
+
+                int level;
+                String inputLevel = "";
+                if(InputValidator.validateCOORDINATES(inputCoordinates)) {
+                    printInGameTextBox("What type of building do you want to build? (1 -> first block, 2 -> second block, 3 -> third block, 4 -> dome)");
+                    inputLevel = inputWithTimeout();
+                    while (!InputValidator.validateLEVEL(inputLevel) && !Thread.interrupted()) {
+                        printInGameTextBox("Invalid building! Please try again (#)...");
+                        inputLevel = inputWithTimeout();
+                    }
                 }
 
-                if(inputCoordinates.equals("n") && !Thread.interrupted()) changeGodToVisualize();
-            }while (!Thread.interrupted() && inputCoordinates.equals("n"));
-
-            int level;
-            String inputLevel;
-            printInGameTextBox("What type of building do you want to build? (1 -> first block, 2 -> second block, 3 -> third block, 4 -> dome)");
-            inputLevel = inputWithTimeout();
-            while (!InputValidator.validateLEVEL(inputLevel) && !Thread.interrupted()) {
-                printInGameTextBox("Invalid building! Please try again (#)...");
-                inputLevel = inputWithTimeout();
-            }
-
-            if(!Thread.interrupted()) {
-                coordinates = Arrays.stream(inputCoordinates.split(",")).mapToInt(Integer::parseInt).toArray();
-                level = Integer.parseInt(inputLevel);
-                sendBuildRequest(gameBoard.getSquareByCoordinates(startCoordinates[0],startCoordinates[1]).getWorker().getGender(),coordinates[0],coordinates[1],level);
+                if (!Thread.currentThread().isInterrupted()) {
+                    coordinates = Arrays.stream(inputCoordinates.split(",")).mapToInt(Integer::parseInt).toArray();
+                    level = Integer.parseInt(inputLevel);
+                    sendBuildRequest(gameBoard.getSquareByCoordinates(startCoordinates[0], startCoordinates[1]).getWorker().getGender(), coordinates[0], coordinates[1], level);
+                }
             }
             });
     }
@@ -1735,28 +1744,29 @@ public class Cli extends View {
                 do {
                     printInGameTextBox("Select one of your workers: (m,f) or type \"n\" if you want to change god to visualize in God Power box...");
                     input = inputWithTimeout();
-                    while (!input.equals("m") && !input.equals("f") && !input.equals("n") && !Thread.interrupted()) {
+                    while (!input.equals("m") && !input.equals("f") && !input.equals("n") && !Thread.currentThread().isInterrupted()) {
                         printInGameTextBox("Invalid input! Please try again (m,f) or \"n\"...");
                         input = inputWithTimeout();
                     }
-                    if(input.equals("n")) changeGodToVisualize();
-                }while (!Thread.interrupted() && input.equals("n"));
+                    if(input.equals("n") && !Thread.currentThread().isInterrupted()) changeGodToVisualize();
+                }while (!Thread.currentThread().isInterrupted() && input.equals("n"));
 
-                if (input.equals("m") && !Thread.interrupted()) {
+                if (input.equals("m") && !Thread.currentThread().isInterrupted()) {
                     Square s = myPlayer.getWorkerByGender("male").getCurrentPosition();
                     coordinates[0] = s.getX();
                     coordinates[1] = s.getY();
                 }
-                if (input.equals("f") && !Thread.interrupted()) {
+                if (input.equals("f") && !Thread.currentThread().isInterrupted()) {
                     Square s = myPlayer.getWorkerByGender("female").getCurrentPosition();
                     coordinates[0] = s.getX();
                     coordinates[1] = s.getY();
                 }
             }
-
         }else{
             coordinates = workerForThisTurnCoordinates;
         }
+
+        if(Thread.currentThread().isInterrupted()) return null;
 
         return coordinates;
     }

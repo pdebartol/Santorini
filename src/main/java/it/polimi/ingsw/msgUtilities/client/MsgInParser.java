@@ -239,10 +239,12 @@ public class MsgInParser {
                     NodeList heightsNode = document.getElementsByTagName("Height");
                     List<HashMap<String,String>> heights = getActionData(heightsNode);
                     for(HashMap<String,String> height : heights){
+                        int startXPosition = Integer.parseInt(height.get("startXPosition"));
+                        int startYPosition = Integer.parseInt(height.get("startYPosition"));
                         int xPosition = Integer.parseInt(height.get("xPosition"));
                         int yPosition = Integer.parseInt(height.get("yPosition"));
                         int level = Integer.parseInt(height.get("Level"));
-                        view.updateMyPositionLevel(xPosition,yPosition,level);
+                        view.updateMyPositionLevel(startXPosition,startYPosition,xPosition,yPosition,level);
                     }
                     view.nextOperation(nextStep);
                 }
