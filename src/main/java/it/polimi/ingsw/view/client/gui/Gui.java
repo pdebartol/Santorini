@@ -61,6 +61,13 @@ public class Gui extends View {
 
 
     /**
+     * Scene and Controller for the end game scene
+     */
+
+    private Scene endGameScene;
+    private EndGameController endGameSceneController;
+
+    /**
      * GUI's primary stage where all the scenes are set
      */
 
@@ -106,6 +113,7 @@ public class Gui extends View {
         initLoginWait();
         initPlayerOrderSelection();
         initGameScene();
+        initEndGame();
     }
 
 
@@ -201,6 +209,26 @@ public class Gui extends View {
 
 
     /**
+     * This method loads the FXML of the end game scene and initializes its controller
+     */
+
+    private void initEndGame() {
+        try {
+            FXMLLoader loader = GuiManager.loadFXML("endGame");
+            Parent root = loader.load();
+            endGameScene = new Scene(root);
+            endGameSceneController = loader.getController();
+            loginWaitController.setGui(this);
+        } catch (IOException e) {
+            System.out.println("Could not initialize loginWait Scene");
+        }
+    }
+
+
+
+
+
+    /**
      * This method throws an alert to the user and it is called when something goes wrong
      * @param title alert's title
      * @param text alert's text
@@ -218,6 +246,14 @@ public class Gui extends View {
 
     }
 
+    public void newMatch(){
+        start();
+        Platform.runLater(
+                () -> {
+                    primaryStage.setScene(loginUserScene);
+                    primaryStage.show();
+                });
+    }
 
     // Useless
 
@@ -627,6 +663,8 @@ public class Gui extends View {
                     break;
             }
         }
+        System.out.println("Errors: " + errors);
+
 
         String finalErrorMessage = errorMessage;
         Platform.runLater(
@@ -688,7 +726,6 @@ public class Gui extends View {
         Platform.runLater(
                 () -> {
                     alertUser("Match Information", username+ " has lost!", Alert.AlertType.INFORMATION);
-                    primaryStage.setScene(initialScene);
                 });
     }
 
@@ -696,8 +733,10 @@ public class Gui extends View {
     public void showYouLose(String reason, String winner) {
         Platform.runLater(
                 () -> {
-                    alertUser("Match Information", winner + " has won!", Alert.AlertType.INFORMATION);
-                    primaryStage.setScene(initialScene);
+                    endGameSceneController.setGodImage(myPlayer.getGod().getId());
+                    endGameSceneController.setLose(reason+". "+ winner  + " has won!");
+                    primaryStage.setScene(endGameScene);
+                    primaryStage.show();
                 });
     }
 
@@ -705,8 +744,12 @@ public class Gui extends View {
     public void showYouWin(String reason) {
         Platform.runLater(
                 () -> {
-                    alertUser("Match Information", reason + " has won!", Alert.AlertType.INFORMATION);
-                    primaryStage.setScene(initialScene);
+
+                    endGameSceneController.setGodImage(myPlayer.getGod().getId());
+                    endGameSceneController.setWin(reason);
+                    primaryStage.setScene(endGameScene);
+                    primaryStage.show();
+
                 });
 
     }
@@ -834,7 +877,9 @@ public class Gui extends View {
     }
 
     public Worker getSelectedWorker(){
-        return gameBoard.getSquareByCoordinates(workerForThisTurnCoordinates[0],workerForThisTurnCoordinates[1]).getWorker();
+        if(workerForThisTurnCoordinates[0] != -1  && workerForThisTurnCoordinates[1] != -1)
+            return gameBoard.getSquareByCoordinates(workerForThisTurnCoordinates[0],workerForThisTurnCoordinates[1]).getWorker();
+        return null;
     }
 
 
@@ -852,6 +897,8 @@ public class Gui extends View {
         }
         return coordinates;
     }
+
+
 
 }
 

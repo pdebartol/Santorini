@@ -33,7 +33,7 @@
                            </children></AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <Button fx:id="newGameButton" layoutX="109.0" layoutY="36.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="102.0" text="New Game" />
+                              <Button fx:id="newGameButton" layoutX="109.0" layoutY="36.0"  onMousePressed="#changeImageOfNewGame" onMouseReleased="#newGame" mnemonicParsing="false" prefHeight="40.0" prefWidth="102.0" text="New Game" />
                            </children></AnchorPane>
                      </children>
                   </GridPane>
@@ -48,7 +48,7 @@
                   </ImageView>
                   <ImageView fx:id="trumpetsRight" fitHeight="181.0" fitWidth="163.0" layoutX="414.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../graphics_resources/Sprite/Layouts/Endgame/endgame_victorytrumpets.png" />
+                        <Image url="@../graphics_resources/Sprite/Layouts/Endgame/endgame_victorytrumpets_right.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="trumpetsLeft" fitHeight="181.0" fitWidth="165.0" layoutX="62.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
