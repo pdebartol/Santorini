@@ -223,19 +223,20 @@ public class GameController {
                     //gui.setSelectedWorker(boardGridPane.getRowIndex(builderWorker.getParent()), boardGridPane.getColumnIndex(builderWorker.getParent()));
                     //builderWorker.setEffect(null);
                 //}
+                if(gui.getSelectedWorker() != null) {
+                    System.out.println("selected:worker:  " + gui.getSelectedWorker().getCurrentPosition().getX() + " " + gui.getSelectedWorker().getCurrentPosition().getY());
+                    System.out.println("BUILD : " + boardGridPane.getRowIndex(((ImageView) dragEvent.getSource()).getParent()) + " " + boardGridPane.getColumnIndex(((ImageView) dragEvent.getSource()).getParent()));
+                    gui.sendBuildRequest(gui.getSelectedWorker().getGender(), boardGridPane.getRowIndex(((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex(((ImageView) dragEvent.getSource()).getParent()), level);
+                    //remove red circle around worker selected for build before move
+                    if (builderWorker != null) {
+                        builderWorker.setEffect(null);
+                        builderWorker = null;
+                    }
 
-                System.out.println("selected:worker:  "+ gui.getSelectedWorker().getCurrentPosition().getX() + " " + gui.getSelectedWorker().getCurrentPosition().getY());
-                System.out.println("BUILD : " + boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent())  +" "+ boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
-                gui.sendBuildRequest(gui.getSelectedWorker().getGender(),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()), level);
-                //remove red circle around worker selected for build before move
-                if(builderWorker != null){
-                    builderWorker.setEffect(null);
-                    builderWorker = null;
+                    redButton.setDisable(true);
+                    hideImageViews();
+                    dNdActiveBuild = false;
                 }
-
-                redButton.setDisable(true);
-                hideImageViews();
-                dNdActiveBuild = false;
                 break;
         }
 
@@ -597,7 +598,7 @@ public class GameController {
             if(myWorker){
 
                 builderWorker = ((ImageView) mouseEvent.getSource());
-                gui.setSelectedWorker(boardGridPane.getColumnIndex(builderWorker.getParent()), boardGridPane.getRowIndex(builderWorker.getParent()));
+                gui.setSelectedWorker(boardGridPane.getRowIndex(builderWorker.getParent()), boardGridPane.getColumnIndex(builderWorker.getParent()));
 
                 int depth = 70;
                 borderGlow.setOffsetY(0f);
