@@ -219,14 +219,15 @@ public class GameController {
                         level = 4;
                         break;
                 }
-                if(gui.getSelectedWorker() == null){
+                //if(gui.getSelectedWorker() == null){
                     //gui.setSelectedWorker(boardGridPane.getRowIndex(builderWorker.getParent()), boardGridPane.getColumnIndex(builderWorker.getParent()));
                     //builderWorker.setEffect(null);
-                }
+                //}
 
                 System.out.println("selected:worker:  "+ gui.getSelectedWorker().getCurrentPosition().getX() + " " + gui.getSelectedWorker().getCurrentPosition().getY());
                 System.out.println("BUILD : " + boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent())  +" "+ boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
                 gui.sendBuildRequest(gui.getSelectedWorker().getGender(),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()), level);
+                //remove red circle around worker selected for build before move
                 if(builderWorker != null){
                     builderWorker.setEffect(null);
                     builderWorker = null;
@@ -295,9 +296,11 @@ public class GameController {
             source_pointer = test;
 
             Dragboard db = test.startDragAndDrop(TransferMode.MOVE);
+            /*
             SnapshotParameters parameters = new SnapshotParameters();
             parameters.setTransform(new Scale(0.0002,0.0002));
             db.setDragView(test.snapshot(parameters, null));
+             */
             ClipboardContent content = new ClipboardContent();
             content.putImage(test.getImage());
             db.setContent(content);
@@ -579,20 +582,30 @@ public class GameController {
     @FXML
     public void buildAction(MouseEvent mouseEvent) {
 
+        // first check
         if(state.equals("build") && (((ImageView) mouseEvent.getSource()).getImage() != null) && (gui.getSelectedWorker() == null)){
 
-            int i[] = gui.getMyWorkerPosition(gui.getWorkerGender(boardGridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent()), boardGridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent())));
+            //de-activate red circle around worker if another one was selected
+            if(builderWorker != null)
+                builderWorker.setEffect(null);
+
+            //check that I am selecting my worker
+            int[] i = gui.getMyWorkerPosition(gui.getWorkerGender(boardGridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent()), boardGridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent())));
             boolean myWorker = ((((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")) && (i[0] == boardGridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent()) && (i[1] == boardGridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent()))));
 
+            //if everything is true myWorker is true
             if(myWorker){
+
                 builderWorker = ((ImageView) mouseEvent.getSource());
                 gui.setSelectedWorker(boardGridPane.getColumnIndex(builderWorker.getParent()), boardGridPane.getRowIndex(builderWorker.getParent()));
+
                 int depth = 70;
                 borderGlow.setOffsetY(0f);
                 borderGlow.setOffsetX(0f);
                 borderGlow.setColor(javafx.scene.paint.Color.RED);
                 borderGlow.setWidth(depth);
                 borderGlow.setHeight(depth);
+                //set red circle around worker selected
                 builderWorker.setEffect(borderGlow);
             }
 
