@@ -64,12 +64,12 @@ public class PlayerOrderSelectionController {
 
     @FXML
     public void nextPlayer(ActionEvent actionEvent) {
-        if(currentPlayerId >= players.size()-1 )
+        if(currentPlayerId >= players.size() - 1 )
             currentPlayerId = 0;
         else
             currentPlayerId++;
 
-        numberOfPlayer.setText(currentPlayerId+1 + " of " + players.size());
+        numberOfPlayer.setText(currentPlayerId + 1 + " of " + players.size());
         playerName.setText(players.get(currentPlayerId).getUsername());
     }
 

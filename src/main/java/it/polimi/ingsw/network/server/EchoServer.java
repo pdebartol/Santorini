@@ -110,7 +110,7 @@ public class EchoServer implements ClientDisconnectionListener{
 
     @Override
     public void onMatchFinish(VirtualView v){
-        System.out.println("Lobby number " + (lobbies.indexOf(v) + 1) + " deleted!");
+        System.out.println("\nLobby number " + (lobbies.indexOf(v) + 1) + " deleted!");
         lobbies.remove(v);
     }
 }

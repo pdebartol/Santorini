@@ -58,7 +58,7 @@ public class ExtraBuild extends PowerDecorator {
                 if(l == 4)
                     errors.add(Error.EXTRA_BUILD_NOT_DOME);
             }
-            if (notSameSpace && (w.getLastSquareBuild().getYPosition() == x && w.getLastSquareBuild().getYPosition() == y)) {
+            if (notSameSpace && (w.getLastSquareBuild().getXPosition() == x && w.getLastSquareBuild().getYPosition() == y)) {
                 errors.add(Error.EXTRA_BUILD_NOT_SAME_SPACE);
             }
         if (notPerimeter && (x == 0 || x == Board.SIZE-1 || y == 0 || y == Board.SIZE-1)) {

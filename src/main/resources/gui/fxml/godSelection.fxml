@@ -31,7 +31,7 @@
                      <children>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <ImageView fx:id="imageGod" fitHeight="251.0" fitWidth="165.0" layoutX="45.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imageGod" fitHeight="251.0" fitWidth="165.0" layoutX="45.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@/gui/graphics_resources/Sprite/godCards/01.png" />
                                  </image>
@@ -51,7 +51,7 @@
                                  <children>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="11.0" layoutY="15.0" prefHeight="87.0" prefWidth="217.0" text="Name" textFill="WHITE">
+                                          <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="11.0" layoutY="24.0" prefHeight="87.0" prefWidth="217.0" text="Name" textFill="WHITE">
                                              <font>
                                                 <Font size="26.0" />
                                              </font>
@@ -60,7 +60,7 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                        <children>
-                                          <Label fx:id="descriptionLabel" alignment="CENTER" layoutX="13.0" layoutY="15.0" prefHeight="87.0" prefWidth="217.0" text="Description" textFill="WHITE" wrapText="true" />
+                                          <Label fx:id="descriptionLabel" alignment="CENTER" layoutX="14.0" layoutY="19.0" prefHeight="87.0" prefWidth="217.0" text="Description" textFill="WHITE" wrapText="true" />
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -96,17 +96,17 @@
                                  <children>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <Button fx:id="prevButton" layoutX="20.0" layoutY="30.0" mnemonicParsing="false" onAction="#prevGodImage" text="Prev" />
+                                          <Button fx:id="prevButton" layoutX="20.0" layoutY="59.0" mnemonicParsing="false" onAction="#prevGodImage" text="Prev" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                        <children>
-                                          <Button fx:id="nextButton" layoutX="19.0" layoutY="30.0" mnemonicParsing="false" onAction="#nextGodImage" text="Next" />
+                                          <Button fx:id="nextButton" layoutX="19.0" layoutY="59.0" mnemonicParsing="false" onAction="#nextGodImage" text="Next" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                        <children>
-                                          <Label fx:id="progressionOfGods" alignment="CENTER" layoutX="26.0" layoutY="34.0" text="x of y" textFill="WHITE" />
+                                          <Label fx:id="progressionOfGods" alignment="CENTER" layoutX="26.0" layoutY="63.0" text="x of y" textFill="WHITE" />
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -115,7 +115,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <ImageView fx:id="godSelectionButton" fitHeight="48.0" fitWidth="180.0" layoutX="55.0" layoutY="19.0" onMouseReleased="#confirmGodSelection" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="godSelectionButton" fitHeight="48.0" fitWidth="180.0" layoutX="55.0" layoutY="54.0" onMouseReleased="#confirmGodSelection" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@/gui/graphics_resources/Sprite/Buttons/btn_featuredGod.png" />
                                  </image>
@@ -128,12 +128,12 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                <children>
-                  <Label fx:id="instructionLabel" alignment="CENTER" layoutX="14.0" layoutY="13.0" prefHeight="90.0" prefWidth="480.0" text="Istructions" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Label fx:id="instructionLabel" alignment="CENTER" layoutY="54.0" prefHeight="90.0" prefWidth="480.0" text="Istructions" textFill="WHITE" AnchorPane.bottomAnchor="-54.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="54.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                <children>
-                  <ImageView fx:id="confirmationImageViewButton" fitHeight="150.0" fitWidth="200.0" layoutX="140.0" layoutY="72.0" onMousePressed="#changeImageOfConfirmationButton" onMouseReleased="#nextPhaseBlueButton" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="71.91922988891602">
+                  <ImageView fx:id="confirmationImageViewButton" fitHeight="150.0" fitWidth="200.0" layoutX="140.0" layoutY="106.0" onMousePressed="#changeImageOfConfirmationButton" onMouseReleased="#nextPhaseBlueButton" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="37.91922988891602">
                      <image>
                         <Image url="@/gui/graphics_resources/Sprite/Buttons/btn_blue.png" />
                      </image>

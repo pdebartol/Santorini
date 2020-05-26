@@ -829,7 +829,7 @@ public class Cli extends View {
         StringBuilder output = new StringBuilder();
         output.append("You win ");
         switch (reason){
-            case "youLoseForDirectWin":
+            case "youWinDirectly":
                 output.append("instantly!");
                 break;
             case "youWinForAnotherLose":

@@ -29,7 +29,6 @@ public class Gui extends View {
      */
 
     private Scene loginUserScene;
-    private LoginUsernameController loginUserController;
 
     /**
      * Scene and Controller for the lobby scene
@@ -59,7 +58,6 @@ public class Gui extends View {
     private Scene gameScene;
     private GameController gameSceneController;
 
-
     /**
      * Scene and Controller for the end game scene
      */
@@ -71,14 +69,13 @@ public class Gui extends View {
      * GUI's primary stage where all the scenes are set
      */
 
-    private Stage primaryStage;
+    private final Stage primaryStage;
 
     /**
      * Initial connection scene, useful when there are network related problems
      */
 
-    private Scene initialScene;
-
+    private final Scene initialScene;
 
     /**
      * Keeps track of the current god id during godSelectionScene
@@ -97,7 +94,6 @@ public class Gui extends View {
      */
 
     private int userSelectedGodId;
-
 
     /**
      * Keeps track of the challenger during setup
@@ -132,7 +128,7 @@ public class Gui extends View {
                         FXMLLoader loader = GuiManager.loadFXML("loginUsername");
                         Parent root = loader.load();
                         loginUserScene = new Scene(root);
-                        loginUserController = loader.getController();
+                        LoginUsernameController loginUserController = loader.getController();
                         loginUserController.setGui(this);
                     } catch (IOException e) {
                         System.out.println("Could not initialize loginUsername Scene");
@@ -231,9 +227,6 @@ public class Gui extends View {
     }
 
 
-
-
-
     /**
      * This method throws an alert to the user and it is called when something goes wrong
      * @param title alert's title
@@ -260,7 +253,6 @@ public class Gui extends View {
                     primaryStage.show();
                 });
     }
-
 
     // Useless
 
@@ -590,8 +582,6 @@ public class Gui extends View {
 
 
                 });
-
-
         }
 
 
@@ -623,66 +613,67 @@ public class Gui extends View {
     public void showTurnErrors(List<String> errors) {
 
 
-        String errorMessage = "Invalid action! errors encountered : ";
+        StringBuilder errorMessage = new StringBuilder("Invalid action! errors encountered : ");
 
         for (String error : errors) {
             switch (error) {
                 case "BMU":
-                    errorMessage += "Athena blocked upward movements";
+                    errorMessage.append(", Athena blocked upward movements");
                     break;
                 case "CDU":
-                    errorMessage += "you can't build a dome under yourself";
+                    errorMessage.append(", you can't build a dome under yourself");
                     break;
                 case "CMU":
-                    errorMessage += ("you can't move up because you build before you moved");
+                    errorMessage.append(", you can't move up because you build before you moved");
                     break;
                 case "EBNP":
-                    errorMessage += ("the additional build can't be on a perimeter space");
+                    errorMessage.append(", the additional build can't be on a perimeter space");
                     break;
                 case "EBNSS":
-                    errorMessage += ("the additional build can't be on the same space");
+                    errorMessage.append(", the additional build can't be on the same space");
                     break;
                 case "EBOSS":
-                    errorMessage += ("the additional build must be built on top of your first block");
+                    errorMessage.append(", the additional build must be built on top of your first block");
                     break;
                 case "EMNB":
-                    errorMessage += ("your worker can't moves back to the space it started on");
+                    errorMessage.append(", your worker can't moves back to the space it started on");
                     break;
                 case "ILB":
-                    errorMessage += ("you can't build this block in the space you selected");
+                    errorMessage.append(", you can't build this block in the space you selected");
                     break;
                 case "ILM":
-                    errorMessage += ("the space where you want to move is too high");
+                    errorMessage.append(", the space where you want to move is too high");
                     break;
                 case "ID":
-                    errorMessage += ("there is a dome");
+                    errorMessage.append(", there is a dome");
                     break;
                 case "NA":
-                    errorMessage += ("the space you selected is not adjacent");
+                    errorMessage.append(", the space you selected is not adjacent");
                     break;
                 case "NF":
-                    errorMessage += ("the space you selected is occupied");
+                    errorMessage.append(", the space you selected is occupied");
                     break;
                 case "SDNF":
-                    errorMessage += ("you can't push the worker on this space because the space in the same direction is occupied");
+                    errorMessage.append(", you can't push the worker on this space because the space in the same direction is occupied");
                     break;
                 case "EBND":
-                    errorMessage += ("the additional build block can't be a dome");
+                    errorMessage.append(", the additional build block can't be a dome");
                     break;
+                case "IWW":
+                    errorMessage.append(", you must continue the shift with the first worker used");
             }
         }
         System.out.println("Errors: " + errors);
 
+        errorMessage.append(".");
+        errorMessage.delete(37,38);
 
-        String finalErrorMessage = errorMessage;
-        Platform.runLater(
-                            () -> {
-                                alertUser("Match Information", finalErrorMessage, Alert.AlertType.WARNING);
-                                gameSceneController.restoreImage();
-                            });
-            }
-
-
+        String finalErrorMessage = errorMessage.toString();
+        Platform.runLater(() -> {
+            alertUser("Match Information", finalErrorMessage, Alert.AlertType.WARNING);
+            gameSceneController.restoreImage();
+        });
+    }
 
 
     @Override
@@ -893,11 +884,8 @@ public class Gui extends View {
         return null;
     }
 
-
-
-
     public int[] getMyWorkerPosition(String gender){
-        int  coordinates[] = new int[2];
+        int[] coordinates = new int[2];
         if(myPlayer.getWorkerByGender(gender) != null){
             coordinates[0] = myPlayer.getWorkerByGender(gender).getCurrentPosition().getX();
             coordinates[1] = myPlayer.getWorkerByGender(gender).getCurrentPosition().getY();

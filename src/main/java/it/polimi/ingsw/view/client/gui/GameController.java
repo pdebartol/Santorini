@@ -1,15 +1,14 @@
 package it.polimi.ingsw.view.client.gui;
 
 import it.polimi.ingsw.model.enums.Color;
-import it.polimi.ingsw.view.client.viewComponents.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import it.polimi.ingsw.view.client.viewComponents.Board;
+import it.polimi.ingsw.view.client.viewComponents.God;
+import it.polimi.ingsw.view.client.viewComponents.Player;
+import it.polimi.ingsw.view.client.viewComponents.Square;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -17,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.transform.Scale;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -189,17 +187,23 @@ public class GameController {
      */
 
     public void acceptElement(DragEvent dragEvent) {
-
         switch(state){
             case "worker":
-                gui.sendSetWorkerOnBoardRequest(workerGender,boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()),boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
+                int x = GridPane.getRowIndex(((ImageView) dragEvent.getSource()).getParent());
+                int y = GridPane.getColumnIndex(((ImageView) dragEvent.getSource()).getParent());
+                gui.sendSetWorkerOnBoardRequest(workerGender,x,y);
                 break;
             case "move":
+                int selectedX = GridPane.getRowIndex(source_pointer.getParent());
+                int selectedY = GridPane.getColumnIndex(source_pointer.getParent());
                 if(gui.getSelectedWorker() == null)
-                    gui.setSelectedWorker(boardGridPane.getRowIndex( source_pointer.getParent()), boardGridPane.getColumnIndex( source_pointer.getParent()));
+                    gui.setSelectedWorker(selectedX,selectedY);
 
-                System.out.println("Move : " + boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent())  +" "+ boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
-                gui.sendMoveRequest(gui.getWorkerGender(boardGridPane.getRowIndex(source_pointer.getParent()),boardGridPane.getColumnIndex( source_pointer.getParent())),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
+                int newX = GridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent());
+                int newY = GridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent());
+
+                System.out.println("Move : " + newX  +" "+ newY);
+                gui.sendMoveRequest(gui.getWorkerGender(selectedX,selectedY),newX, newY);
                 dNdActiveMove = false;
                 blueButton.setDisable(true);
                 break;
@@ -220,23 +224,17 @@ public class GameController {
                         level = 4;
                         break;
                 }
-                //if(gui.getSelectedWorker() == null){
-                    //gui.setSelectedWorker(boardGridPane.getRowIndex(builderWorker.getParent()), boardGridPane.getColumnIndex(builderWorker.getParent()));
-                    //builderWorker.setEffect(null);
-                //}
-
-                //System.out.println("selected:worker:  "+ gui.getSelectedWorker().getCurrentPosition().getX() + " " + gui.getSelectedWorker().getCurrentPosition().getY());
-                //System.out.println("BUILD : " + boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent())  +" "+ boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()));
-                //gui.sendBuildRequest(gui.getSelectedWorker().getGender(),boardGridPane.getRowIndex( ((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex( ((ImageView) dragEvent.getSource()).getParent()), level);
                 //remove red circle around worker selected for build before move
                 if(builderWorker != null){
                     builderWorker.setEffect(null);
                     builderWorker = null;
                 }
                 if(gui.getSelectedWorker() != null) {
-                    System.out.println("selected:worker:  " + gui.getSelectedWorker().getCurrentPosition().getX() + " " + gui.getSelectedWorker().getCurrentPosition().getY());
-                    System.out.println("BUILD : " + boardGridPane.getRowIndex(((ImageView) dragEvent.getSource()).getParent()) + " " + boardGridPane.getColumnIndex(((ImageView) dragEvent.getSource()).getParent()));
-                    gui.sendBuildRequest(gui.getSelectedWorker().getGender(), boardGridPane.getRowIndex(((ImageView) dragEvent.getSource()).getParent()), boardGridPane.getColumnIndex(((ImageView) dragEvent.getSource()).getParent()), level);
+                    int xToBuild = GridPane.getRowIndex(((ImageView) dragEvent.getSource()).getParent());
+                    int yToBuild = GridPane.getColumnIndex(((ImageView) dragEvent.getSource()).getParent());
+                    System.out.println("selected worker:  " + gui.getSelectedWorker().getCurrentPosition().getX() + " " + gui.getSelectedWorker().getCurrentPosition().getY());
+                    System.out.println("BUILD : " + xToBuild + " " + yToBuild);
+                    gui.sendBuildRequest(gui.getSelectedWorker().getGender(), xToBuild, yToBuild, level);
                     //remove red circle around worker selected for build before move
                     if (builderWorker != null) {
                         builderWorker.setEffect(null);
@@ -250,7 +248,6 @@ public class GameController {
                 break;
         }
 
-
         Dragboard db = dragEvent.getDragboard();
         boolean success = false;
 
@@ -258,6 +255,7 @@ public class GameController {
 
         destination = new ImageView(((ImageView)dragEvent.getSource()).getImage());
         destination_pointer = test;
+
         if(db.hasImage()){
             test.setImage(db.getImage());
             success = true;
@@ -277,12 +275,6 @@ public class GameController {
 
     public void highlightSquareOverMethod(DragEvent dragEvent) throws IOException {
 
-        /* ((ImageView)dragEvent.getGestureSource()) != source_pointer should check that the place for drop is not the same of source of drag
-        if(((ImageView)dragEvent.getGestureSource()) != source_pointer && dragEvent.getDragboard().hasImage())
-            dragEvent.acceptTransferModes(TransferMode.MOVE);
-        dragEvent.consume();
-         */
-
         if(state.equals("worker") || dNdActiveMove || (dNdActiveBuild && ((ImageView) dragEvent.getSource()).getId().equals("workerImageView"))) {
             if ((dragEvent.getGestureSource() != dragEvent.getSource()) && dragEvent.getDragboard().hasImage())
                 dragEvent.acceptTransferModes(TransferMode.MOVE);
@@ -291,42 +283,17 @@ public class GameController {
 
     }
 
-    /*
-    private boolean isMyWorker(MouseEvent mouseEvent){
 
-        int[] i = gui.getMyWorkerPosition("male");
-
-    }
-
-    private boolean canIDrag(MouseEvent mouseEvent){
-
-        switch (state){
-
-            case "worker":
-                if (((ImageView) mouseEvent.getSource()).getId().equals("worker"))
-                    return true;
-                break;
-
-            case "move":
-                if(dNdActiveMove && ((ImageView) mouseEvent.getSource()).getImage() != null)
-
-
-            default:
-                return false;
-        }
-
-    }
-
-     */
     public void startChangingPosition(MouseEvent mouseEvent) {
-
-
 
         boolean myWorker = false;
 
         if(state.equals("move") && dNdActiveMove && (((ImageView) mouseEvent.getSource()).getImage() != null)) {
-            int i[] = gui.getMyWorkerPosition(gui.getWorkerGender(boardGridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent()), boardGridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent())));
-            myWorker = (dNdActiveMove && (((AnchorPane)((ImageView) mouseEvent.getSource()).getParent()).getChildren().get(1).getId().equals("workerImageView")) && (i[0] == boardGridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent()) && (i[1] == boardGridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent()))));
+            int xToMove = GridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent());
+            int yToMove = GridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent());
+
+            int[] i = gui.getMyWorkerPosition(gui.getWorkerGender(xToMove, yToMove));
+            myWorker = (dNdActiveMove && (((AnchorPane)((ImageView) mouseEvent.getSource()).getParent()).getChildren().get(1).getId().equals("workerImageView")) && (i[0] == xToMove) && (i[1] == yToMove));
         }
 
         if((state.equals("worker") && ((ImageView) mouseEvent.getSource()).getId().equals("worker")) || (myWorker) || (dNdActiveBuild && gui.getSelectedWorker() != null && !(((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")))) {
@@ -337,11 +304,7 @@ public class GameController {
             source_pointer = test;
 
             Dragboard db = test.startDragAndDrop(TransferMode.MOVE);
-            /*
-            SnapshotParameters parameters = new SnapshotParameters();
-            parameters.setTransform(new Scale(0.0002,0.0002));
-            db.setDragView(test.snapshot(parameters, null));
-             */
+
             ClipboardContent content = new ClipboardContent();
             content.putImage(test.getImage());
             db.setContent(content);
@@ -360,7 +323,7 @@ public class GameController {
 
     //actually useless
 
-    public void notHihglightSquare(DragEvent dragEvent) { }
+    public void notHighlightSquare(DragEvent dragEvent) { }
 
     /**
      * When showInformationButton is clicked, informations about selected player is displayed
@@ -553,7 +516,7 @@ public class GameController {
     public Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
 
         for (Node node : gridPane.getChildren()) {
-            if (gridPane.getColumnIndex(node) == col &&  gridPane.getRowIndex(node) == row) {
+            if (GridPane.getColumnIndex(node) == col &&  GridPane.getRowIndex(node) == row) {
                 return node;
             }
         }
@@ -634,14 +597,18 @@ public class GameController {
                 builderWorker.setEffect(null);
 
             //check that I am selecting my worker
-            int[] i = gui.getMyWorkerPosition(gui.getWorkerGender(boardGridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent()), boardGridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent())));
-            boolean myWorker = ((((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")) && (i[0] == boardGridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent()) && (i[1] == boardGridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent()))));
+            int xToBuild = GridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent());
+            int yToBuild = GridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent());
+            int[] i = gui.getMyWorkerPosition(gui.getWorkerGender(xToBuild, yToBuild));
+            boolean myWorker = ((((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")) && (i[0] == xToBuild && (i[1] == yToBuild)));
 
             //if everything is true myWorker is true
             if(myWorker){
 
+                int selectedX = GridPane.getRowIndex(builderWorker.getParent());
+                int selectedY = GridPane.getColumnIndex(builderWorker.getParent());
                 builderWorker = ((ImageView) mouseEvent.getSource());
-                gui.setSelectedWorker(boardGridPane.getRowIndex(builderWorker.getParent()), boardGridPane.getColumnIndex(builderWorker.getParent()));
+                gui.setSelectedWorker(selectedX, selectedY);
 
                 int depth = 70;
                 borderGlow.setOffsetY(0f);
@@ -683,8 +650,6 @@ public class GameController {
          */
 
     }
-
-
 
 
     public void hideImageViews(){

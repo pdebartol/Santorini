@@ -46,7 +46,7 @@ public class ExtraMove extends PowerDecorator {
     public ArrayList<Error> checkMove(Worker w, int x, int y) {
         ArrayList<Error> errors = decoratedPower.checkMove(w, x, y);
         if (!errors.contains(Error.MOVES_EXCEEDED) && decoratedPower.getBoard().getNMoves() != 0 && notMoveBack) { // ExtraMove
-            if(w.getLastSquareMove().getXPosition() == x && w.getLastSquareMove().getYPosition() == x)
+            if(w.getLastSquareMove().getXPosition() == x && w.getLastSquareMove().getYPosition() == y)
                 errors.add(Error.EXTRA_MOVE_NOT_BACK);
         }
 
@@ -55,6 +55,22 @@ public class ExtraMove extends PowerDecorator {
             errors.remove(Error.MOVES_EXCEEDED);
 
         return errors;
+    }
+
+    /**
+     * This method overrides updateMove (PowerDecorator) and allows to modify nexStepIndication into xml request answer.
+     * @param w is the worker that moves
+     * @param x is the x square coordinate where the worker moves
+     * @param y is the y square coordinate where the worker moves
+     */
+
+    @Override
+    public void updateMove(Worker w, int x, int y){
+        decoratedPower.updateMove(w,x,y);
+        int cx = w.getCurrentSquare().getXPosition();
+        int cy = w.getCurrentSquare().getYPosition();
+        if(onPerimeter && (cx == 0 || cx == Board.SIZE-1 || cy == 0 || cy == Board.SIZE-1))
+            getBoard().getMsgContainer().nextStepIndication("move/build");
     }
 
 }
