@@ -40,7 +40,6 @@ public class EndGameController {
         this.gui = gui;
     }
 
-
     public void setGodImage(int godId){
         playerGodImageView.setImage(GuiManager.loadGod(godId));
     }
