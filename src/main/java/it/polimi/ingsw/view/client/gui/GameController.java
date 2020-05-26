@@ -229,12 +229,22 @@ public class GameController {
                         break;
                 }
 
+                //if a worker is selected by clicking on it (build before move case) now the worker for the build action is set
+                //this is do because of the possibility to change selected worker for the build action (only in build before move case)
+                if(builderWorker != null){
+                    int X = GridPane.getRowIndex(builderWorker.getParent());
+                    int Y = GridPane.getColumnIndex(builderWorker.getParent());
+                    gui.setSelectedWorker(X, Y);
+                }
+
+
                 if(gui.getSelectedWorker() != null) {
                     int xToBuild = GridPane.getRowIndex(((ImageView) dragEvent.getSource()).getParent());
                     int yToBuild = GridPane.getColumnIndex(((ImageView) dragEvent.getSource()).getParent());
                     System.out.println("selected worker:  " + gui.getSelectedWorker().getCurrentPosition().getX() + " " + gui.getSelectedWorker().getCurrentPosition().getY());
                     System.out.println("BUILD : " + xToBuild + " " + yToBuild);
                     gui.sendBuildRequest(gui.getSelectedWorker().getGender(), xToBuild, yToBuild, level);
+
                     //remove red circle around worker selected for build before move
                     if (builderWorker != null) {
                         builderWorker.setEffect(null);
@@ -303,12 +313,18 @@ public class GameController {
                 break;
 
             case "move":
-                if( dNdActiveMove && ((ImageView) mouseEvent.getSource()).getImage() != null && isMyWorker(mouseEvent))
+                int x = GridPane.getRowIndex(((ImageView) mouseEvent.getSource()).getParent());
+                int y = GridPane.getColumnIndex(((ImageView) mouseEvent.getSource()).getParent());
+
+                if( dNdActiveMove && ((ImageView) mouseEvent.getSource()).getImage() != null && isMyWorker(mouseEvent)){
+                    if (gui.getSelectedWorker() != null)
+                        return gui.getSelectedWorker().getGender().equals(gui.getWorkerGender(x, y));
                     return true;
+                }
                 break;
 
             case "build":
-                if( dNdActiveBuild &&  !(((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")) && gui.getSelectedWorker() != null )
+                if( dNdActiveBuild &&  !(((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")) && (gui.getSelectedWorker() != null || builderWorker != null) )
                     return true;
                 break;
 
@@ -413,7 +429,6 @@ public class GameController {
             currentPlayerId = players.size()-1;
         else
             currentPlayerId--;
-
 
         God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
         godName.setText(tempGod.getName());
@@ -536,7 +551,7 @@ public class GameController {
      * @param gridPane represents the GridPane
      * @param col represents the x
      * @param row represents the y
-     * @return
+     * @return the node or null if the node does not exists
      */
 
     public Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
@@ -615,21 +630,18 @@ public class GameController {
     public void buildAction(MouseEvent mouseEvent) {
 
         // first check
-        if(state.equals("build") && (((ImageView) mouseEvent.getSource()).getImage() != null)){
+        if(state.equals("build") && (((ImageView) mouseEvent.getSource()).getImage() != null && gui.getSelectedWorker() == null) ){
 
             //de-activate red circle around worker if another one was selected
             if(builderWorker != null)
                 builderWorker.setEffect(null);
 
-            boolean myWorker = ( (((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")) );
 
-            //if everything is true myWorker is true
+            boolean myWorker = ( (((ImageView) mouseEvent.getSource()).getId().equals("workerImageView")) && isMyWorker(mouseEvent));
+
             if(myWorker){
 
-                int selectedX = GridPane.getRowIndex(builderWorker.getParent());
-                int selectedY = GridPane.getColumnIndex(builderWorker.getParent());
                 builderWorker = ((ImageView) mouseEvent.getSource());
-                gui.setSelectedWorker(selectedX, selectedY);
 
                 int depth = 70;
                 borderGlow.setOffsetY(0f);
@@ -637,6 +649,7 @@ public class GameController {
                 borderGlow.setColor(javafx.scene.paint.Color.RED);
                 borderGlow.setWidth(depth);
                 borderGlow.setHeight(depth);
+
                 //set red circle around worker selected
                 builderWorker.setEffect(borderGlow);
             }
