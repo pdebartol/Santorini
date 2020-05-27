@@ -873,11 +873,6 @@ public class Gui extends View {
         return gameBoard.getSquareByCoordinates(x,y).getWorker().getGender();
     }
 
-    public void setSelectedWorker(int x, int y){
-        workerForThisTurnCoordinates[0] = x;
-        workerForThisTurnCoordinates[1] = y;
-    }
-
     public Worker getSelectedWorker(){
         if(workerForThisTurnCoordinates[0] != -1  && workerForThisTurnCoordinates[1] != -1)
             return gameBoard.getSquareByCoordinates(workerForThisTurnCoordinates[0],workerForThisTurnCoordinates[1]).getWorker();

@@ -21,6 +21,7 @@ public abstract class View {
     protected int myPort;
     protected List<God> gods;
 
+    //Turn support methods
     protected Worker removedWorker;
     protected int[] workerForThisTurnCoordinates;
 
