@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<AnchorPane prefHeight="540.0" prefWidth="960.0" styleClass="anchor" stylesheets="@../css/gameSceneStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.client.gui.GameController">
+   <children>
+      <GridPane fx:id="boardGridPane" alignment="CENTER" layoutX="271.0" layoutY="62.0" prefHeight="415.0" prefWidth="415.0" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="271.0" AnchorPane.rightAnchor="271.79999999999995" AnchorPane.topAnchor="62.0">
+         <columnConstraints>
+            <ColumnConstraints maxWidth="82.0" minWidth="64.0" prefWidth="82.0" />
+            <ColumnConstraints maxWidth="82.0" minWidth="64.0" prefWidth="82.0" />
+            <ColumnConstraints maxWidth="82.0" minWidth="64.0" prefWidth="82.0" />
+            <ColumnConstraints maxWidth="82.0" minWidth="64.0" prefWidth="82.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="82.0" minWidth="64.0" prefWidth="82.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="82.0" minHeight="64.0" prefHeight="82.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="82.0" minHeight="64.0" prefHeight="82.0" />
+            <RowConstraints maxHeight="82.0" minHeight="64.0" prefHeight="82.0" />
+            <RowConstraints maxHeight="82.0" minHeight="64.0" prefHeight="82.0" />
+            <RowConstraints maxHeight="82.0" minHeight="64.0" prefHeight="82.0" />
+         </rowConstraints>
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="0">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="3">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="64.0" fitWidth="64.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <children>
+                  <ImageView fx:id="levelImageView" fitHeight="82.0" fitWidth="82.0" mouseTransparent="true" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="workerImageView" fitHeight="82.0" fitWidth="82.0" nodeOrientation="INHERIT" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" onDragDropped="#acceptElement" onDragEntered="#highlightSquare" onDragExited="#notHighlightSquare" onDragOver="#highlightSquareOverMethod" onMouseClicked="#buildAction" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
