@@ -5,12 +5,16 @@ import it.polimi.ingsw.view.client.View;
 import it.polimi.ingsw.view.client.viewComponents.God;
 import it.polimi.ingsw.view.client.viewComponents.Player;
 import it.polimi.ingsw.view.client.viewComponents.Worker;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,10 +111,18 @@ public class Gui extends View {
 
     private boolean endGame = false;
 
+    /**
+     * Timer that disconnects the user for inactivity
+     */
+
+    public Timeline timer;
+
+
     public Gui (String ip, int port,Stage stage, Scene scene){
         super(ip,port);
         this.primaryStage = stage;
         this.initialScene = scene;
+        createTimer();
         initLoginUsername();
         initLoginWait();
         initPlayerOrderSelection();
@@ -220,7 +232,7 @@ public class Gui extends View {
             Parent root = loader.load();
             endGameScene = new Scene(root);
             endGameSceneController = loader.getController();
-            loginWaitController.setGui(this);
+            endGameSceneController.setGui(this);
         } catch (IOException e) {
             System.out.println("Could not initialize loginWait Scene");
         }
@@ -247,10 +259,11 @@ public class Gui extends View {
 
     @Override
     public void newGame() {
+
         Platform.runLater(
                 () -> {
+                    alertUser("New Game", "You are starting a new game!", Alert.AlertType.INFORMATION);
                     primaryStage.setScene(initialScene);
-                    primaryStage.show();
                 });
     }
 
@@ -303,6 +316,7 @@ public class Gui extends View {
 
     @Override
     public void selectGods() {
+        restartTimer();
         String infoMessage = "You are the challenger! Now you have to chose " + (players.size() + 1) + " Gods for this match!";
         isChallenger = true;
         Platform.runLater(
@@ -322,6 +336,7 @@ public class Gui extends View {
             sendChooseGodRequest(ids.get(0));
         }
         else{
+            restartTimer();
             Platform.runLater(
                     () -> {
                         List<God> visibleGods = getVisibleGods(ids);
@@ -339,6 +354,7 @@ public class Gui extends View {
 
     @Override
     public void selectStartingPlayer() {
+        restartTimer();
         Platform.runLater(
                 () -> {
                     playerOrderController.setInstructionLabel("Insert an existing username...");
@@ -353,6 +369,7 @@ public class Gui extends View {
 
     @Override
     public void setWorkerOnBoard(String gender, boolean rejectedBefore) {
+        restartTimer();
         if(!rejectedBefore){
             Platform.runLater(
                     () -> {
@@ -371,6 +388,7 @@ public class Gui extends View {
 
     @Override
     public void turn(String firstOperation) {
+        restartTimer();
         Platform.runLater(
                 () -> {
                     alertUser("Match Information", "It's your turn!", Alert.AlertType.INFORMATION);
@@ -433,7 +451,7 @@ public class Gui extends View {
 
         String playersInGame = myPlayer.getUsername();
         for (Player player : players)
-                playersInGame += (", ") + (player.getUsername());
+                playersInGame = playersInGame +  (", ") + (player.getUsername());
 
         String finalInfoMessage = infoMessage;
         String finalPlayersInGame = playersInGame;
@@ -460,6 +478,7 @@ public class Gui extends View {
 
     @Override
     public void showWaitMessage(String waitFor, String author) {
+        pauseTimer();
         switch (waitFor) {
             case "startMatch":
                  final String infoMatch = ("Waiting for " + author + "(creator)'s start game command...");
@@ -507,7 +526,7 @@ public class Gui extends View {
 
     @Override
     public void showGodsChoiceDone(ArrayList<Integer> ids) {
-
+        pauseTimer();
 
         String infoMessage = "\n You will receive the last god left after choosing the other players.";
 
@@ -525,7 +544,7 @@ public class Gui extends View {
 
         String infoMessage =(username) + (" has chosen the following gods : ") + (getGodById(ids.get(0)).getName());
         for(int i = 1; i < ids.size(); i++){
-            infoMessage +=  (", ") + (getGodById(ids.get(i)).getName());
+            infoMessage = infoMessage +   (", ") + (getGodById(ids.get(i)).getName());
         }
 
         String finalInfoMessage = infoMessage;
@@ -547,6 +566,7 @@ public class Gui extends View {
 
     @Override
     public void showMyGodSelected() {
+        pauseTimer();
         Platform.runLater(
                 () -> {
                     if(!isChallenger)
@@ -714,7 +734,7 @@ public class Gui extends View {
     public void showDisconnectionForInputExpiredTimeout() {
         Platform.runLater(
                 () -> {
-                    alertUser("Server Error", "The server disconnected!", Alert.AlertType.ERROR);
+                    alertUser("Server Error", "You were disconnected because the timeout expired!", Alert.AlertType.ERROR);
                     primaryStage.setScene(initialScene);
                 });
     }
@@ -724,9 +744,7 @@ public class Gui extends View {
         ArrayList<Player> tempPlayers = (ArrayList<Player>) players.clone();
         tempPlayers.add(myPlayer);
         Platform.runLater(
-                () -> {
-                    alertUser("Match Information", username+ " has lost!", Alert.AlertType.INFORMATION);
-                });
+                () -> alertUser("Match Information", username+ " has lost!", Alert.AlertType.INFORMATION));
     }
 
     @Override
@@ -753,11 +771,6 @@ public class Gui extends View {
                     primaryStage.show();
 
                 });
-
-    }
-
-    @Override
-    public void disconnectionForInputExpiredTimeout() {
 
     }
 
@@ -893,6 +906,14 @@ public class Gui extends View {
     }
 
 
+    public void createTimer(){
+        timer = new Timeline(new KeyFrame(
+                Duration.millis(180000),
+                ae -> clientHandler.disconnectionForTimeout()));
+    }
 
+
+    void restartTimer() { timer.stop(); timer.playFromStart(); }
+    void pauseTimer() { timer.pause(); }
 }
 

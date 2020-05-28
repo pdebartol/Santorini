@@ -97,12 +97,10 @@ public class GodSelectionController {
 
         if(gui.getIsChallenger()){
             gui.sendCreateGodsRequest((ArrayList<Integer>) gui.getSelectedGodsIds());
-            System.out.println(gui.getSelectedGodsIds());
 
         }
         else{
             gui.sendChooseGodRequest(gui.getUserSelectedGodId());
-            System.out.println(gui.getUserSelectedGodId());
 
         }
         confirmationImageViewButton.setDisable(true);
