@@ -592,13 +592,13 @@ public class Gui extends View {
                     //if(!isChallenger) players.add(myPlayer);
                     ArrayList<Player> tempPlayers = (ArrayList<Player>) players.clone();
                     tempPlayers.add(myPlayer);
-                    //gameSceneController.setPlayers(tempPlayers);
+                    gameSceneController.setPlayers(tempPlayers);
                     primaryStage.setScene(gameScene);
                     primaryStage.show();
-                    //if(username.equals(myPlayer.getUsername()))
-                      //  gameSceneController.setInstructionLabel(username + " You will be the starter player!");
-                   // else
-                    // gameSceneController.setInstructionLabel(username + " will be the starter player!");
+                    if(username.equals(myPlayer.getUsername()))
+                        gameSceneController.setInstructionLabel(username + " You will be the starter player!");
+                    else
+                     gameSceneController.setInstructionLabel(username + " will be the starter player!");
 
 
                 });

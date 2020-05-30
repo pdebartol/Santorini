@@ -194,12 +194,12 @@
             <Image url="@../graphics_resources/Sprite/Buttons/btn_end.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="250.0" fitWidth="200.0" layoutX="28.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="250.0" fitWidth="200.0" layoutX="29.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics_resources/Sprite/Cards/god_block.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="70.0" layoutX="77.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="godImage" fitHeight="140.0" fitWidth="97.0" layoutX="74.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics_resources/Sprite/godCards/01.png" />
          </image>
@@ -214,5 +214,16 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <ImageView fx:id="nextButton" fitHeight="50.0" fitWidth="150.0" layoutX="46.0" layoutY="385.0" onMousePressed="#onPressNextButton" onMouseReleased="#nextPlayer" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics_resources/Sprite/Buttons/btn_blue.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="showPlayer" fitHeight="50.0" fitWidth="150.0" layoutX="48.0" layoutY="438.0" onMousePressed="#onPressShowPlayer" onMouseReleased="#showPlayerInformation" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics_resources/Sprite/Buttons/btn_blue.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="68.0" layoutY="287.0" text="GodDescription" />
    </children>
 </AnchorPane>

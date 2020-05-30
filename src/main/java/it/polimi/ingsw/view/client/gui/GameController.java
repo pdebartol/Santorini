@@ -31,16 +31,13 @@ public class GameController {
     public ImageView imageToDrag;
     @FXML
     public Button showInformationButton;
+
     @FXML
     public Label playerName;
 
 
     @FXML
-    public Button nextButton;
-    @FXML
     public Label numberOfPlayer;
-    @FXML
-    public Button prevButton;
     @FXML
     public Label informationBox;
 
@@ -51,8 +48,6 @@ public class GameController {
     public ImageView buildButton;
     @FXML
     public Label godDescription;
-    @FXML
-    public Label godName;
     @FXML
     public ImageView godImage;
     @FXML
@@ -321,13 +316,11 @@ public class GameController {
     }
 
     @FXML
-    public void showOtherPlayerInformation(ActionEvent actionEvent) {
+    public void showPlayerInformation(ActionEvent actionEvent) {
         if (!showGod) {
             God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
-            godName.setText(tempGod.getName());
             godDescription.setText(tempGod.getDescription());
             godImage.setImage(GuiManager.loadGod(tempGod.getId()));
-            godName.setVisible(true);
             godImage.setVisible(true);
             godDescription.setVisible(true);
             showInformationButton.setText("Hide Informations");
@@ -354,7 +347,6 @@ public class GameController {
 
     private void getCurrentGod() {
         God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
-        godName.setText(tempGod.getName());
         godDescription.setText(tempGod.getDescription());
         godImage.setImage(GuiManager.loadGod(tempGod.getId()));
 
@@ -374,8 +366,8 @@ public class GameController {
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
-        numberOfPlayer.setText(currentPlayerId + 1 + " of " + players.size());
-        playerName.setText(players.get(currentPlayerId).getUsername());
+       // numberOfPlayer.setText(currentPlayerId + 1 + " of " + players.size());
+        //playerName.setText(players.get(currentPlayerId).getUsername());
     }
 
     public void setupWorker(String gender) {
@@ -385,13 +377,12 @@ public class GameController {
     }
 
     public void setInstructionLabel(String text) {
-        informationBox.setText(text);
+        //informationBox.setText(text);
     }
 
     public void hideGod() {
         godDescription.setVisible(false);
         godImage.setVisible(false);
-        godName.setVisible(false);
     }
 
     /**
@@ -621,5 +612,18 @@ public class GameController {
 
     public void doActionEndTurn(MouseEvent mouseEvent) {
         gui.sendEndOfTurnRequest();
+    }
+
+
+    public void onPressShowPlayer(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_end_pressed.png");
+        endTurnButton.setImage(updateButton);
+        endTurnButton.setDisable(true);
+    }
+
+    public void onPressNextButton(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_end_pressed.png");
+        endTurnButton.setImage(updateButton);
+        endTurnButton.setDisable(true);
     }
 }
