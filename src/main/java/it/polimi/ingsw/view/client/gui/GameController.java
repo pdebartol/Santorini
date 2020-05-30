@@ -33,6 +33,8 @@ public class GameController {
     public Button showInformationButton;
     @FXML
     public Label playerName;
+
+
     @FXML
     public Button nextButton;
     @FXML
@@ -41,10 +43,12 @@ public class GameController {
     public Button prevButton;
     @FXML
     public Label informationBox;
+
+
     @FXML
-    public ImageView blueButton;
+    public ImageView moveButton;
     @FXML
-    public ImageView redButton;
+    public ImageView buildButton;
     @FXML
     public Label godDescription;
     @FXML
@@ -57,6 +61,8 @@ public class GameController {
     public GridPane boardGridPane;
     @FXML
     public ImageView endTurnButton;
+
+
     @FXML
     public ImageView firstLevelImageView;
     @FXML
@@ -65,6 +71,7 @@ public class GameController {
     public ImageView thirdLevelImageView;
     @FXML
     public ImageView domeImageView;
+
 
     private Gui gui;
 
@@ -114,25 +121,25 @@ public class GameController {
         this.gui = gui;
     }
 
-    public void changeImageViewRedButton(MouseEvent mouseEvent) {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
-        redButton.setImage(updateButton);
-        redButton.setDisable(true);
+    public void onPressedBuildButton(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_build_pressed.png");
+        buildButton.setImage(updateButton);
+        buildButton.setDisable(true);
     }
 
-    public void doActionRedButton(MouseEvent mouseEvent) {
+    public void doActionBuild(MouseEvent mouseEvent) {
         dNdActiveBuild = true;
         state = "build";
         showImageViews();
     }
 
-    public void changeImageViewBlueButton(MouseEvent mouseEvent) {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed_move.png");
-        blueButton.setImage(updateButton);
-        blueButton.setDisable(true);
+    public void onPressedMoveButton(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_move_pressed.png");
+        moveButton.setImage(updateButton);
+        moveButton.setDisable(true);
     }
 
-    public void doActionBlueButton(MouseEvent mouseEvent) {
+    public void doActionMove(MouseEvent mouseEvent) {
         dNdActiveMove = true;
         state = "move";
 
@@ -181,7 +188,7 @@ public class GameController {
 
                 gui.sendMoveRequest(gui.getWorkerGender(selectedX, selectedY), newX, newY);
                 dNdActiveMove = false;
-                blueButton.setDisable(true);
+                moveButton.setDisable(true);
                 break;
 
             case "build":
@@ -212,7 +219,7 @@ public class GameController {
                     gui.sendBuildRequest(gui.getWorkerGender(startX,startY), xToBuild, yToBuild, level);
                 }
 
-                redButton.setDisable(true);
+                buildButton.setDisable(true);
                 hideImageViews();
                 dNdActiveBuild = false;
                 break;
@@ -341,6 +348,11 @@ public class GameController {
         else
             currentPlayerId++;
 
+        getCurrentGod();
+    }
+
+
+    private void getCurrentGod() {
         God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
         godName.setText(tempGod.getName());
         godDescription.setText(tempGod.getDescription());
@@ -357,13 +369,7 @@ public class GameController {
         else
             currentPlayerId--;
 
-        God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
-        godName.setText(tempGod.getName());
-        godDescription.setText(tempGod.getDescription());
-        godImage.setImage(GuiManager.loadGod(tempGod.getId()));
-
-        numberOfPlayer.setText(currentPlayerId + 1 + " of " + players.size());
-        playerName.setText(players.get(currentPlayerId).getUsername());
+        getCurrentGod();
     }
 
     public void setPlayers(ArrayList<Player> players) {
@@ -498,41 +504,41 @@ public class GameController {
         return null;
     }
 
-    public void hideBlueButton() {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_small_gray.png");
-        blueButton.setImage(updateButton);
-        blueButton.setDisable(true);
+    public void hideMoveButton() {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_move_inactive.png");
+        moveButton.setImage(updateButton);
+        moveButton.setDisable(true);
     }
 
-    public void showBlueButton() {
-        blueButton.setVisible(true);
-        blueButton.setDisable(false);
-        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_move.png");
-        blueButton.setImage(updateButton);
+    public void showMoveButton() {
+        moveButton.setVisible(true);
+        moveButton.setDisable(false);
+        Image updateButton = GuiManager.loadImage("Buttons/btn_move.png");
+        moveButton.setImage(updateButton);
     }
 
-    public void showRedButton() {
-        redButton.setVisible(true);
-        redButton.setDisable(false);
-        Image updateButton = GuiManager.loadImage("Buttons/btn_blue.png");
-        redButton.setImage(updateButton);
+    public void showBuildButton() {
+        buildButton.setVisible(true);
+        buildButton.setDisable(false);
+        Image updateButton = GuiManager.loadImage("Buttons/btn_build.png");
+        buildButton.setImage(updateButton);
     }
 
-    public void hideRedButton() {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_small_gray.png");
-        redButton.setImage(updateButton);
-        redButton.setDisable(true);
+    public void hideBuildButton() {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_build_inactive.png");
+        buildButton.setImage(updateButton);
+        buildButton.setDisable(true);
     }
 
     public void showEndButton() {
         endTurnButton.setVisible(true);
         endTurnButton.setDisable(false);
-        Image updateButton = GuiManager.loadImage("Buttons/btn_blue.png");
+        Image updateButton = GuiManager.loadImage("Buttons/btn_end.png");
         endTurnButton.setImage(updateButton);
     }
 
     public void hideEndButton() {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_small_gray.png");
+        Image updateButton = GuiManager.loadImage("Buttons/btn_end_inactive.png");
         endTurnButton.setImage(updateButton);
         endTurnButton.setDisable(true);
     }
@@ -607,13 +613,13 @@ public class GameController {
     }
 
 
-    public void changeImageViewEndButton(MouseEvent mouseEvent) {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
-        redButton.setImage(updateButton);
-        redButton.setDisable(true);
+    public void onPressedEndTurnButton(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_end_pressed.png");
+        endTurnButton.setImage(updateButton);
+        endTurnButton.setDisable(true);
     }
 
-    public void doActionEndButton(MouseEvent mouseEvent) {
+    public void doActionEndTurn(MouseEvent mouseEvent) {
         gui.sendEndOfTurnRequest();
     }
 }

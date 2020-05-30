@@ -206,16 +206,16 @@ public class Gui extends View {
 
     private void initGameScene(){
         try {
-            FXMLLoader loader = GuiManager.loadFXML("gameScene");
+            FXMLLoader loader = GuiManager.loadFXML("gameScene_02");
             Parent root = loader.load();
             gameScene = new Scene(root);
             gameSceneController = loader.getController();
             gameSceneController.setGui(this);
-            gameSceneController.hideGod();
-            gameSceneController.hideBlueButton();
-            gameSceneController.hideRedButton();
-            gameSceneController.hideEndButton();
-            gameSceneController.hideImageViews();
+           // gameSceneController.hideGod();
+            //gameSceneController.hideBlueButton();
+           // gameSceneController.hideRedButton();
+           // gameSceneController.hideEndButton();
+           // gameSceneController.hideImageViews();
         } catch (IOException e) {
             System.out.println("Could not initialize Game Scene");
         }
@@ -400,7 +400,7 @@ public class Gui extends View {
     public void move() {
         Platform.runLater(
                 () -> {
-                    gameSceneController.showBlueButton();
+                    gameSceneController.showMoveButton();
                     gameSceneController.setInstructionLabel("Please move your worker!" );
                 });
 
@@ -410,7 +410,7 @@ public class Gui extends View {
     public void build() {
         Platform.runLater(
                 () -> {
-                    gameSceneController.showRedButton();
+                    gameSceneController.showBuildButton();
                     gameSceneController.setInstructionLabel("Please build something!" );
                 });
 
@@ -420,8 +420,8 @@ public class Gui extends View {
     public void moveOrBuild() {
         Platform.runLater(
                 () -> {
-                    gameSceneController.showBlueButton();
-                    gameSceneController.showRedButton();
+                    gameSceneController.showMoveButton();
+                    gameSceneController.showBuildButton();
                     gameSceneController.setInstructionLabel("Please move your worker or build something!" );
                 });
     }
@@ -430,7 +430,7 @@ public class Gui extends View {
     public void buildOrEnd() {
         Platform.runLater(
                 () -> {
-                    gameSceneController.showRedButton();
+                    gameSceneController.showBuildButton();
                     gameSceneController.showEndButton();
                     gameSceneController.setInstructionLabel("Please build something or end your turn!" );
                 });
@@ -592,13 +592,13 @@ public class Gui extends View {
                     //if(!isChallenger) players.add(myPlayer);
                     ArrayList<Player> tempPlayers = (ArrayList<Player>) players.clone();
                     tempPlayers.add(myPlayer);
-                    gameSceneController.setPlayers(tempPlayers);
+                    //gameSceneController.setPlayers(tempPlayers);
                     primaryStage.setScene(gameScene);
                     primaryStage.show();
-                    if(username.equals(myPlayer.getUsername()))
-                        gameSceneController.setInstructionLabel(username + " You will be the starter player!");
-                    else
-                        gameSceneController.setInstructionLabel(username + " will be the starter player!");
+                    //if(username.equals(myPlayer.getUsername()))
+                      //  gameSceneController.setInstructionLabel(username + " You will be the starter player!");
+                   // else
+                    // gameSceneController.setInstructionLabel(username + " will be the starter player!");
 
 
                 });
@@ -621,8 +621,8 @@ public class Gui extends View {
     public void showMyTurnEnded() {
         Platform.runLater(
                 () -> {
-                    gameSceneController.hideRedButton();
-                    gameSceneController.hideBlueButton();
+                    gameSceneController.hideBuildButton();
+                    gameSceneController.hideMoveButton();
                     gameSceneController.hideEndButton();
                     gameSceneController.state = "wait";
                     alertUser("Match Information", "Your turn ended!", Alert.AlertType.INFORMATION);
@@ -906,6 +906,7 @@ public class Gui extends View {
     }
 
 
+
     public void createTimer(){
         timer = new Timeline(new KeyFrame(
                 Duration.millis(180000),
@@ -914,6 +915,7 @@ public class Gui extends View {
 
 
     void restartTimer() { timer.stop(); timer.playFromStart(); }
+
     void pauseTimer() { timer.pause(); }
 }
 
