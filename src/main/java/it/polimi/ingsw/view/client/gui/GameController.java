@@ -371,9 +371,9 @@ public class GameController {
     }
 
     public void setupWorker(String gender) {
-        worker.setImage(getWorkerImage(gui.getMyColor(), gender));
+        //worker.setImage(getWorkerImage(gui.getMyColor(), gender));
         workerGender = gender;
-        showInformationButton.setText("Show Information");
+        //showInformationButton.setText("Show Information");
     }
 
     public void setInstructionLabel(String text) {
