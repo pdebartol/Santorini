@@ -211,11 +211,11 @@ public class Gui extends View {
             gameScene = new Scene(root);
             gameSceneController = loader.getController();
             gameSceneController.setGui(this);
-           // gameSceneController.hideGod();
-            //gameSceneController.hideBlueButton();
-           // gameSceneController.hideRedButton();
-           // gameSceneController.hideEndButton();
-           // gameSceneController.hideImageViews();
+            gameSceneController.hideGod();
+            gameSceneController.hideMoveButton();
+            gameSceneController.hideBuildButton();
+            gameSceneController.hideEndButton();
+            gameSceneController.hideImageViews();
         } catch (IOException e) {
             System.out.println("Could not initialize Game Scene");
         }

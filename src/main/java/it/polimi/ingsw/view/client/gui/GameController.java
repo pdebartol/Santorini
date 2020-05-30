@@ -26,18 +26,12 @@ import java.util.ArrayList;
  */
 
 public class GameController {
-
     @FXML
-    public ImageView imageToDrag;
-    @FXML
-    public Button showInformationButton;
+    public ImageView showPlayer;
 
     @FXML
     public Label playerName;
 
-
-    @FXML
-    public Label numberOfPlayer;
     @FXML
     public Label informationBox;
 
@@ -66,6 +60,10 @@ public class GameController {
     public ImageView thirdLevelImageView;
     @FXML
     public ImageView domeImageView;
+
+    public ImageView godContainer;
+    public ImageView playerFlag;
+    public ImageView nextButton;
 
 
     private Gui gui;
@@ -316,17 +314,26 @@ public class GameController {
     }
 
     @FXML
-    public void showPlayerInformation(ActionEvent actionEvent) {
+    public void showPlayerInformation(MouseEvent mouseEvent) {
         if (!showGod) {
             God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
             godDescription.setText(tempGod.getDescription());
             godImage.setImage(GuiManager.loadGod(tempGod.getId()));
             godImage.setVisible(true);
             godDescription.setVisible(true);
-            showInformationButton.setText("Hide Informations");
+            godContainer.setVisible(true);
+            playerFlag.setVisible(true);
+            playerName.setVisible(true);
+            nextButton.setVisible(true);
+            nextButton.setDisable(false);
+            //if(gui.isMyPlayer(players.get(currentPlayerId))
+              //  playerFlag.setEffect(createDropShadow(javafx.scene.paint.Color.LIGHTYELLOW));
+            Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
+            showPlayer.setImage(updateButton);
             showGod = true;
         } else {
-            showInformationButton.setText("Show Informations");
+            Image updateButton = GuiManager.loadImage("Buttons/btn_blue.png");
+            showPlayer.setImage(updateButton);
             hideGod();
             showGod = false;
         }
@@ -335,7 +342,9 @@ public class GameController {
     }
 
     @FXML
-    public void nextPlayer(ActionEvent actionEvent) {
+    public void nextPlayer(MouseEvent actionEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_blue.png");
+        nextButton.setImage(updateButton);
         if (currentPlayerId >= players.size() - 1)
             currentPlayerId = 0;
         else
@@ -350,7 +359,7 @@ public class GameController {
         godDescription.setText(tempGod.getDescription());
         godImage.setImage(GuiManager.loadGod(tempGod.getId()));
 
-        numberOfPlayer.setText(currentPlayerId + 1 + " of " + players.size());
+        //numberOfPlayer.setText(currentPlayerId + 1 + " of " + players.size());
         playerName.setText(players.get(currentPlayerId).getUsername());
     }
 
@@ -366,12 +375,12 @@ public class GameController {
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
-       // numberOfPlayer.setText(currentPlayerId + 1 + " of " + players.size());
-        //playerName.setText(players.get(currentPlayerId).getUsername());
+        //numberOfPlayer.setText(currentPlayerId + 1 + " of " + players.size());
+        playerName.setText(players.get(currentPlayerId).getUsername());
     }
 
     public void setupWorker(String gender) {
-        //worker.setImage(getWorkerImage(gui.getMyColor(), gender));
+        worker.setImage(getWorkerImage(gui.getMyColor(), gender));
         workerGender = gender;
         //showInformationButton.setText("Show Information");
     }
@@ -383,6 +392,11 @@ public class GameController {
     public void hideGod() {
         godDescription.setVisible(false);
         godImage.setVisible(false);
+        godContainer.setVisible(false);
+        playerFlag.setVisible(false);
+        playerName.setVisible(false);
+        nextButton.setVisible(false);
+        nextButton.setDisable(true);
     }
 
     /**
@@ -616,14 +630,26 @@ public class GameController {
 
 
     public void onPressShowPlayer(MouseEvent mouseEvent) {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_end_pressed.png");
-        endTurnButton.setImage(updateButton);
-        endTurnButton.setDisable(true);
+        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
+        showPlayer.setImage(updateButton);
     }
 
     public void onPressNextButton(MouseEvent mouseEvent) {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_end_pressed.png");
-        endTurnButton.setImage(updateButton);
-        endTurnButton.setDisable(true);
+        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
+        nextButton.setImage(updateButton);
+    }
+
+
+
+    private DropShadow createDropShadow(javafx.scene.paint.Color c){
+        DropShadow borderGlow = new DropShadow();
+        borderGlow.setOffsetY(0f);
+        borderGlow.setOffsetX(0f);
+        borderGlow.setColor(c);
+        borderGlow.setWidth(70);
+        borderGlow.setHeight(70);
+
+        return borderGlow;
     }
 }
+

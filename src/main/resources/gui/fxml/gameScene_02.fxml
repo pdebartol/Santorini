@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -194,17 +195,17 @@
             <Image url="@../graphics_resources/Sprite/Buttons/btn_end.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="250.0" fitWidth="200.0" layoutX="29.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="godContainer" fitHeight="250.0" fitWidth="200.0" layoutX="29.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics_resources/Sprite/Cards/god_block.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="godImage" fitHeight="140.0" fitWidth="97.0" layoutX="74.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="godImage" fitHeight="140.0" fitWidth="100.0" layoutX="70.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics_resources/Sprite/godCards/01.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="68.0" fitWidth="179.0" layoutX="27.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="playerFlag" fitHeight="68.0" fitWidth="179.0" layoutX="27.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics_resources/Sprite/Cards/gameGodFrameName1.png" />
          </image>
@@ -219,12 +220,15 @@
             <Image url="@../graphics_resources/Sprite/Buttons/btn_blue.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="showPlayer" fitHeight="50.0" fitWidth="150.0" layoutX="34.0" layoutY="436.0" onMousePressed="#onPressShowPlayer" onMouseReleased="#showPlayerInformation" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="showPlayer" fitHeight="50.0" fitWidth="150.0" layoutX="34.0" layoutY="433.0" onMousePressed="#onPressShowPlayer" onMouseReleased="#showPlayerInformation" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics_resources/Sprite/Buttons/btn_blue.png" />
          </image>
       </ImageView>
-      <Label layoutX="68.0" layoutY="287.0" text="GodDescription" />
+      <Label fx:id="godDescription" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="242.0" prefHeight="89.0" prefWidth="126.0" text="GodDescdcdsdsdsdsription" textAlignment="CENTER">
+         <font>
+            <Font name="Helvetica Neue" size="18.0" />
+         </font></Label>
       <AnchorPane layoutX="746.0" layoutY="40.0" prefHeight="200.0" prefWidth="200.0">
          <children>
             <GridPane layoutY="55.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -282,5 +286,6 @@
             <ImageView fx:id="worker" fitHeight="67.0" fitWidth="62.0" layoutX="69.0" layoutY="7.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
+      <TextArea fx:id="godDescriptionText" layoutX="50.0" layoutY="220.0" prefHeight="100.0" prefWidth="100.0" stylesheets="@../css/gameSceneStyle.css" text="hhhhh" />
    </children>
 </AnchorPane>
