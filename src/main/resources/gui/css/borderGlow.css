@@ -1,0 +1,5 @@
+.anchorPane-level{
+    -fx-background-color: rgba(0,0,0,0.50);
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
+}
