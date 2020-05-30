@@ -1222,63 +1222,75 @@ public class Cli extends View {
 
     public void printBoard() {
 
+        /*
+
         //print Board frame
 
-        /*
-        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() - 1, Box.BOARD_START_LEFT.escape() - 2);
-
-        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_RIGHT.escape());
-        for (int i = 0; i < 8 * 5 + 4; i++) {
-            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
+        //print left border and horizontal lines
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape(), Box.BOARD_START_LEFT.escape());
+        System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_RIGHT.escape());
+        for (int i = 1; i < Box.SQUARE_VERTICAL_DIM.escape() * Box.SQUARE_DIMENSION.escape(); i++) {
             if(i % 8 == 0){
-                System.out.print(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_HORIZONTAL.escape() + Escapes.SAVE_CURSOR_POSITION.escape() + "\n");
-                for (int j = 0; j < 4 * 5 + 4; j++) {
-                    System.out.println(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
-                    System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() + i + 1);
-                    if(j % 4 == 0) {
+                System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_RAWINGS_LIGHT_VERTICAL_AND_RIGHT.escape());
+                for (int j = 1; j < Box.SQUARE_HORIZONTAL_DIM.escape() * Box.SQUARE_DIMENSION.escape() + Box.SQUARE_DIMENSION.escape(); j++) {
+                    if(j % 15 == 0)
+                        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL_AND_HORIZONTAL.escape());
+                    else
+                        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
+                }
+                System.out.print(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL_AND_LEFT.escape());
+            }
+            else {
+                System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
+            }
+        }
+
+        //print bottom border
+        System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_RIGHT.escape());
+        for (int i = 0; i < Box.SQUARE_HORIZONTAL_DIM.escape() * Box.SQUARE_DIMENSION.escape() + Box.SQUARE_DIMENSION.escape(); i++) {
+            if (i % 15 == 0)
+                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1);
+            else
+                System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
+        }
+
+        //print top border and vertical internal lines
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape(), Box.BOARD_START_LEFT.escape() + 1);
+        for (int i = 1; i < Box.SQUARE_HORIZONTAL_DIM.escape() * Box.SQUARE_DIMENSION.escape() + Box.SQUARE_DIMENSION.escape(); i++) {
+            if(i % 15 == 0){
+                System.out.println(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_HORIZONTAL.escape() + Escapes.SAVE_CURSOR_POSITION.escape());
+                for (int j = 1; j <= Box.SQUARE_VERTICAL_DIM.escape() * Box.SQUARE_DIMENSION.escape(); j++) {
+                    System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() + i - 1);
+                    if(j % 8 == 0)
                         System.out.println(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL_AND_HORIZONTAL.escape());
-                        System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() + i + 1);
-                    }
+                    else
+                        System.out.println(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
                 }
                 System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_HORIZONTAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
             }
-        }
-        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_LEFT.escape());
-
-        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape(), Box.BOARD_START_LEFT.escape() - 2);
-
-        for (int i = 0; i < 4 * 5 + 4; i++) {
-
-            if (i % 4 == 0){
-                System.out.print(Unicode.BOX_RAWINGS_LIGHT_VERTICAL_AND_RIGHT.escape());
-                for (int j = 0; j < 8 * 5 + 4; j++) {
-                    System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
-                    if(j % 8 == 0)
-                        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL_AND_HORIZONTAL.escape());
-                }
-                System.out.println(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL_AND_LEFT.escape());
-            }
-
             else
-                System.out.println(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
-
-            System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() - 2);
+                System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
         }
 
-        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_RIGHT.escape());
-
-        for (int i = 0; i < 8 * 5 + 4; i++) {
-            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
-            if(i % 8 == 0 )
-                System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_HORIZONTAL.escape());
+        //print right border
+        System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_LEFT.escape());
+        for (int i = 1; i < Box.SQUARE_VERTICAL_DIM.escape() * Box.SQUARE_DIMENSION.escape(); i++) {
+            if(i % 8 == 0) {
+                System.out.print(Escapes.RESTORE_CURSOR_POSITION.escape());
+                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
+            }
+            else{
+                System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
+            }
         }
-
         System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_LEFT.escape());
+
         */
-
-
-
-
         //print 1,2,3,4,5 vertical board reference
         for (int i = Board.DIMENSION, j = 0; i > 0; i--, j += Box.SQUARE_DIMENSION.escape()) {
             System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() + j + 2, Box.BOARD_START_LEFT.escape() - 3);
@@ -1298,6 +1310,8 @@ public class Cli extends View {
             System.out.print(ColorCode.ANSI_RESET.escape());
             System.out.print("   " + j);
         }
+
+
 
     }
 
