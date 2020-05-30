@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -18,6 +20,8 @@ import java.io.IOException;
 
 public class GuiManager extends Application {
 
+    public static ExecutorService executor;
+
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -26,9 +30,11 @@ public class GuiManager extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        executor = Executors.newCachedThreadPool();
         stage.setOnCloseRequest(event -> {
             Platform.exit();
             System.exit(0);
+            executor.shutdown();
         });
     }
 

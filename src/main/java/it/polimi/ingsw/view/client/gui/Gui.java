@@ -589,9 +589,8 @@ public class Gui extends View {
     public void showStartingPlayer(String username) {
         Platform.runLater(
                 () -> {
-                    //if(!isChallenger) players.add(myPlayer);
                     ArrayList<Player> tempPlayers = (ArrayList<Player>) players.clone();
-                    tempPlayers.add(myPlayer);
+                    tempPlayers.add(0, myPlayer);
                     gameSceneController.setPlayers(tempPlayers);
                     primaryStage.setScene(gameScene);
                     primaryStage.show();
@@ -917,5 +916,9 @@ public class Gui extends View {
     void restartTimer() { timer.stop(); timer.playFromStart(); }
 
     void pauseTimer() { timer.pause(); }
+
+    boolean isMyPlayer(Player p){
+        return myPlayer.getUsername().equals(p.getUsername());
+    }
 }
 

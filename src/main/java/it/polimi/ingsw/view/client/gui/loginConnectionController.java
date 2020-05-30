@@ -41,12 +41,10 @@ public class loginConnectionController {
             notifyInvalidPort();
         }
         else {
-            new Thread(() -> {
+            GuiManager.executor.submit( new Thread(() -> {
                 Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()), (Stage) connectButton.getScene().getWindow(), connectButton.getScene());
                 gui.start();
-            }) {{
-                start();
-            }};
+            }));
         }
 
     }

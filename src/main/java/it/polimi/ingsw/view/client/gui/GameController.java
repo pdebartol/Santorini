@@ -64,6 +64,7 @@ public class GameController {
     public ImageView godContainer;
     public ImageView playerFlag;
     public ImageView nextButton;
+    public AnchorPane blocksContainer;
 
 
     private Gui gui;
@@ -181,7 +182,7 @@ public class GameController {
 
                 gui.sendMoveRequest(gui.getWorkerGender(selectedX, selectedY), newX, newY);
                 dNdActiveMove = false;
-                moveButton.setDisable(true);
+                hideMoveButton();
                 break;
 
             case "build":
@@ -212,7 +213,7 @@ public class GameController {
                     gui.sendBuildRequest(gui.getWorkerGender(startX,startY), xToBuild, yToBuild, level);
                 }
 
-                buildButton.setDisable(true);
+                hideBuildButton();
                 hideImageViews();
                 dNdActiveBuild = false;
                 break;
@@ -316,9 +317,7 @@ public class GameController {
     @FXML
     public void showPlayerInformation(MouseEvent mouseEvent) {
         if (!showGod) {
-            God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
-            godDescription.setText(tempGod.getDescription());
-            godImage.setImage(GuiManager.loadGod(tempGod.getId()));
+            getCurrentGod();
             godImage.setVisible(true);
             godDescription.setVisible(true);
             godContainer.setVisible(true);
@@ -326,8 +325,6 @@ public class GameController {
             playerName.setVisible(true);
             nextButton.setVisible(true);
             nextButton.setDisable(false);
-            //if(gui.isMyPlayer(players.get(currentPlayerId))
-              //  playerFlag.setEffect(createDropShadow(javafx.scene.paint.Color.LIGHTYELLOW));
             Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
             showPlayer.setImage(updateButton);
             showGod = true;
@@ -358,9 +355,11 @@ public class GameController {
         God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
         godDescription.setText(tempGod.getDescription());
         godImage.setImage(GuiManager.loadGod(tempGod.getId()));
-
-        //numberOfPlayer.setText(currentPlayerId + 1 + " of " + players.size());
         playerName.setText(players.get(currentPlayerId).getUsername());
+        if(gui.isMyPlayer(players.get(currentPlayerId)))
+            playerFlag.setEffect(createDropShadow(javafx.scene.paint.Color.LIGHTGOLDENRODYELLOW));
+        else
+            playerFlag.setEffect(null);
     }
 
     @FXML
@@ -608,6 +607,7 @@ public class GameController {
         secondLevelImageView.setVisible(false);
         thirdLevelImageView.setVisible(false);
         domeImageView.setVisible(false);
+        blocksContainer.setVisible(false);
     }
 
     public void showImageViews() {
@@ -615,6 +615,7 @@ public class GameController {
         secondLevelImageView.setVisible(true);
         thirdLevelImageView.setVisible(true);
         domeImageView.setVisible(true);
+        blocksContainer.setVisible(true);
     }
 
 
@@ -651,5 +652,6 @@ public class GameController {
 
         return borderGlow;
     }
+
 }
 

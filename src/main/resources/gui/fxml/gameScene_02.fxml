@@ -211,7 +211,7 @@
       </ImageView>
       <Label fx:id="playerName" alignment="CENTER" layoutX="80.0" layoutY="40.0" prefHeight="31.0" prefWidth="68.0" text="Label" textFill="WHITE">
          <font>
-            <Font size="18.0" />
+            <Font name="Marker Felt Thin" size="16.0" />
          </font>
       </Label>
       <ImageView fx:id="nextButton" fitHeight="50.0" fitWidth="150.0" layoutX="34.0" layoutY="383.0" onMousePressed="#onPressNextButton" onMouseReleased="#nextPlayer" pickOnBounds="true" preserveRatio="true">
@@ -224,11 +224,11 @@
             <Image url="@../graphics_resources/Sprite/Buttons/btn_blue.png" />
          </image>
       </ImageView>
-      <Label fx:id="godDescription" alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="273.0" prefHeight="58.0" prefWidth="144.0" text="GodDescription" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="godDescription" alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="273.0" prefHeight="58.0" prefWidth="144.0" text="GodDescription" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
-            <Font size="8.0" />
+            <Font name="Marker Felt Thin" size="10.0" />
          </font></Label>
-      <AnchorPane layoutX="746.0" layoutY="40.0" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-level" stylesheets="@../css/borderGlow.css">
+      <AnchorPane fx:id="blocksContainer" layoutX="746.0" layoutY="5.0" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-level" stylesheets="@../css/borderGlow.css">
          <children>
             <GridPane layoutY="55.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
@@ -282,7 +282,7 @@
       </AnchorPane>
       <AnchorPane layoutX="746.0" layoutY="229.0" prefHeight="82.0" prefWidth="200.0">
          <children>
-            <ImageView fx:id="worker" fitHeight="67.0" fitWidth="62.0" layoutX="69.0" layoutY="7.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="worker" fitHeight="67.0" fitWidth="62.0" layoutX="69.0" layoutY="21.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
    </children>
