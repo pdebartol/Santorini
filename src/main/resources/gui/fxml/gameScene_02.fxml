@@ -204,12 +204,12 @@
             <Image url="@../graphics_resources/Sprite/godCards/01.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="playerFlag" fitHeight="68.0" fitWidth="179.0" layoutX="27.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="playerFlag" fitHeight="68.0" fitWidth="179.0" layoutX="20.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics_resources/Sprite/Cards/gameGodFrameName1.png" />
          </image>
       </ImageView>
-      <Label fx:id="playerName" alignment="CENTER" layoutX="80.0" layoutY="40.0" prefHeight="31.0" prefWidth="68.0" text="Label" textFill="WHITE">
+      <Label fx:id="playerName" alignment="CENTER" layoutX="75.0" layoutY="39.0" prefHeight="31.0" prefWidth="68.0" text="Label" textFill="WHITE">
          <font>
             <Font name="Marker Felt Thin" size="16.0" />
          </font>
@@ -224,9 +224,9 @@
             <Image url="@../graphics_resources/Sprite/Buttons/btn_blue.png" />
          </image>
       </ImageView>
-      <Label fx:id="godDescription" alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="273.0" prefHeight="58.0" prefWidth="144.0" text="GodDescription" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label fx:id="godDescription" alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="273.0" prefHeight="58.0" prefWidth="144.0" text="GodDescription" textAlignment="CENTER" wrapText="true">
          <font>
-            <Font name="Marker Felt Thin" size="10.0" />
+            <Font size="7.0" />
          </font></Label>
       <AnchorPane fx:id="blocksContainer" layoutX="746.0" layoutY="5.0" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane-level" stylesheets="@../css/borderGlow.css">
          <children>
@@ -280,9 +280,9 @@
             </GridPane>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="746.0" layoutY="229.0" prefHeight="82.0" prefWidth="200.0">
+      <AnchorPane layoutX="746.0" layoutY="229.0" prefHeight="82.0" prefWidth="200.0" styleClass="anchorPane-level" stylesheets="@../css/borderGlow.css">
          <children>
-            <ImageView fx:id="worker" fitHeight="67.0" fitWidth="62.0" layoutX="69.0" layoutY="21.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="worker" fitHeight="67.0" fitWidth="62.0" layoutX="69.0" layoutY="11.0" onDragDetected="#startChangingPosition" onDragDone="#removeWorkerDragged" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
    </children>
