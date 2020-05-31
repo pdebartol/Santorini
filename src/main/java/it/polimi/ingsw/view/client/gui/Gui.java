@@ -391,8 +391,9 @@ public class Gui extends View {
         restartTimer();
         Platform.runLater(
                 () -> {
-                    alertUser("Match Information", "It's your turn!", Alert.AlertType.INFORMATION);
                     nextOperation(firstOperation);
+                    gameSceneController.setState("start");
+                    gameSceneController.updateBoard(gameBoard);
                 });
     }
 
@@ -401,7 +402,7 @@ public class Gui extends View {
         Platform.runLater(
                 () -> {
                     gameSceneController.showMoveButton();
-                    gameSceneController.setInstructionLabel("Please move your worker!" );
+                    gameSceneController.setInstructionLabel("Please move one of your workers!" );
                 });
 
     }
@@ -422,7 +423,7 @@ public class Gui extends View {
                 () -> {
                     gameSceneController.showMoveButton();
                     gameSceneController.showBuildButton();
-                    gameSceneController.setInstructionLabel("Please move your worker or build something!" );
+                    gameSceneController.setInstructionLabel("Please move one of your workers or select one of your workers and build something!" );
                 });
     }
 
@@ -624,7 +625,6 @@ public class Gui extends View {
                     gameSceneController.hideMoveButton();
                     gameSceneController.hideEndButton();
                     gameSceneController.state = "wait";
-                    alertUser("Match Information", "Your turn ended!", Alert.AlertType.INFORMATION);
                 });
     }
 
@@ -905,6 +905,16 @@ public class Gui extends View {
     }
 
 
+
+    public boolean isMyWorker(int x, int y){
+        Worker maleWorker = myPlayer.getWorkerByGender("male");
+        Worker femaleWorker = myPlayer.getWorkerByGender("female");
+        if(maleWorker != null && maleWorker.getCurrentPosition().getX() == x && maleWorker.getCurrentPosition().getY() == y)
+            return true;
+        if(femaleWorker != null && femaleWorker.getCurrentPosition().getX() == x && femaleWorker.getCurrentPosition().getY() == y)
+            return true;
+        return false;
+    }
 
     public void createTimer(){
         timer = new Timeline(new KeyFrame(

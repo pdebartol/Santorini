@@ -1,10 +1,7 @@
 package it.polimi.ingsw.view.client.gui;
 
 import it.polimi.ingsw.model.enums.Color;
-import it.polimi.ingsw.view.client.viewComponents.Board;
-import it.polimi.ingsw.view.client.viewComponents.God;
-import it.polimi.ingsw.view.client.viewComponents.Player;
-import it.polimi.ingsw.view.client.viewComponents.Square;
+import it.polimi.ingsw.view.client.viewComponents.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -127,18 +124,24 @@ public class GameController {
         showImageViews();
     }
 
+    public void doActionMove(MouseEvent mouseEvent) {
+        dNdActiveMove = true;
+        state = "move";
+        //Yellow
+    }
+
+    public void doActionEndTurn(MouseEvent mouseEvent) {
+        gui.sendEndOfTurnRequest();
+    }
+
+
     public void onPressedMoveButton(MouseEvent mouseEvent) {
         Image updateButton = GuiManager.loadImage("Buttons/btn_move_pressed.png");
         moveButton.setImage(updateButton);
         moveButton.setDisable(true);
     }
 
-    public void doActionMove(MouseEvent mouseEvent) {
-        dNdActiveMove = true;
-        state = "move";
 
-        //Yellow
-    }
 
     public void restoreImage() {
         source_pointer.setImage(source.getImage());
@@ -302,19 +305,6 @@ public class GameController {
 
     }
 
-    //actually useless
-
-    @FXML
-    public void highlightSquare(DragEvent dragEvent) {
-    }
-
-    //actually useless
-
-    @FXML
-    public void notHighlightSquare(DragEvent dragEvent) {
-    }
-
-    @FXML
     public void showPlayerInformation(MouseEvent mouseEvent) {
         if (!showGod) {
             getCurrentGod();
@@ -338,7 +328,6 @@ public class GameController {
 
     }
 
-    @FXML
     public void nextPlayer(MouseEvent actionEvent) {
         Image updateButton = GuiManager.loadImage("Buttons/btn_blue.png");
         nextButton.setImage(updateButton);
@@ -362,7 +351,6 @@ public class GameController {
             playerFlag.setEffect(null);
     }
 
-    @FXML
     public void showPrevPlayer(ActionEvent actionEvent) {
         if (currentPlayerId == 0)
             currentPlayerId = players.size() - 1;
@@ -374,18 +362,16 @@ public class GameController {
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
-        //numberOfPlayer.setText(currentPlayerId + 1 + " of " + players.size());
         playerName.setText(players.get(currentPlayerId).getUsername());
     }
 
     public void setupWorker(String gender) {
         worker.setImage(getWorkerImage(gui.getMyColor(), gender));
         workerGender = gender;
-        //showInformationButton.setText("Show Information");
     }
 
     public void setInstructionLabel(String text) {
-        //informationBox.setText(text);
+        informationBox.setText(text);
     }
 
     public void hideGod() {
@@ -436,7 +422,17 @@ public class GameController {
 
             if (square.getWorker() != null) {
                 Image workerImage = getWorkerImage(square.getWorker().getColor(), square.getWorker().getGender());
-                ((ImageView) anchorPane.getChildren().get(1)).setImage(workerImage);
+                ImageView worker =   ((ImageView) anchorPane.getChildren().get(1));
+                worker.setImage(workerImage);
+                if((state.equals("move") || state.equals("build") || state.equals("start")) && gui.isMyWorker(x,y)){
+                    Worker selectedWorker = gui.getSelectedWorker();
+                    if(selectedWorker == null || (selectedWorker.getCurrentPosition().getX() == x && selectedWorker.getCurrentPosition().getY() == y))
+                        worker.setEffect(createDropShadow(javafx.scene.paint.Color.YELLOW));
+                    else
+                        worker.setEffect(null);
+
+
+                }
             } else {
                 ((ImageView) anchorPane.getChildren().get(1)).setImage(null);
             }
@@ -625,10 +621,6 @@ public class GameController {
         endTurnButton.setDisable(true);
     }
 
-    public void doActionEndTurn(MouseEvent mouseEvent) {
-        gui.sendEndOfTurnRequest();
-    }
-
 
     public void onPressShowPlayer(MouseEvent mouseEvent) {
         Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
@@ -641,6 +633,11 @@ public class GameController {
     }
 
 
+    /**
+     * This method creates a border glow effect that we use to highlight elements on the board
+     * @param c shadow's color
+     * @return  dropshadow effect
+     */
 
     private DropShadow createDropShadow(javafx.scene.paint.Color c){
         DropShadow borderGlow = new DropShadow();
@@ -652,6 +649,19 @@ public class GameController {
 
         return borderGlow;
     }
+
+    private void getWorkerAndHighlight(int x, int y){
+        if(x != -1 && y  != -1){
+            AnchorPane square =  (AnchorPane) getNodeFromGridPane(boardGridPane, y, x);
+            ImageView maleWorker = (ImageView) square.getChildren().get(1);
+            maleWorker.setEffect(createDropShadow(javafx.scene.paint.Color.YELLOW));
+        }
+    }
+
+    public void setState(String state){
+        this.state = state;
+    }
+
 
 }
 
