@@ -392,8 +392,6 @@ public class Gui extends View {
         Platform.runLater(
                 () -> {
                     nextOperation(firstOperation);
-                    gameSceneController.setState("start");
-                    gameSceneController.updateBoard(gameBoard);
                 });
     }
 
@@ -625,6 +623,7 @@ public class Gui extends View {
                     gameSceneController.hideMoveButton();
                     gameSceneController.hideEndButton();
                     gameSceneController.state = "wait";
+                    gameSceneController.updateBoard(gameBoard);
                 });
     }
 

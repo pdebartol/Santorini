@@ -15,7 +15,7 @@ public abstract class View {
     //attributes
     protected Player myPlayer;
     protected ArrayList<Player> players;
-    protected Board gameBoard;
+    public Board gameBoard;
     protected EchoClient clientHandler;
     protected String myIp;
     protected int myPort;
