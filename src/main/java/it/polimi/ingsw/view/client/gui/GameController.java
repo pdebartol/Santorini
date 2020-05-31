@@ -292,6 +292,7 @@ public class GameController {
 
             ImageView test = ((ImageView) mouseEvent.getSource());
 
+
             source = new ImageView(((ImageView) mouseEvent.getSource()).getImage());
             source_pointer = test;
 
@@ -299,6 +300,7 @@ public class GameController {
             ClipboardContent content = new ClipboardContent();
             content.putImage(test.getImage());
             db.setContent(content);
+            //db.setDragView(test.getImage());
             mouseEvent.consume();
 
         }

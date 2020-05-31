@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 /**
  * This class creates the primary Stage and starts the GUI
  * @author pierobartolo & aledimaio
@@ -27,6 +26,7 @@ public class GuiManager extends Application {
     public void start(Stage stage) throws IOException {
         Parent root =  loadFXML("loginConnection").load();
         stage.setTitle("AM10 Santorini");
+        stage.getIcons().add(new Image("/gui/graphics_resources/Sprite/cm_boardgame.png"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
