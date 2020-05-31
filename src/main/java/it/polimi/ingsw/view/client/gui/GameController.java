@@ -79,6 +79,8 @@ public class GameController {
     private ImageView destination;
     private ImageView destination_pointer;
 
+
+
     //constructors
 
     public GameController(){
@@ -127,6 +129,7 @@ public class GameController {
     public void doActionMove(MouseEvent mouseEvent) {
         dNdActiveMove = true;
         state = "move";
+        updateBoard(gui.gameBoard);
         //Yellow
     }
 
@@ -428,11 +431,10 @@ public class GameController {
                     Worker selectedWorker = gui.getSelectedWorker();
                     if(selectedWorker == null || (selectedWorker.getCurrentPosition().getX() == x && selectedWorker.getCurrentPosition().getY() == y))
                         worker.setEffect(createDropShadow(javafx.scene.paint.Color.YELLOW));
-                    else
-                        worker.setEffect(null);
-
 
                 }
+                else
+                    worker.setEffect(null);
             } else {
                 ((ImageView) anchorPane.getChildren().get(1)).setImage(null);
             }
@@ -656,6 +658,16 @@ public class GameController {
             ImageView maleWorker = (ImageView) square.getChildren().get(1);
             maleWorker.setEffect(createDropShadow(javafx.scene.paint.Color.YELLOW));
         }
+    }
+
+
+    public void highlightWorkers(){
+        int[] maleWorker = gui.getMyWorkerPosition("male");
+        int[] femaleWorker = gui.getMyWorkerPosition("female");
+        if(maleWorker[0] != -1 && maleWorker[1] != -1)
+            getWorkerAndHighlight(maleWorker[0],maleWorker[1]);
+        if(femaleWorker[0] != -1 && femaleWorker[1] != -1)
+            getWorkerAndHighlight(femaleWorker[0],femaleWorker[1]);
     }
 
     public void setState(String state){
