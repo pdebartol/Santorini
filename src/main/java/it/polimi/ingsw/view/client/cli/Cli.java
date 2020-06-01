@@ -1389,6 +1389,7 @@ public class Cli extends View {
 
         }
 
+            System.out.print(ColorCode.WHITE.escape());
             System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
             setBackgroundColor(square);
             System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + square.getLevel());
