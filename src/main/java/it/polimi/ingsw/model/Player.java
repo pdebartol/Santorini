@@ -55,14 +55,8 @@ public class Player implements PropertyChangeListener {
 
     //methods
 
-    /**
-     * This is a particular setter. It makes God immutable, once set god, player can't change it.
-     * @param g is the god player want to use
-     */
-
     public void setGod(God g){
-        if(god == null)
-            this.god = g;
+        this.god = g;
     }
 
     public String getUsername(){
@@ -283,8 +277,6 @@ public class Player implements PropertyChangeListener {
             Worker w = (Worker) evt.getOldValue();
             workers.remove(w);
             w.removePropertyChangeListener(this);
-            //TODO: notify to view that a worker was removed
-            //TODO: notify to view if this player has no worker (he loses)
         }
     }
 

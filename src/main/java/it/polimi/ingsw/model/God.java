@@ -9,13 +9,15 @@ public class God  {
 
     //attributes
 
+    private final Integer id;
     private final String name;
     private final String description;
     private  Power power;
 
     //constructors
 
-    public God(String name, String description, Power power) {
+    public God(Integer id,String name, String description, Power power) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.power = power;
@@ -26,6 +28,8 @@ public class God  {
     public void setPower(Power power) {
         this.power = power;
     }
+
+    public Integer getId(){return id;}
 
     public String getName() {
         return name;

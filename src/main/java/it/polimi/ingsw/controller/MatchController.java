@@ -33,6 +33,8 @@ public class MatchController implements ControllerInterface {
 
     HashMap<Integer,God> selectedGods;
 
+    GodsFactory factory;
+
     ViewInterface viewInterface;
 
     public MatchController(){
@@ -99,7 +101,7 @@ public class MatchController implements ControllerInterface {
         if(!playerController.getChallengerUsername().equals(playerUsername)) errors.add(Error.SETUP_IS_NOT_CHALLENGER);
         if(errors.isEmpty()){
             try {
-                GodsFactory factory = new GodsFactory(gameBoard);
+                factory = new GodsFactory(gameBoard);
                 ArrayList<God> temp_gods = factory.getGods(godIds);
                 for (int i = 0; i < godIds.size(); i++) {
                     selectedGods.put(godIds.get(i), temp_gods.get(i));
@@ -260,7 +262,9 @@ public class MatchController implements ControllerInterface {
             if(errors.isEmpty() && viewInterface != null){
                 if(playerController.getNumberOfPlayers() == 3){
                     if (viewInterface != null) viewInterface.match3PlayerLose(currentPlayer.getUsername());
+                    System.out.println("GINOSOSOSSOO");
                     playerController.removeCurrentPlayer();
+                    on3PlayerLoser();
                     playerController.nextTurn();
                     if (viewInterface != null) sendNextToDoTurn();
                 }
@@ -348,20 +352,28 @@ public class MatchController implements ControllerInterface {
             if(playerController.getNextPlayer().possibleOperation().equals("blocked")){
                 if(playerController.getNumberOfPlayers() == 3){
                     if (viewInterface != null) viewInterface.match3PlayerLose(playerController.getNextPlayer().getUsername());
+                    playerController.removeNextPlayer();
+                    on3PlayerLoser();
                 }
                 else{
                     // notify that match is finished and next player loses -> there are only 2 players so currentPlayer is the winner
                     if (viewInterface != null) viewInterface.match2PlayerLose(currentPlayer.getUsername());
                 }
-                playerController.removeNextPlayer();
             }
-
             playerController.nextTurn();
         }
         //player cannot end his turn
         else
             errors.add(Error.INGAME_CANNOT_END_TURN);
         return Collections.unmodifiableList(errors);
+    }
+
+    //TODO : javadoc
+
+    private void on3PlayerLoser() {
+        List<God> regeneratedGods = factory.getGods(new ArrayList<>(Arrays.asList(playerController.getCurrentPlayer().getGod().getId(), playerController.getNextPlayer().getGod().getId())));
+        playerController.getCurrentPlayer().setGod(regeneratedGods.get(0));
+        playerController.getNextPlayer().setGod(regeneratedGods.get(1));
     }
 
     //Message management methods

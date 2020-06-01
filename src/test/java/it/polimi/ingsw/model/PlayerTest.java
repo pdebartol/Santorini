@@ -37,9 +37,9 @@ class PlayerTest {
 
         b = new Board();
 
-        p1.setGod(new God("Standard","Santorini standard rules",new StandardPower(1,1,b)));
-        p2.setGod(new God("Standard","Santorini standard rules",new StandardPower(1,1,b)));
-        p3.setGod(new God("Standard","Santorini standard rules",new StandardPower(1,1,b)));
+        p1.setGod(new God(0,"Standard","Santorini standard rules",new StandardPower(1,1,b)));
+        p2.setGod(new God(0,"Standard","Santorini standard rules",new StandardPower(1,1,b)));
+        p3.setGod(new God(0,"Standard","Santorini standard rules",new StandardPower(1,1,b)));
 
         // p1 sets workers
         p1.getWorkers().get(0).setWorkerOnBoard(b.getSquare(0,0));
@@ -52,14 +52,6 @@ class PlayerTest {
         // p3 sets workers
         p3.getWorkers().get(0).setWorkerOnBoard(b.getSquare(0,2));
         p3.getWorkers().get(1).setWorkerOnBoard(b.getSquare(2,2));
-    }
-
-    @Test
-    void checkSetGod(){
-        //check that i can't change god during the game
-        p1.setGod(new God("new","-",new NoWinPerimeter(new StandardPower(1,1,b))));
-        assertEquals("Standard", p1.getGod().getName());
-        assertEquals(StandardPower.class, p1.getGod().getPower().getClass());
     }
 
     /**
