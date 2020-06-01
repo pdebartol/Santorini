@@ -432,7 +432,9 @@ public class GameController {
                 if((state.equals("move") || state.equals("build") || state.equals("start")) && gui.isMyWorker(x,y)){
                     Worker selectedWorker = gui.getSelectedWorker();
                     if(selectedWorker == null || (selectedWorker.getCurrentPosition().getX() == x && selectedWorker.getCurrentPosition().getY() == y))
-                        worker.setEffect(createDropShadow(javafx.scene.paint.Color.YELLOW));
+                        worker.setEffect(createDropShadow(javafx.scene.paint.Color.BLUE));
+                    else
+                        worker.setEffect(null);
 
                 }
                 else
@@ -658,7 +660,7 @@ public class GameController {
         if(x != -1 && y  != -1){
             AnchorPane square =  (AnchorPane) getNodeFromGridPane(boardGridPane, y, x);
             ImageView maleWorker = (ImageView) square.getChildren().get(1);
-            maleWorker.setEffect(createDropShadow(javafx.scene.paint.Color.YELLOW));
+            maleWorker.setEffect(createDropShadow(javafx.scene.paint.Color.BLUE));
         }
     }
 

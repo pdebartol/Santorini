@@ -278,7 +278,7 @@
       </AnchorPane>
       <AnchorPane layoutX="746.0" layoutY="218.0" prefHeight="100.0" prefWidth="200.0" styleClass="anchorPane-level" stylesheets="@../css/borderGlow.css">
          <children>
-            <Label fx:id="informationBox" alignment="CENTER" contentDisplay="CENTER" prefHeight="100.0" prefWidth="200.0" text="Info Box" textFill="WHITE" wrapText="true">
+            <Label fx:id="informationBox" alignment="CENTER" contentDisplay="CENTER" prefHeight="100.0" prefWidth="200.0" text="Info Box" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font size="11.0" />
                </font>

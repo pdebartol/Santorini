@@ -400,7 +400,7 @@ public class Gui extends View {
         Platform.runLater(
                 () -> {
                     gameSceneController.showMoveButton();
-                    gameSceneController.setInstructionLabel("Please move one of your workers!" );
+                    gameSceneController.setInstructionLabel("You have to move!" );
                 });
 
     }
@@ -410,7 +410,7 @@ public class Gui extends View {
         Platform.runLater(
                 () -> {
                     gameSceneController.showBuildButton();
-                    gameSceneController.setInstructionLabel("Please build something!" );
+                    gameSceneController.setInstructionLabel("You have to build!" );
                 });
 
     }
@@ -431,7 +431,7 @@ public class Gui extends View {
                 () -> {
                     gameSceneController.showBuildButton();
                     gameSceneController.showEndButton();
-                    gameSceneController.setInstructionLabel("Please build something or end your turn!" );
+                    gameSceneController.setInstructionLabel("You can build or end your turn!" );
                 });
     }
 
@@ -440,8 +440,8 @@ public class Gui extends View {
         String infoMessage = "Hi " + myPlayer.getUsername() + ", you're in!\n";
 
         if (players.size() == 0){
-            infoMessage += " You're the creator of this match, so you will decide "+
-                    "when to start the game. You can either start it when another player logs in or wait for a third player.\n"
+            infoMessage += " You're the creator of this match, so you will decide when to start the game.\n"
+                    + "You can either start it when another player logs in or wait for a third player.\n"
                     + "The moment the third player logs in you can start the game, which will still start automatically after 2 minutes "
                     + "from the login of the third player.";
         }
@@ -495,7 +495,7 @@ public class Gui extends View {
                 break;
             case "choseStartingPlayer":
                 Platform.runLater(
-                        () -> godSelectionController.setInstructionLabel(author + " is choosing a the starter player..."));
+                        () -> godSelectionController.setInstructionLabel(author + " is choosing the starter player..."));
                 break;
             case "setupMaleWorkerOnBoard":
                 Platform.runLater(
@@ -527,7 +527,7 @@ public class Gui extends View {
     public void showGodsChoiceDone(ArrayList<Integer> ids) {
         pauseTimer();
 
-        String infoMessage = "\n You will receive the last god left after choosing the other players.";
+        String infoMessage = "\nYou will receive the last god left after choosing the other players.";
 
         Platform.runLater(
                 () -> godSelectionController.setInstructionLabel(infoMessage));

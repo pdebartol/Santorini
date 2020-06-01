@@ -21,7 +21,7 @@ public class CanMoveUp extends PowerDecorator implements PropertyChangeListener 
 
     public CanMoveUp(Power p, BlockMoveUp bmu) {
         super(p);
-        moveUp = true;
+        moveUp = !bmu.getBlock();
         bmu.addPropertyChangeListener(this);
     }
 

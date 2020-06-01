@@ -1681,7 +1681,7 @@ public class Cli extends View {
 
             if(startCoordinates != null) {
 
-                String inputCoordinates = null;
+                String inputCoordinates;
                 int[] coordinates;
 
                 do {

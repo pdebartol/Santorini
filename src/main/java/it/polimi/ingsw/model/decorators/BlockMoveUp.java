@@ -18,11 +18,14 @@ public class BlockMoveUp extends PowerDecorator {
     //attributes
     private final PropertyChangeSupport support;
 
+    private boolean block;
+
     //constructors
 
     public BlockMoveUp(Power p) {
         super(p);
         this.support = new PropertyChangeSupport(this);
+        block = false;
     }
 
 
@@ -39,14 +42,20 @@ public class BlockMoveUp extends PowerDecorator {
     public void updateMove(Worker w, int x, int y){
         if(w.getCurrentSquare().getLevel() < getBoard().getSquare(x,y).getLevel()){
             support.firePropertyChange("moved_up", true,false); // notifies CanMoveUp of the move
+            block = true;
         }
         else{
             support.firePropertyChange("moved_up", false,true); // notifies CanMoveUp of the move
+            block = false;
         }
         decoratedPower.updateMove(w,x,y);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         support.addPropertyChangeListener(pcl);
+    }
+
+    public boolean getBlock(){
+        return block;
     }
 }
