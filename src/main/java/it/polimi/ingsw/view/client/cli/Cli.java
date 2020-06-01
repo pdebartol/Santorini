@@ -1220,28 +1220,27 @@ public class Cli extends View {
 
     //Board methods
 
-    public void printBoard() {
-
-        /*
+    private void printBoardFrame(){
 
         //print Board frame
+
+        System.out.print(ColorCode.WHITE.escape() + ColorCode.ANSI_BLACK.escape());
 
         //print left border and horizontal lines
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape(), Box.BOARD_START_LEFT.escape());
         System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_RIGHT.escape());
-        for (int i = 1; i < Box.SQUARE_VERTICAL_DIM.escape() * Box.SQUARE_DIMENSION.escape(); i++) {
-            if(i % (Box.SQUARE_VERTICAL_DIM.escape() + 1) == 0){
+        for (int i = 1; i < Box.SQUARE_VERTICAL_DIM.escape() * Box.SQUARE_DIMENSION.escape() + Box.SQUARE_DIMENSION.escape(); i++) {
+            if (i % (Box.SQUARE_VERTICAL_DIM.escape() + 1) == 0) {
                 System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_RAWINGS_LIGHT_VERTICAL_AND_RIGHT.escape());
                 for (int j = 1; j < Box.SQUARE_HORIZONTAL_DIM.escape() * Box.SQUARE_DIMENSION.escape() + Box.SQUARE_DIMENSION.escape(); j++) {
-                    if(j % (Box.SQUARE_HORIZONTAL_DIM.escape() + 1) == 0)
+                    if (j % (Box.SQUARE_HORIZONTAL_DIM.escape() + 1) == 0)
                         System.out.print(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL_AND_HORIZONTAL.escape());
                     else
                         System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
                 }
                 System.out.print(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL_AND_LEFT.escape());
-            }
-            else {
+            } else {
                 System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
             }
@@ -1250,7 +1249,7 @@ public class Cli extends View {
         //print bottom border
         System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
         System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_RIGHT.escape());
-        for (int i = 1; i < Box.SQUARE_HORIZONTAL_DIM.escape() * Box.SQUARE_DIMENSION.escape() + Box.SQUARE_DIMENSION.escape() - 1; i++) {
+        for (int i = 1; i < Box.SQUARE_HORIZONTAL_DIM.escape() * Box.SQUARE_DIMENSION.escape() + Box.SQUARE_DIMENSION.escape(); i++) {
             if (i % (Box.SQUARE_HORIZONTAL_DIM.escape() + 1) == 0)
                 System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1);
             else
@@ -1260,60 +1259,58 @@ public class Cli extends View {
         //print top border and vertical internal lines
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape(), Box.BOARD_START_LEFT.escape() + 1);
         for (int i = 1; i < Box.SQUARE_HORIZONTAL_DIM.escape() * Box.SQUARE_DIMENSION.escape() + Box.SQUARE_DIMENSION.escape(); i++) {
-            if(i % (Box.SQUARE_HORIZONTAL_DIM.escape() + 1) == 0){
+            if (i % (Box.SQUARE_HORIZONTAL_DIM.escape() + 1) == 0) {
                 System.out.println(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_HORIZONTAL.escape() + Escapes.SAVE_CURSOR_POSITION.escape());
-                for (int j = 1; j <= Box.SQUARE_VERTICAL_DIM.escape() * Box.SQUARE_DIMENSION.escape(); j++) {
+                for (int j = 1; j < Box.SQUARE_VERTICAL_DIM.escape() * Box.SQUARE_DIMENSION.escape() + Box.SQUARE_DIMENSION.escape(); j++) {
                     System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() + i - 1);
-                    if(j % (Box.SQUARE_VERTICAL_DIM.escape() + 1) == 0)
+                    if (j % (Box.SQUARE_VERTICAL_DIM.escape() + 1) == 0)
                         System.out.println(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL_AND_HORIZONTAL.escape());
                     else
                         System.out.println(Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
                 }
+                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() + i - 1);
                 System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_HORIZONTAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
-            }
-            else
+            } else
                 System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
         }
 
         //print right border
         System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_LEFT.escape());
-        for (int i = 1; i < Box.SQUARE_VERTICAL_DIM.escape() * Box.SQUARE_DIMENSION.escape(); i++) {
-            if(i % (Box.SQUARE_VERTICAL_DIM.escape() + 1) == 0) {
-                System.out.print(Escapes.RESTORE_CURSOR_POSITION.escape());
-                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
-            }
-            else{
-                System.out.print(Escapes.RESTORE_CURSOR_POSITION.escape());
-                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
-            }
+        for (int i = 1; i < Box.SQUARE_VERTICAL_DIM.escape() * Box.SQUARE_DIMENSION.escape() + Box.SQUARE_DIMENSION.escape(); i++) {
+            if (i % (Box.SQUARE_VERTICAL_DIM.escape() + 1) == 0)
+                System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape() + Escapes.SAVE_CURSOR_POSITION.escape(), 1);
+            else
+                System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape() + Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape(), 1);
         }
-        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_LEFT.escape());
-        */
+        System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape() + Unicode.BOX_DRAWINGS_LIGHT_UP_AND_LEFT.escape(), 1);
 
+        System.out.print(ColorCode.ANSI_RESET.escape());
+
+    }
+
+    public void printBoard() {
+
+        printBoardFrame();
 
         //print 1,2,3,4,5 vertical board reference
-        for (int i = Board.DIMENSION, j = 0; i > 0; i--, j += Box.SQUARE_DIMENSION.escape()) {
-            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() + j + 2, Box.BOARD_START_LEFT.escape() - 3);
+        for (int i = Board.DIMENSION, j = 0; i > 0; i--, j += Box.SQUARE_VERTICAL_DIM.escape() + 1) {
+            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() + j + 2, Box.BOARD_START_LEFT.escape() - 1);
             System.out.printf("%d", i - 1);
         }
 
         //This cycle prints 0,0 position in the left-bottom corner
 
-        for (int x = 0, i = 0, j = 0; x < Board.DIMENSION; x++, i += Box.SQUARE_HORIZONTAL_DIM.escape(), j++) {
-            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape(), Box.BOARD_START_LEFT.escape() + i - 1);
+        for (int x = 0, i = 1, j = 0; x < Board.DIMENSION; x++, i += Box.SQUARE_HORIZONTAL_DIM.escape() + 1, j++) {
+            System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() + 1, Box.BOARD_START_LEFT.escape() + i);
             for (int y = Board.DIMENSION - 1; y > -1; y--) {
                 drawSquare(x, y);
-                System.out.print("\n");
-                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() + i - 2);
+                System.out.println("\n");
+                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() + i - 1);
             }
             //print 1,2,3,4,5 horizontal board reference
             System.out.print(ColorCode.ANSI_RESET.escape());
             System.out.print("   " + j);
         }
-
-
 
     }
 
@@ -1343,66 +1340,46 @@ public class Cli extends View {
 
     public void drawSquare(int x, int y) {
 
+
         Square square = gameBoard.getSquareByCoordinates(x, y);
-
-        //change color of single square based on level of square
-
+        
         System.out.print(ColorCode.ANSI_BLACK.escape());
 
         setBackgroundColor(square);
 
-        System.out.print(ColorCode.WHITE.escape());
-        System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_RIGHT.escape());
-        for (int i = 0; i < Box.SQUARE_HORIZONTAL_DIM.escape() - 2; i++) {
-            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
-        }
-        System.out.print(Unicode.BOX_DRAWINGS_LIGHT_DOWN_AND_LEFT.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
-        setBackgroundColor(square);
-        System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
-
-
         if (square.getWorker() != null) {
             if(square.getWorker().getGender().equals("male")) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + " " + Unicode.WORKER_MALE_ICON.escape() + " " );
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() +Color.getColorCodeByColor(square.getWorker().getColor()).escape() + " " + Unicode.WORKER_MALE_ICON.escape() + " " );
                 setBackgroundColor(square);
-                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN5.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
             if(square.getWorker().getGender().equals("female")) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + " " + Unicode.WORKER_FEMALE_ICON.escape() + " " );
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() +Color.getColorCodeByColor(square.getWorker().getColor()).escape() + " " + Unicode.WORKER_FEMALE_ICON.escape() + " " );
                 setBackgroundColor(square);
-                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN5.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
-                setBackgroundColor(square);
-                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN2.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+            for (int i = 0; i < 3; i++) {
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
+            }
 
-        } else {
-            for (int i = 0; i < 2; i++) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
-                setBackgroundColor(square);
-                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN2.escape() + ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
+        }
+        else {
+            for (int i = 0; i < 4; i++) {
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
+                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
 
         }
 
-            System.out.print(ColorCode.WHITE.escape());
-            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape());
-            setBackgroundColor(square);
-            System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + square.getLevel());
-            System.out.print(ColorCode.WHITE.escape() + Unicode.BOX_DRAWINGS_LIGHT_VERTICAL.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
-            System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
-
-            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_RIGHT.escape());
-            for (int i = 0; i < Box.SQUARE_HORIZONTAL_DIM.escape() - 2; i++) {
-                System.out.print(Unicode.BOX_DRAWINGS_LIGHT_HORIZONTAL.escape());
-            }
-            System.out.print(Unicode.BOX_DRAWINGS_LIGHT_UP_AND_LEFT.escape());
+            System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + square.getLevel());
 
             System.out.print(ColorCode.ANSI_RESET.escape());
+
 
     }
 
