@@ -1,21 +1,19 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.msgUtilities.client.MsgInParser;
+import it.polimi.ingsw.msgUtilities.client.RequestMsgWriter;
 import it.polimi.ingsw.network.MsgSender;
 import it.polimi.ingsw.network.XMLInputStream;
 import it.polimi.ingsw.view.client.View;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.net.SocketException;
 
 
 /**
@@ -54,6 +52,17 @@ public class EchoClient {
 
         initializeClientConnection();
 
+        //This is the ping received timeout.
+        //If in 3 seconds client doesn't receive a ping message from server, the connection is declared dropped.
+        try {
+            server.setSoTimeout(3000);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+
+        //The ping process start if game is not playing on the same machine.
+        if(!server.getInetAddress().getHostAddress().equals("127.0.0.1")) new Thread(this::pingServer).start();
+
         if(server != null)
             try {
                 InputStream in = server.getInputStream();
@@ -61,11 +70,13 @@ public class EchoClient {
                 while(!server.isClosed()) {
                     receiveXML(in);
 
-                    if(isDisconnectionMessage()){
-                        break;
-                    }else{
-                        processMsg();
-                    }
+                    //If the message is not a ping message, processing of the message begins.
+                    if(!isPingMsg())
+                        if(isDisconnectionMessage()){
+                            break;
+                        }else{
+                            processMsg();
+                        }
                 }
 
                 in.close();
@@ -117,6 +128,14 @@ public class EchoClient {
     }
 
     /**
+     * This method verifies if the request mode is "ping"
+     * @return true -> "ping" request mode
+     *         false -> not "ping" request mode
+     */
+
+    private boolean isPingMsg(){return new MsgInParser(msgIn,view).parsePing();}
+
+    /**
      * This method start a server message processing in client. It uses a MsgInParser to start this process.
      */
 
@@ -124,7 +143,10 @@ public class EchoClient {
         new MsgInParser(msgIn,view).parseIncomingMessage();
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to send server a message
+     * @param msg is the XML document to send
+     */
 
     public void sendMsg(Document msg){
         new MsgSender(server,msg).sendMsg();
@@ -163,6 +185,8 @@ public class EchoClient {
         view.showDisconnectionForInputExpiredTimeout();
     }
 
+    //TODO : javadoc
+
     public void disconnectionForLobbyNoLongerAvailable(){
         try {
             server.close();
@@ -172,7 +196,21 @@ public class EchoClient {
         view.showDisconnectionForLobbyNoLongerAvailable();
     }
 
+    /**
+     * This is an asynchronous method that send a ping message every 1,5 seconds.
+     */
 
+    public void pingServer(){
+        do{
+            try {
+                Thread.sleep(1500);
+                new MsgSender(server,new RequestMsgWriter().pingMsg()).sendMsg();
+            } catch (InterruptedException ignored) {
+            }
+        }while(!server.isClosed());
+
+        Thread.currentThread().interrupt();
+    }
 
 
 }

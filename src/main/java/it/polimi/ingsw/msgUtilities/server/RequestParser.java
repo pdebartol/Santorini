@@ -114,6 +114,11 @@ public class RequestParser {
         return false;
     }
 
+    public boolean parsePing(){
+        String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
+        return mode.equals("ping");
+    }
+
     /**
      * This methods uses XPath expressions to find nodes in xml documents
      * @param xpathExpression is the expression that identifies the node in the document

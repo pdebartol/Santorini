@@ -48,6 +48,17 @@ public class MsgInParser {
         return false;
     }
 
+    //TODO : javadoc
+
+    public boolean parsePing(){
+        String answerType = document.getFirstChild().getNodeName();
+        if(answerType.equals("UpdateMsg")){
+            String mode = Objects.requireNonNull(evaluateXPath("/UpdateMsg/Mode/text()")).get(0);
+            return mode.equals("ping");
+        }
+        return false;
+    }
+
     public void parseIncomingMessage(){
         String answerType = document.getFirstChild().getNodeName();
 

@@ -53,7 +53,6 @@ public class RequestMsgWriter {
         return builder.parse(stream);
     }
 
-
     private void setStandardRequestValues(String user,String mod){
         Node mode = document.getElementsByTagName("Mode").item(0);
         Node username = document.getElementsByTagName("Username").item(0);
@@ -168,6 +167,12 @@ public class RequestMsgWriter {
 
     public Document endRequest(String user){
         setStandardRequestValues(user,"end");
+
+        return document;
+    }
+
+    public Document pingMsg(){
+        setStandardRequestValues("null","ping");
 
         return document;
     }

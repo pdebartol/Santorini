@@ -79,6 +79,13 @@ public class EchoServer implements ClientDisconnectionListener{
         System.out.println("Server socket ready on port: " + port);
     }
 
+    /**
+     * This method searches a free lobby for the new connected client.
+     * If there is a free lobby it inserts it in this lobby, otherwise it creates a new one of which this
+     * client becomes its creator.
+     * @param client is the new client's socket.
+     */
+
     public void findAMatch(Socket client){
         boolean matchFind = false;
         for (VirtualView v : lobbies){
@@ -89,6 +96,7 @@ public class EchoServer implements ClientDisconnectionListener{
             }
         }
 
+        //The server have to create a new lobby because there isn't a free one.
         if(!matchFind){
             System.out.println("Server creates a new lobby...");
             VirtualView v = new VirtualView(new MatchController(),this, lobbies.size() + 1);
@@ -105,12 +113,20 @@ public class EchoServer implements ClientDisconnectionListener{
     @Override
     public void onClientDown(VirtualView v) {
         System.out.println("Lobby number " + (lobbies.indexOf(v) + 1) + " deleted!");
+
         lobbies.remove(v);
     }
+
+    /**
+     * This method is called when the match have to finish. It provides to visualize a message on the server and to
+     * delete the lobby where the match was evolving.
+     * @param v is the lobby's virtualView
+     */
 
     @Override
     public void onMatchFinish(VirtualView v){
         System.out.println("\nLobby number " + (lobbies.indexOf(v) + 1) + " deleted!");
+
         lobbies.remove(v);
     }
 }
