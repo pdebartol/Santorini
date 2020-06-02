@@ -38,11 +38,14 @@ public class MsgSender {
 
                 OutputStream out = socket.getOutputStream();
 
+                //Create an XMLOutputStream object.
+                //After uploading the document to be sent, this object is used to send the message on the network.
                 XMLOutputStream xmlOut = new XMLOutputStream(out);
 
                 StreamResult streamResult = new StreamResult(xmlOut);
                 DOMSource domSource = new DOMSource(msgOut);
 
+                //Uploading the document to be sent
                 try {
                     Transformer tf = TransformerFactory.newInstance().newTransformer();
                     tf.transform(domSource, streamResult);

@@ -60,7 +60,6 @@ public class EchoClient {
             e.printStackTrace();
         }
 
-        //The ping process start if game is not playing on the same machine.
         new Thread(this::pingServer).start();
 
         if(server != null)
@@ -81,6 +80,7 @@ public class EchoClient {
 
                 in.close();
             }catch (IOException | SAXException | ParserConfigurationException e){
+                //Server disconnection manager
                 if (!server.isClosed()) serverDisconnection();
             }
     }
@@ -152,7 +152,10 @@ public class EchoClient {
         new MsgSender(server,msg).sendMsg();
     }
 
-    //TODO : javadoc
+    /**
+     * This method is called when the server isn't reachable (socket timeout over or IOException).
+     * It provides to close the server socket and to notify the view of this event.
+     */
 
     public void serverDisconnection(){
         try {
@@ -163,7 +166,10 @@ public class EchoClient {
         view.showServerDisconnection();
     }
 
-    //TODO : javadoc
+    /**
+     * This method is called when the server notifies the client that another client in the game has disconnected.
+     * It provides to close the server socket and to notify the view of this event.
+     */
 
     public void anotherClientDisconnection(){
         try {
@@ -174,7 +180,10 @@ public class EchoClient {
         view.showAnotherClientDisconnection();
     }
 
-    //TODO : javadoc
+    /**
+     * This method is called when the user does not perform an action within a set time.
+     * It provides to close the server socket and to notify the view of this event.
+     */
 
     public void disconnectionForTimeout(){
         try {
@@ -185,7 +194,12 @@ public class EchoClient {
         view.showDisconnectionForInputExpiredTimeout();
     }
 
-    //TODO : javadoc
+
+    /**
+     * This method is called when the server notifies the client that the lobby where he was is no longer available
+     * (3 players logged in or game started)
+     * It provides to close the server socket and to notify the view of this event.
+     */
 
     public void disconnectionForLobbyNoLongerAvailable(){
         try {

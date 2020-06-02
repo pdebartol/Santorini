@@ -55,6 +55,10 @@ public class Player implements PropertyChangeListener {
 
     //methods
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public void setGod(God g){
         this.god = g;
     }
@@ -67,13 +71,20 @@ public class Player implements PropertyChangeListener {
         return workers;
     }
 
+    /**
+     * This method provides to return the player's worker of this gender
+     * @param workerGender worker's gender
+     * @return the worker the caller is looking for
+     */
+
     public Worker getWorkerByGender(String workerGender){
         for(Worker w: workers){
             if(w.getGender().equals(workerGender)){
                 return w;
             }
         }
-        throw new IllegalArgumentException("Wrong gender as argument!");    }
+        throw new IllegalArgumentException("Wrong gender as argument!");
+    }
 
 
     public Worker getActiveWorker(){
@@ -278,9 +289,5 @@ public class Player implements PropertyChangeListener {
             workers.remove(w);
             w.removePropertyChangeListener(this);
         }
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 }
