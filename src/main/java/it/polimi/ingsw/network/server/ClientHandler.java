@@ -58,8 +58,7 @@ public class ClientHandler implements Runnable{
             e.printStackTrace();
         }
 
-        //The ping process start if game is not playing on the same machine.
-        if(!client.getInetAddress().getHostAddress().equals("127.0.0.1")) new Thread(this::pingClient).start();
+        new Thread(this::pingClient).start();
 
         //The client is added to the wait list
         virtualView.addInWaitList(client);

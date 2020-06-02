@@ -28,12 +28,11 @@ public interface ControllerInterface {
      List<Error> onPlayerEndTurn(String playerUsername);
      State getGameState();
 
+     // virtual view interaction methods
      void setViewInterface(ViewInterface viewInterface);
-
      void sendAnswerMoveAccepted(String playerUsername);
      void sendAnswerBuildAccepted(String playerUsername);
      void sendAnswerEndOfTurnAccepted(String playerUsername);
-
      void sendNextToDoChoseGod();
      void sendNextToDoChoseStartingPlayer();
      void sendNextToDoSetupWorkerOnBoard(String gender);

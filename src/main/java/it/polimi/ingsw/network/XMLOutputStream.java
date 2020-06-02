@@ -20,7 +20,7 @@ public class XMLOutputStream extends ByteArrayOutputStream {
     }
 
     /**
-     * This method allows to send an XML from connection.
+     * This method allows to send an XML through the socket connection.
      * @throws IOException if an I/O error occurs.
      */
 
