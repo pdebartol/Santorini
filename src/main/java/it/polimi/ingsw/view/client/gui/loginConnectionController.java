@@ -6,7 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
@@ -22,7 +25,10 @@ public class loginConnectionController {
     @FXML
     public TextField ipAddress;
     @FXML
-    private Button connectButton;
+    ImageView  connect;
+
+    @FXML
+    AnchorPane ap;
 
 
 
@@ -32,7 +38,7 @@ public class loginConnectionController {
      */
 
     @FXML
-    public void connection(ActionEvent actionEvent) {
+    public void onReleaseConnection(MouseEvent mouseEvent) {
         String ip = getIpAddress();
         String port = getPort();
         if(!InputValidator.validateIP(ip)){
@@ -43,10 +49,13 @@ public class loginConnectionController {
         }
         else {
             GuiManager.executor.submit( new Thread(() -> {
-                Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()), (Stage) connectButton.getScene().getWindow(), connectButton.getScene());
+                Gui gui = new Gui(getIpAddress(), Integer.parseInt(getPort()), (Stage) ap.getScene().getWindow(), ap.getScene());
                 gui.start();
             }));
         }
+        Image updateButton = GuiManager.loadImage("Buttons/btn_connect.png");
+        connect.setImage(updateButton);
+        connect.setDisable(false);
 
     }
 
@@ -81,8 +90,14 @@ public class loginConnectionController {
         alert.showAndWait();
     }
 
-    public void changeButtonImageView(MouseEvent mouseEvent) {
+    public void onPressedConnection(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_connect_pressed.png");
+        connect.setImage(updateButton);
+        connect.setDisable(true);
     }
+
+
+
 }
 
 

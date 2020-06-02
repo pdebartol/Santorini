@@ -124,7 +124,6 @@ public class Gui extends View {
         this.initialScene = scene;
         createTimer();
         initLoginUsername();
-        initLoginWait();
         initPlayerOrderSelection();
         initGameScene();
         initEndGame();
@@ -160,6 +159,7 @@ public class Gui extends View {
                         loginWaitController.setGui(this);
                         loginWaitController.hideStartButton();
                         loginWaitController.hideWaitButton();
+                        loginWaitController.setMyPlayerUsername(myPlayer.getUsername());
                     } catch (IOException e) {
                         System.out.println("Could not initialize loginWait Scene");
                     }
@@ -295,7 +295,7 @@ public class Gui extends View {
     public void startMatch() {
         String infoMessage;
         if (players.size() == 1) {
-            infoMessage = "You are currently 2 players in the game, enter \"s\" to start the game now or \"w\" to wait for a third player!";
+            infoMessage = "You are currently 2 players in the game, press start to start the game now or wait to wait for a third player!";
             Platform.runLater(
                     () -> {
                         loginWaitController.showStartButton();
@@ -304,10 +304,12 @@ public class Gui extends View {
                     });
 
         } else {
-            infoMessage = "You are currently 3 players in the game, press enter to start the game now! The match will automatically start in 2 minutes";
+            //TODO two minutes timeout to strt
+            infoMessage = "You are currently 3 players in the game, press start now!";
             Platform.runLater(
                     () -> {
                         loginWaitController.hideWaitButton();
+                        loginWaitController.showStartButton();
                         loginWaitController.setInformationBox(infoMessage);
                     });
 
@@ -390,9 +392,7 @@ public class Gui extends View {
     public void turn(String firstOperation) {
         restartTimer();
         Platform.runLater(
-                () -> {
-                    nextOperation(firstOperation);
-                });
+                () -> nextOperation(firstOperation));
     }
 
     @Override
@@ -437,27 +437,17 @@ public class Gui extends View {
 
     @Override
     public void showLoginDone() {
-        String infoMessage = "Hi " + myPlayer.getUsername() + ", you're in!\n";
-
-        if (players.size() == 0){
-            infoMessage += " You're the creator of this match, so you will decide when to start the game.\n"
+        String infoMessage = "Hi " + myPlayer.getUsername() + ", you're in!\n"
+                 + " You're the creator of this match, so you will decide when to start the game.\n"
                     + "You can either start it when another player logs in or wait for a third player.\n"
                     + "The moment the third player logs in you can start the game, which will still start automatically after 2 minutes "
                     + "from the login of the third player.";
-        }
-        else
-            infoMessage += (" You're currently ") + ((players.size() + 1) + (" players in this game : You"));
 
-        String playersInGame = myPlayer.getUsername();
-        for (Player player : players)
-                playersInGame = playersInGame +  (", ") + (player.getUsername());
 
-        String finalInfoMessage = infoMessage;
-        String finalPlayersInGame = playersInGame;
         Platform.runLater(
                 () -> {
-                    loginWaitController.setInformationBox(finalInfoMessage);
-                    loginWaitController.setPlayersNameBox(finalPlayersInGame);
+                    initLoginWait();
+                    loginWaitController.setInformationBox(infoMessage);
                     primaryStage.setScene(loginWaitScene);
                     primaryStage.show();
                 });
@@ -469,7 +459,8 @@ public class Gui extends View {
         String infoMessage = loginWaitController.getInformationBox() + "\n" + username + " is a new player!";
         Platform.runLater(
                 () -> {
-                    loginWaitController.setPlayersNameBox(loginWaitController.getPlayersBox()+", "+ username);
+                    if(players.size() == 1) loginWaitController.setSecondPlayer(username);
+                    else loginWaitController.setThirdPlayerUsername(username);
                     loginWaitController.setInformationBox(infoMessage);
                 });
 
@@ -480,9 +471,16 @@ public class Gui extends View {
         pauseTimer();
         switch (waitFor) {
             case "startMatch":
-                 final String infoMatch = ("Waiting for " + author + "(creator)'s start game command...");
+                 final String infoMatch = (author + " is the creator! Waiting for him to start the game...");
                  Platform.runLater(
-                        () -> loginWaitController.setInformationBox(infoMatch));
+                        () -> {
+                            loginWaitController.setInformationBox(infoMatch);
+                            if(players.size() == 1) loginWaitController.setSecondPlayer(author);
+                            else{
+                                loginWaitController.setSecondPlayer(author);
+                                loginWaitController.setThirdPlayerUsername(players.get(1).getUsername());
+                            }
+                        });
                 break;
             case "createGods":
                 final String infoGods = author + " is the challenger, he is choosing " + (players.size() + 1) + " divinities for this game...";
@@ -910,9 +908,7 @@ public class Gui extends View {
         Worker femaleWorker = myPlayer.getWorkerByGender("female");
         if(maleWorker != null && maleWorker.getCurrentPosition().getX() == x && maleWorker.getCurrentPosition().getY() == y)
             return true;
-        if(femaleWorker != null && femaleWorker.getCurrentPosition().getX() == x && femaleWorker.getCurrentPosition().getY() == y)
-            return true;
-        return false;
+        return femaleWorker != null && femaleWorker.getCurrentPosition().getX() == x && femaleWorker.getCurrentPosition().getY() == y;
     }
 
     public void createTimer(){

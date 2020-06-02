@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
@@ -13,6 +14,7 @@ import javafx.scene.input.MouseEvent;
  */
 
 public class LoginWaitController {
+
     private Gui gui;
 
     @FXML
@@ -20,7 +22,7 @@ public class LoginWaitController {
     @FXML
     public Label secondPlayerUsername;
     @FXML
-    public Label thirdPlayerUsername2;
+    public Label thirdPlayerUsername;
     @FXML
     public ImageView thirdPlayerImageView;
     @FXML
@@ -28,40 +30,34 @@ public class LoginWaitController {
     @FXML
     public ImageView myPlayerImageView;
 
+    public ImageView start;
+    public ImageView wait;
 
-
-    @FXML
-    private Button waitButton;
-
-    @FXML
-    private Button startButton;
 
     @FXML
     private Label informationBox;
 
-    @FXML
-    private Label playersNameBox;
 
 
 
     /**
      * This method is called when the creator of the match starts the game.
-     * @param actionEvent none
+     * @param mouseEvent none
      */
 
     @FXML
-    public void starGameNow(ActionEvent actionEvent) {
+    public void start(MouseEvent mouseEvent) {
         gui.sendStartGameRequest();
     }
 
 
     /**
      * This method is called when the creator of the match chooses to wait for another player.
-     * @param actionEvent
+     * @param mouseEvent none
      */
 
     @FXML
-    public void wait(ActionEvent actionEvent) {
+    public void wait(MouseEvent mouseEvent) {
         setInformationBox("Wait for a third player..");
         this.hideStartButton();
         this.hideWaitButton();
@@ -73,22 +69,22 @@ public class LoginWaitController {
 
 
     public void hideStartButton(){
-        startButton.setDisable(true);
-        startButton.setVisible(false);
+        start.setDisable(true);
+        start.setVisible(false);
     }
 
     public void showStartButton(){
-        startButton.setDisable(false);
-        startButton.setVisible(true);
+        start.setDisable(false);
+        start.setVisible(true);
     }
 
     public void hideWaitButton(){
-        waitButton.setDisable(true);
-        waitButton.setVisible(false);
+        wait.setDisable(true);
+        wait.setVisible(false);
     }
     public void showWaitButton(){
-        waitButton.setDisable(false);
-        waitButton.setVisible(true);
+        wait.setDisable(false);
+        wait.setVisible(true);
     }
 
     public void setInformationBox(String text){
@@ -99,17 +95,39 @@ public class LoginWaitController {
         return informationBox.getText();
     }
 
-    public String getPlayersBox(){
-        return playersNameBox.getText();
+
+    public void setSecondPlayer(String text){
+        secondPlayerUsername.setText(text);
     }
 
-    public void setPlayersNameBox(String text){
-        playersNameBox.setText(text);
+    public void setThirdPlayerUsername(String text){
+        thirdPlayerUsername.setText(text);
     }
 
-    public void changeWaitButtonImageView(MouseEvent mouseEvent) {
+    public void setMyPlayerUsername(String text){
+        myPlayerUsername.setText(text);
     }
 
-    public void changeStartButtonImageView(MouseEvent mouseEvent) {
+    public void onPressedStart(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_start_pressed.png");
+        start.setImage(updateButton);
+
     }
+
+    public void onPressedWait(MouseEvent mouseEvent) {
+        Image updateButton = GuiManager.loadImage("Buttons/btn_wait_pressed.png");
+        wait.setImage(updateButton);
+    }
+
+    public void hideSecondPlayer(){
+        secondPlayerUsername.setVisible(false);
+        secondPlayerImageView.setVisible(false);
+    }
+
+    public void hideThirdPlayer(){
+        thirdPlayerUsername.setVisible(false);
+        thirdPlayerImageView.setVisible(false);
+    }
+
+
 }
