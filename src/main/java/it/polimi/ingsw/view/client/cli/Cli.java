@@ -1337,12 +1337,31 @@ public class Cli extends View {
 
     }
 
+    private String setBackgroundColorOfLevel(int level){
+
+        if (level == 4)
+            return ColorCode.LEVEL_DOME_BLUE_BACKGROUND.escape();
+        else {
+            switch (level) {
+                case 0:
+                    return ColorCode.LEVEL_0_GREEN_BACKGROUND.escape();
+                case 1:
+                    return ColorCode.LEVEL_1_SAND_BACKGROUND.escape();
+                case 2:
+                    return ColorCode.LEVEL_2_GRAY_BACKGROUND.escape();
+                case 3:
+                    return ColorCode.LEVEL_3_WHITE_BACKGROUND.escape();
+            }
+        }
+
+        return null;
+    }
+
 
     public void drawSquare(int x, int y) {
 
-
         Square square = gameBoard.getSquareByCoordinates(x, y);
-        
+
         System.out.print(ColorCode.ANSI_BLACK.escape());
 
         setBackgroundColor(square);
