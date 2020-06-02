@@ -61,7 +61,7 @@ public class EchoClient {
         }
 
         //The ping process start if game is not playing on the same machine.
-        if(!server.getInetAddress().getHostAddress().equals("127.0.0.1")) new Thread(this::pingServer).start();
+        new Thread(this::pingServer).start();
 
         if(server != null)
             try {
