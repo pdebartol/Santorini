@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" styleClass="background" stylesheets="@../css/loginStyleSheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.client.gui.LoginWaitController">
+   <children>
+      <AnchorPane layoutX="137.0" layoutY="21.0" prefHeight="497.0" prefWidth="686.0" styleClass="anchorPane-level" stylesheets="@../css/borderGlow.css" AnchorPane.bottomAnchor="21.80000000000001" AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="137.0" AnchorPane.topAnchor="21.000000000000057">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="39.0" layoutY="405.0" onMousePressed="#changeWaitButtonImageView" onMouseReleased="#wait" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="39.0">
+               <image>
+                  <Image url="@../graphics_resources/Sprite/Buttons_new/btn_wait.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="443.0" layoutY="405.0" onMousePressed="#changeStartButtonImageView" onMouseReleased="#starGameNow" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="39.0">
+               <image>
+                  <Image url="@../graphics_resources/Sprite/Buttons_new/btn_start.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="informationBox" alignment="CENTER" contentDisplay="CENTER" layoutX="141.0" layoutY="190.0" prefHeight="117.0" prefWidth="403.0" text="Label" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+            <ImageView fx:id="myPlayerImageView" fitHeight="150.0" fitWidth="200.0" layoutX="69.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../graphics_resources/Sprite/Layouts/Endgame/endgame_victorywin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="secondPlayerImageView" fitHeight="150.0" fitWidth="200.0" layoutX="273.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../graphics_resources/Sprite/unknown_username.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="thirdPlayerImageView" fitHeight="150.0" fitWidth="200.0" layoutX="477.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../graphics_resources/Sprite/unknown_username.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="myPlayerUsername" alignment="CENTER" layoutX="95.0" layoutY="81.0" prefHeight="59.0" prefWidth="85.0" text="Username" textAlignment="CENTER" wrapText="true" />
+            <Label fx:id="secondPlayerUsername" alignment="CENTER" layoutX="300.0" layoutY="81.0" prefHeight="59.0" prefWidth="85.0" text="Username" textAlignment="CENTER" wrapText="true" />
+            <Label fx:id="thirdPlayerUsername2" alignment="CENTER" layoutX="504.0" layoutY="81.0" prefHeight="59.0" prefWidth="85.0" text="Username" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

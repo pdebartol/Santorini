@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:controller="it.polimi.ingsw.view.client.gui.loginConnectionController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" styleClass="background" stylesheets="@../css/loginStyleSheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutX="314.0" layoutY="21.0" prefHeight="497.0" prefWidth="331.0" styleClass="anchorPane-level" stylesheets="@../css/borderGlow.css">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="66.0" layoutY="433.0" onMousePressed="#changeButtonImageView" onMouseReleased="#connection" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../graphics_resources/Sprite/Buttons/btn_connect.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="130.0" fitWidth="158.0" layoutX="87.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../graphics_resources/Sprite/cm_boardgame.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="ipAddress" layoutX="74.0" layoutY="288.0" prefHeight="36.0" prefWidth="184.0" promptText="IP Address" />
+            <TextField fx:id="port" layoutX="74.0" layoutY="346.0" prefHeight="36.0" prefWidth="184.0" promptText="Port" />
+            <Label fx:id="informationBox" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="169.0" prefHeight="79.0" prefWidth="297.0" text="Enter IP Address and the port of the server to connect with it" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

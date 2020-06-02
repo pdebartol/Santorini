@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 /**
  * This Class is the controller for the wait after login scene.
@@ -11,8 +13,22 @@ import javafx.scene.control.Label;
  */
 
 public class LoginWaitController {
-
     private Gui gui;
+
+    @FXML
+    public Label myPlayerUsername;
+    @FXML
+    public Label secondPlayerUsername;
+    @FXML
+    public Label thirdPlayerUsername2;
+    @FXML
+    public ImageView thirdPlayerImageView;
+    @FXML
+    public ImageView secondPlayerImageView;
+    @FXML
+    public ImageView myPlayerImageView;
+
+
 
     @FXML
     private Button waitButton;
@@ -89,5 +105,11 @@ public class LoginWaitController {
 
     public void setPlayersNameBox(String text){
         playersNameBox.setText(text);
+    }
+
+    public void changeWaitButtonImageView(MouseEvent mouseEvent) {
+    }
+
+    public void changeStartButtonImageView(MouseEvent mouseEvent) {
     }
 }
