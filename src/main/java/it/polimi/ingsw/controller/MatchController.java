@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  * MatchController implements the controller for the current match.
- * @author pierobartolo
+ * @author pierobartolo & marcoDige
  */
 
 public class MatchController implements ControllerInterface {
@@ -135,6 +135,7 @@ public class MatchController implements ControllerInterface {
         if(errors.isEmpty()){
             playerController.getCurrentPlayer().setGod(selectedGods.get(godId));
             selectedGods.remove(godId);
+
             // if it is not the challenger end the turn
             if(!playerController.getChallengerUsername().equals(playerUsername)){
                 playerController.nextTurn();
@@ -262,7 +263,6 @@ public class MatchController implements ControllerInterface {
             if(errors.isEmpty() && viewInterface != null){
                 if(playerController.getNumberOfPlayers() == 3){
                     if (viewInterface != null) viewInterface.match3PlayerLose(currentPlayer.getUsername());
-                    System.out.println("GINOSOSOSSOO");
                     playerController.removeCurrentPlayer();
                     on3PlayerLoser();
                     playerController.nextTurn();
@@ -368,7 +368,11 @@ public class MatchController implements ControllerInterface {
         return Collections.unmodifiableList(errors);
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to regenerate gods in game after defeating a player in a 3 player game.
+     * This regeneration is fundamental so that the power of the god of the defeated player does not affect the game
+     * between the 2 remaining players.
+     */
 
     private void on3PlayerLoser() {
         List<God> regeneratedGods = factory.getGods(new ArrayList<>(Arrays.asList(playerController.getCurrentPlayer().getGod().getId(), playerController.getNextPlayer().getGod().getId())));
@@ -376,16 +380,17 @@ public class MatchController implements ControllerInterface {
         playerController.getNextPlayer().setGod(regeneratedGods.get(1));
     }
 
-    //Message management methods
-
-    //TODO : javadoc
-
     @Override
     public State getGameState() {
         return gameBoard.getGameState();
     }
 
-    //TODO : javadoc
+    //Message management methods
+
+    /**
+     * This method call the method on virtualView that provides to send an Answer for an accepted move.
+     * @param playerUsername is the player who is waiting for an answer.
+     */
 
     @Override
     public void sendAnswerMoveAccepted(String playerUsername){
@@ -393,7 +398,10 @@ public class MatchController implements ControllerInterface {
         viewInterface.onMoveAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
     }
 
-    //TODO : javadoc
+    /**
+     * This method call the method on virtualView that provides to send an Answer for an accepted build.
+     * @param playerUsername is the player who is waiting for an answer.
+     */
 
     @Override
     public void sendAnswerBuildAccepted(String playerUsername){
@@ -401,7 +409,10 @@ public class MatchController implements ControllerInterface {
         viewInterface.onBuildAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
     }
 
-    //TODO : javadoc
+    /**
+     * This method call the method on virtualView that provides to send an Answer for an accepted end of turn.
+     * @param playerUsername is the player who is waiting for an answer.
+     */
 
     @Override
     public void sendAnswerEndOfTurnAccepted(String playerUsername){
@@ -409,7 +420,9 @@ public class MatchController implements ControllerInterface {
         viewInterface.onEndOfTurnAcceptedRequest(playerUsername,gameBoard.getMsgContainer().getAnswerMsg(),gameBoard.getMsgContainer().getUpdateMsg());
     }
 
-    //TODO : javadoc
+    /**
+     * This method call the method on virtualView that provides to send a message to notify a client that he has to chose his god.
+     */
 
     @Override
     public void sendNextToDoChoseGod(){
@@ -417,7 +430,9 @@ public class MatchController implements ControllerInterface {
         viewInterface.toDoChoseGod(playerController.getCurrentPlayer().getUsername(),new ArrayList<>(selectedGods.keySet()));
     }
 
-    //TODO : javadoc
+    /**
+     * This method call the method on virtualView that provides to send a message to notify a client that he has to chose the starting player.
+     */
 
     @Override
     public void sendNextToDoChoseStartingPlayer(){
@@ -425,14 +440,18 @@ public class MatchController implements ControllerInterface {
         viewInterface.toDoChoseStartingPlayer();
     }
 
-    //TODO : javadoc
+    /**
+     * This method call the method on virtualView that provides to send a message to notify a client that he has to place a worker on board.
+     */
 
     @Override
     public void sendNextToDoSetupWorkerOnBoard(String gender){
         viewInterface.toDoSetupWorkerOnBoard(playerController.getCurrentPlayer().getUsername(),gender);
     }
 
-    //TODO : javadoc
+    /**
+     * This method call the method on virtualView that provides to send a message to notify a client that he has to play his turn.
+     */
 
     @Override
     public void sendNextToDoTurn(){

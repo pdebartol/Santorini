@@ -8,7 +8,6 @@ public class Player {
 
     private final String username;
     private final ArrayList<Worker> workers;
-    private boolean loser;
     private God god;
 
     public Player(String username, Color color) {
@@ -38,10 +37,6 @@ public class Player {
 
     public ArrayList<Worker> getWorkers() {
         return workers;
-    }
-
-    public boolean getLoser(){
-        return loser;
     }
 
     public God getGod(){return god;}

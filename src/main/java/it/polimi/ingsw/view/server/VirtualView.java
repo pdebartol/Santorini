@@ -157,8 +157,10 @@ public class VirtualView implements ViewInterface {
     public void moveRequest(String username, String workerGender, int x, int y){
         List<Error> errors = controllerListener.onWorkerMove(username,workerGender,x,y);
 
-        if(errors.isEmpty())
+        if(errors.isEmpty()) {
             controllerListener.sendAnswerMoveAccepted(username);
+            System.out.println("Lobby number " + lobbyNumber + " : " + username + " has moved his " + workerGender + " worker to " + "[" + x + "," + y + "] position!");
+        }
         else
             onRejectedRequest(username,errors,"move");
     }
@@ -168,8 +170,10 @@ public class VirtualView implements ViewInterface {
     public void buildRequest(String username, String workerGender, int x, int y, int level){
         List<Error> errors = controllerListener.onWorkerBuild(username,workerGender,x,y,level);
 
-        if(errors.isEmpty())
+        if(errors.isEmpty()) {
             controllerListener.sendAnswerBuildAccepted(username);
+            System.out.println("Lobby number " + lobbyNumber + " : " + username + " has built with his " + workerGender + " worker in " + "[" + x + "," + y + "] position a level " + level + "!");
+        }
         else
             onRejectedRequest(username,errors,"build");
     }
@@ -267,6 +271,8 @@ public class VirtualView implements ViewInterface {
 
         //Next step in game flow
         controllerListener.sendNextToDoChoseGod();
+
+        System.out.println("Lobby number " + lobbyNumber + " : " + username + " has chosen " + players.size() + " gods!");
     }
 
     //TODO : javadoc
@@ -284,6 +290,8 @@ public class VirtualView implements ViewInterface {
             controllerListener.sendNextToDoChoseGod();
         else
             controllerListener.sendNextToDoChoseStartingPlayer();
+
+        System.out.println("Lobby number " + lobbyNumber + " : " + username + " has chosen his god!");
     }
 
     //TODO : javadoc
@@ -298,6 +306,8 @@ public class VirtualView implements ViewInterface {
 
         //Next step in game flow
         controllerListener.sendNextToDoSetupWorkerOnBoard("Male");
+
+        System.out.println("Lobby number " + lobbyNumber + " : " + username + " has chosen " + playerChosen + " as starter player!");
     }
 
     //TODO : javadoc
@@ -315,6 +325,8 @@ public class VirtualView implements ViewInterface {
             else controllerListener.sendNextToDoSetupWorkerOnBoard("Female");
         }else
             controllerListener.sendNextToDoTurn();
+
+        System.out.println("Lobby number " + lobbyNumber + " : " + username + " has placed his " + workerGender + " worker on " + "[" + x + "," + y + "] position!");
     }
 
     //TODO : javadoc
@@ -351,6 +363,8 @@ public class VirtualView implements ViewInterface {
 
         //Next step in game flow
         controllerListener.sendNextToDoTurn();
+
+        System.out.println("Lobby number " + lobbyNumber + " : " + username + " has finished his turn!");
     }
 
     //TODO : javadoc
@@ -446,6 +460,8 @@ public class VirtualView implements ViewInterface {
                 sendMsg(clients.get(user), new UpdateMsgWriter().winLoseUpdate(winnerUsername,"youLoseForBlocked"));
             }
         matchFinished();
+
+        System.out.println("Lobby number " + lobbyNumber + " : " + winnerUsername + " won!");
     }
 
     //TODO : javadoc
@@ -465,6 +481,8 @@ public class VirtualView implements ViewInterface {
         }
 
         clients.remove(loserUsername);
+
+        System.out.println("Lobby number " + lobbyNumber + " : " + loserUsername + " lost!");
     }
 
 

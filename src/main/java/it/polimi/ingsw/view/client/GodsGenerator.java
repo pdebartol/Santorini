@@ -9,8 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.*;
 import java.util.*;
 
-/** This class is responsible for parsing the XML and creating the
- * gods according to the rules in 'godInfo'
+/** This class is responsible for parsing the XML and creating the gods according to the rules in 'godInfo'
  * @author marcoDige
  */
 
@@ -33,7 +32,10 @@ public class GodsGenerator {
 
     //methods
 
-    //TODO : javadoc
+    /**
+     * This method generates a list of gods info parsing the godsInfo XML file.
+     * @return a list of gods info ready to be shown to users
+     */
 
     public List<God> getGods(){
         List<God> gods = new ArrayList<>();
@@ -65,38 +67,4 @@ public class GodsGenerator {
         DocumentBuilder builder = factory.newDocumentBuilder();
         return builder.parse(this.getClass().getResourceAsStream("/xml/client/godInfo"));
     }
-
-    /**
-     * This methods uses XPath expressions to find nodes in xml documents
-     * @param xpathExpression is the expression that identifies the node in the document
-     * @return a List<String> containing the strings that match the expression
-     */
-
-    private  List<String> evaluateXPath( String xpathExpression) {
-        try {
-            // Create XPathFactory object
-            XPathFactory xpathFactory = XPathFactory.newInstance();
-
-            // Create XPath object
-            XPath xpath = xpathFactory.newXPath();
-
-            List<String> values = new ArrayList<>();
-            // Create XPathExpression object
-            XPathExpression expr = xpath.compile(xpathExpression);
-
-            // Evaluate expression result on XML document
-            NodeList nodes = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
-
-            for (int i = 0; i < nodes.getLength(); i++) {
-                values.add(nodes.item(i).getNodeValue());
-            }
-            return values;
-
-        } catch (XPathExpressionException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
 }

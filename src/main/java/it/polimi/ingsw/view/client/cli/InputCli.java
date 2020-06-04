@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-//TODO : javadoc
+/**
+ * This class contains utilities for asynchronous input from CLI.
+ * @author marcoDige
+ */
 
 public class InputCli {
 
@@ -14,7 +17,12 @@ public class InputCli {
 
     //methods
 
-    //TODO : javadoc
+    /**
+     * This method allows you to acquire command-line input asynchronously. asynchronicity allows you to stop the
+     * thread at any time in the event that a blocking message arrives in the background
+     * (disconnection or login of a third player).
+     * @return input from command-line
+     */
 
     public static String readLine(){
         String input = "";

@@ -19,7 +19,6 @@ import java.util.concurrent.*;
 
 /**
  * This class represents the game flow
- *
  * @author aledimaio
  */
 
