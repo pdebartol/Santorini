@@ -58,7 +58,7 @@ public class GuiManager extends Application {
 
 
     /**
-     * This method loads the image of a god
+     * This method loads the image of a god Card
      * @param id of the god
      * @return an Image of the god
      */
@@ -72,6 +72,20 @@ public class GuiManager extends Application {
         else{
             god = GuiManager.loadImage("godCards/"+ (id) + ".png");
         }
+
+        return god;
+    }
+
+    /**
+     * This method loads the image of a god for the end of the game
+     * @param id of the god
+     * @return an Image of the god
+     */
+
+    public static Image loadGodEndGame(int id){
+        Image god;
+
+        god = GuiManager.loadImage("Cards/Small/"+ (id) + ".png");
 
         return god;
     }

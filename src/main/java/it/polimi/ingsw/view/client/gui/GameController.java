@@ -23,8 +23,6 @@ import java.util.ArrayList;
  */
 
 public class GameController {
-    @FXML
-    public ImageView showPlayer;
 
     @FXML
     public Label playerName;
@@ -101,11 +99,7 @@ public class GameController {
 
     private int currentPlayerId = 0;
 
-    /**
-     * When it is true the gui shows the player's god card
-     */
 
-    boolean showGod = false;
 
     String state = "worker";
 
@@ -310,8 +304,7 @@ public class GameController {
 
     }
 
-    public void showPlayerInformation(MouseEvent mouseEvent) {
-        if (!showGod) {
+    public void showPlayerInformation() {
             getCurrentGod();
             godImage.setVisible(true);
             godDescription.setVisible(true);
@@ -320,17 +313,6 @@ public class GameController {
             playerName.setVisible(true);
             nextButton.setVisible(true);
             nextButton.setDisable(false);
-            Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
-            showPlayer.setImage(updateButton);
-            showGod = true;
-        } else {
-            Image updateButton = GuiManager.loadImage("Buttons/btn_blue.png");
-            showPlayer.setImage(updateButton);
-            hideGod();
-            showGod = false;
-        }
-
-
     }
 
     public void nextPlayer(MouseEvent actionEvent) {
@@ -628,10 +610,7 @@ public class GameController {
     }
 
 
-    public void onPressShowPlayer(MouseEvent mouseEvent) {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
-        showPlayer.setImage(updateButton);
-    }
+
 
     public void onPressNextButton(MouseEvent mouseEvent) {
         Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");

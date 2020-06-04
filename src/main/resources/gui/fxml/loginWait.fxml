@@ -20,7 +20,7 @@
                   <Image url="@../graphics_resources/Sprite/Buttons_new/btn_start.png" />
                </image>
             </ImageView>
-            <Label fx:id="informationBox" alignment="CENTER" contentDisplay="CENTER" layoutX="141.0" layoutY="203.0" prefHeight="117.0" prefWidth="403.0" text="Label" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Label fx:id="informationBox" alignment="CENTER" contentDisplay="CENTER" layoutX="141.0" layoutY="203.0" prefHeight="117.0" prefWidth="403.0" text="Info Box" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Marker Felt Thin" size="17.0" />
                </font></Label>

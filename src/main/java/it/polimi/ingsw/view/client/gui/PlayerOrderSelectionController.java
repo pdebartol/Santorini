@@ -26,9 +26,6 @@ public class PlayerOrderSelectionController {
     @FXML
     public Label numberOfPlayer;
 
-    //TODO remove this button
-    @FXML
-    public Button selectFirstPlayer;
     @FXML
     public ImageView playImageViewButton;
     @FXML

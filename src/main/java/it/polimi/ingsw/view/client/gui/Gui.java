@@ -206,12 +206,11 @@ public class Gui extends View {
 
     private void initGameScene(){
         try {
-            FXMLLoader loader = GuiManager.loadFXML("gameScene_02");
+            FXMLLoader loader = GuiManager.loadFXML("gameScene");
             Parent root = loader.load();
             gameScene = new Scene(root);
             gameSceneController = loader.getController();
             gameSceneController.setGui(this);
-            gameSceneController.hideGod();
             gameSceneController.hideMoveButton();
             gameSceneController.hideBuildButton();
             gameSceneController.hideEndButton();
@@ -245,7 +244,7 @@ public class Gui extends View {
      * @param text alert's text
      */
 
-    private void alertUser(String title, String text, Alert.AlertType type){
+    public void alertUser(String title, String text, Alert.AlertType type){
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(text);
@@ -319,7 +318,7 @@ public class Gui extends View {
     @Override
     public void selectGods() {
         restartTimer();
-        String infoMessage = "You are the challenger! Now you have to chose " + (players.size() + 1) + " Gods for this match!";
+        String infoMessage = "You are the challenger!\n Now you have to choose " + (players.size() + 1) + " Gods for this match!";
         isChallenger = true;
         Platform.runLater(
                 () -> {
@@ -359,7 +358,6 @@ public class Gui extends View {
         restartTimer();
         Platform.runLater(
                 () -> {
-                    playerOrderController.setInstructionLabel("Insert an existing username...");
                     ArrayList<Player> tempPlayers = (ArrayList<Player>) players.clone();
                     tempPlayers.add(myPlayer);
                     playerOrderController.setPlayers(tempPlayers);
@@ -525,7 +523,7 @@ public class Gui extends View {
     public void showGodsChoiceDone(ArrayList<Integer> ids) {
         pauseTimer();
 
-        String infoMessage = "\nYou will receive the last god left after choosing the other players.";
+        String infoMessage = "\nYou will receive the last god left after the other players make their choice.";
 
         Platform.runLater(
                 () -> godSelectionController.setInstructionLabel(infoMessage));
@@ -589,6 +587,7 @@ public class Gui extends View {
                     ArrayList<Player> tempPlayers = (ArrayList<Player>) players.clone();
                     tempPlayers.add(0, myPlayer);
                     gameSceneController.setPlayers(tempPlayers);
+                     gameSceneController.showPlayerInformation();
                     primaryStage.setScene(gameScene);
                     primaryStage.show();
                     if(username.equals(myPlayer.getUsername()))

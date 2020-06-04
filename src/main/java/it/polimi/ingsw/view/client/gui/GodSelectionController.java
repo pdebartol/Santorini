@@ -33,8 +33,6 @@ public class GodSelectionController {
     @FXML
     public Label descriptionLabel;
     @FXML
-    public Label nameLabel;
-    @FXML
     public ImageView imageGod;
     @FXML
     public Label instructionLabel;
@@ -55,7 +53,6 @@ public class GodSelectionController {
         God god = gui.getPreviousGod();
         int godId = god.getId();
         imageGod.setImage(GuiManager.loadGod(godId));
-        nameLabel.setText(god.getName());
         descriptionLabel.setText(god.getDescription());
     }
 
@@ -70,7 +67,6 @@ public class GodSelectionController {
         God god = gui.getNextGod();
         int godId = god.getId();
         imageGod.setImage(GuiManager.loadGod(godId));
-        nameLabel.setText(god.getName());
         descriptionLabel.setText(god.getDescription());
     }
 
@@ -82,7 +78,7 @@ public class GodSelectionController {
 
     @FXML
     public void changeImageOfConfirmationButton(MouseEvent mouseEvent) {
-        Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
+        Image updateButton = GuiManager.loadImage("Buttons/btn_confirm_pressed.png");
         confirmationImageViewButton.setImage(updateButton);
     }
 
@@ -103,7 +99,10 @@ public class GodSelectionController {
             gui.sendChooseGodRequest(gui.getUserSelectedGodId());
 
         }
+        Image updateButton = GuiManager.loadImage("Buttons/btn_confirm.png");
+        confirmationImageViewButton.setImage(updateButton);
         confirmationImageViewButton.setDisable(true);
+
     }
 
 
@@ -133,7 +132,6 @@ public class GodSelectionController {
     public void initializeGods(God starterGod){
         int godId = starterGod.getId();
         imageGod.setImage(GuiManager.loadGod(godId));
-        nameLabel.setText(starterGod.getName());
         descriptionLabel.setText(starterGod.getDescription());
     }
 
