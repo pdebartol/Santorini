@@ -263,6 +263,7 @@ public class Gui extends View {
                 () -> {
                     alertUser("New Game", "You are starting a new game!", Alert.AlertType.INFORMATION);
                     primaryStage.setScene(initialScene);
+                    pauseTimer();
                 });
     }
 

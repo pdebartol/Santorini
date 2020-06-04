@@ -205,6 +205,7 @@ public class GameController {
                 int yToBuild = GridPane.getColumnIndex(((ImageView) dragEvent.getSource()).getParent());
                 if(gui.getSelectedWorker() != null) {
                     gui.sendBuildRequest(gui.getSelectedWorker().getGender(), xToBuild, yToBuild, level);
+
                 }else {
                     int startX = GridPane.getRowIndex(builderWorker.getParent());
                     int startY = GridPane.getColumnIndex(builderWorker.getParent());
@@ -232,8 +233,6 @@ public class GameController {
 
         dragEvent.setDropCompleted(success);
         dragEvent.consume();
-
-
     }
 
     @FXML
@@ -359,15 +358,6 @@ public class GameController {
         informationBox.setText(text);
     }
 
-    public void hideGod() {
-        godDescription.setVisible(false);
-        godImage.setVisible(false);
-        godContainer.setVisible(false);
-        playerFlag.setVisible(false);
-        playerName.setVisible(false);
-        nextButton.setVisible(false);
-        nextButton.setDisable(true);
-    }
 
     /**
      * This method displays the updated board
