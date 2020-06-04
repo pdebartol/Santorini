@@ -681,7 +681,7 @@ public class Gui extends View {
                     errorMessage.append(", you cannot swap with your other worker");
             }
         }
-        System.out.println("Errors: " + errors);
+
 
         errorMessage.append(".");
         errorMessage.delete(37,38);

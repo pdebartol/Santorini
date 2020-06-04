@@ -45,8 +45,6 @@ public class GameController {
     public GridPane boardGridPane;
     @FXML
     public ImageView endTurnButton;
-
-
     @FXML
     public ImageView firstLevelImageView;
     @FXML
