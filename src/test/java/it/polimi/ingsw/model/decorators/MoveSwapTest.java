@@ -2,11 +2,13 @@ package it.polimi.ingsw.model.decorators;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.model.enums.Error;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,6 +73,20 @@ class MoveSwapTest {
 
         //on the same position, Artemis cannot swap his position
         assertFalse(p2.getGod().getPower().checkMove(p2.getWorkers().get(0),0,1).isEmpty());
+    }
+
+    /**
+     * This method check that MoveSwapPower doesn't allow to swap your own workers.
+     */
+
+    @Test
+    void cantSwapMyWorker(){
+        //chose worker for the turn
+        p3.getWorkers().get(0).isMovingOn();
+
+        List<Error> errors = p3.move(p3.getWorkers().get(0),1,1);
+        assertEquals(1,errors.size());
+        assertTrue(errors.contains(Error.SWAP_MY_WORKER));
     }
 
     /**

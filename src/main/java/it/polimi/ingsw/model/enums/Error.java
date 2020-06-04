@@ -7,6 +7,7 @@ package it.polimi.ingsw.model.enums;
  */
 
 public enum Error {
+    SWAP_MY_WORKER("SMW"),
     ISNT_WORKER_CHOSEN("IWC"),
     BLOCK_MOVE_UP("BMU"),
     BUILDS_EXCEEDED("BE"),

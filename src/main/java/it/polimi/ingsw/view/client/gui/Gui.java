@@ -676,6 +676,9 @@ public class Gui extends View {
                     break;
                 case "IWW":
                     errorMessage.append(", you must continue the shift with the first worker used");
+                    break;
+                case "SMW":
+                    errorMessage.append(", you cannot swap with your other worker");
             }
         }
         System.out.println("Errors: " + errors);

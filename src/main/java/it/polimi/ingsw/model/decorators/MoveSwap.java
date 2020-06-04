@@ -34,6 +34,8 @@ public class MoveSwap extends PowerDecorator {
     public ArrayList<Error> checkMove(Worker w, int x, int y) {
         ArrayList<Error> errors = decoratedPower.checkMove(w, x, y);
         errors.remove(Error.NOT_FREE);
+        if(getBoard().getSquare(x,y).getWorker().getColor() == w.getColor())
+            errors.add(Error.SWAP_MY_WORKER);
         return errors;
     }
 

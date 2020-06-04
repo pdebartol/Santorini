@@ -636,6 +636,9 @@ public class Cli extends View {
                     break;
                 case "EBND":
                     output.append(", ").append("the additional build block can't be a dome");
+                    break;
+                case "SMW":
+                    output.append(", ").append("you cannot swap with your other worker");
             }
         }
         output.delete(36,37);
