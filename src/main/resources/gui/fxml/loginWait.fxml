@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" styleClass="background" stylesheets="@../css/loginStyleSheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.client.gui.LoginWaitController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" styleClass="background" stylesheets="@../css/loginStyleSheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.client.gui.LoginWaitController">
    <children>
       <AnchorPane layoutX="137.0" layoutY="21.0" prefHeight="497.0" prefWidth="686.0" styleClass="anchorPane-level" stylesheets="@../css/borderGlow.css" AnchorPane.bottomAnchor="21.80000000000001" AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="137.0" AnchorPane.topAnchor="21.000000000000057">
          <children>
@@ -20,7 +19,7 @@
                   <Image url="@../graphics_resources/Sprite/Buttons_new/btn_start.png" />
                </image>
             </ImageView>
-            <Label fx:id="informationBox" alignment="CENTER" contentDisplay="CENTER" layoutX="141.0" layoutY="203.0" prefHeight="117.0" prefWidth="403.0" text="Info Box" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Label fx:id="informationBox" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="164.0" prefHeight="210.0" prefWidth="636.0" text="Info Box" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Marker Felt Thin" size="17.0" />
                </font></Label>

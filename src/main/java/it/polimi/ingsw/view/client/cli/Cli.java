@@ -1366,22 +1366,25 @@ public class Cli extends View {
 
         System.out.print(ColorCode.ANSI_BLACK.escape());
 
-        setBackgroundColor(square);
+
 
         if (square.getWorker() != null) {
             if(square.getWorker().getGender().equals("male")) {
+                setBackgroundColor(square);
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() +Color.getColorCodeByColor(square.getWorker().getColor()).escape() + " " + Unicode.WORKER_MALE_ICON.escape() + " " );
                 setBackgroundColor(square);
                 System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
             if(square.getWorker().getGender().equals("female")) {
+                setBackgroundColor(square);
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() +Color.getColorCodeByColor(square.getWorker().getColor()).escape() + " " + Unicode.WORKER_FEMALE_ICON.escape() + " " );
                 setBackgroundColor(square);
                 System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
             }
             for (int i = 0; i < 3; i++) {
+                setBackgroundColor(square);
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
@@ -1390,6 +1393,7 @@ public class Cli extends View {
         }
         else {
             for (int i = 0; i < 4; i++) {
+                setBackgroundColor(square);
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
                 System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
@@ -1397,6 +1401,7 @@ public class Cli extends View {
 
         }
 
+            setBackgroundColor(square);
             System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + square.getLevel());
 
             System.out.print(ColorCode.ANSI_RESET.escape());
