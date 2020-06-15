@@ -116,6 +116,7 @@ public class Gui extends View {
      */
 
     public Timeline timer;
+    public Timeline startTimer;
 
 
     public Gui (String ip, int port,Stage stage, Scene scene){
@@ -123,6 +124,7 @@ public class Gui extends View {
         this.primaryStage = stage;
         this.initialScene = scene;
         createTimer();
+        createStartMatchTimer();
         initLoginUsername();
         initPlayerOrderSelection();
         initGameScene();
@@ -304,8 +306,9 @@ public class Gui extends View {
                     });
 
         } else {
-            //TODO two minutes timeout to strt
+
             infoMessage = "You are currently 3 players in the game, press start now!";
+            restartStartMatchTimer();
             Platform.runLater(
                     () -> {
                         loginWaitController.hideWaitButton();
@@ -918,6 +921,20 @@ public class Gui extends View {
         timer = new Timeline(new KeyFrame(
                 Duration.millis(180000),
                 ae -> clientHandler.disconnectionForTimeout()));
+    }
+
+    public void createStartMatchTimer(){
+        startTimer = new Timeline(new KeyFrame(
+                Duration.millis(120000),
+                ae -> sendStartGameRequest()));
+    }
+    void pauseStartMatchTimer() {
+            startTimer.pause();
+    }
+
+    void restartStartMatchTimer(){
+        startTimer.stop();
+        startTimer.playFromStart();
     }
 
 

@@ -48,6 +48,7 @@ public class LoginWaitController {
     @FXML
     public void start(MouseEvent mouseEvent) {
         gui.sendStartGameRequest();
+        gui.pauseStartMatchTimer();
     }
 
 
