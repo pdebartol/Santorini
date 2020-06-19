@@ -1305,8 +1305,8 @@ public class Cli extends View {
         for (int x = 0, i = 1, j = 0; x < Board.DIMENSION; x++, i += Box.SQUARE_HORIZONTAL_DIM.escape() + 1, j++) {
             System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.BOARD_START_UP.escape() + 1, Box.BOARD_START_LEFT.escape() + i);
             for (int y = Board.DIMENSION - 1; y > -1; y--) {
-                drawSquare(x, y);
-                //drawSquareV2(gameBoard.getSquareByCoordinates(x, y));
+                //drawSquare(x, y);
+                drawSquareV2(gameBoard.getSquareByCoordinates(x, y));
                 System.out.println("\n");
                 System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), Box.BOARD_START_LEFT.escape() + i - 1);
             }
@@ -1360,75 +1360,81 @@ public class Cli extends View {
         return null;
     }
 
-    /*
     private void drawSquareV2(Square square){
 
         int level = square.getLevel();
         int x = 10, y = 5;
-
+        System.out.print(ColorCode.ANSI_BLACK.escape());
 
         if (0 <= level){
-            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
             for (int i = 0; i < y; i++) {
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
                 for (int j = 0; j < x; j++) {
-                    System.out.print(setBackgroundColorOfLevel(level) + " ");
+                    if(j==x-1 && i==y-1)
+                        System.out.print(level);
+                    else
+                        System.out.print(setBackgroundColorOfLevel(0) + " ");
                 }
                 if (i != y - 1) {
                     System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
                 }
             }
-            System.out.print(Escapes.RESTORE_CURSOR_POSITION.escape());
         }
 
         if(1 <= level){
-            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
+            System.out.printf(Escapes.CURSOR_LEFT_INPUT_REQUIRED.escape() + Escapes.CURSOR_UP_INPUT_REQUIRED.escape(), 10, 4);
             for (int i = 0; i < y; i++) {
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
                 for (int j = 0; j < x; j++) {
-                    System.out.print(setBackgroundColorOfLevel(level) + " ");
+                    if(j==x-1 && i==y-1)
+                        System.out.print(level);
+                    else
+                        System.out.print(setBackgroundColorOfLevel(1) + " ");
                 }
                 if (i != y - 1) {
                     System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
                 }
             }
-            System.out.print(Escapes.RESTORE_CURSOR_POSITION.escape());
         }
 
         if(2 <= level){
-            System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
+            System.out.printf(Escapes.CURSOR_LEFT_INPUT_REQUIRED.escape() + Escapes.CURSOR_UP_INPUT_REQUIRED.escape(), 10, 4);
             for (int i = 0; i < y; i++) {
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
                 for (int j = 0; j < x; j++) {
-                    System.out.print(setBackgroundColorOfLevel(level) + " ");
+                    if(j==x-1 && i==y-1)
+                        System.out.print(level);
+                    else
+                        System.out.print(setBackgroundColorOfLevel(2) + " ");
                 }
                 if (i != y - 1) {
                     System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
                 }
             }
-            System.out.print(Escapes.RESTORE_CURSOR_POSITION.escape());
         }
 
         if(3 <= level){
+            System.out.printf(Escapes.CURSOR_LEFT_INPUT_REQUIRED.escape() + Escapes.CURSOR_UP_INPUT_REQUIRED.escape(), 10, 4);
             x = 6;
             y = 3;
-            System.out.printf(Escapes.SAVE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape() + Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1, 2);
+            System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape() + Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1, 2);
             for (int i = 0; i < y; i++) {
                 System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
                 for (int j = 0; j < x; j++) {
-                    System.out.print(setBackgroundColorOfLevel(level) + " ");
+                    System.out.print(setBackgroundColorOfLevel(3) + " ");
                 }
                 if (i != y - 1) {
                     System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
                 }
             }
-            System.out.print(Escapes.RESTORE_CURSOR_POSITION.escape());
+            System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape() + Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1, 2);
         }
 
         if(square.getDome() || square.getWorker() != null){
+            System.out.printf(Escapes.CURSOR_LEFT_INPUT_REQUIRED.escape() + Escapes.CURSOR_UP_INPUT_REQUIRED.escape(), 10, 4);
             x = 2;
             y = 1;
-            System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.SAVE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape() + Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 2, 4);
+            System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape() + Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 2, 4);
             for (int i = 0; i < y; i++) {
                 if(square.getWorker() != null){
                     if(square.getWorker().getGender().equals("female"))
@@ -1438,38 +1444,16 @@ public class Cli extends View {
                 }
                 else {
                     for (int j = 0; j < x; j++) {
-                        System.out.print(setBackgroundColorOfLevel(level) + " ");
+                        System.out.print(setBackgroundColorOfLevel(4) + " ");
                     }
                 }
             }
-            System.out.print(Escapes.RESTORE_CURSOR_POSITION.escape());
-            System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape() + Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 4, 9);
+            System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape() + Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 2, 4);
             }
+
+            System.out.print(ColorCode.ANSI_RESET.escape());
 
     }
-
-     */
-
-    /*
-    private void drawSquareRecursive(int level, int x, int y){
-
-        if(level >= 2){
-            for (int i = 0; i < y; i++) {
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
-                for (int j = 0; j < x; j++) {
-                    System.out.print(setBackgroundColorOfLevel(level) + " ");
-                }
-                System.out.printf(Escapes.RESTORE_CURSOR_POSITION.escape() + Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), 1);
-            }
-        }
-        else{
-                System.out.printf(Escapes.SAVE_CURSOR_POSITION.escape() + Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape() + Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1, 2);
-                drawSquareRecursive(level - 1, x - 2, y - 1);
-                System.out.print(Escapes.RESTORE_CURSOR_POSITION.escape());
-            }
-
-    }
-    */
 
     public void drawSquare(int x, int y) {
 
