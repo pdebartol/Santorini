@@ -736,7 +736,7 @@ public class Cli extends View {
                 printInGameTextBox("The server has disconnected! Do you want to try to reconnect? (s/n)");
                 break;
             case "FINISHED":
-                printInFinalTextBox("The server disconnected you! Do you want to try to reconnect? (s/n)");
+                appendInFinalTextBox("The match ended and the server disconnected you! Do you want to search a new game? (s/n)");
                 break;
         }
         String input;
@@ -811,12 +811,6 @@ public class Cli extends View {
         }
 
         printInFinalTextBox(output.toString());
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     //TODO : javadoc
@@ -840,12 +834,6 @@ public class Cli extends View {
         }
 
         printInFinalTextBox(output.toString());
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     //Frame methods
@@ -1147,7 +1135,7 @@ public class Cli extends View {
 
     public void printLoser() {
 
-        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.ASCII_ART_START_UP.escape(), Box.ASCII_ART_START_LEFT.escape() + 4);
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.ASCII_ART_START_UP.escape(), Box.ASCII_ART_START_LEFT.escape() + 8);
         System.out.print(ColorCode.ANSI_RED.escape() +
                 " (        )   (         (     \n" + "\u001b[" + Box.ASCII_ART_START_LEFT.escape() + "C" +
                 " )\\ )  ( /(   )\\ )      )\\ )  \n" + "\u001b[" + Box.ASCII_ART_START_LEFT.escape() + "C" +
@@ -1315,28 +1303,8 @@ public class Cli extends View {
             System.out.print("   " + j);
         }
 
-    }
-
-    private void setBackgroundColor(Square square){
-
-        if (square.getDome())
-            System.out.print(ColorCode.LEVEL_DOME_BLUE_BACKGROUND.escape());
-        else {
-            switch (square.getLevel()) {
-                case 0:
-                    System.out.print(ColorCode.LEVEL_0_GREEN_BACKGROUND.escape());
-                    break;
-                case 1:
-                    System.out.print(ColorCode.LEVEL_1_SAND_BACKGROUND.escape());
-                    break;
-                case 2:
-                    System.out.print(ColorCode.LEVEL_2_GRAY_BACKGROUND.escape());
-                    break;
-                case 3:
-                    System.out.print(ColorCode.LEVEL_3_WHITE_BACKGROUND.escape());
-                    break;
-            }
-        }
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
+        System.out.print(">");
 
     }
 
@@ -1455,57 +1423,6 @@ public class Cli extends View {
 
     }
 
-    public void drawSquare(int x, int y) {
-
-        Square square = gameBoard.getSquareByCoordinates(x, y);
-
-        System.out.print(ColorCode.ANSI_BLACK.escape());
-
-
-
-        if (square.getWorker() != null) {
-            if(square.getWorker().getGender().equals("male")) {
-                setBackgroundColor(square);
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + " " + Unicode.WORKER_MALE_ICON.escape() + " " );
-                setBackgroundColor(square);
-                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
-                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
-            }
-            if(square.getWorker().getGender().equals("female")) {
-                setBackgroundColor(square);
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Color.getColorCodeByColor(square.getWorker().getColor()).escape() + " " + Unicode.WORKER_FEMALE_ICON.escape() + " " );
-                setBackgroundColor(square);
-                System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN3.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
-                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
-            }
-            for (int i = 0; i < 3; i++) {
-                setBackgroundColor(square);
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
-                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
-            }
-
-        }
-        else {
-            for (int i = 0; i < 4; i++) {
-                setBackgroundColor(square);
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape());
-                System.out.print(Escapes.SAVE_CURSOR_POSITION.escape() + Unicode.SQUARE_HORIZONTAL_DIM.escape() + Escapes.RESTORE_CURSOR_POSITION.escape());
-                System.out.printf(Escapes.CURSOR_DOWN_INPUT_REQUIRED.escape(), 1);
-            }
-
-        }
-
-            setBackgroundColor(square);
-            System.out.print(Unicode.SQUARE_HORIZONTAL_DIM_MIN1.escape() + square.getLevel());
-
-            System.out.print(ColorCode.ANSI_RESET.escape());
-
-
-    }
-
-    //Worker methods
-
     //Text methods
 
     /**
@@ -1548,7 +1465,6 @@ public class Cli extends View {
     public void inputWithTimeoutStartMatch(){
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
         System.out.print(">");
-        String input = "";
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<String> result = executor.submit(InputCli::readLine);
@@ -1745,9 +1661,31 @@ public class Cli extends View {
         }
     }
 
-    //support methods
 
-    //TODO : javadoc
+    public void appendInFinalTextBox(String text) {
+
+        char[] information = text.toCharArray();
+
+        printFinalTemplate();
+
+        System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.TEXT_BOX_START.escape() + 1, 2);
+
+        //this cycle allow to avoid that text exceed the frame length
+
+        System.out.print("\n");
+        System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1);
+
+        for (int i = 2, j = 0; j < information.length; i++, j++) {
+            System.out.print(information[j]);
+            if (i == Box.HORIZONTAL_DIM.escape() - 2) {
+                System.out.print("-\n");
+                System.out.printf(Escapes.CURSOR_RIGHT_INPUT_REQUIRED.escape(), 1);
+                i = 1;
+            }
+        }
+    }
+
+    //support methods
 
     //TODO : javadoc
 

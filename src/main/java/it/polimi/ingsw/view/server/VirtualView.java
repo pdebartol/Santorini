@@ -51,7 +51,10 @@ public class VirtualView implements ViewInterface {
 
     //methods
 
-    //TODO : javadoc
+    /**
+     * This methods adds a client into the wait list (the list which contains clients who aren't logged yet)
+     * @param socket is the new client connected's socket
+     */
 
     public synchronized void addInWaitList(Socket socket){
         this.waitList.add(socket);
@@ -69,7 +72,11 @@ public class VirtualView implements ViewInterface {
         return on;
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to send a XML message to client identified by socket.
+     * @param socket is the socket of the client that should receive the message
+     * @param msg is the XML message to send
+     */
 
     public void sendMsg(Socket socket, Document msg){
         if(!new MsgSender(socket,msg).sendMsg()) clientDown(socket);
@@ -88,17 +95,19 @@ public class VirtualView implements ViewInterface {
         }
         List<Error> errors = controllerListener.onNewPlayer(username, color);
 
-        if (errors.isEmpty()) {
-            onLoginAcceptedRequest(username, color, socket);
-            availableColor.remove(color);
-        } else
-            onLoginRejectedRequest(username, errors, socket);
+        if(on) {
+            if (errors.isEmpty()) {
+                onLoginAcceptedRequest(username, color, socket);
+                availableColor.remove(color);
+            } else
+                onLoginRejectedRequest(username, errors, socket);
+        }
     }
 
     //TODO : javadoc
 
     public synchronized void startGameRequest(String username){
-        if(username.equals(creator)){
+        if(username.equals(creator) && on){
             challenger = controllerListener.onStartGame();
 
             onStartGameAcceptedRequest(username);
@@ -110,11 +119,13 @@ public class VirtualView implements ViewInterface {
     public void createGodsRequest(String username, ArrayList<Integer> ids){
         List<Error> errors = controllerListener.onChallengerChooseGods(username, ids);
 
-        if(errors.isEmpty())
-            onCreateGodsAcceptedRequest(username,ids);
-        else
-            onRejectedRequest(username,errors,"createGods");
+        if(on) {
 
+            if (errors.isEmpty())
+                onCreateGodsAcceptedRequest(username, ids);
+            else
+                onRejectedRequest(username, errors, "createGods");
+        }
     }
 
     //TODO : javadoc
@@ -122,10 +133,12 @@ public class VirtualView implements ViewInterface {
     public void choseGodRequest(String username, int godId){
        List<Error> errors = controllerListener.onPlayerChooseGod(username, godId);
 
-        if(errors.isEmpty())
-            onChoseGodAcceptedRequest(username,godId);
-        else
-            onRejectedRequest(username,errors,"choseGod");
+       if(on) {
+           if (errors.isEmpty())
+               onChoseGodAcceptedRequest(username, godId);
+           else
+               onRejectedRequest(username, errors, "choseGod");
+       }
 
     }
 
@@ -134,11 +147,13 @@ public class VirtualView implements ViewInterface {
     public void choseStartingPlayerRequest(String username, String playerChosen){
         List<Error> errors = controllerListener.onChallengerChooseStartingPlayer(username, playerChosen);
 
-        if(errors.isEmpty())
-            onChoseStartingPlayerAcceptedRequest(username,playerChosen);
-        else
-            onRejectedRequest(username,errors,"choseStartingPlayer");
+        if(on) {
+            if (errors.isEmpty())
+                onChoseStartingPlayerAcceptedRequest(username, playerChosen);
+            else
+                onRejectedRequest(username, errors, "choseStartingPlayer");
 
+        }
     }
 
     //TODO : javadoc
@@ -146,10 +161,12 @@ public class VirtualView implements ViewInterface {
     public void setupOnBoardRequest(String username, String workerGender, int x, int y){
         List<Error> errors = controllerListener.onPlayerSetWorker(username,workerGender,x,y);
 
-        if(errors.isEmpty())
-            onSetupOnBoardAcceptedRequest(username,workerGender,x,y);
-        else
-            onSetWorkerOnBoardRejectedRequest(username,errors,"setWorkerOnBoard",workerGender);
+        if(on) {
+            if (errors.isEmpty())
+                onSetupOnBoardAcceptedRequest(username, workerGender, x, y);
+            else
+                onSetWorkerOnBoardRejectedRequest(username, errors, "setWorkerOnBoard", workerGender);
+        }
     }
 
     //TODO : javadoc
@@ -157,12 +174,13 @@ public class VirtualView implements ViewInterface {
     public void moveRequest(String username, String workerGender, int x, int y){
         List<Error> errors = controllerListener.onWorkerMove(username,workerGender,x,y);
 
-        if(errors.isEmpty()) {
-            controllerListener.sendAnswerMoveAccepted(username);
-            System.out.println("Lobby number " + lobbyNumber + " : " + username + " has moved his " + workerGender + " worker to " + "[" + x + "," + y + "] position!");
+        if(on) {
+            if (errors.isEmpty()) {
+                controllerListener.sendAnswerMoveAccepted(username);
+                System.out.println("Lobby number " + lobbyNumber + " : " + username + " has moved his " + workerGender + " worker to " + "[" + x + "," + y + "] position!");
+            } else
+                onRejectedRequest(username, errors, "move");
         }
-        else
-            onRejectedRequest(username,errors,"move");
     }
 
     //TODO : javadoc
@@ -170,12 +188,13 @@ public class VirtualView implements ViewInterface {
     public void buildRequest(String username, String workerGender, int x, int y, int level){
         List<Error> errors = controllerListener.onWorkerBuild(username,workerGender,x,y,level);
 
-        if(errors.isEmpty()) {
-            controllerListener.sendAnswerBuildAccepted(username);
-            System.out.println("Lobby number " + lobbyNumber + " : " + username + " has built with his " + workerGender + " worker in " + "[" + x + "," + y + "] position a level " + level + "!");
+        if(on) {
+            if (errors.isEmpty()) {
+                controllerListener.sendAnswerBuildAccepted(username);
+                System.out.println("Lobby number " + lobbyNumber + " : " + username + " has built with his " + workerGender + " worker in " + "[" + x + "," + y + "] position a level " + level + "!");
+            } else
+                onRejectedRequest(username, errors, "build");
         }
-        else
-            onRejectedRequest(username,errors,"build");
     }
 
     //TODO : javadoc
@@ -183,10 +202,12 @@ public class VirtualView implements ViewInterface {
     public void endOfTurn(String username){
         List<Error> errors = controllerListener.onPlayerEndTurn(username);
 
-        if(errors.isEmpty())
-            controllerListener.sendAnswerEndOfTurnAccepted(username);
-        else
-            onRejectedRequest(username,errors,"endOfTurn");
+        if(on) {
+            if (errors.isEmpty())
+                controllerListener.sendAnswerEndOfTurnAccepted(username);
+            else
+                onRejectedRequest(username, errors, "endOfTurn");
+        }
     }
 
     //TODO : javadoc
