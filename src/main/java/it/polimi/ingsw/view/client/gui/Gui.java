@@ -112,10 +112,15 @@ public class Gui extends View {
     private boolean endGame = false;
 
     /**
-     * Timer that disconnects the user for inactivity
+     * Timer that disconnects the user for inactivity during the match
      */
 
     public Timeline timer;
+
+    /**
+     * Timer to start the match automatically
+     */
+
     public Timeline startTimer;
 
 
@@ -755,7 +760,7 @@ public class Gui extends View {
         Platform.runLater(
                 () -> {
                     endGameSceneController.setGodImage(myPlayer.getGod().getId());
-                    endGameSceneController.setLose(reason+". "+ winner  + " has won!");
+                    endGameSceneController.setLose();
                     primaryStage.setScene(endGameScene);
                     primaryStage.show();
                 });
@@ -768,7 +773,7 @@ public class Gui extends View {
                 () -> {
 
                     endGameSceneController.setGodImage(myPlayer.getGod().getId());
-                    endGameSceneController.setWin(reason);
+                    endGameSceneController.setWin();
                     primaryStage.setScene(endGameScene);
                     primaryStage.show();
 
@@ -888,11 +893,23 @@ public class Gui extends View {
         return gameBoard.getSquareByCoordinates(x,y).getWorker().getGender();
     }
 
+
+    /**
+     * This method gets the worker selected from the user
+     * @return the selected worker
+     */
+
     public Worker getSelectedWorker(){
         if(workerForThisTurnCoordinates[0] != -1  && workerForThisTurnCoordinates[1] != -1)
             return gameBoard.getSquareByCoordinates(workerForThisTurnCoordinates[0],workerForThisTurnCoordinates[1]).getWorker();
         return null;
     }
+
+    /**
+     * This method return the position of a worker
+     * @param gender of the worker
+     * @return an array containing the position of the specified worker (x,y)
+     */
 
     public int[] getMyWorkerPosition(String gender){
         int[] coordinates = new int[2];
@@ -908,6 +925,12 @@ public class Gui extends View {
     }
 
 
+    /**
+     * This method checks if the worker in (x,y) is the client's worker
+     * @param x of the worker
+     * @param y of the worker
+     * @return true if the worker is the client's worker
+     */
 
     public boolean isMyWorker(int x, int y){
         Worker maleWorker = myPlayer.getWorkerByGender("male");
@@ -917,17 +940,27 @@ public class Gui extends View {
         return femaleWorker != null && femaleWorker.getCurrentPosition().getX() == x && femaleWorker.getCurrentPosition().getY() == y;
     }
 
+
+    /**
+     * Creates a timer that disconnects the user for inactivity
+     */
+
     public void createTimer(){
         timer = new Timeline(new KeyFrame(
                 Duration.millis(180000),
                 ae -> clientHandler.disconnectionForTimeout()));
     }
 
+    /**
+     * Creates a timer that starts the match automatically after 2 minutes
+     */
+
     public void createStartMatchTimer(){
         startTimer = new Timeline(new KeyFrame(
                 Duration.millis(120000),
                 ae -> sendStartGameRequest()));
     }
+
     void pauseStartMatchTimer() {
             startTimer.pause();
     }

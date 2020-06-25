@@ -29,8 +29,6 @@ public class PlayerOrderSelectionController {
     @FXML
     public ImageView playImageViewButton;
     @FXML
-    private Label informationLabel;
-    @FXML
     private Label playerName;
 
     private Gui gui;
@@ -85,11 +83,6 @@ public class PlayerOrderSelectionController {
 
         numberOfPlayer.setText(currentPlayerId+1 + " of " + players.size());
         playerName.setText(players.get(currentPlayerId).getUsername());
-    }
-
-
-    public void setInstructionLabel(String text){
-        informationLabel.setText(text);
     }
 
 

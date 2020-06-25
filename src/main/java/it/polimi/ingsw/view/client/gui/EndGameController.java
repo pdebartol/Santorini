@@ -7,8 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-import java.awt.event.ActionEvent;
-
 public class EndGameController {
 
     @FXML
@@ -47,7 +45,11 @@ public class EndGameController {
         playerGodImageView.setImage(GuiManager.loadGodEndGame(godId));
     }
 
-    public void setWin(String message){
+    /**
+     * This method is called when the client's user wins the match.
+     */
+
+    public void setWin(){
         winLoseLabel.setText("You Won!");
         informationLabel.setText("");
         cloudRight.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_victorycloudright.png"));
@@ -58,7 +60,12 @@ public class EndGameController {
 
 
     }
-    public void setLose(String message){
+
+    /**
+     * This method is called when the client's user loses the match.
+     */
+
+    public void setLose(){
         winLoseLabel.setText("You Lost!");
         informationLabel.setText("");
         cloudRight.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_defeatcloudright.png"));
@@ -69,8 +76,10 @@ public class EndGameController {
     }
 
 
-    public void changeImageOfNewGame(MouseEvent mouseEvent) {
-    }
+    /**
+     * This method is called when the credits button is pressed.
+     * @param mouseEvent
+     */
 
     public void credits(MouseEvent mouseEvent){
         gui.alertUser("Credits", "Software Engineering Project\nPiersilvio De Bartolomeis\nMarco Di Gennaro\nAlessandro Di Maio", Alert.AlertType.INFORMATION);

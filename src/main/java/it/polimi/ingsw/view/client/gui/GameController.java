@@ -98,6 +98,9 @@ public class GameController {
     private int currentPlayerId = 0;
 
 
+    /**
+     * Current state of the match
+     */
 
     String state = "worker";
 
@@ -106,17 +109,33 @@ public class GameController {
         this.gui = gui;
     }
 
+    /**
+     * This method change the image of the button when it is pressed
+     * @param mouseEvent none
+     */
+
     public void onPressedBuildButton(MouseEvent mouseEvent) {
         Image updateButton = GuiManager.loadImage("Buttons/btn_build_pressed.png");
         buildButton.setImage(updateButton);
         buildButton.setDisable(true);
     }
 
+
+    /**
+     * This method turns on the build-phase of the match (when the build button is pressed)
+     * @param mouseEvent none
+     */
+
     public void doActionBuild(MouseEvent mouseEvent) {
         dNdActiveBuild = true;
         state = "build";
         showImageViews();
     }
+
+    /**
+     * This method turns on the move-phase of the match (when the move button is pressed)
+     * @param mouseEvent none
+     */
 
     public void doActionMove(MouseEvent mouseEvent) {
         dNdActiveMove = true;
@@ -125,10 +144,20 @@ public class GameController {
         //Yellow
     }
 
+    /**
+     * This method ends the turn (when the endTurn button is pressed)
+     * @param mouseEvent
+     */
+
     public void doActionEndTurn(MouseEvent mouseEvent) {
         gui.sendEndOfTurnRequest();
     }
 
+
+    /**
+     * This method change the image of the button when it is pressed
+     * @param mouseEvent none
+     */
 
     public void onPressedMoveButton(MouseEvent mouseEvent) {
         Image updateButton = GuiManager.loadImage("Buttons/btn_move_pressed.png");
@@ -301,6 +330,10 @@ public class GameController {
 
     }
 
+    /**
+     * This method shows the current player's information (when the showPlayer button is pressed)
+     */
+
     public void showPlayerInformation() {
             getCurrentGod();
             godImage.setVisible(true);
@@ -311,6 +344,10 @@ public class GameController {
             nextButton.setVisible(true);
             nextButton.setDisable(false);
     }
+
+    /**
+     * This method shows the  next player's information (when the showPlayer button is pressed)
+     */
 
     public void nextPlayer(MouseEvent actionEvent) {
         Image updateButton = GuiManager.loadImage("Buttons/btn_blue.png");
@@ -323,6 +360,9 @@ public class GameController {
         getCurrentGod();
     }
 
+    /**
+     * This method gets the god of the current player inside the infoBox
+     */
 
     private void getCurrentGod() {
         God tempGod = gui.getPlayerGod(players.get(currentPlayerId));
@@ -335,19 +375,17 @@ public class GameController {
             playerFlag.setEffect(null);
     }
 
-    public void showPrevPlayer(ActionEvent actionEvent) {
-        if (currentPlayerId == 0)
-            currentPlayerId = players.size() - 1;
-        else
-            currentPlayerId--;
 
-        getCurrentGod();
-    }
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
         playerName.setText(players.get(currentPlayerId).getUsername());
     }
+
+    /**
+     * This method setups the worker's image
+     * @param gender of the worker
+     */
 
     public void setupWorker(String gender) {
         worker.setImage(getWorkerImage(gui.getMyColor(), gender));
@@ -500,11 +538,15 @@ public class GameController {
         buildButton.setImage(updateButton);
     }
 
+
+
     public void hideBuildButton() {
         Image updateButton = GuiManager.loadImage("Buttons/btn_build_inactive.png");
         buildButton.setImage(updateButton);
         buildButton.setDisable(true);
     }
+
+
 
     public void showEndButton() {
         endTurnButton.setVisible(true);
@@ -513,11 +555,20 @@ public class GameController {
         endTurnButton.setImage(updateButton);
     }
 
+
+
     public void hideEndButton() {
         Image updateButton = GuiManager.loadImage("Buttons/btn_end_inactive.png");
         endTurnButton.setImage(updateButton);
         endTurnButton.setDisable(true);
     }
+
+    /**
+     * This method gets the image of the worker from resources
+     * @param color of the worker
+     * @param gender of the worker
+     * @return an Image object containing the worker specified
+     */
 
     private Image getWorkerImage(Color color, String gender) {
         // default
@@ -573,6 +624,9 @@ public class GameController {
 
     }
 
+    /**
+     * This method hides the construction blocks
+     */
 
     public void hideImageViews() {
         firstLevelImageView.setVisible(false);
@@ -581,6 +635,10 @@ public class GameController {
         domeImageView.setVisible(false);
         blocksContainer.setVisible(false);
     }
+
+    /**
+     * This method shows the construction blocks
+     */
 
     public void showImageViews() {
         firstLevelImageView.setVisible(true);
@@ -591,6 +649,11 @@ public class GameController {
     }
 
 
+    /**
+     * This method change the image of the button when it is pressed
+     * @param mouseEvent none
+     */
+
     public void onPressedEndTurnButton(MouseEvent mouseEvent) {
         Image updateButton = GuiManager.loadImage("Buttons/btn_end_pressed.png");
         endTurnButton.setImage(updateButton);
@@ -599,6 +662,10 @@ public class GameController {
 
 
 
+    /**
+     * This method change the image of the button when it is pressed
+     * @param mouseEvent none
+     */
 
     public void onPressNextButton(MouseEvent mouseEvent) {
         Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
@@ -623,23 +690,6 @@ public class GameController {
         return borderGlow;
     }
 
-    private void getWorkerAndHighlight(int x, int y){
-        if(x != -1 && y  != -1){
-            AnchorPane square =  (AnchorPane) getNodeFromGridPane(boardGridPane, y, x);
-            ImageView maleWorker = (ImageView) square.getChildren().get(1);
-            maleWorker.setEffect(createDropShadow(javafx.scene.paint.Color.BLUE));
-        }
-    }
-
-
-    public void highlightWorkers(){
-        int[] maleWorker = gui.getMyWorkerPosition("male");
-        int[] femaleWorker = gui.getMyWorkerPosition("female");
-        if(maleWorker[0] != -1 && maleWorker[1] != -1)
-            getWorkerAndHighlight(maleWorker[0],maleWorker[1]);
-        if(femaleWorker[0] != -1 && femaleWorker[1] != -1)
-            getWorkerAndHighlight(femaleWorker[0],femaleWorker[1]);
-    }
 
     public void setState(String state){
         this.state = state;

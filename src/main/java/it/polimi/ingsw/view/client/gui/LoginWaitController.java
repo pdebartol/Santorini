@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.client.gui;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -120,15 +118,7 @@ public class LoginWaitController {
         wait.setImage(updateButton);
     }
 
-    public void hideSecondPlayer(){
-        secondPlayerUsername.setVisible(false);
-        secondPlayerImageView.setVisible(false);
-    }
 
-    public void hideThirdPlayer(){
-        thirdPlayerUsername.setVisible(false);
-        thirdPlayerImageView.setVisible(false);
-    }
 
 
 }
