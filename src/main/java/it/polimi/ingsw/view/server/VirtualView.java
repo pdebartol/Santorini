@@ -15,7 +15,12 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
 
-//TODO : javadoc
+/**
+ * This class simulates the presence of a view on the server (it takes care of receiving the translations of the
+ * requests, addressing them to the controller, receiving responses from the latter and sending them back to the
+ * real view located on the client.
+ * @author marcoDige
+ */
 
 public class VirtualView implements ViewInterface {
 

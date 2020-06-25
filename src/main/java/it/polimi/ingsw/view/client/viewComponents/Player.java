@@ -2,7 +2,11 @@ package it.polimi.ingsw.view.client.viewComponents;
 import it.polimi.ingsw.model.enums.Color;
 import java.util.ArrayList;
 
-//TODO : javadoc
+/**
+ * This class represents a Player. This class is part of the copy of the model on the client
+ * (scheme to temporarily save game data).
+ * @author marcoDige
+ */
 
 public class Player {
 
@@ -41,7 +45,10 @@ public class Player {
 
     public God getGod(){return god;}
 
-    //TODO : javadoc
+    /**
+     * This method allows to remove a worker from this player's workers list
+     * @param w is the worker to remove
+     */
 
     public void removeWorker(Worker w){
         w.getCurrentPosition().removeWorker();

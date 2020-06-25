@@ -45,6 +45,12 @@ public enum Error {
         this.label = label;
     }
 
+    /**
+     * This method allows to obtain the Error value from his label
+     * @param label is the Error to obtain's label
+     * @return an Error
+     */
+
     public static Error valueOfLabel(String label) {
         for (Error err : values()) {
             if (err.label.equals(label)) {
@@ -53,6 +59,12 @@ public enum Error {
         }
         return null;
     }
+
+    /**
+     * This method allows to obtain the Error's label
+     * @param e is the label to obtain's Error
+     * @return a label
+     */
 
     public static String labelOfEnum(Error e){
         for (Error err : values()) {

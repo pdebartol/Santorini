@@ -8,24 +8,56 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//TODO : javadoc
+/**
+ * This abstract class contains all the information of the game useful to the client to show it to the user, the methods
+ * to update it based on the responses of the server and the methods to show the saved information (this latter will then
+ * be extended by the actual interfaces).
+ * @author marcoDige
+ */
 
 public abstract class View {
 
     //attributes
+
     protected Player myPlayer;
     protected ArrayList<Player> players;
     public Board gameBoard;
+
+    /**
+     * This attribute represents the client network interface.
+     */
+
     protected EchoClient clientHandler;
     protected String myIp;
     protected int myPort;
+
+    /**
+     * This attribute contains the list of all gods in Santorini game.
+     */
+
     protected List<God> gods;
 
-    //Turn support methods
+    //Turn support attributes
+
+    /**
+     * This attribute is a support attribute useful in a worker switch / push
+     */
+
     protected Worker removedWorker;
+
+    /**
+     * This array contains (-1,-1) if the worker for this turn has not yet been chosen. If it had already been chosen it
+     * contains its coordinates
+     */
+
     protected int[] workerForThisTurnCoordinates;
 
     //constructors
+
+    /**
+     * this constructor is called when the player connects to a game. It generates the list of all game gods and assign
+     * (-1, -1) to the worker support coordinates this turn.
+     */
 
     public View(){
         myPlayer = null;
@@ -36,6 +68,11 @@ public abstract class View {
         workerForThisTurnCoordinates = new int[2];
         workerForThisTurnCoordinates[0] = workerForThisTurnCoordinates[1] = -1;
     }
+
+    /**
+     * this constructor is called when the player connects to a game through the pair (ip,port).
+     * It generates the list of all game gods and assign (-1, -1) to the worker support coordinates this turn.
+     */
 
     public View(String ip, int port){
         myPlayer = null;
@@ -51,12 +88,19 @@ public abstract class View {
 
     //methods
 
-    //TODO : javadoc
+    /**
+     * This method allows you to establish a connection with the server.
+     */
 
     public void start(){
         clientHandler = new EchoClient(myIp,myPort,this);
         clientHandler.start();
     }
+
+    /**
+     * This method is triggered when the player want to play a new game. It initializes all data for a new game through the
+     * same server.
+     */
 
     public void newGame(){
         myPlayer = null;
@@ -436,6 +480,11 @@ public abstract class View {
     }
 
     //support methods
+
+    /**
+     * This method identifies the next operation to be performed from the input string and starts it.
+     * @param nextOperation is the string received by the server indicating which is the next operation to be performed
+     */
 
     public void nextOperation(String nextOperation){
         switch (nextOperation){

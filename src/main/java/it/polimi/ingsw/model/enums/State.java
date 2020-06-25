@@ -14,6 +14,12 @@ public enum State {
         this.label = label;
     }
 
+    /**
+     * This method allows to obtain the State value from his label
+     * @param label is the State to obtain's label
+     * @return a State
+     */
+
     public static State valueOfLabel(String label) {
         for (State sta : values()) {
             if (sta.label.equals(label)) {

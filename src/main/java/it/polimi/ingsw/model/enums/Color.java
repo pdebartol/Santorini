@@ -23,6 +23,12 @@ public enum Color {
         this.label = label;
     }
 
+    /**
+     * This method allows to obtain the Color value from his label
+     * @param label is the Color to obtain's label
+     * @return a Color
+     */
+
     public static Color valueOfLabel(String label) {
         for (Color e : values()) {
             if (e.label.equals(label)) {
@@ -31,6 +37,12 @@ public enum Color {
         }
         return null;
     }
+
+    /**
+     * This method allows to obtain the Color's label
+     * @param c is the label to obtain's Color
+     * @return a label
+     */
 
     public static String labelOfEnum(Color c){
         for (Color col : values()) {
@@ -41,9 +53,20 @@ public enum Color {
         return null;
     }
 
+    /**
+     * This method allows to obtain a list which contains all colors into this Enum
+     * @return
+     */
+
     public static List<Color> getColorList(){
         return new ArrayList<>(Arrays.asList(values()));
     }
+
+    /**
+     * This method allows to obtain the ColorCode associated with the Color
+     * @param c is the ColorCode to obtain's Color
+     * @return a ColorCode
+     */
 
     public static ColorCode getColorCodeByColor(Color c){
         ColorCode cc;
