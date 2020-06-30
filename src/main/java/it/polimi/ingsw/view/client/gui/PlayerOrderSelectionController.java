@@ -25,7 +25,6 @@ public class PlayerOrderSelectionController {
     public Button nextButton;
     @FXML
     public Label numberOfPlayer;
-
     @FXML
     public ImageView playImageViewButton;
     @FXML
@@ -85,7 +84,6 @@ public class PlayerOrderSelectionController {
         playerName.setText(players.get(currentPlayerId).getUsername());
     }
 
-
     public void setGui(Gui gui) {
         this.gui = gui;
     }
@@ -95,4 +93,5 @@ public class PlayerOrderSelectionController {
         numberOfPlayer.setText(currentPlayerId+1 + " of " + players.size());
         playerName.setText(players.get(currentPlayerId).getUsername());
     }
+
 }

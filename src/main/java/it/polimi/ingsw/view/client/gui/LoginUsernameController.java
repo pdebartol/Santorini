@@ -18,7 +18,6 @@ public class LoginUsernameController {
 
     private Gui gui;
 
-
     /**
      * This method is called when the user presses the PLAY button and connects with his username
      */

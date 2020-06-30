@@ -123,7 +123,6 @@ public class Gui extends View {
 
     public Timeline startTimer;
 
-
     public Gui (String ip, int port,Stage stage, Scene scene){
         super(ip,port);
         this.primaryStage = stage;
@@ -135,7 +134,6 @@ public class Gui extends View {
         initGameScene();
         initEndGame();
     }
-
 
     /**
      * This method loads the FXML of the login scene and initializes its controller
@@ -227,7 +225,6 @@ public class Gui extends View {
         }
     }
 
-
     /**
      * This method loads the FXML of the end game scene and initializes its controller
      */
@@ -243,7 +240,6 @@ public class Gui extends View {
             System.out.println("Could not initialize loginWait Scene");
         }
     }
-
 
     /**
      * This method throws an alert to the user and it is called when something goes wrong
@@ -358,9 +354,7 @@ public class Gui extends View {
                     });
         }
 
-
-        }
-
+    }
 
     @Override
     public void selectStartingPlayer() {
@@ -515,7 +509,6 @@ public class Gui extends View {
                         () -> gameSceneController.setInstructionLabel(author + " is playing his turn.."));
         }
 
-
     }
 
     @Override
@@ -540,15 +533,12 @@ public class Gui extends View {
 
     }
 
-
     @Override
     public void showGodsChallengerSelected(String username, ArrayList<Integer> ids) {
 
-
-
         String infoMessage =(username) + (" has chosen the following gods : ") + (getGodById(ids.get(0)).getName());
         for(int i = 1; i < ids.size(); i++){
-            infoMessage = infoMessage +   (", ") + (getGodById(ids.get(i)).getName());
+            infoMessage = infoMessage + (", ") + (getGodById(ids.get(i)).getName());
         }
 
         String finalInfoMessage = infoMessage;
@@ -611,18 +601,18 @@ public class Gui extends View {
 
     @Override
     public void showBoard() {
+
         Platform.runLater(
                 () -> gameSceneController.updateBoard(gameBoard));
 
     }
 
     @Override
-    public void showTurnEnded(String username) {
-
-    }
+    public void showTurnEnded(String username) { }
 
     @Override
     public void showMyTurnEnded() {
+
         Platform.runLater(
                 () -> {
                     gameSceneController.hideBuildButton();
@@ -631,11 +621,11 @@ public class Gui extends View {
                     gameSceneController.state = "wait";
                     gameSceneController.updateBoard(gameBoard);
                 });
+
     }
 
     @Override
     public void showTurnErrors(List<String> errors) {
-
 
         StringBuilder errorMessage = new StringBuilder("Invalid action! errors encountered : ");
 
@@ -691,7 +681,6 @@ public class Gui extends View {
             }
         }
 
-
         errorMessage.append(".");
         errorMessage.delete(37,38);
 
@@ -701,7 +690,6 @@ public class Gui extends View {
             gameSceneController.restoreImage();
         });
     }
-
 
     @Override
     public void serverNotFound() {
@@ -781,7 +769,6 @@ public class Gui extends View {
 
     }
 
-
     /**
      * This method is called during the godSelection scene when the button next button is pressed
      * @return the next God in the list
@@ -800,7 +787,6 @@ public class Gui extends View {
      * This method is called during the godSelection scene when the button previous button is pressed
      * @return the previous God in the list
      */
-
 
     public God getPreviousGod() {
         List<God> visibleGods = getVisibleGods(challengerSelectedGodsIds);
@@ -821,7 +807,6 @@ public class Gui extends View {
     public God getCurrentGod(){
         return getVisibleGods(challengerSelectedGodsIds).get(currentGodId);
     }
-
 
     /**
      * This method adds the current God to the list of selected Gods
@@ -872,6 +857,7 @@ public class Gui extends View {
      * @param ids of the gods that the challenger selected
      * @return a list containing the filtered gods
      */
+
     private List<God> getVisibleGods(List<Integer> ids){
         if(ids.size() > 0 && isChallenger)
             return gods.stream().filter(God -> !ids.contains(God.getId())).collect(Collectors.toList());

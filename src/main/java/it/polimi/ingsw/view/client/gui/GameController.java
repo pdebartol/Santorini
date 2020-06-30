@@ -15,7 +15,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 
-
 /**
  * This class implements the GameScene Controller
  *
@@ -26,11 +25,8 @@ public class GameController {
 
     @FXML
     public Label playerName;
-
     @FXML
     public Label informationBox;
-
-
     @FXML
     public ImageView moveButton;
     @FXML
@@ -53,12 +49,14 @@ public class GameController {
     public ImageView thirdLevelImageView;
     @FXML
     public ImageView domeImageView;
-
+    @FXML
     public ImageView godContainer;
+    @FXML
     public ImageView playerFlag;
+    @FXML
     public ImageView nextButton;
+    @FXML
     public AnchorPane blocksContainer;
-
 
     private Gui gui;
 
@@ -74,8 +72,6 @@ public class GameController {
 
     private ImageView destination;
     private ImageView destination_pointer;
-
-
 
     //constructors
 
@@ -111,7 +107,7 @@ public class GameController {
 
     /**
      * This method change the image of the button when it is pressed
-     * @param mouseEvent none
+     * @param mouseEvent represents the left mouse button held down
      */
 
     public void onPressedBuildButton(MouseEvent mouseEvent) {
@@ -119,7 +115,6 @@ public class GameController {
         buildButton.setImage(updateButton);
         buildButton.setDisable(true);
     }
-
 
     /**
      * This method turns on the build-phase of the match (when the build button is pressed)
@@ -146,13 +141,12 @@ public class GameController {
 
     /**
      * This method ends the turn (when the endTurn button is pressed)
-     * @param mouseEvent
+     * @param mouseEvent represents the click action
      */
 
     public void doActionEndTurn(MouseEvent mouseEvent) {
         gui.sendEndOfTurnRequest();
     }
-
 
     /**
      * This method change the image of the button when it is pressed
@@ -165,12 +159,19 @@ public class GameController {
         moveButton.setDisable(true);
     }
 
-
+    /**
+     * This method is triggered when a drag & drop action does not end successfully.
+     */
 
     public void restoreImage() {
         source_pointer.setImage(source.getImage());
         destination_pointer.setImage(destination.getImage());
     }
+
+    /**
+     * This method represents the "On Drag Done" method of JavaFX for the builders images.
+     * @param dragEvent is the object that handles the drag & drop features
+     */
 
     public void dragDoneMethod(DragEvent dragEvent) {
 
@@ -181,6 +182,11 @@ public class GameController {
 
     }
 
+    /**
+     * This method represents the "On Drag Done" method of JavaFX for workers.
+     * @param dragEvent is the object that handles the drag & drop features
+     */
+
     public void removeWorkerDragged(DragEvent dragEvent) {
 
         if (dragEvent.getTransferMode() == TransferMode.MOVE) {
@@ -189,6 +195,11 @@ public class GameController {
         }
 
     }
+
+    /**
+     * This method represents the "On Drag Dropped" method of JavaFX. It is triggered when a drop action is completed.
+     * @param dragEvent handle the "drop" action
+     */
 
     @FXML
     public void acceptElement(DragEvent dragEvent) {
@@ -264,6 +275,11 @@ public class GameController {
         dragEvent.consume();
     }
 
+    /**
+     * This method represents the "On Drag Over" method of JavaFX for workers.
+     * @param dragEvent is the object that handles the drag & drop features
+     */
+
     @FXML
     public void highlightSquareOverMethod(DragEvent dragEvent) {
 
@@ -275,6 +291,11 @@ public class GameController {
 
     }
 
+    /**
+     * This method checks if a given worker is my worker
+     * @param mouseEvent get the worker
+     * @return the positions of my worker
+     */
 
     private boolean isMyWorker(MouseEvent mouseEvent) {
 
@@ -285,6 +306,12 @@ public class GameController {
         return workerPosition[0] == x && workerPosition[1] == y;
 
     }
+
+    /**
+     * This method checks if a drag & drop action could start
+     * @param mouseEvent is the object represents the mouse action
+     * @return a boolean response to the answer "can I drag?"
+     */
 
     private boolean canIDrag(MouseEvent mouseEvent) {
 
@@ -307,6 +334,11 @@ public class GameController {
 
         return false;
     }
+
+    /**
+     * This method represents the "On Drag Detected" method of JavaFX.
+     * @param mouseEvent handle the drag action
+     */
 
     @FXML
     public void startChangingPosition(MouseEvent mouseEvent) {
@@ -375,8 +407,6 @@ public class GameController {
             playerFlag.setEffect(null);
     }
 
-
-
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
         playerName.setText(players.get(currentPlayerId).getUsername());
@@ -396,10 +426,8 @@ public class GameController {
         informationBox.setText(text);
     }
 
-
     /**
      * This method displays the updated board
-     *
      * @param board_view is the board that have to be displayed
      */
 
@@ -420,7 +448,6 @@ public class GameController {
 
     /**
      * This method displays a single updated square
-     *
      * @param square is the square that have to be displayed
      */
 
@@ -501,7 +528,6 @@ public class GameController {
 
     /**
      * This method return a node of GridPane by giving to it the coordinates of the node
-     *
      * @param gridPane represents the GridPane
      * @param col      represents the x
      * @param row      represents the y
@@ -538,15 +564,11 @@ public class GameController {
         buildButton.setImage(updateButton);
     }
 
-
-
     public void hideBuildButton() {
         Image updateButton = GuiManager.loadImage("Buttons/btn_build_inactive.png");
         buildButton.setImage(updateButton);
         buildButton.setDisable(true);
     }
-
-
 
     public void showEndButton() {
         endTurnButton.setVisible(true);
@@ -554,8 +576,6 @@ public class GameController {
         Image updateButton = GuiManager.loadImage("Buttons/btn_end.png");
         endTurnButton.setImage(updateButton);
     }
-
-
 
     public void hideEndButton() {
         Image updateButton = GuiManager.loadImage("Buttons/btn_end_inactive.png");
@@ -648,7 +668,6 @@ public class GameController {
         blocksContainer.setVisible(true);
     }
 
-
     /**
      * This method change the image of the button when it is pressed
      * @param mouseEvent none
@@ -660,8 +679,6 @@ public class GameController {
         endTurnButton.setDisable(true);
     }
 
-
-
     /**
      * This method change the image of the button when it is pressed
      * @param mouseEvent none
@@ -671,7 +688,6 @@ public class GameController {
         Image updateButton = GuiManager.loadImage("Buttons/btn_blue_pressed.png");
         nextButton.setImage(updateButton);
     }
-
 
     /**
      * This method creates a border glow effect that we use to highlight elements on the board
@@ -690,11 +706,9 @@ public class GameController {
         return borderGlow;
     }
 
-
     public void setState(String state){
         this.state = state;
     }
-
 
 }
 

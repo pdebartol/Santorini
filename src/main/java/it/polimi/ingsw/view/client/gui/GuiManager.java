@@ -21,7 +21,6 @@ public class GuiManager extends Application {
 
     public static ExecutorService executor;
 
-
     @Override
     public void start(Stage stage) throws IOException {
         Parent root =  loadFXML("loginConnection").load();
@@ -56,7 +55,6 @@ public class GuiManager extends Application {
         return new Image(GuiManager.class.getResource("/gui/graphics_resources/Sprite/"+img).toString());
     }
 
-
     /**
      * This method loads the image of a god Card
      * @param id of the god
@@ -89,7 +87,6 @@ public class GuiManager extends Application {
 
         return god;
     }
-
 
 }
 

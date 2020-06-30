@@ -40,9 +40,6 @@ public class GodSelectionController {
     private Gui gui;
 
 
-
-
-
     /**
      * This method is called when the previous god button is pressed, it updated the gui
      * @param actionEvent none
@@ -55,7 +52,6 @@ public class GodSelectionController {
         imageGod.setImage(GuiManager.loadGod(godId));
         descriptionLabel.setText(god.getDescription());
     }
-
 
     /**
      * This method is called when the next god button is pressed, it updates the gui
@@ -70,7 +66,6 @@ public class GodSelectionController {
         descriptionLabel.setText(god.getDescription());
     }
 
-
     /**
      * This method is called when the confirm button is pressed to change its image.
      * @param mouseEvent none
@@ -81,7 +76,6 @@ public class GodSelectionController {
         Image updateButton = GuiManager.loadImage("Buttons/btn_confirm_pressed.png");
         confirmationImageViewButton.setImage(updateButton);
     }
-
 
     /**
      * This method is called when the user confirms his choice and makes it final
@@ -105,7 +99,6 @@ public class GodSelectionController {
 
     }
 
-
     /**
      * This method is called when the challenger confirms is choice of the god
      * @param mouseEvent none
@@ -121,9 +114,6 @@ public class GodSelectionController {
         }
     }
 
-
-
-
     /**
      * This method is called when the scene starts, and it initializes the first god
      * @param starterGod the first god in the deck
@@ -134,7 +124,6 @@ public class GodSelectionController {
         imageGod.setImage(GuiManager.loadGod(godId));
         descriptionLabel.setText(starterGod.getDescription());
     }
-
 
     public void setGodProgression(String text){
         progressionOfGods.setText(text);
@@ -167,4 +156,5 @@ public class GodSelectionController {
     public void setGui(Gui gui){
         this.gui = gui;
     }
+
 }

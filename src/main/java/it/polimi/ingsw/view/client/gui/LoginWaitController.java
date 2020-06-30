@@ -27,16 +27,12 @@ public class LoginWaitController {
     public ImageView secondPlayerImageView;
     @FXML
     public ImageView myPlayerImageView;
-
+    @FXML
     public ImageView start;
+    @FXML
     public ImageView wait;
-
-
     @FXML
     private Label informationBox;
-
-
-
 
     /**
      * This method is called when the creator of the match starts the game.
@@ -48,7 +44,6 @@ public class LoginWaitController {
         gui.sendStartGameRequest();
         gui.pauseStartMatchTimer();
     }
-
 
     /**
      * This method is called when the creator of the match chooses to wait for another player.
@@ -65,7 +60,6 @@ public class LoginWaitController {
     public void setGui(Gui gui) {
         this.gui = gui;
     }
-
 
     public void hideStartButton(){
         start.setDisable(true);
@@ -94,7 +88,6 @@ public class LoginWaitController {
         return informationBox.getText();
     }
 
-
     public void setSecondPlayer(String text){
         secondPlayerUsername.setText(text);
     }
@@ -117,8 +110,5 @@ public class LoginWaitController {
         Image updateButton = GuiManager.loadImage("Buttons/btn_wait_pressed.png");
         wait.setImage(updateButton);
     }
-
-
-
 
 }

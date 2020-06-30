@@ -12,7 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-
 /**
  * This Class is the controller for the initial connection scene.
  * @author pierobartolo
@@ -29,8 +28,6 @@ public class loginConnectionController {
 
     @FXML
     AnchorPane ap;
-
-
 
     /**
      * This method is called when the connect button is pressed.
@@ -67,7 +64,6 @@ public class loginConnectionController {
         return port.getText();
     }
 
-
     /**
      * Notifies the user (with Alert) that the IP is not valid.
      */
@@ -95,8 +91,6 @@ public class loginConnectionController {
         connect.setImage(updateButton);
         connect.setDisable(true);
     }
-
-
 
 }
 

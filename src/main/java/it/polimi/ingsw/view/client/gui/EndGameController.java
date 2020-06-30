@@ -32,7 +32,6 @@ public class EndGameController {
 
     private Gui gui;
 
-
     public void newGame(MouseEvent mouseEvent){
         gui.newGame();
     }
@@ -50,6 +49,7 @@ public class EndGameController {
      */
 
     public void setWin(){
+
         winLoseLabel.setText("You Won!");
         informationLabel.setText("");
         cloudRight.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_victorycloudright.png"));
@@ -57,7 +57,6 @@ public class EndGameController {
         trumpetsLeft.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_victorytrumpets_left.png"));
         trumpetsRight.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_victorytrumpets_right.png"));
         endGameFrame.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_victorywin.png"));
-
 
     }
 
@@ -75,7 +74,6 @@ public class EndGameController {
         endGameFrame.setImage(GuiManager.loadImage("Layouts/Endgame/endgame_windowdefeat.png"));
     }
 
-
     /**
      * This method is called when the credits button is pressed.
      * @param mouseEvent
@@ -84,4 +82,5 @@ public class EndGameController {
     public void credits(MouseEvent mouseEvent){
         gui.alertUser("Credits", "Software Engineering Project\nPiersilvio De Bartolomeis\nMarco Di Gennaro\nAlessandro Di Maio", Alert.AlertType.INFORMATION);
     }
+
 }
