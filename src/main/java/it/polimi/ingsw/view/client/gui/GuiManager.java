@@ -24,6 +24,7 @@ public class GuiManager extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Parent root =  loadFXML("loginConnection").load();
+        stage.setResizable(false);
         stage.setTitle("AM10 Santorini");
         stage.getIcons().add(new Image("/gui/graphics_resources/Sprite/cm_boardgame.png"));
         Scene scene = new Scene(root);
