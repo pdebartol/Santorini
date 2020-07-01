@@ -15,7 +15,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * This class contains all the methods for writing an XML schema to a client request response message from the server.
+ * This class contains all the methods useful to write an XML schema message which represents a response to a client
+ * from the server.
  * @author marcoDige
  */
 
