@@ -919,6 +919,10 @@ public class Cli extends View {
         printSantorini();
     }
 
+    /**
+     * This method prints the frame displayed during the end-game, after win or lose
+     */
+
     public void printFinalTemplate(){
 
         //draw the top line
@@ -987,6 +991,10 @@ public class Cli extends View {
                 System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
         }
     }
+
+    /**
+     * This method prints the frame displayed during the game
+     */
 
     public void printGameTemplate() {
 
@@ -1208,7 +1216,9 @@ public class Cli extends View {
 
     }
 
-    //Board methods
+    /**
+     * This method prints the board frame
+     */
 
     private void printBoardFrame(){
 
@@ -1278,6 +1288,11 @@ public class Cli extends View {
 
     }
 
+    /**
+     * This method prints the board reference next to the board frame and call the method "drawSquareV2" in order to
+     * print each square
+     */
+
     public void printBoard() {
 
         printBoardFrame();
@@ -1308,6 +1323,12 @@ public class Cli extends View {
 
     }
 
+    /**
+     * This method sets the background color for terminal
+     * @param level indicates the level of building, depending on it the background color will change
+     * @return the escape code referring the background wanted
+     */
+
     private String setBackgroundColorOfLevel(int level){
 
         if (level == 4)
@@ -1327,6 +1348,11 @@ public class Cli extends View {
 
         return null;
     }
+
+    /**
+     * This method prints a single square
+     * @param square indicates the square that will be printed
+     */
 
     private void drawSquareV2(Square square){
 
@@ -1423,8 +1449,6 @@ public class Cli extends View {
 
     }
 
-    //Text methods
-
     /**
      * This method is used to get input from keyboard without any control
      *
@@ -1462,6 +1486,8 @@ public class Cli extends View {
         return input;
     }
 
+    //TODO: javadoc
+
     public void inputWithTimeoutStartMatch(){
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
         System.out.print(">");
@@ -1477,7 +1503,10 @@ public class Cli extends View {
 
     }
 
-
+    /**
+     * This method prints text in the part of the general frame dedicated to text
+     * @param text indicates the text that will be printed
+     */
 
     public void printInStartTextBox(String text) {
 
@@ -1501,7 +1530,9 @@ public class Cli extends View {
 
     }
 
-    //TODO : javadoc
+    /**
+     * This method prints god's information in the part of the general frame dedicated to gods
+     */
 
     public void printGodInGodBox(){
         eraseThings("godBox");
@@ -1509,6 +1540,8 @@ public class Cli extends View {
         printInGodTextBox("name",godToVisualize.getName());
         printInGodTextBox("description",godToVisualize.getDescription());
     }
+
+    //TODO: javadoc
 
     public void printInFinalTextBox(String text) {
 
@@ -1586,9 +1619,13 @@ public class Cli extends View {
 
     }
 
+    /**
+     * This method is used to avoid that printed text exceed the length of the text box
+     * @param text is the text that will be printed
+     */
+
     public void appendInStartTextBox(String text) {
         char[] information = text.toCharArray();
-
 
         printStartTemplate();
 
@@ -1634,9 +1671,12 @@ public class Cli extends View {
                 i = 1;
             }
         }
-
-
     }
+
+    /**
+     * This method is used to avoid that printed text exceed the length of the god text box
+     * @param text is the text that will be printed
+     */
 
     public void appendInGameTextBox(String text) {
 
@@ -1661,6 +1701,10 @@ public class Cli extends View {
         }
     }
 
+    /**
+     * This method is used to avoid that printed text exceed the length of the final text box
+     * @param text is the text that will be printed
+     */
 
     public void appendInFinalTextBox(String text) {
 
