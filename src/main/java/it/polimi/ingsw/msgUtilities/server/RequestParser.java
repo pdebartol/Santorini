@@ -19,6 +19,10 @@ public class RequestParser {
 
     //attributes
 
+    /**
+     * This attribute represents the XML abstract document
+     */
+
     private final Document document;
 
     public RequestParser(Document document){
