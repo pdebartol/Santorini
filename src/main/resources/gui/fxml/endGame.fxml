@@ -32,7 +32,7 @@
                </image>
             </ImageView>
             <Button fx:id="creditsButton" onMouseReleased="#credits" layoutX="138.0" layoutY="410.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="102.0" text="Credits" />
-            <Button fx:id="newGameButton" layoutX="474.0" layoutY="410.0" mnemonicParsing="false" onMousePressed="#changeImageOfNewGame" onMouseReleased="#newGame" prefHeight="40.0" prefWidth="102.0" text="New Game" />
+            <Button fx:id="newGameButton" layoutX="474.0" layoutY="410.0" mnemonicParsing="false"  onMouseReleased="#newGame" prefHeight="40.0" prefWidth="102.0" text="New Game" />
             <ImageView fx:id="cloudRight" fitHeight="81.0" fitWidth="138.0" layoutX="537.0" layoutY="285.0">
                <image>
                   <Image url="@../graphics_resources/Sprite/Layouts/Endgame/endgame_victorycloudright.png" />

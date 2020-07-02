@@ -237,7 +237,7 @@ public class Gui extends View {
             endGameSceneController = loader.getController();
             endGameSceneController.setGui(this);
         } catch (IOException e) {
-            System.out.println("Could not initialize loginWait Scene");
+            System.out.println("Could not initialize endGame Scene");
         }
     }
 
