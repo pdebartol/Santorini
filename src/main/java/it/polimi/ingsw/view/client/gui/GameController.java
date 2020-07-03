@@ -544,7 +544,9 @@ public class GameController {
         return null;
     }
 
-    //TODO: javadoc
+    /**
+     * This method hides the move button in the main game scene
+     */
 
     public void hideMoveButton() {
         Image updateButton = GuiManager.loadImage("Buttons/btn_move_inactive.png");
@@ -552,7 +554,10 @@ public class GameController {
         moveButton.setDisable(true);
     }
 
-    //TODO: javadoc
+
+    /**
+     * This method shows the move button in the main game scene
+     */
 
     public void showMoveButton() {
         moveButton.setVisible(true);
@@ -561,7 +566,10 @@ public class GameController {
         moveButton.setImage(updateButton);
     }
 
-    //TODO: javadoc
+
+    /**
+     * This method shows the build button in the main game scene
+     */
 
     public void showBuildButton() {
         buildButton.setVisible(true);
@@ -570,7 +578,9 @@ public class GameController {
         buildButton.setImage(updateButton);
     }
 
-    //TODO: javadoc
+    /**
+     * This method hides the build button in the main game scene
+     */
 
     public void hideBuildButton() {
         Image updateButton = GuiManager.loadImage("Buttons/btn_build_inactive.png");
@@ -578,7 +588,9 @@ public class GameController {
         buildButton.setDisable(true);
     }
 
-    //TODO: javadoc
+    /**
+     * This method shows the end button in the main game scene
+     */
 
     public void showEndButton() {
         endTurnButton.setVisible(true);
@@ -587,7 +599,9 @@ public class GameController {
         endTurnButton.setImage(updateButton);
     }
 
-    //TODO: javadoc
+    /**
+     * This method hides the end button in the main game scene
+     */
 
     public void hideEndButton() {
         Image updateButton = GuiManager.loadImage("Buttons/btn_end_inactive.png");
@@ -718,7 +732,6 @@ public class GameController {
         return borderGlow;
     }
 
-    //TODO: javadoc
 
     public void setState(String state){
         this.state = state;

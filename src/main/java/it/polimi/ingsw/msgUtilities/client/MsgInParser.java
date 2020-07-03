@@ -65,7 +65,7 @@ public class MsgInParser {
 
     /**
      * This method parses the incoming message: based on its first node it will
-     * be an update, an answer or a toDo message.
+     * be an update, an answer or a to do message.
      */
 
     public void parseIncomingMessage(){
