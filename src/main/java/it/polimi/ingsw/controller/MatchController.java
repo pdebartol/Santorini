@@ -72,7 +72,6 @@ public class MatchController implements ControllerInterface {
      * @return a String containing the challenger username.
      */
 
-    //TODO check that there are no conflicts
     @Override
     public String onStartGame() {
         if(gameBoard.getGameState() != State.LOGIN) throw new IllegalStateException("Can't start the game in this state!");
@@ -373,8 +372,6 @@ public class MatchController implements ControllerInterface {
         playerController.getCurrentPlayer().setGod(regeneratedGods.get(0));
         playerController.getNextPlayer().setGod(regeneratedGods.get(1));
     }
-
-    //TODO: javadoc
 
     @Override
     public State getGameState() {

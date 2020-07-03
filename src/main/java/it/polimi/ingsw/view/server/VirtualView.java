@@ -27,15 +27,51 @@ public class VirtualView implements ViewInterface {
     //attributes
 
     private final ControllerInterface controllerListener;
+
     private final Map<String,Socket> clients;
+
     private final Map<String,Color> players;
+
+    /**
+     * This list contains the players who entered the game but haven't logged in yet.
+     */
     private final List<Socket> waitList;
+
     private final ClientDisconnectionListener clientDisconnectionListener;
+
+    /**
+     * This attribute represents the match creator.
+     */
+
     private String creator;
+
+    /**
+     * This attribute represents the match challenger.
+     */
+
     private String challenger;
+
+    /**
+     * This attribute contains the colors available during the startup stage of the match.
+     */
+
     private final List<Color> availableColor;
+
+    /**
+     * This attribute indicates the number of the lobby (sequential number on the server).
+     */
+
     private final int lobbyNumber;
+
+    /**
+     * This boolean attribute indicates if this virtual view has been removed.
+     */
+
     private boolean on;
+
+    /**
+     * This boolean attribute indicates if the match has started.
+     */
 
     boolean matchStarted;
 
@@ -89,7 +125,12 @@ public class VirtualView implements ViewInterface {
 
     //Request Methods
 
-    //TODO : javadoc
+    /**
+     * This method handles a login request, turns it over to the controller and, based on the server response, directs
+     * the response. It also assigns a random color to the player.
+     * @param username is the player who want to log in username
+     * @param socket is the socket associated with the new player
+     */
 
     public synchronized void loginRequest(String username, Socket socket) {
         Color color;
@@ -109,7 +150,10 @@ public class VirtualView implements ViewInterface {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles a startGame request, turns it over to the controller and directs the response.
+     * @param username is the username of the player who's starting the game
+     */
 
     public synchronized void startGameRequest(String username){
         if(username.equals(creator) && on){
@@ -119,7 +163,12 @@ public class VirtualView implements ViewInterface {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles a createGods request, turns it over to the controller and, based on the server response, directs
+     * the response.
+     * @param username is the player who made the request
+     * @param ids is the list of the gods chosen by the player
+     */
 
     public void createGodsRequest(String username, ArrayList<Integer> ids){
         List<Error> errors = controllerListener.onChallengerChooseGods(username, ids);
@@ -133,7 +182,12 @@ public class VirtualView implements ViewInterface {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles a choseGods request, turns it over to the controller and, based on the server response, directs
+     * the response.
+     * @param username is the player who made the request
+     * @param godId is the id of the god chosen by the player
+     */
 
     public void choseGodRequest(String username, int godId){
        List<Error> errors = controllerListener.onPlayerChooseGod(username, godId);
@@ -147,7 +201,12 @@ public class VirtualView implements ViewInterface {
 
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles a choseStartingPlayer request, turns it over to the controller and, based on the server
+     * response, directs the response.
+     * @param username is the player who made the request
+     * @param playerChosen is the player chosen to start the game
+     */
 
     public void choseStartingPlayerRequest(String username, String playerChosen){
         List<Error> errors = controllerListener.onChallengerChooseStartingPlayer(username, playerChosen);
@@ -161,7 +220,14 @@ public class VirtualView implements ViewInterface {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles a setupOnBoard request, turns it over to the controller and, based on the server response,
+     * directs the response.
+     * @param username is the player who made the request
+     * @param workerGender is the gender of the worker that user request to place on board
+     * @param x is the x coordinate where user placed his worker
+     * @param y is the y coordinate where user placed his worker
+     */
 
     public void setupOnBoardRequest(String username, String workerGender, int x, int y){
         List<Error> errors = controllerListener.onPlayerSetWorker(username,workerGender,x,y);
@@ -174,7 +240,14 @@ public class VirtualView implements ViewInterface {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles a move request, turns it over to the controller and, based on the server response,
+     * directs the response.
+     * @param username is the player who made the request
+     * @param workerGender is the gender of the worker that user request to move
+     * @param x is the x coordinate where user wants to move
+     * @param y is the y coordinate where user wants to move
+     */
 
     public void moveRequest(String username, String workerGender, int x, int y){
         List<Error> errors = controllerListener.onWorkerMove(username,workerGender,x,y);
@@ -188,7 +261,15 @@ public class VirtualView implements ViewInterface {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles a move request, turns it over to the controller and, based on the server response,
+     * directs the response.
+     * @param username is the player who made the request
+     * @param workerGender is the gender of the worker that user request to build
+     * @param x is the x coordinate where user wants to build
+     * @param y is the y coordinate where user wants to build
+     * @param level is the level that the worker want to build
+     */
 
     public void buildRequest(String username, String workerGender, int x, int y, int level){
         List<Error> errors = controllerListener.onWorkerBuild(username,workerGender,x,y,level);
@@ -202,7 +283,11 @@ public class VirtualView implements ViewInterface {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles an endOfTurn request, turns it over to the controller and, based on the server response,
+     * directs the response.
+     * @param username is the player who made the request
+     */
 
     public void endOfTurn(String username){
         List<Error> errors = controllerListener.onPlayerEndTurn(username);
@@ -215,15 +300,23 @@ public class VirtualView implements ViewInterface {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles an end request and remove the username from the clients list
+     * @param username is the player who made the request
+     */
 
     public void endRequest(String username){clients.remove(username);}
 
-    //TODO : javadoc
-
     // Answer Methods
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where the login request from the new player has been accepted. It removes the client
+     * from the wait list, sends a positive response message to the client, and updates it to other clients in the match.
+     * It warns unconnected clients that the lobby is no longer available when the lobby is filled.
+     * @param username is the new player's username
+     * @param color is the new player's color
+     * @param socket is the new player's socket
+     */
 
     public void onLoginAcceptedRequest(String username,Color color, Socket socket){
         waitList.remove(socket);
@@ -247,13 +340,24 @@ public class VirtualView implements ViewInterface {
         if(clients.size() == 2 || clients.size() == 3) toDoStartMatch();
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where the login request from the player has been rejected. It sends a message where
+     * it alerts the client that the request has been rejected.
+     * @param username is the is the username chosen by the player
+     * @param errors is the error list where the errors that led to the rejection are contained
+     * @param socket is the payer's socket
+     */
 
     public void onLoginRejectedRequest(String username,List<Error> errors, Socket socket){
         sendMsg(socket, new AnswerMsgWriter().rejectedAnswer(username, "login", errors));
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where the startGame request from the player has been accepted. It informs the client
+     * that the request has been accepted and updates the other clients that the match has started. It warns the
+     * challenger that he has to choose the gods.
+     * @param username is the username of the player who started the game
+     */
 
     public void onStartGameAcceptedRequest(String username){
         Document updateMsg = new UpdateMsgWriter().startGameUpdate(username);
@@ -271,21 +375,40 @@ public class VirtualView implements ViewInterface {
         toDoCreateGods();
     }
 
-    @Override
+    /**
+     * This method handles the case where the request from the player has been rejected. It sends a message where
+     * it alerts the client that the request has been rejected.
+     * @param username is the is the username of the player who made the request
+     * @param errors is the error list where the errors that led to the rejection are contained
+     * @param mode is the message mode
+     */
 
-    //TODO : javadoc
+    @Override
 
     public void onRejectedRequest(String username, List<Error> errors, String mode){
         sendMsg(clients.get(username), new AnswerMsgWriter().rejectedAnswer(username,mode,errors));
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where the setWorkerOnBoard request from the player has been rejected. It sends
+     * a message where it alerts the client that the request has been rejected.
+     * @param username is the is the username of the player who made the request
+     * @param errors is the error list where the errors that led to the rejection are contained
+     * @param mode is the mode of the request
+     * @param gender is the gender of the worker for whom the request was made
+     */
 
     public void onSetWorkerOnBoardRejectedRequest(String username, List<Error> errors, String mode,String gender){
         sendMsg(clients.get(username), new AnswerMsgWriter().rejectedSetWorkerOnBoardAnswer(username,mode,errors,gender));
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where the createGods request from the player has been accepted. It sends a
+     * positive response message to the client, and updates it to other clients in the match. It warns the next player
+     * that he has to choose his god.
+     * @param username is the is the username of the player who made the request
+     * @param ids is the list of the gods chosen by the player
+     */
 
     public void onCreateGodsAcceptedRequest(String username, ArrayList<Integer> ids){
         Document updateMsg = new UpdateMsgWriter().createGodsUpdate(username,ids);
@@ -301,7 +424,14 @@ public class VirtualView implements ViewInterface {
         System.out.println("Lobby number " + lobbyNumber + " : " + username + " has chosen " + players.size() + " gods!");
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where the choseGod request from the player has been accepted. It sends a
+     * positive response message to the client, and updates it to other clients in the match. It warns the next player
+     * that he has to choose his god or, if this is the last player in turn, it warns the player who has to chose the
+     * starting player.
+     * @param username is the is the username of the player who made the request
+     * @param godId is the id of the god that the player has chosen
+     */
 
     public void onChoseGodAcceptedRequest(String username, int godId){
         Document updateMsg = new UpdateMsgWriter().choseGodUpdate(username,godId);
@@ -320,7 +450,13 @@ public class VirtualView implements ViewInterface {
         System.out.println("Lobby number " + lobbyNumber + " : " + username + " has chosen his god!");
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where the choseStartingPlayer request from the player has been accepted. It sends a
+     * positive response message to the client, and updates it to other clients in the match. It warns the next player
+     * that he has to start to place his workers on the board.
+     * @param username is the is the username of the player who made the request
+     * @param playerChosen is the username of the player chosen to start the game
+     */
 
     public void onChoseStartingPlayerAcceptedRequest(String username, String playerChosen){
         Document updateMsg = new UpdateMsgWriter().choseStartingPlayerUpdate(username,playerChosen);
@@ -336,7 +472,16 @@ public class VirtualView implements ViewInterface {
         System.out.println("Lobby number " + lobbyNumber + " : " + username + " has chosen " + playerChosen + " as starter player!");
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where the setupOnBoard request from the player has been accepted. It sends a
+     * positive response message to the client, and updates it to other clients in the match. It warns the next player
+     * that he has to place his workers on the board or, if this player has to place the other worker on board, it warns
+     * this player that he has to place his female worker on the board.
+     * @param username is the player who made the request
+     * @param workerGender is the gender of the worker that user request to place on board
+     * @param x is the x coordinate where user placed his worker
+     * @param y is the y coordinate where user placed his worker
+     */
 
     public void onSetupOnBoardAcceptedRequest(String username, String workerGender, int x, int y){
         Document updateMsg = new UpdateMsgWriter().setupOnBoardUpdate(username,workerGender,x,y);
@@ -355,7 +500,13 @@ public class VirtualView implements ViewInterface {
         System.out.println("Lobby number " + lobbyNumber + " : " + username + " has placed his " + workerGender + " worker on " + "[" + x + "," + y + "] position!");
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where the move request from the player has been accepted. It sends a
+     * positive response message to the client, and updates it to other clients in the match.
+     * @param username is the player who made the request
+     * @param answerMsg is the document to send to the player who made de request
+     * @param updateMsg is the document to send to the other players
+     */
 
     @Override
 
@@ -366,7 +517,13 @@ public class VirtualView implements ViewInterface {
         sendMsg(clients.get(username), answerMsg);
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where the build request from the player has been accepted. It sends a
+     * positive response message to the client, and updates it to other clients in the match.
+     * @param username is the player who made the request
+     * @param answerMsg is the document to send to the player who made the request
+     * @param updateMsg is the document to send to the other players
+     */
 
     @Override
 
@@ -377,7 +534,14 @@ public class VirtualView implements ViewInterface {
         sendMsg(clients.get(username), answerMsg);
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where the endOfTurn request from the player has been accepted. It sends a
+     * positive response message to the client, and updates it to other clients in the match. It warns the next player
+     * that he has to start his turn.
+     * @param username is the player who made the request
+     * @param answerMsg is the document to send to the player who made the request
+     * @param updateMsg is the document to send to the other players
+     */
 
     @Override
 
@@ -393,16 +557,22 @@ public class VirtualView implements ViewInterface {
         System.out.println("Lobby number " + lobbyNumber + " : " + username + " has finished his turn!");
     }
 
-    //TODO : javadoc
-
     // To do communication Methods
+
+    /**
+     * This method sends a warning message to the client that needs to log in
+     * @param socket is the client's socket
+     */
 
     public void toDoLogin(Socket socket){
         System.out.println(socket + " have to log in");
         sendMsg(socket, new ToDoMsgWriter().toDoAction("login"));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a warning message to the client that needs to start the match and a wait message to the other
+     * clients.
+     */
     
     public void toDoStartMatch(){
         sendMsg(clients.get(creator), new ToDoMsgWriter().toDoAction("canStartMatch"));
@@ -411,7 +581,10 @@ public class VirtualView implements ViewInterface {
                 sendMsg(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(creator,"startMatch"));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a warning message to the client that needs to create gods and a wait message to the other
+     * clients.
+     */
 
     public void toDoCreateGods(){
         sendMsg(clients.get(challenger), new ToDoMsgWriter().toDoAction("createGods"));
@@ -420,7 +593,12 @@ public class VirtualView implements ViewInterface {
                 sendMsg(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(challenger,"createGods"));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a warning message to the client that needs to chose his god and a wait message to the other
+     * clients.
+     * @param username is the username of the player who has to chose his god
+     * @param ids is the list of remaining gods you can choose
+     */
 
     @Override
 
@@ -431,7 +609,10 @@ public class VirtualView implements ViewInterface {
                 sendMsg(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(username,"choseGod"));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a warning message to the client that needs to chose the starting player and a wait message
+     * to the other clients.
+     */
 
     public void toDoChoseStartingPlayer(){
         sendMsg(clients.get(challenger), new ToDoMsgWriter().toDoAction("choseStartingPlayer"));
@@ -440,7 +621,12 @@ public class VirtualView implements ViewInterface {
                 sendMsg(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(challenger,"choseStartingPlayer"));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a warning message to the client that has to setup his gender worker on board and a wait message
+     * to the other clients.
+     * @param username is the username of the player who has to place his gender worker on the board
+     * @param gender is the gender of the worker to place on board
+     */
 
     @Override
 
@@ -451,7 +637,12 @@ public class VirtualView implements ViewInterface {
                 sendMsg(clients.get(user), new ToDoMsgWriter().toDoWaitMsg(username,"setup" + gender + "WorkerOnBoard"));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a warning message to the client that has to play his turn and a wait message
+     * to the other clients.
+     * @param username is the username of the player who has to play his turn
+     * @param firstOperation is the first operation player can do in his turn
+     */
 
     @Override
 
@@ -464,7 +655,11 @@ public class VirtualView implements ViewInterface {
 
     // Win/Lose cases methods
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where there is a directly winner in the game. It warns the winner player that he has
+     * won and the other players that they have lost. It warns all players that the match has finished.
+     * @param winnerUsername is the player who has won.
+     */
 
     @Override
     public void directlyWinCase(String winnerUsername){
@@ -476,7 +671,11 @@ public class VirtualView implements ViewInterface {
         matchFinished();
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where there is a loser in a 2 players match. It warns the winner player that he has
+     * won and loser that he lost. It warns all players that the match has finished.
+     * @param winnerUsername is the player who has won.
+     */
 
     @Override
     public void match2PlayerLose(String winnerUsername){
@@ -490,7 +689,10 @@ public class VirtualView implements ViewInterface {
         System.out.println("Lobby number " + lobbyNumber + " : " + winnerUsername + " won!");
     }
 
-    //TODO : javadoc
+    /**
+     * This method handles the case where there is loser in a 3 players match. It warns the loser player that he lost.
+     * @param loserUsername is the player who has lost.
+     */
 
     @Override
     public void match3PlayerLose(String loserUsername){
@@ -514,7 +716,11 @@ public class VirtualView implements ViewInterface {
 
     // Disconnection methods
 
-    //TODO : javadoc
+    /**
+     * This method works when a client is disconnected. It alerts other clients to the incident with a sign-out message
+     * and calls the method that will delete the lobby (game over).
+     * @param disconnectedClient is the disconnected client's socket
+     */
 
     public synchronized void clientDown(Socket disconnectedClient){
         if(clients.containsValue(disconnectedClient)){
@@ -527,7 +733,10 @@ public class VirtualView implements ViewInterface {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method works when the match has finished. It closes all sockets and removes the lobby from the list on
+     * the server.
+     */
 
     public void matchFinished(){
         for(Socket c : clients.values())
@@ -543,7 +752,10 @@ public class VirtualView implements ViewInterface {
         on = false;
     }
 
-    //TODO : javadoc
+    /**
+     * This method works when the lobby is full or the game has started. It alerts clients in the wait list that the
+     * lobby is no longer available.
+     */
 
     public void lobbyNoLongerAvailable(){
         for(Socket socket : waitList) {
