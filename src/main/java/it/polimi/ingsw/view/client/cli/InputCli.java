@@ -27,6 +27,8 @@ public class InputCli {
     public static String readLine(){
         String input = "";
         try{
+            while(in.ready())
+                in.readLine();
             while(!in.ready())
                 Thread.sleep(200);
             input = in.readLine();

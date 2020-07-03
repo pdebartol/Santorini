@@ -48,8 +48,6 @@ public class CanMoveUp extends PowerDecorator implements PropertyChangeListener 
 
     }
 
-    //TODO: javadoc
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals("moved_up")){
