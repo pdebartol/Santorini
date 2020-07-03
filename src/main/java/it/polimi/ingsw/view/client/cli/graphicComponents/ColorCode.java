@@ -35,6 +35,7 @@ public enum ColorCode {
 
     /**
      * This method allow to get directly the code by returning it as a String
+     * @return the desired value as a String
      */
 
     public String escape(){

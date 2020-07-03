@@ -39,7 +39,6 @@ public class GodSelectionController {
 
     private Gui gui;
 
-
     /**
      * This method is called when the previous god button is pressed, it updated the gui
      * @param actionEvent none

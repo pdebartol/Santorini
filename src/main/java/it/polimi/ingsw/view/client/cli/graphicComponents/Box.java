@@ -1,5 +1,10 @@
 package it.polimi.ingsw.view.client.cli.graphicComponents;
 
+/**
+ * This class represents dimensions of various component in the cli
+ * @author aledimaio
+ */
+
 public enum Box {
     VERTICAL_DIM (42),
     HORIZONTAL_DIM (95),
@@ -25,6 +30,11 @@ public enum Box {
     Box(int escape) {
         this.escape = escape;
     }
+
+    /**
+     * This method allows to get directly the int value desired
+     * @return the desired value as a Int
+     */
 
     public int escape(){
         return escape;

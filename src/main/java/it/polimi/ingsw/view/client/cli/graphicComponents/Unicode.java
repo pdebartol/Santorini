@@ -1,5 +1,10 @@
 package it.polimi.ingsw.view.client.cli.graphicComponents;
 
+/**
+ * This enum class contains the unicode symbol used in the cli
+ * @author aledimaio
+ */
+
 public enum Unicode {
     WORKER_MALE_ICON("\u2642"),
     WORKER_FEMALE_ICON("\u2640"),
@@ -39,6 +44,7 @@ public enum Unicode {
 
     /**
      * This method allow to get directly the code by returning it as a String
+     * @return the desired value as a String
      */
 
     public String escape(){
