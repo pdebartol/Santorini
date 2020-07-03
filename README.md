@@ -83,4 +83,5 @@ java -jar AM10.jar
 
 ## Note
 
-The pdf file "Unit test coverage" in "Results" only serves to provide an overview and a small comment of the data on the test coverage
+- The pdf file "Unit test coverage" in "Deliverables" only serves to provide an overview and a small comment of the data on the test coverage.
+- In "JARs" folder under "Deliverable" folder there are the jars generated on different operating system.
