@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.decorators;
 
-
 import it.polimi.ingsw.model.enums.Error;
 import it.polimi.ingsw.model.Power;
 import it.polimi.ingsw.model.PowerDecorator;

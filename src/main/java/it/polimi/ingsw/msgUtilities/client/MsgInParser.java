@@ -59,6 +59,8 @@ public class MsgInParser {
         return false;
     }
 
+    //TODO: javadoc
+
     public void parseIncomingMessage(){
         String answerType = document.getFirstChild().getNodeName();
 
@@ -78,6 +80,8 @@ public class MsgInParser {
 
 
     }
+
+    //TODO: javadoc
 
     private void parseUpdate(){
         String mode = Objects.requireNonNull(evaluateXPath("/UpdateMsg/Mode/text()")).get(0);

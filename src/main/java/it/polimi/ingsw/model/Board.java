@@ -93,6 +93,7 @@ public class Board {
     /**
      * This method reset nMoves and nBuild to 0.
      */
+
     public void resetCounters() {
         nMoves = 0;
         nBuild = 0;

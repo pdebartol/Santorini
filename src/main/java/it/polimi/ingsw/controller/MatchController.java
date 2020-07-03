@@ -45,7 +45,6 @@ public class MatchController implements ControllerInterface {
     }
 
     @Override
-
     public void setViewInterface(ViewInterface viewInterface) {
         this.viewInterface = viewInterface;
     }
@@ -118,7 +117,6 @@ public class MatchController implements ControllerInterface {
         return Collections.unmodifiableList(errors);
     }
 
-
     /**
      * This method is triggered when the player selects his god.
      * @param playerUsername username of the player making the request
@@ -145,9 +143,7 @@ public class MatchController implements ControllerInterface {
             }
     }
         return Collections.unmodifiableList(errors);
-
     }
-
 
     /**
      * This method is triggered in the initial phase, when the challenger chooses the player starting the match.
@@ -277,7 +273,6 @@ public class MatchController implements ControllerInterface {
         return errors;
     }
 
-
     /**
      * This method is triggered when the player builds something.
      * @param playerUsername username of the player making the request
@@ -321,7 +316,6 @@ public class MatchController implements ControllerInterface {
             return temp_errors;
         }
     }
-
 
     /**
      * This method is triggered when the player ends his turn.
@@ -379,6 +373,8 @@ public class MatchController implements ControllerInterface {
         playerController.getCurrentPlayer().setGod(regeneratedGods.get(0));
         playerController.getNextPlayer().setGod(regeneratedGods.get(1));
     }
+
+    //TODO: javadoc
 
     @Override
     public State getGameState() {

@@ -118,6 +118,8 @@ public class RequestParser {
         return false;
     }
 
+    //TODO: javadoc
+
     public boolean parsePing(){
         String mode = Objects.requireNonNull(evaluateXPath("/Requests/Mode/text()")).get(0);
         return mode.equals("ping");
@@ -154,6 +156,5 @@ public class RequestParser {
             return null;
         }
     }
-
 
 }

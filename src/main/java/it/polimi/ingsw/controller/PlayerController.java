@@ -32,11 +32,15 @@ public class PlayerController {
         return players.get((players.indexOf(currentPlayer)+1)%players.size());
     }
 
+    //TODO: javadoc
+
     public void nextTurn(){
         this.getNextPlayer().setActive(false);
         currentPlayer =  this.getNextPlayer();
         currentPlayer.setActive(true);
     }
+
+    //TODO: javadoc
 
     public List<Error> addPlayer(Player player){
         List<Error> errors = new ArrayList<>();

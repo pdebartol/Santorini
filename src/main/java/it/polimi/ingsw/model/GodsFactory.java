@@ -25,7 +25,6 @@ public class GodsFactory {
 
     //constructors
 
-
     /**
      * Class constructor
      * @param gameBoard is the current Board object
@@ -198,7 +197,6 @@ public class GodsFactory {
         return temp;
     }
 
-
     /**
      * This method is used when a God's power should be applied to all the others god present in the game
      * @param gods contains all the gods created
@@ -216,7 +214,6 @@ public class GodsFactory {
                     }
         }
     }
-
 
     /**
      * This method creates the document object and parses 'godConfig' file
@@ -263,7 +260,6 @@ public class GodsFactory {
             return null;
         }
     }
-
 
 }
 
