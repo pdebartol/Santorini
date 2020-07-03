@@ -1,0 +1,16 @@
+it.polimi.ingsw
+it.polimi.ingsw.controller
+it.polimi.ingsw.model
+it.polimi.ingsw.model.decorators
+it.polimi.ingsw.model.enums
+it.polimi.ingsw.msgUtilities.client
+it.polimi.ingsw.msgUtilities.server
+it.polimi.ingsw.network
+it.polimi.ingsw.network.client
+it.polimi.ingsw.network.server
+it.polimi.ingsw.view.client
+it.polimi.ingsw.view.client.cli
+it.polimi.ingsw.view.client.cli.graphicComponents
+it.polimi.ingsw.view.client.gui
+it.polimi.ingsw.view.client.viewComponents
+it.polimi.ingsw.view.server

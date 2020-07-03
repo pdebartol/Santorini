@@ -79,10 +79,10 @@ public class ModelMsgContainer {
      * This method allows to update the nextStep tag in the answer message.
      * This tag is fundamental for the advancement of the turn logic.
      * @param nextStep is the next step in turn that the player who is playing the turn has to do.
-     *        "move" -> the player has to move
-     *        "build" -> the player has to build
-     *        "move/build" -> the player can both move or build
-     *        "build/end" -> the player can both build or end his turn
+     *        "move" : the player has to move
+     *        "build" : the player has to build
+     *        "move/build" : the player can both move or build
+     *        "build/end" : the player can both build or end his turn
      */
 
     public void nextStepIndication(String nextStep){

@@ -114,16 +114,16 @@ public class ClientHandler implements Runnable{
 
     /**
      * This method verifies if the request mode is "ping"
-     * @return true -> "ping" request mode
-     *         false -> not "ping" request mode
+     * @return true : "ping" request mode
+     *         false : not "ping" request mode
      */
 
     public boolean isPingMode(){return new RequestParser(request).parsePing();}
 
     /**
      * This method verifies if the request mode is "end".
-     * @return true -> "end" request mode
-     *         false -> not "end" request mode
+     * @return true : "end" request mode
+     *         false : not "end" request mode
      */
 
     private boolean isEndMode(){

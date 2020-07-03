@@ -54,9 +54,9 @@ public class MatchController implements ControllerInterface {
      * @param playerUsername the username of the new player.
      * @param workerColor the worker's color for the new player.
      * @return an ArrayList containing the errors (if there were some):
-     *         LOGIN_COLOR_NOT_AVAILABLE --> the color was taken by another player
-     *         LOGIN_USERNAME_NOT_AVAILABLE --> the username was taken by another player
-     *         LOGIN_TOO_MANY_PLAYERS --> there are already three players connected
+     *         LOGIN_COLOR_NOT_AVAILABLE : the color was taken by another player
+     *         LOGIN_USERNAME_NOT_AVAILABLE : the username was taken by another player
+     *         LOGIN_TOO_MANY_PLAYERS : there are already three players connected
      */
 
     @Override
@@ -89,7 +89,7 @@ public class MatchController implements ControllerInterface {
      * @param playerUsername username of the player making the request
      * @param godIds contains the ids of the chosen gods.
      * @return an ArrayList containing the errors (if there were some):
-     *          SETUP_IS_NOT_CHALLENGER --> only the challenger chan choose the gods
+     *          SETUP_IS_NOT_CHALLENGER : only the challenger chan choose the gods
      */
 
     @Override
@@ -121,7 +121,7 @@ public class MatchController implements ControllerInterface {
      * @param playerUsername username of the player making the request
      * @param godId id of the god chosen
      * @return an ArrayList containing the errors (if there were some):
-     *         INGAME_NOT_YOUR_TURN --> player cannot choose the god if it is not his turn
+     *         INGAME_NOT_YOUR_TURN : player cannot choose the god if it is not his turn
      */
 
     @Override
@@ -149,8 +149,8 @@ public class MatchController implements ControllerInterface {
      * @param playerUsername username of the player making the request
      * @param chosenPlayer username of the starting player
      * @return an ArrayList containing the errors (if there were some):
-     *         SETUP_IS_NOT_CHALLENGER --> only the challenger chan choose the starting player
-     *         INGAME_NOT_YOUR_TURN --> player cannot choose the god if it is not his turn
+     *         SETUP_IS_NOT_CHALLENGER : only the challenger chan choose the starting player
+     *         INGAME_NOT_YOUR_TURN : player cannot choose the god if it is not his turn
      */
 
     @Override
@@ -177,9 +177,9 @@ public class MatchController implements ControllerInterface {
      * @param x is the x square coordinate where the worker is set
      * @param y is the y square coordinate where the worker is set
      * @return an ArrayList containing the errors (if there were some):
-     *         SETUP_WORKER_ON_OCCUPIED_SQUARE --> cannot set the worker on square that is not free
-     *         INGAME_NOT_YOUR_TURN --> player cannot place a worker if it is not his turn
-     *         SETUP_WORKER_ALREADY_SET --> cannot set the worker if it's already on a square
+     *         SETUP_WORKER_ON_OCCUPIED_SQUARE : cannot set the worker on square that is not free
+     *         INGAME_NOT_YOUR_TURN : player cannot place a worker if it is not his turn
+     *         SETUP_WORKER_ALREADY_SET : cannot set the worker if it's already on a square
      */
 
     @Override
@@ -214,8 +214,8 @@ public class MatchController implements ControllerInterface {
      * @param x is the x square coordinate where the worker wants to move
      * @param y is the y square coordinate where the worker wants to move
      * @return an ArrayList containing the errors (if there were some):
-     *        INGAME_NOT_YOUR_TURN --> player cannot move a worker if it is not his turn
-     *        INGAME_WRONG_WORKER --> player cannot move the inactive worker
+     *        INGAME_NOT_YOUR_TURN : player cannot move a worker if it is not his turn
+     *        INGAME_WRONG_WORKER : player cannot move the inactive worker
      */
 
     @Override
@@ -280,8 +280,8 @@ public class MatchController implements ControllerInterface {
      * @param y is the y square coordinate where the worker wants to build
      * @param level is the level that the worker wants to build
      * @return an ArrayList containing the errors (if there were some):
-     *        INGAME_NOT_YOUR_TURN --> player cannot move a worker if it is not his turn
-     *        INGAME_WRONG_WORKER --> player cannot move the inactive worker
+     *        INGAME_NOT_YOUR_TURN : player cannot move a worker if it is not his turn
+     *        INGAME_WRONG_WORKER : player cannot move the inactive worker
      */
 
     @Override
@@ -322,7 +322,7 @@ public class MatchController implements ControllerInterface {
      * It check if the next player can move.
      * @param playerUsername username of the player making the request
      * @return an ArrayList containing the errors (if there were some):
-     *         INGAME_NOT_YOUR_TURN --> player cannot move a worker if it is not his turn
+     *         INGAME_NOT_YOUR_TURN : player cannot move a worker if it is not his turn
      */
 
     @Override

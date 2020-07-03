@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.enums;
 
 /**
  * Error is the enum representing the error codes showing up when the player moves or builds.
- * @author pierobartolo & marcoDige
+ * @author pierobartolo AND marcoDige
  */
 
 public enum Error {

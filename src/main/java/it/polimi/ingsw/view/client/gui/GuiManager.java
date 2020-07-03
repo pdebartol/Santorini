@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 
 /**
  * This class creates the primary Stage and starts the GUI
- * @author pierobartolo & aledimaio
+ * @author pierobartolo and aledimaio
  */
 
 public class GuiManager extends Application {

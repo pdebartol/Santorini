@@ -19,7 +19,7 @@ import java.util.concurrent.*;
 
 /**
  * This class contains all methods to visualize on the command line interface the game flow.
- * @author aledimaio & marcoDige
+ * @author aledimaio AND marcoDige
  */
 
 public class Cli extends View {

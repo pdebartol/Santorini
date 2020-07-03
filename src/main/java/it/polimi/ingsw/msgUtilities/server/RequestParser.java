@@ -88,8 +88,8 @@ public class RequestParser {
     /**
      * This method verify if mode is login (client want to login in the match). If it's true, it parses login data from
      * msgIn.xml and call virtualView function to process the login request.
-     * @return true -> mode is "login"
-     *         false -> mode isn't "login"
+     * @return true : mode is "login"
+     *         false : mode isn't "login"
      */
 
     public boolean parseLoginRequest(VirtualView vrtV, Socket socket){
@@ -104,8 +104,8 @@ public class RequestParser {
 
     /**
      * This method verify if mode is end (client want to exit from game)
-     * @return true -> mode is "end"
-     *         false -> mode isn't "end"
+     * @return true : mode is "end"
+     *         false : mode isn't "end"
      */
 
     public boolean parseEndRequest(VirtualView vrtV){
@@ -120,8 +120,8 @@ public class RequestParser {
 
     /**
      * This method parse a ping message.
-     * @return true -> the message is a ping message (ping mode)
-     *         false -> the message isn't a ping message (not ping mode)
+     * @return true : the message is a ping message (ping mode)
+     *         false : the message isn't a ping message (not ping mode)
      */
 
     public boolean parsePing(){
@@ -132,7 +132,7 @@ public class RequestParser {
     /**
      * This methods uses XPath expressions to find nodes in xml documents
      * @param xpathExpression is the expression that identifies the node in the document
-     * @return a List<String> containing the strings that match the expression
+     * @return a List containing the strings that match the expression
      */
 
     private  List<String> evaluateXPath( String xpathExpression) {

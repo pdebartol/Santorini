@@ -50,8 +50,8 @@ public class MsgInParser {
 
     /**
      * This method parses a ping message.
-     * @return true -> the message is a ping message (ping mode)
-     *         false -> the message isn't a ping message (not ping mode)
+     * @return true : the message is a ping message (ping mode)
+     *         false : the message isn't a ping message (not ping mode)
      */
 
     public boolean parsePing(){

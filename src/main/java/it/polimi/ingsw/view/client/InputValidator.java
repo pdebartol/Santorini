@@ -49,8 +49,8 @@ public class InputValidator {
     /**
      * This method check that input matches to IP_REGEXP
      * @param input is the input of the user
-     * @return true -> input matches to IP_REGEXP
-     *         false -> input doesn't matches to IP_REGEXP
+     * @return true : input matches to IP_REGEXP
+     *         false : input doesn't matches to IP_REGEXP
      */
 
     public static boolean validateIP(String input){
@@ -60,8 +60,8 @@ public class InputValidator {
     /**
      * This method check that input matches to PORT_REGEXP
      * @param input is the input of the user
-     * @return true -> input matches to PORT_REGEXP
-     *         false -> input doesn't matches to PORT_REGEXP
+     * @return true : input matches to PORT_REGEXP
+     *         false : input doesn't matches to PORT_REGEXP
      */
 
     public static boolean validatePORT(String input){
@@ -71,8 +71,8 @@ public class InputValidator {
     /**
      * This method check that input matches to USERNAME_REGEXP
      * @param input is the input of the user
-     * @return true -> input matches to USERNAME_REGEXP
-     *         false -> input doesn't matches to USERNAME_REGEXP
+     * @return true : input matches to USERNAME_REGEXP
+     *         false : input doesn't matches to USERNAME_REGEXP
      */
 
     public static boolean validateUSERNAME(String input){return Pattern.matches(USERNAME_REGEXP,input);}
@@ -80,8 +80,8 @@ public class InputValidator {
     /**
      * This method check that input matches to COORDINATES_REGEXP
      * @param input is the input of the user
-     * @return true -> input matches to COORDINATES_REGEXP
-     *         false -> input doesn't matches to COORDINATES_REGEXP
+     * @return true : input matches to COORDINATES_REGEXP
+     *         false : input doesn't matches to COORDINATES_REGEXP
      */
 
     public static boolean validateCOORDINATES(String input){
@@ -91,8 +91,8 @@ public class InputValidator {
     /**
      * This method check that input matches to LEVEL_REGEXP
      * @param input is the input of the user
-     * @return true -> input matches to LEVEL_REGEXP
-     *         false -> input doesn't matches to LEVEL_REGEXP
+     * @return true : input matches to LEVEL_REGEXP
+     *         false : input doesn't matches to LEVEL_REGEXP
      */
 
     public static boolean validateLEVEL(String input) {return Pattern.matches(LEVEL_REGEXP,input);}

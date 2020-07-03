@@ -23,8 +23,8 @@ public class EndRemoveNeighbour extends PowerDecorator {
     /**
      * This method overrides endOfTurn (PowerDecorator) decorating decoratedPower with EndRemoveNeighbour rules.
      * @param workers is the arrayList of worker that player uses
-     * @return true -> The turn is correctly finish
-     *         false -> The turn cannot finish now
+     * @return true : The turn is correctly finish
+     *         false : The turn cannot finish now
      */
 
     @Override

@@ -12,7 +12,7 @@ import java.util.*;
 
 /** This class is responsible for parsing the XML and creating the
  * gods according to the rules in 'godConfig'
- * @author pierobartolo & marcoDige
+ * @author pierobartolo AND marcoDige
  */
 
 public class GodsFactory {
@@ -44,14 +44,14 @@ public class GodsFactory {
     //methods
 
     /**
-     * This method returns an ArrayList<God> with all the Gods specified in the ids parameter.
+     * This method returns an ArrayList with all the Gods specified in the ids parameter.
      * It parses 'godConfig' creating an instance of each God as described in the file.
-     * In doing so, it uses a Stack<Integer> to save the God's powers and a Map<Integer,String>
+     * In doing so, it uses a Stack to save the God's powers and a Map
      * to save powers which need to be applied to others Gods
-     * @param ids ArrayList<Integer> containing the id of every God the controller wants to create
+     * @param ids ArrayList containing the id of every God the controller wants to create
      *            (God's id correspond to the God's number reported in the official rules)
      *
-     * @return an ArrayList<God> with all created gods
+     * @return an ArrayList with all created gods
      */
 
     public ArrayList<God> getGods(ArrayList<Integer> ids){
@@ -136,7 +136,7 @@ public class GodsFactory {
 
     /**
      * This method decorates the God with all of its power
-     * @param powers is a Stack<Integer> with all the powers of a specific god
+     * @param powers is a Stack with all the powers of a specific god
      * @param temp is the instance of Power decorated during each recursive step
      * @return the decorated Power
      */
@@ -232,7 +232,7 @@ public class GodsFactory {
     /**
      * This methods uses XPath expressions to find nodes in xml documents
      * @param xpathExpression is the expression that identifies the node in the document
-     * @return a List<String> containing the strings that match the expression
+     * @return a List containing the strings that match the expression
      */
 
     private  List<String> evaluateXPath( String xpathExpression) {

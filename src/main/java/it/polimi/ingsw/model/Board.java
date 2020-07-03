@@ -119,8 +119,8 @@ public class Board {
      * This method checks if 2 squares are adjacent.
      * @param s1 is the first square
      * @param s2 is the second square
-     * @return true --> s1 and s2 are adjacent
-     *         false --> s1 and s2 aren't adjacent
+     * @return true : s1 and s2 are adjacent
+     *         false : s1 and s2 aren't adjacent
      */
 
     public boolean isAdjacent(Square s1, Square s2){

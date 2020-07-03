@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * This class implements the GameScene Controller
  *
- * @author pierobartolo & aledimaio
+ * @author pierobartolo AND aledimaio
  */
 
 public class GameController {
@@ -160,7 +160,7 @@ public class GameController {
     }
 
     /**
-     * This method is triggered when a drag & drop action does not end successfully.
+     * This method is triggered when a drag and drop action does not end successfully.
      */
 
     public void restoreImage() {
@@ -170,7 +170,7 @@ public class GameController {
 
     /**
      * This method represents the "On Drag Done" method of JavaFX for the builders images.
-     * @param dragEvent is the object that handles the drag & drop features
+     * @param dragEvent is the object that handles the drag and drop features
      */
 
     public void dragDoneMethod(DragEvent dragEvent) {
@@ -184,7 +184,7 @@ public class GameController {
 
     /**
      * This method represents the "On Drag Done" method of JavaFX for workers.
-     * @param dragEvent is the object that handles the drag & drop features
+     * @param dragEvent is the object that handles the drag and drop features
      */
 
     public void removeWorkerDragged(DragEvent dragEvent) {
@@ -277,7 +277,7 @@ public class GameController {
 
     /**
      * This method represents the "On Drag Over" method of JavaFX for workers.
-     * @param dragEvent is the object that handles the drag & drop features
+     * @param dragEvent is the object that handles the drag and drop features
      */
 
     @FXML
