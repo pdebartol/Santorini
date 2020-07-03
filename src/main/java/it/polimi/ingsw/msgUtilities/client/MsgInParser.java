@@ -49,7 +49,7 @@ public class MsgInParser {
     }
 
     /**
-     * This method parse a ping message.
+     * This method parses a ping message.
      * @return true -> the message is a ping message (ping mode)
      *         false -> the message isn't a ping message (not ping mode)
      */
@@ -63,7 +63,10 @@ public class MsgInParser {
         return false;
     }
 
-    //TODO: javadoc
+    /**
+     * This method parses the incoming message: based on its first node it will
+     * be an update, an answer or a toDo message.
+     */
 
     public void parseIncomingMessage(){
         String answerType = document.getFirstChild().getNodeName();
@@ -85,7 +88,9 @@ public class MsgInParser {
 
     }
 
-    //TODO: javadoc
+    /**
+     * This method parses the Update Message as described in the network communication protocol document
+     */
 
     private void parseUpdate(){
         String mode = Objects.requireNonNull(evaluateXPath("/UpdateMsg/Mode/text()")).get(0);
@@ -170,6 +175,7 @@ public class MsgInParser {
                 break;
         }
     }
+
 
     private void parseAnswer(){
         String mode = Objects.requireNonNull(evaluateXPath("/Answer/Mode/text()")).get(0);
