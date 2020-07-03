@@ -1463,7 +1463,11 @@ public class Cli extends View {
 
     }
 
-    //TODO : javadoc
+    /**
+     * This method is used to get a string as input from the terminal with a maximum input time allowed during the main
+     * phase of the game
+     * @return the string input from terminal as String
+     */
 
     public String inputWithTimeout() {
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
@@ -1486,7 +1490,10 @@ public class Cli extends View {
         return input;
     }
 
-    //TODO: javadoc
+    /**
+     * This method is used to get a string as input from the terminal with a maximum input time allowed during the initial phase
+     * of the game
+     */
 
     public void inputWithTimeoutStartMatch(){
         System.out.printf(Escapes.MOVE_CURSOR_INPUT_REQUIRED.escape(), Box.INPUT_BOX_START.escape() + 1, 2);
@@ -1541,7 +1548,9 @@ public class Cli extends View {
         printInGodTextBox("description",godToVisualize.getDescription());
     }
 
-    //TODO: javadoc
+    /**
+     * This method prints text in the text part of the frame in the endgame
+     */
 
     public void printInFinalTextBox(String text) {
 
@@ -1565,7 +1574,9 @@ public class Cli extends View {
 
     }
 
-    //TODO : javadoc
+    /**
+     * This method is used to change god visualized in the god box (not for print it in the box)
+     */
 
     public void changeGodToVisualize(){
         if(godToVisualize.getName().equals(myPlayer.getGod().getName())){
@@ -1574,7 +1585,6 @@ public class Cli extends View {
             if (players.size() == 1)
                 godToVisualize = myPlayer.getGod();
             else {
-
                 if (godToVisualize.getName().equals(players.get(0).getGod().getName()))
                     godToVisualize = players.get(1).getGod();
                 else
@@ -1731,7 +1741,9 @@ public class Cli extends View {
 
     //support methods
 
-    //TODO : javadoc
+    /**
+     * This method is used to handle the move action after you select a worker
+     */
 
     public void moveAfterChose(){
         printInGameTextBox("You have to move!");
@@ -1769,7 +1781,9 @@ public class Cli extends View {
             });
     }
 
-    //TODO : javadoc
+    /**
+     * This method is used to handle the build action after you select a worker
+     */
 
     public void buildAfterChose(){
         printInGameTextBox("You have to build!");
@@ -1818,7 +1832,10 @@ public class Cli extends View {
             });
     }
 
-    //TODO : javadoc
+    /**
+     * This method is used to select the worker who will do an action
+     * @return the position x,y of the worker selected
+     */
 
     private int[] selectWorker() {
 
@@ -1868,7 +1885,9 @@ public class Cli extends View {
         return coordinates;
     }
 
-    //TODO : javadoc
+    /**
+     * This method is used to interrupt input process
+     */
 
     private void abortInputProcessing() {
         if (inputThread != null && !inputThread.isCancelled()) {
