@@ -873,7 +873,11 @@ public class Cli extends View {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to the player that he lost.
+     * @param reason is the reason why the player lost
+     * @param winner is the winner's username
+     */
 
     @Override
     public void showYouLose(String reason, String winner) {
@@ -898,7 +902,10 @@ public class Cli extends View {
         printInFinalTextBox(output.toString());
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to the player that he won.
+     * @param reason is the reason why the player won
+     */
 
     @Override
     public void showYouWin(String reason) {
