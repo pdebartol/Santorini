@@ -15,9 +15,19 @@ import java.util.List;
 
 public class PlayerController {
 
+    /**
+     * This ArrayList contains the in-game players
+     */
+
     private final ArrayList<Player> players;
+
     private Player currentPlayer;
     private String challengerUsername;
+
+    /**
+     * Index of the starter player (in the players ArrayList)
+     */
+
     private int starterIndex;
 
     public PlayerController() {
@@ -32,7 +42,10 @@ public class PlayerController {
         return players.get((players.indexOf(currentPlayer)+1)%players.size());
     }
 
-    //TODO: javadoc
+    /**
+     * This method is called when a player ends his turn.
+     * The next player in the list will become the current player and will be set to active.
+     */
 
     public void nextTurn(){
         this.getNextPlayer().setActive(false);
@@ -40,7 +53,14 @@ public class PlayerController {
         currentPlayer.setActive(true);
     }
 
-    //TODO: javadoc
+    /**
+     * This method is called when a new player joins the match.
+     * @param player Player that will be added
+     * @return A list of errors (if present):
+     *          -username not available
+     *          -worker color not available
+     *          -too many players in game
+     */
 
     public List<Error> addPlayer(Player player){
         List<Error> errors = new ArrayList<>();
