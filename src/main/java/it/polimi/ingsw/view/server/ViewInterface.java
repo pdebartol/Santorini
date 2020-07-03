@@ -14,19 +14,51 @@ import java.util.List;
 public interface ViewInterface {
 
     //Accepted/Rejected request methods
+
+
+
     void onMoveAcceptedRequest(String username, Document answerMsg, Document updateMsg);
+
+
+
     void onBuildAcceptedRequest(String username, Document answerMsg, Document updateMsg);
+
+
+
     void onEndOfTurnAcceptedRequest(String username, Document answerMsg, Document updateMsg);
+
+
+
     void onRejectedRequest(String username, List<Error> errors, String mode);
 
     //to do methods
+
+
+
     void toDoChoseStartingPlayer();
+
+
+
     void toDoTurn(String username, String firstOperation);
+
+
+
     void toDoSetupWorkerOnBoard(String username, String gender);
+
+
+
     void toDoChoseGod(String username, List<Integer> ids);
 
     //Win/Lose methods
+
+
     void directlyWinCase(String winnerUsername);
+
+
+
     void match2PlayerLose(String loserUsername);
+
+
+
     void match3PlayerLose(String loserUsername);
 }
