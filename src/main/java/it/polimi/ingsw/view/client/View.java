@@ -199,7 +199,12 @@ public abstract class View {
 
     //update method
 
-    //TODO : javadoc
+    /**
+     * this method updates the local information available to the client after the player has logged in.
+     * @param otherPlayers is the username list of the other players into the lobby
+     * @param myUsername is the player's username
+     * @param myColor is the player's color
+     */
 
     public void updateLoginDone(Map<String,Color> otherPlayers, String myUsername, Color myColor){
         myPlayer = new Player(myUsername,myColor);
@@ -210,7 +215,11 @@ public abstract class View {
         showLoginDone();
     }
 
-    //TODO : javadoc
+    /**
+     * this method updates the local information available to the client after another player has logged in.
+     * @param username is the new player's username
+     * @param color is the new player's username
+     */
 
     public void updateNewUserLogged(String username, Color color){
         players.add(new Player(username,color));
@@ -218,21 +227,33 @@ public abstract class View {
         showNewUserLogged(username,color);
     }
 
-    //TODO : javadoc
+    /**
+     * This method updates the local information available to the client after the player selected his god.
+     * @param id is the god id
+     */
 
     public void updateMyGodSelected(int id){
         myPlayer.setGod(getGodById(id));
         showMyGodSelected();
     }
 
-    //TODO : javadoc
+    /**
+     * This method updates the local information available to the client after another player selected his god.
+     * @param username is the other player's username
+     * @param id is the other player's god id
+     */
 
     public void updateGodSelected(String username, int id){
         getPlayerByUsername(username).setGod(getGodById(id));
         showGodSelected(username);
     }
 
-    //TODO : javadoc
+    /**
+     * This method updates the local information available to the client after the player placed his gender worker on board
+     * @param gender is the gender of the worker placed on the board
+     * @param x is the x position where the player placed his worker
+     * @param y is the y position where the player placed his worker
+     */
 
     public void updatePlaceMyWorkerOnBoard(String gender, int x, int y){
         gameBoard.getSquareByCoordinates(x,y).placeWorker(myPlayer.getWorkerByGender(gender));
@@ -240,7 +261,13 @@ public abstract class View {
         showBoard();
     }
 
-    //TODO : javadoc
+    /**
+     * This method updates the local information available to the client after another player placed his gender worker
+     * on board.
+     * @param gender is the gender of the worker placed on the board
+     * @param x is the x position where the other player placed his worker
+     * @param y is the y position where the other player placed his worker
+     */
 
     public void updatePlaceWorkerOnBoard(String username, String gender, int x,int y){
         gameBoard.getSquareByCoordinates(x,y).placeWorker(getPlayerByUsername(username).getWorkerByGender(gender));
@@ -248,7 +275,13 @@ public abstract class View {
         showBoard();
     }
 
-    //TODO : javadoc
+    /**
+     * This method updates the local information available to the client after the player moves.
+     * @param startX is the x start worker position coordinate
+     * @param startY is the y start worker position coordinate
+     * @param x is the x new position coordinate
+     * @param y is the y new position coordinate
+     */
 
     public void updateMyWorkerPosition(int startX, int startY, int x, int y){
         if(removedWorker == null) {
@@ -266,11 +299,23 @@ public abstract class View {
         showBoard();
     }
 
+    /**
+     * This method is triggered when the the player moves one of his worker on an invalid position. This method shows
+     * errors and call the move() method newly
+     * @param errors is the move errors list
+     */
+
     public void invalidMove(List<String> errors){
         showTurnErrors(errors);
 
         move();
     }
+
+    /**
+     * This method is triggered when the the player builds with one of his worker on an invalid position. This method shows
+     * errors and call the build() method newly
+     * @param errors is the move errors list
+     */
 
     public void invalidBuild(List<String> errors){
         showTurnErrors(errors);
@@ -278,7 +323,13 @@ public abstract class View {
         build();
     }
 
-    //TODO : javadoc
+    /**
+     * This method updates the local information available to the client after another player moves.
+     * @param startX is the x start worker position coordinate
+     * @param startY is the y start worker position coordinate
+     * @param x is the x new position coordinate
+     * @param y is the y new position coordinate
+     */
 
     public void updateWorkerPosition(int startX, int startY, int x, int y){
         if(removedWorker == null) {
@@ -294,7 +345,13 @@ public abstract class View {
         showBoard();
     }
 
-    //TODO : javadoc
+    /**
+     * This method updates the local information available to the client after the player builds.
+     * @param startX is the x start worker position coordinate
+     * @param startY is the y start worker position coordinate
+     * @param x is the x coordinate where the player builds
+     * @param y is the y coordinate where the player builds
+     */
 
     public void updateMyPositionLevel(int startX, int startY, int x, int y, int level){
         gameBoard.getSquareByCoordinates(x,y).setLevel(level);
@@ -307,13 +364,24 @@ public abstract class View {
         showBoard();
     }
 
-    //TODO : javadoc
+    /**
+     * This method updates the local information available to the client after another player builds.
+     * @param x is the x coordinate where the other player builds
+     * @param y is the y coordinate where the other player builds
+     */
 
     public void updatePositionLevel(int x, int y, int level){
         gameBoard.getSquareByCoordinates(x,y).setLevel(level);
 
         showBoard();
     }
+
+    /**
+     * This method updates, if there are updates, the board state after the end of turn
+     * @param x is the x position where there is an update
+     * @param y is the y position where there is an update
+     * @param l is the level to build on x,y position
+     */
 
     public void updateEndOfTurn(int x, int y, int l){
         if(myPlayer.getWorkers().contains(gameBoard.getSquareByCoordinates(x,y).getWorker())){
@@ -328,7 +396,9 @@ public abstract class View {
         updatePositionLevel(x,y,l);
     }
 
-    //TODO : javadoc
+    /**
+     * This method updates the local information available to the client after the player finished his turn.
+     */
 
     public void myEndOfTurnWithoutUpdate(){
         workerForThisTurnCoordinates[0] = workerForThisTurnCoordinates[1] = -1;
@@ -336,9 +406,18 @@ public abstract class View {
         showMyTurnEnded();
     }
 
+    /**
+     * This method updates the local information available to the client after another player finished his turn.
+     */
+
     public void endOfTurnWithoutUpdate(String username){
         showTurnEnded(username);
     }
+
+    /**
+     * This method updates the local information available to the client after a player lost.
+     * @param username is the loser's username
+     */
 
     public void updateLoser(String username){
         for(Worker worker : getPlayerByUsername(username).getWorkers()){
@@ -499,69 +578,110 @@ public abstract class View {
 
     public abstract void showDisconnectionForInputExpiredTimeout();
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to the player that a player lost.
+     * @param username is the loser player's username.
+     */
 
     public abstract void showPlayerLose(String username);
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to the player that he lost.
+     * @param reason is the reason why the player lost
+     * @param winner is the winner's username
+     */
 
     public abstract void showYouLose(String reason, String winner);
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to the player that he won.
+     * @param reason is the reason why the player won
+     */
 
     public abstract void showYouWin(String reason);
 
     //Request method
 
-    //TODO : javadoc
+    /**
+     * This method sends a login request to the server
+     * @param username is the username the player has chosen
+     */
 
     public void sendLoginRequest(String username){
         clientHandler.sendMsg(new RequestMsgWriter().loginRequest(username));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a startGame request to the server.
+     */
 
     public void sendStartGameRequest(){
         clientHandler.sendMsg(new RequestMsgWriter().startGameRequest(myPlayer.getUsername()));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a createGods request to the server.
+     * @param ids is the god chosen id list
+     */
 
     public void sendCreateGodsRequest(ArrayList<Integer> ids){
         clientHandler.sendMsg(new RequestMsgWriter().createGodsRequest(myPlayer.getUsername(),ids));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a choseGod request to the server.
+     * @param godId is he god chosen id
+     */
 
     public void sendChooseGodRequest(int godId){
         clientHandler.sendMsg(new RequestMsgWriter().chooseGodRequest(myPlayer.getUsername(),godId));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a choseStartingPlayer request to the server.
+     * @param starter is the username of the player chosen to start the game
+     */
 
     public void sendChooseStartingPlayerRequest(String starter){
         clientHandler.sendMsg(new RequestMsgWriter().chooseStartingPlayerRequest(myPlayer.getUsername(),starter));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a setWorkerOnBoard request to the server.
+     * @param gender is the gender of the worker to set on board
+     * @param x is the x coordinate where the player wants to place his worker
+     * @param y is the y coordinate where the player wants to place his worker
+     */
 
     public void sendSetWorkerOnBoardRequest(String gender, int x, int y){
         clientHandler.sendMsg(new RequestMsgWriter().setWorkerOnBoardRequest(myPlayer.getUsername(),gender,x,y));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a move request to the server.
+     * @param gender is the gender of the worker player wants to move
+     * @param x is the x coordinate where the player wants to move his worker
+     * @param y is the y coordinate where the player wants to move his worker
+     */
 
     public void sendMoveRequest(String gender, int x, int y){
         clientHandler.sendMsg(new RequestMsgWriter().moveRequest(myPlayer.getUsername(),gender,x,y));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends a build request to the server.
+     * @param gender is the gender of the worker player wants to move
+     * @param x is the x coordinate where the player wants to build with his worker
+     * @param y is the y coordinate where the player wants to build with his worker
+     */
 
     public void sendBuildRequest(String gender, int x, int y, int level){
         clientHandler.sendMsg(new RequestMsgWriter().buildRequest(myPlayer.getUsername(),gender,x,y,level));
     }
 
-    //TODO : javadoc
+    /**
+     * This method sends an endOfTurn request to the server.
+     */
 
     public void sendEndOfTurnRequest(){
         clientHandler.sendMsg(new RequestMsgWriter().endOfTurnRequest(myPlayer.getUsername()));
