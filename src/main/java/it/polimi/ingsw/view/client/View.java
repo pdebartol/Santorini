@@ -112,55 +112,88 @@ public abstract class View {
 
     //input methods
 
-    //TODO : javadoc
+    /**
+     * This method allows to insert the server ip.
+     */
 
     public abstract void setMyIp();
 
-    //TODO : javadoc
+    /**
+     * This method allows to insert the server port.
+     */
 
     public abstract void setMyPort();
 
-    //TODO : javadoc
+    /**
+     * This method allows to insert the player's username
+     * @param rejectedBefore is a boolean that indicates if the username has been rejected from the server and the player
+     *                       has to insert it newly
+     */
 
     public abstract void setUsername(boolean rejectedBefore);
 
-    //TODO : javadoc
+    /**
+     * This method allows to start the match.
+     */
 
     public abstract void startMatch();
 
-    //TODO : javadoc
+    /**
+     * This method allows to select 2 or 3 gods (is reserved for the challenger).
+     */
 
     public abstract void selectGods();
 
-    //TODO : javadoc
+    /**
+     * This method allows to select a god from a list.
+     * @param ids is the list of gods among which the player can choose his god
+     */
 
     public abstract void selectGod(List<Integer> ids);
 
-    //TODO : javadoc
+    /**
+     * This method allows to select the starting player.
+     */
 
     public abstract void selectStartingPlayer();
 
-    //TODO : javadoc
+    /**
+     * This method allows to set player's worker on board.
+     * @param gender is the gender of the worker to set
+     * @param rejectedBefore is boolean that indicates if the coordinates have been rejected from the server and the
+     *                       player has to insert them newly
+     */
 
     public abstract void setWorkerOnBoard(String gender, boolean rejectedBefore);
 
-    //TODO : javadoc
+    /**
+     * This method allows to start a turn.
+     * @param firstOperation is the first operation player can do in his turn
+     */
 
     public abstract void turn(String firstOperation);
 
-    //TODO : javadoc
+    /**
+     * This method allows to move a worker from a position to another position.
+     */
 
     public abstract void move();
 
-    //TODO : javadoc
+    /**
+     * This method allows to build, with a worker, a building on a square.
+     */
 
     public abstract void build();
 
-    //TODO : javadoc
+    /**
+     * This method allows to give the player a choice between move and build.
+     */
 
     public abstract void moveOrBuild();
 
-    //TODO : javadoc
+    /**
+     * This method allows to give the player a choice between build and end.
+     */
 
     public abstract void buildOrEnd();
 
@@ -320,94 +353,149 @@ public abstract class View {
 
     //disconnection methods
 
-    //TODO : javadoc
+    /**
+     * This method calls a method on the clientHandler which handles an another client disconnection
+     */
 
     public void anotherClientDisconnection(){clientHandler.anotherClientDisconnection();}
 
-    //TODO : javadoc
+    /**
+     * This method calls a method on the clientHandler which handles a disconnection for Lobby No Longer Available
+     */
 
     public void disconnectionForLobbyNoLongerAvailable(){
         clientHandler.disconnectionForLobbyNoLongerAvailable();
     }
 
-    //TODO : javadoc
+    /**
+     * This method calls a method on the clientHandler which handles a disconnection for input timeout expired
+     */
 
     public void disconnectionForInputExpiredTimeout(){clientHandler.disconnectionForTimeout();}
 
 
     //show methods
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to the player that the login has been done.
+     */
 
     public abstract void showLoginDone();
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to the player that a new user has been logged.
+     * @param username is the new player's username
+     * @param color is the new player's color
+     */
 
     public abstract void showNewUserLogged(String username, Color color);
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to the player a wait message.
+     * @param waitFor is the motivation of waiting
+     * @param author is the player who is acting
+     */
 
     public abstract void showWaitMessage(String waitFor, String author);
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that the match has started
+     */
 
     public abstract void showMatchStarted();
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that the gods choice has been done
+     * @param ids is the id list of the gods
+     */
 
     public abstract void showGodsChoiceDone(ArrayList<Integer> ids);
 
-    //TODO : javadoc
+    /**
+     * This method allows to show the gods challenger selected
+     * @param username is the challenger's username
+     * @param ids is the id list of the gods selected by the challenger
+     */
 
     public abstract void showGodsChallengerSelected(String username, ArrayList<Integer> ids);
 
-    //TODO : javadoc
+    /**
+     * This method allows to show the god selected by the player
+     */
 
     public abstract void showMyGodSelected();
 
-    //TODO : javadoc
+    /**
+     * This method allows to show the God selected by another player
+     * @param username is the player who selected the god shown
+     */
 
     public abstract void showGodSelected(String username);
 
-    //TODO : javadoc
+    /**
+     * This method allows to show the Starting player username
+     * @param username is the starting player's username
+     */
 
     public abstract void showStartingPlayer(String username);
 
-    //TODO : javadoc
+    /**
+     * This method allows to show the game board.
+     */
 
     public abstract void showBoard();
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that the player identified by "username" has finished his turn.
+     * @param username is the player who finished his turn
+     */
 
     public abstract void showTurnEnded(String username);
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that the turn of the player has finished.
+     */
 
     public abstract void showMyTurnEnded();
 
-    //TODO : javadoc
+    /**
+     * This method allows to show errors encountered during the player turn.
+     * @param errors is the errors to show list
+     */
 
     public abstract void showTurnErrors(List<String> errors);
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that the server being searched could not be found
+     */
 
     public abstract void serverNotFound();
 
     //show disconnection methods
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that another client disconnected.
+     */
 
     public abstract void showAnotherClientDisconnection();
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to player that he has been disconnected from the server because the lobby where he was
+     * is no longer available.
+     */
 
     public abstract void showDisconnectionForLobbyNoLongerAvailable();
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that the server disconnected.
+     */
 
     public abstract void showServerDisconnection();
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to player that he has been disconnected from the server because the timeout to insert
+     * an input expired.
+     */
 
     public abstract void showDisconnectionForInputExpiredTimeout();
 

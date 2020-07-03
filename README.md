@@ -61,7 +61,7 @@ java -jar AM10.jar -server -PORT
 
 Where instead of ```PORT``` put the port number where you want the server to listen. Example: ```java -jar AM10.jar -server -8080```
 
-####Client
+#### Client
 
 To launch the program in the command line interface (cli) first make sure you have the terminal in fullscreen,
 then execute in the terminal (opened in the same folder where the jar is):
