@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  * Color is the enum representing the workers' possible colors.
- * @author pierobartolo & marcoDige
+ * @author pierobartolo AND marcoDige
  */
 
 public enum Color {

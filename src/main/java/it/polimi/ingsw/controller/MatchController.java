@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  * MatchController implements the controller for the current match.
- * @author pierobartolo & marcoDige
+ * @author pierobartolo AND marcoDige
  */
 
 public class MatchController implements ControllerInterface {

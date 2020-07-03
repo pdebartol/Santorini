@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * StandardPower represents the standard power that all gods have in common.
  * maxMoves and maxBuild can't be changed once StandardPower has been created.
- * @author marcoDige & pierobartolo
+ * @author marcoDige AND pierobartolo
  */
 
 public class StandardPower implements Power {
