@@ -2,11 +2,13 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.network.server.EchoServer;
 import it.polimi.ingsw.view.client.cli.Cli;
-import it.polimi.ingsw.view.client.gui.Gui;
 import it.polimi.ingsw.view.client.gui.GuiManager;
-import javafx.application.Application;
 
-//TODO : javadoc
+/**
+ * This is the main class.
+ * The jar will start in either client or server mode, depending on the command line arguments given.
+ * Double click on the jar will start the gui.
+ */
 
 public class Main {
 
@@ -21,7 +23,10 @@ public class Main {
             }
     }
 
-    //TODO : javadoc
+    /**
+     * This method starts the game in server mode. If the port is not specified it will use default port (1234).
+     * @param args server's port
+     */
 
     public static void serverMode(String[] args)
     {
@@ -34,7 +39,10 @@ public class Main {
         echoServer.start();
     }
 
-    //TODO : javadoc
+    /**
+     * This method starts the game in client mode. If no argument is given it will start the gui.
+     * @param args client mode ("-cli" or "-gui")
+     */
 
     public static void clientMode(String[] args){
 
