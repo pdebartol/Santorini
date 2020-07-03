@@ -56,10 +56,10 @@ The server will be execute listening on the default port ```1234```.
 Execute in the terminal:
 
 ```
-java -jar AM10.jar -server -PORT
+java -jar AM10.jar -server PORT
 ```
 
-Where instead of ```PORT``` put the port number where you want the server to listen. Example: ```java -jar AM10.jar -server -8080```
+Where instead of ```PORT``` put the port number where you want the server to listen. Example: ```java -jar AM10.jar -server 8080```
 
 #### Client
 

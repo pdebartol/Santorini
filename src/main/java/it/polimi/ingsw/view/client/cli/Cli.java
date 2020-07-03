@@ -66,7 +66,9 @@ public class Cli extends View {
 
     //View Override methods
 
-    // TODO : javadoc
+    /**
+     * This method allows to insert the server ip.
+     */
 
     @Override
     public void setMyIp() {
@@ -80,7 +82,9 @@ public class Cli extends View {
         myIp = ip;
     }
 
-    // TODO : javadoc
+    /**
+     * This method allows to insert the server port.
+     */
 
     @Override
     public void setMyPort() {
@@ -94,7 +98,11 @@ public class Cli extends View {
         myPort = Integer.parseInt(port);
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to insert the player's username
+     * @param rejectedBefore is a boolean that indicates if the username has been rejected from the server and the player
+     *                       has to insert it newly
+     */
 
     @Override
     public void setUsername(boolean rejectedBefore) {
@@ -116,7 +124,9 @@ public class Cli extends View {
         });
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to start the match.
+     */
 
     @Override
     public void startMatch() {
@@ -141,7 +151,9 @@ public class Cli extends View {
 
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to select 2 or 3 gods (is reserved for the challenger).
+     */
 
     @Override
     public void selectGods() {
@@ -214,7 +226,10 @@ public class Cli extends View {
         });
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to select a god from a list.
+     * @param ids is the list of gods among which the player can choose his god
+     */
 
     @Override
     public void selectGod(List<Integer> ids) {
@@ -275,7 +290,9 @@ public class Cli extends View {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to select the starting player.
+     */
 
     @Override
     public void selectStartingPlayer() {
@@ -294,7 +311,12 @@ public class Cli extends View {
         });
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to set player's worker on board.
+     * @param gender is the gender of the worker to set
+     * @param rejectedBefore is boolean that indicates if the coordinates have been rejected from the server and the
+     *                       player has to insert them newly
+     */
 
     @Override
     public void setWorkerOnBoard(String gender, boolean rejectedBefore) {
@@ -314,7 +336,10 @@ public class Cli extends View {
         });
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to start a turn.
+     * @param firstOperation is the first operation player can do in his turn
+     */
 
     @Override
     public void turn(String firstOperation) {
@@ -327,7 +352,9 @@ public class Cli extends View {
         nextOperation(firstOperation);
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to move a worker from a position to another position.
+     */
 
     @Override
     public void move() {
@@ -335,7 +362,9 @@ public class Cli extends View {
         moveAfterChose();
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to build, with a worker, a building on a square.
+     */
 
     @Override
     public void build() {
@@ -343,7 +372,9 @@ public class Cli extends View {
         buildAfterChose();
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to give the player a choice between move and build.
+     */
 
     @Override
     public void moveOrBuild() {
@@ -373,7 +404,9 @@ public class Cli extends View {
         });
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to give the player a choice between build and end.
+     */
 
     @Override
     public void buildOrEnd() {
@@ -403,7 +436,9 @@ public class Cli extends View {
         });
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to the player that the login has been done.
+     */
 
     @Override
     public void showLoginDone() {
@@ -420,7 +455,11 @@ public class Cli extends View {
         printInStartTextBox(message.toString());
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to the player that a new user has been logged.
+     * @param username is the new player's username
+     * @param color is the new player's color
+     */
 
     @Override
     public void showNewUserLogged(String username, Color color) {
@@ -428,7 +467,11 @@ public class Cli extends View {
         printInStartTextBox(username + " is a new player!");
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to the player a wait message.
+     * @param waitFor is the motivation of waiting
+     * @param author is the player who is acting
+     */
 
     @Override
     public void showWaitMessage(String waitFor, String author) {
@@ -466,7 +509,9 @@ public class Cli extends View {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that the match has started
+     */
 
     @Override
     public void showMatchStarted() {
@@ -482,7 +527,10 @@ public class Cli extends View {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that the gods choice has been done
+     * @param ids is the id list of the gods
+     */
 
     @Override
     public void showGodsChoiceDone(ArrayList<Integer> ids) {
@@ -497,7 +545,11 @@ public class Cli extends View {
         printInGameTextBox(output.toString());
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show the gods challenger selected
+     * @param username is the challenger's username
+     * @param ids is the id list of the gods selected by the challenger
+     */
 
     @Override
     public void showGodsChallengerSelected(String username, ArrayList<Integer> ids) {
@@ -512,7 +564,9 @@ public class Cli extends View {
         printInGameTextBox(output.toString());
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show the god selected by the player
+     */
 
     @Override
     public void showMyGodSelected() {
@@ -527,14 +581,20 @@ public class Cli extends View {
         printGodInGodBox();
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show the God selected by another player
+     * @param username is the player who selected the god shown
+     */
 
     @Override
     public void showGodSelected(String username) {
         printInGameTextBox(username + " has chosen " + getPlayerByUsername(username).getGod().getName() + ".");
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show the Starting player username
+     * @param username is the starting player's username
+     */
 
     @Override
     public void showStartingPlayer(String username) {
@@ -552,14 +612,19 @@ public class Cli extends View {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show the game board.
+     */
 
     @Override
     public void showBoard() {
         printBoard();
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that the player identified by "username" has finished his turn.
+     * @param username is the player who finished his turn
+     */
 
     @Override
     public void showTurnEnded(String username) {
@@ -572,7 +637,9 @@ public class Cli extends View {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that the turn of the player has finished.
+     */
 
     @Override
     public void showMyTurnEnded(){
@@ -585,7 +652,10 @@ public class Cli extends View {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show errors encountered during the player turn.
+     * @param errors is the errors to show list
+     */
 
     @Override
     public void showTurnErrors(List<String> errors) {
@@ -653,7 +723,9 @@ public class Cli extends View {
         }
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that the server being searched could not be found
+     */
 
     @Override
     public void serverNotFound() {
@@ -670,7 +742,9 @@ public class Cli extends View {
         start();
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that another client disconnected.
+     */
 
     @Override
     public void showAnotherClientDisconnection() {
@@ -701,7 +775,10 @@ public class Cli extends View {
         } else System.exit(0);
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to player that he has been disconnected from the server because the lobby where he was
+     * is no longer available.
+     */
 
     @Override
     public void showDisconnectionForLobbyNoLongerAvailable() {
@@ -722,7 +799,9 @@ public class Cli extends View {
         } else System.exit(0);
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show that the server disconnected.
+     */
 
     @Override
     public void showServerDisconnection() {
@@ -750,7 +829,10 @@ public class Cli extends View {
         } else System.exit(0);
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to player that he has been disconnected from the server because the timeout to insert
+     * an input expired.
+     */
 
     @Override
     public void showDisconnectionForInputExpiredTimeout() {
@@ -775,7 +857,10 @@ public class Cli extends View {
         } else System.exit(0);
     }
 
-    //TODO : javadoc
+    /**
+     * This method allows to show to player that he has been disconnected from the server because the timeout to insert
+     * an input expired.
+     */
 
     @Override
     public void showPlayerLose(String username) {
