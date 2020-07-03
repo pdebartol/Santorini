@@ -932,7 +932,7 @@ public class Cli extends View {
         for (int i = 1; i < Box.HORIZONTAL_DIM.escape() - 1; i++) {
             if (i == Box.TEXT_START.escape()) {
                 System.out.print("End");
-                i += 5;
+                i += 3;
             }
             System.out.print(Unicode.BOX_DRAWINGS_HEAVY_HORIZONTAL.escape());
         }
