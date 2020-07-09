@@ -1,7 +1,7 @@
 # Prova Finale Ingegneria del Software 2020
 
 ## Santorini
-![Alt text](src/main/resources/gui/graphics_resources/cm_boardgame.png?raw=true "Title")
+![cm_boardgame](https://user-images.githubusercontent.com/47667294/87032825-77cfcc80-c1e5-11ea-84df-ce1a9cb5e11a.png)
 
 
 ## Gruppo AM10
