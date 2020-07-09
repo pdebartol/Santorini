@@ -1,5 +1,9 @@
 # Prova Finale Ingegneria del Software 2020
 
+## Santorini
+![Alt text](src/main/resources/gui/graphics_resources/cm_boardgame.png?raw=true "Title")
+
+
 ## Gruppo AM10
 
 - ### 10596841 Di Gennaro Marco ([@marcoDige](https://github.com/marcoDige)) marco1.digennaro@mail.polimi.it
