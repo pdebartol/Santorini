@@ -26,27 +26,27 @@
 
 ## Instructions for build and execution:
 
-The jar is the same both for server and client, built it under your preferred OS and launch it following the instructions below.
-The project has been developed using JAVA 13 and javaFX 14. 
-The following terminals have been tested for the cli: WSL (Ubuntu 18.04 and Debian), Windows Terminal and iTerm.
+The jar is the same  for both server and client. You can build it under your preferred OS and launch it following the instructions below.
+The project has been developed using JAVA 13 and JavaFX 14. 
+The following terminals have been tested for the CLI: WSL (Ubuntu 18.04 and Debian), Windows Terminal and iTerm.
 
 ### Build instructions:
 
 The jar is built using "Maven Shade Plugin", in IntelliJ IDE clone the repository and launch "install" under "lifecycle" section in Maven toolbar.
 The generated jar will be placed in the "shade" folder in your project's root.
 
-If you want use Maven in the terminal execute:
+If you want use to Maven in the terminal execute:
 ```
 mvn install
 ```
-In the project's root folder (same folder of the pom.xml).
+In the project's root folder (same folder of "pom.xml").
 The generated jar will be placed in the "shade" folder in your project's root.
 
 ### Execution instructions:
 
 #### Server
 
-In the terminal execute:
+In terminal execute:
 
 ```
 java -jar AM10.jar -server
@@ -70,7 +70,7 @@ then execute in the terminal (opened in the same folder where the jar is):
 java -jar AM10.jar -client -cli
 ```
 
-To launch the program with the graphical user interface (gui) simple double-click on the jar (on Ubuntu 20.04 first make sure to mark as executable the jar file).
+To launch the program with the graphical user interface (gui), double-click on the jar (on Ubuntu 20.04 first make sure to mark as executable the jar file).
 You can also execute in the terminal:
 
 ```
@@ -84,4 +84,4 @@ java -jar AM10.jar
 ## Note
 
 - The pdf file "Unit test coverage" in "Deliverables" only serves to provide an overview and a small comment of the data on the test coverage.
-- In "JARs" folder under "Deliverable" folder there are the jars generated on different operating system.
+- In "JARs" folder under "Deliverable" folder you can find the jars generated on different operating system.
