@@ -1,7 +1,4 @@
-# Santorini
-
-![cm_boardgame](https://user-images.githubusercontent.com/47667294/87032825-77cfcc80-c1e5-11ea-84df-ce1a9cb5e11a.png)
-
+# Prova Finale Ingegneria del Software 2020
 
 ## Gruppo AM10
 
