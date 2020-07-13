@@ -1,10 +1,16 @@
 # Prova Finale Ingegneria del Software 2020
 
-## Gruppo AM10
+## Gruppo AM10 (Scaglione Margara)
 
-- ### 10596841 Di Gennaro Marco ([@marcoDige](https://github.com/marcoDige)) marco1.digennaro@mail.polimi.it
-- ### 10567849 De Bartolomeis Piersilvio ([@pierobartolo](https://github.com/pierobartolo)) piersilvio.debartolomeis@mail.polimi.it
-- ### 10579929 Di Maio Alessandro ([@aledimaio](https://github.com/aledimaio)) alessandro1.dimaio@mail.polimi.it
+
+## Authors
+| Personal Data | Username | Email |
+|:-----------------------|:------------------------------------:|:------------------------------------:|
+| Di Gennaro Marco | [@marcoDige](https://github.com/marcoDige) | marco1.digennaro@mail.polimi.it |
+| De Bartolomeis Piersilvio | [@pierobartolo](https://github.com/pierobartolo) | piersilvio.debartolomeis@mail.polimi.it |
+| Di Maio Alessandro | [@aledimaio](https://github.com/aledimaio) | alessandro1.dimaio@mail.polimi.it |
+
+## Implemented functionality
 
 | Functionality | State |
 |:-----------------------|:------------------------------------:|
@@ -24,9 +30,13 @@
 [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)
 -->
 
+# Santorini
+
+![Santorini](gameLogo.png)
+
 ## Instructions for build and execution:
 
-The jar is the same  for both server and client. You can build it under your preferred OS and launch it following the instructions below.
+The jar is the same for both server and client. You can build it under your preferred OS and launch it following the instructions below.
 The project has been developed using JAVA 13 and JavaFX 14. 
 The following terminals have been tested for the CLI: WSL (Ubuntu 18.04 and Debian), Windows Terminal and iTerm.
 
