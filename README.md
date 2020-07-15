@@ -1,7 +1,8 @@
-# Prova Finale Ingegneria del Software 2020
+# Santorini Board Game
 
-## Gruppo AM10 (Scaglione Margara)
+![Santorini](gameLogo.png)
 
+Santorini is a highly accessible pure-strategy game where you play as a youthful Greek God or Goddess competing to best aid the island's citizens in building a beautiful village in the middle of the Aegean sea.
 
 ## Authors
 | Personal Data | Username | Email |
@@ -30,9 +31,6 @@
 [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)
 -->
 
-# Santorini
-
-![Santorini](gameLogo.png)
 
 ## Instructions for build and execution:
 
