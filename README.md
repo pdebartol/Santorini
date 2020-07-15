@@ -1,6 +1,6 @@
 # Santorini Board Game
 
-![Santorini | width=100](gameLogo.png)
+![Santorini](gameLogo.png = 100x100)
 
 Santorini is a highly accessible pure-strategy game where you play as a youthful Greek God or Goddess competing to best aid the island's citizens in building a beautiful village in the middle of the Aegean sea.
 
