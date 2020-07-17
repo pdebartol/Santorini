@@ -59,7 +59,7 @@ java -jar AM10.jar -server
 ```
 The server will be listening on the default port ```1234```.
 
-Or if you would like to customize the port:
+If you would like to change the port:
 
 ```
 java -jar AM10.jar -server PORT
