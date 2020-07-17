@@ -38,8 +38,8 @@ The following terminals have been tested for the CLI: WSL (Ubuntu 18.04 and Debi
 
 ### Build instructions:
 
-The jar is built using "Maven Shade Plugin", in IntelliJ IDE clone the repository and launch "install" under "lifecycle" section in Maven toolbar.
-The generated jar will be placed in the "shade" folder in your project's root.
+The jar is built using "Maven Shade Plugin": inside the IntelliJ IDE, clone the repository and launch "install" under "lifecycle" section in the Maven toolbar.
+The generated jar will be placed in the "shade" folder of your project.
 
 If you want to use Maven in the terminal, you can execute:
 ```
