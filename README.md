@@ -41,12 +41,12 @@ The following terminals have been tested for the CLI: WSL (Ubuntu 18.04 and Debi
 The jar is built using "Maven Shade Plugin", in IntelliJ IDE clone the repository and launch "install" under "lifecycle" section in Maven toolbar.
 The generated jar will be placed in the "shade" folder in your project's root.
 
-If you want use to Maven in the terminal execute:
+If you want to use Maven in the terminal, you can execute:
 ```
 mvn install
 ```
 In the project's root folder (same folder of "pom.xml").
-The generated jar will be placed in the "shade" folder in your project's root.
+The generated jar will be placed in the "shade" folder of your project.
 
 ### Execution instructions:
 
@@ -57,26 +57,26 @@ In terminal execute:
 ```
 java -jar AM10.jar -server
 ```
-The server will be execute listening on the default port ```1234```.
+The server will be listening on the default port ```1234```.
 
-Execute in the terminal:
+Or if you would like to customize the port:
 
 ```
 java -jar AM10.jar -server PORT
 ```
 
-Where instead of ```PORT``` put the port number where you want the server to listen. Example: ```java -jar AM10.jar -server 8080```
+Where you can replace  ```PORT``` with your preferred port number. Example: ```java -jar AM10.jar -server 8080```
 
 #### Client
 
-To launch the program in the command line interface (cli) first make sure you have the terminal in fullscreen,
-then execute in the terminal (opened in the same folder where the jar is):
+To launch the game on the command line interface (CLI)  make sure your terminal is in fullscreen mode,
+then execute:
 
 ```
 java -jar AM10.jar -client -cli
 ```
 
-To launch the program with the graphical user interface (gui), double-click on the jar (on Ubuntu 20.04 first make sure to mark as executable the jar file).
+To launch the program with the graphical user interface (GUI), double-click on the jar (on Ubuntu 20.04 first make sure to mark as executable the jar file).
 You can also execute in the terminal:
 
 ```
